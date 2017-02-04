@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+       <title>Lab8</title>
+    </h:head>
+	<h:body>
+		<h:form>
+		  <h:panelGrid columns="2">
+					   <h:outputText value="ID" />
+					<h:inputText value="#{form.temp.id}" />
+					   <h:outputText value="Supplier Name" />
+					<h:inputText value="#{form.temp.supplierName}" />
+					   <h:outputText value="Contact Name" />
+					<h:inputText value="#{form.temp.contactName}" />
+                       <h:outputText value="Contact Title" />
+				    <h:inputText value="#{form.temp.contactTitle}" />
+                       <h:outputText value="Address" />
+                    <h:inputText value="#{form.temp.address}" />
+                       <h:outputText value="City" />
+                    <h:inputText value="#{form.temp.city}" />
+                       <h:outputText value="Postal Code" />
+                    <h:inputText value="#{form.temp.postalCode}" />
+                       <h:outputText value="State or Province" />
+                    <h:inputText value="#{form.temp.stateOrProvince}" />
+                       <h:outputText value="Country" />
+                    <h:inputText value="#{form.temp.country}" />
+                       <h:outputText value="Phone Number" />
+                    <h:inputText value="#{form.temp.phoneNumber}" />
+                       <h:outputText value="Fax" />
+                    <h:inputText value="#{form.temp.faxNumber}" />
+                       <h:outputText value="Payment Terms" />
+                    <h:inputText value="#{form.temp.paymentTerms}" />
+                       <h:outputText value="Email" />
+                    <h:inputText value="#{form.temp.emailAddress}" />
+                       <h:outputText value="Notes" />
+                    <h:inputText value="#{form.temp.notes}" />
+            </h:panelGrid>
+			<h:commandButton value="Save Changes" action="#{form.saveTemp}" />
+			<h:commandButton value="Back" action="index" />
+		</h:form>
+	</h:body>
+</html>
