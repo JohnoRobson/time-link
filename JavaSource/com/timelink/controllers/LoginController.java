@@ -6,8 +6,6 @@ import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
-
 @SuppressWarnings("serial")
 @ManagedBean
 @Named("LoginController")
