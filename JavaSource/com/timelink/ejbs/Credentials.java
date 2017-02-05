@@ -1,6 +1,9 @@
 package com.timelink.ejbs;
 
-public class Credentials {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Credentials implements Serializable {
   
   private int employeeId;
   private String username;

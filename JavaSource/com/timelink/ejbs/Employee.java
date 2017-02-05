@@ -1,7 +1,9 @@
 package com.timelink.ejbs;
 
+import java.io.Serializable;
 
-public class Employee {
+@SuppressWarnings("serial")
+public class Employee implements Serializable {
 
   private int employeeId;
   private Employee timesheetApprover;
