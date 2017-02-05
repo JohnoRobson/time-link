@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class CredentialManager {
   //TODO change this to match the schema when we get it.
-  @PersistenceContext(unitName = "inventory-jpa") EntityManager em;
+  @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   //TODO make this class work.
   
