@@ -2,15 +2,15 @@ package com.timelink.ejbs;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
+//import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
-import javax.persistence.Table;
+//import javax.persistence.Table;
 
 @SuppressWarnings("serial")
-@Entity
-@IdClass(CredentialsId.class)
-@Table(name = "Credentials")
+//@Entity
+@IdClass(HoursId.class)
+//@Table(name = "Credentials")
 public class Credentials implements Serializable {
   
   @Id

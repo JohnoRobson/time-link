@@ -1,25 +1,19 @@
 package com.timelink.ejbs;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Date;
 
-import javax.persistence.Id;
 
 @SuppressWarnings("serial")
-//@Entity
-//@Table(name = "Hours")
-public class Hours implements Serializable {
+/**
+ * Required so that Hours can have a composite primary key.
+ * @author Johno
+ */
+public class HoursId implements Serializable {
   
-  @Id
   private Date date;
-  
-  @Id
   private Project project;
-  
-  @Id
   private WorkPackage workPackage;
-  private BigDecimal hours;
   
   /**
    * Returns date.
@@ -69,19 +63,5 @@ public class Hours implements Serializable {
     this.workPackage = workPackage;
   }
   
-  /**
-   * Returns hours.
-   * @return the hours
-   */
-  public BigDecimal getHours() {
-    return hours;
-  }
   
-  /**
-   * Sets hours to hours.
-   * @param hours the hours to set
-   */
-  public void setHours(BigDecimal hours) {
-    this.hours = hours;
-  }
 }
