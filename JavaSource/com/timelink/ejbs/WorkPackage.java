@@ -9,11 +9,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
+//@Entity
+//@Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
   private int workPackageId;
   private Project project;
   private WorkPackage parentPackage;
   
+ // @OneToOne
+ // @JoinColumn(name = "responsibleEngineer",
+ //     referencedColumnName = "EmployeeId")
   private Employee responsibleEngineer;
   private List<Employee> assignedEmployees;
   
