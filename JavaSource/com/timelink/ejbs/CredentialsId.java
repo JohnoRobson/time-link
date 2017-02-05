@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Required so that Credentials can have a composite primary key.
- * @author Johnathan
+ * @author Johno
  */
 public class CredentialsId implements Serializable {
   String username;

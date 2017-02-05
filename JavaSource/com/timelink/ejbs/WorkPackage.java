@@ -3,10 +3,10 @@ package com.timelink.ejbs;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
+//import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
+//import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 //@Entity
@@ -16,9 +16,9 @@ public class WorkPackage implements Serializable {
   private Project project;
   private WorkPackage parentPackage;
   
- // @OneToOne
- // @JoinColumn(name = "responsibleEngineer",
- //     referencedColumnName = "EmployeeId")
+  @OneToOne
+  @JoinColumn(name = "responsibleEngineer",
+      referencedColumnName = "EmployeeId")
   private Employee responsibleEngineer;
   private List<Employee> assignedEmployees;
   
