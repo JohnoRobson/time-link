@@ -1,6 +1,7 @@
 package com.timelink.managers;
 
 import com.timelink.ejbs.Credentials;
+import com.timelink.ejbs.CredentialsId;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
@@ -24,7 +25,7 @@ public class CredentialManager {
    * @return Credentials that match the given user name and password.
    */
   public Credentials find(String username, String password) {
-    //em.find(Credentials.class, username, password);
+    em.find(Credentials.class, new CredentialsId(username, password));
     return null;
   }
   

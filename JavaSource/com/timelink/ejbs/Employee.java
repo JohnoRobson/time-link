@@ -2,7 +2,12 @@ package com.timelink.ejbs;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 @SuppressWarnings("serial")
+@Entity
+@Table(name = "Employees")
 public class Employee implements Serializable {
 
   private int employeeId;
