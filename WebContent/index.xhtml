@@ -5,9 +5,21 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-       <title>Lab8</title>
+       <title></title>
     </h:head>
 	<h:body>
-		<h:outputText value="#{LoginController.hello}" />
+		<h:outputText value="#{LoginController.username}" />
+		<h:messages />
+        <h:form>
+            <h:panelGrid columns="2">
+                Username
+                <h:inputText id="username" value="#{LoginController.username}" />
+                Password
+                <h:inputSecret id="password" value="#{LoginController.password}" />
+            </h:panelGrid>
+            <p>
+                <h:commandButton value="Login" action="#{LoginController.login}"/>
+            </p>
+        </h:form>
 	</h:body>
 </html>
