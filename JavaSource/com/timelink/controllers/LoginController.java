@@ -1,5 +1,7 @@
 package com.timelink.controllers;
 
+import com.timelink.Session;
+import com.timelink.ejbs.Credentials;
 import com.timelink.managers.CredentialManager;
 import com.timelink.managers.EmployeeManager;
 
@@ -17,9 +19,12 @@ public class LoginController implements Serializable {
   
   @Inject CredentialManager cm;
   @Inject EmployeeManager em;
+  @Inject Session ss;
   
   private String username;
   private String password;
+  private int employeeId;
+  Credentials cr;
   
   //TODO remove this
   public String getHello() {
@@ -64,7 +69,13 @@ public class LoginController implements Serializable {
    * @return bool if validated or not
    */
   public boolean validateUser() {
-    return cm.find(username, password) != null;
+    cr = cm.find(username, password);
+    if (cr != null) {
+      employeeId = cr.getEmployeeId();
+      return true;
+    } else {
+      return false;
+    }
   }
   
   /**
@@ -73,6 +84,7 @@ public class LoginController implements Serializable {
    */
   public String login() {
     if (validateUser()) {
+      ss.setCurrentEmployee(em.find(employeeId));
       return "home";
     }
     return "null";

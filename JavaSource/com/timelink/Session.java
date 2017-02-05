@@ -5,8 +5,10 @@ import com.timelink.ejbs.Employee;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
 @SessionScoped
+@Named("Session")
 public class Session implements Serializable {
   /** Current Employee. */
   private Employee currentEmployee;
