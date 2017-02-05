@@ -25,8 +25,7 @@ public class CredentialManager {
    * @return Credentials that match the given user name and password.
    */
   public Credentials find(String username, String password) {
-    em.find(Credentials.class, new CredentialsId(username, password));
-    return null;
+    return em.find(Credentials.class, new CredentialsId(username, password));
   }
   
   /**

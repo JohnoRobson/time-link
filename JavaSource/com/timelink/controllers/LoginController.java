@@ -1,16 +1,23 @@
 package com.timelink.controllers;
 
+import com.timelink.managers.CredentialManager;
 import java.io.Serializable;
-
-import javax.ejb.Stateless;
-import javax.faces.bean.ManagedBean;
+import javax.annotation.ManagedBean;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+
+
 @SuppressWarnings("serial")
-@Named
+@ManagedBean
+@Named("LoginController")
 public class LoginController implements Serializable {
   
+  @Inject CredentialManager cm;
+  
   public String getHello() {
-    return "hello";
+    return cm.find("Admin", "Admin").getUsername();
   }
+  
+  
 }
