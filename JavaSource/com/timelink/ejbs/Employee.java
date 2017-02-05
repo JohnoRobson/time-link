@@ -3,16 +3,19 @@ package com.timelink.ejbs;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "Employees")
 public class Employee implements Serializable {
-
+  @Id
   private int employeeId;
-  private Employee timesheetApprover;
-  private Employee supervisor;
+  //private Employee timesheetApprover;
+  //private Employee supervisor;
+  private int timesheetApprover;
+  private int supervisor;
   private String firstName;
   private String lastName;
   private String labourGrade;
@@ -34,37 +37,37 @@ public class Employee implements Serializable {
     this.employeeId = employeeId;
   }
   
-  /**
-   * Returns the timesheetApprover.
-   * @return the timesheetApprover
-   */
-  public Employee getTimesheetApprover() {
-    return timesheetApprover;
-  }
-  
-  /**
-   * Sets the timesheetApprover to timesheetApprover.
-   * @param timesheetApprover the timesheetApprover to set
-   */
-  public void setTimesheetApprover(Employee timesheetApprover) {
-    this.timesheetApprover = timesheetApprover;
-  }
-  
-  /**
-   * Returns the supervisor.
-   * @return the supervisor
-   */
-  public Employee getSupervisor() {
-    return supervisor;
-  }
-  
-  /**
-   * Sets the supervisor to supervisor.
-   * @param supervisor the supervisor to set
-   */
-  public void setSupervisor(Employee supervisor) {
-    this.supervisor = supervisor;
-  }
+//  /**
+//   * Returns the timesheetApprover.
+//   * @return the timesheetApprover
+//   */
+//  public Employee getTimesheetApprover() {
+//    return timesheetApprover;
+//  }
+//  
+//  /**
+//   * Sets the timesheetApprover to timesheetApprover.
+//   * @param timesheetApprover the timesheetApprover to set
+//   */
+//  public void setTimesheetApprover(Employee timesheetApprover) {
+//    this.timesheetApprover = timesheetApprover;
+//  }
+//  
+//  /**
+//   * Returns the supervisor.
+//   * @return the supervisor
+//   */
+//  public Employee getSupervisor() {
+//    return supervisor;
+//  }
+//  
+//  /**
+//   * Sets the supervisor to supervisor.
+//   * @param supervisor the supervisor to set
+//   */
+//  public void setSupervisor(Employee supervisor) {
+//    this.supervisor = supervisor;
+//  }
   
   /**
    * Returns the firstName.
