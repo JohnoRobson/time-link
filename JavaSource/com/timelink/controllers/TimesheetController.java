@@ -1,6 +1,5 @@
 package com.timelink.controllers;
 
-import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.managers.TimesheetManager;
 
@@ -41,7 +40,7 @@ public class TimesheetController implements Serializable {
   
   //TODO make this gud
   public String submit() {
-    timesheet.setStatus(TimesheetStatus.APPROVED);
+    timesheet.setStatus("gud");
     return null;
   }
 }

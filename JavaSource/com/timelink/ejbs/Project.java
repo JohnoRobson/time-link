@@ -107,21 +107,21 @@ public class Project implements Serializable {
     this.projectManager = projectManager;
   }
   
-//  /**
-//   * Returns the projectManagerAssistant.
-//   * @return the projectManagerAssistant
-//   */
-//  public Employee getProjectManagerAssistant() {
-//    return projectManagerAssistant;
-//  }
-//  
-//  /**
-//   * Sets the projectManagerAssistant to projectManagerAssistant.
-//   * @param projectManagerAssistant the projectManagerAssistant to set
-//   */
-//  public void setProjectManagerAssistant(Employee projectManagerAssistant) {
-//    this.projectManagerAssistant = projectManagerAssistant;
-//  }
+  /**
+   * Returns the projectManagerAssistant.
+   * @return the projectManagerAssistant
+   */
+  /*public Employee getProjectManagerAssistant() {
+    return projectManagerAssistant;
+  }*/
+  
+  /**
+   * Sets the projectManagerAssistant to projectManagerAssistant.
+   * @param projectManagerAssistant the projectManagerAssistant to set
+   */
+  /*public void setProjectManagerAssistant(Employee projectManagerAssistant) {
+    this.projectManagerAssistant = projectManagerAssistant;
+  }*/
   
   /**
    * Returns the workPackages.
