@@ -11,7 +11,7 @@
 	<h:body>
 		<h:outputText value="#{LoginController.username}" />
 		
-		<ui:repeat var="item" value="#{LoginController.list}">#{item}</ui:repeat>
+		<ui:repeat var="item" value="#{LoginController.list}">#{item.firstName} <br></br></ui:repeat>
 		<h:messages />
         <h:form>
             <h:panelGrid columns="2">
@@ -22,6 +22,7 @@
             </h:panelGrid>
             <p>
                 <h:commandButton value="Login" action="#{LoginController.login}"/>
+                <h:commandButton value="Add" action="#{LoginController.add}"/>
             </p>
         </h:form>
 	</h:body>

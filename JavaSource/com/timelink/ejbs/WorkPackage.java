@@ -3,9 +3,12 @@ package com.timelink.ejbs;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -19,6 +22,7 @@ import javax.persistence.Table;
 public class WorkPackage implements Serializable {
   
   @Id
+  //@GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "wph_id")
   private int workPackageId;
   
@@ -36,7 +40,7 @@ public class WorkPackage implements Serializable {
 //      referencedColumnName = "emp_id")
 //  private Employee responsibleEngineer;
   
-  @OneToMany(fetch = FetchType.EAGER)
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
   @JoinTable(name = "wp_line",
       joinColumns = @JoinColumn(name = "wpl_wph_id"),
       inverseJoinColumns = @JoinColumn(name = "wpl_emp_id"))

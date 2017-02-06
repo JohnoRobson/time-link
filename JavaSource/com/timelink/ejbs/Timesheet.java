@@ -24,7 +24,8 @@ public class Timesheet {
   @Column(name = "tsh_date_created")
   private Date date;
   
-  //private Employee timesheetApprover;
+  @Transient
+  private Employee timesheetApprover;
   
   @Column(name = "tsh_overtime")
   //private BigDecimal overtime;
@@ -93,17 +94,17 @@ public class Timesheet {
    * Returns timesheetApprover.
    * @return the timesheetApprover
    */
-  /*public Employee getTimesheetApprover() {
+  public Employee getTimesheetApprover() {
     return timesheetApprover;
-  }*/
+  }
 
   /**
    * Sets timesheetApprover to timesheetApprover.
    * @param timesheetApprover the timesheetApprover to set
    */
-  /*public void setTimesheetApprover(Employee timesheetApprover) {
+  public void setTimesheetApprover(Employee timesheetApprover) {
     this.timesheetApprover = timesheetApprover;
-  }*/
+  }
 
   /**
    * Returns overtime.

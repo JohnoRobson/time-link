@@ -42,23 +42,19 @@ public class LoginController implements Serializable {
     
   }
   
-  public List<String> getList() {
-    ArrayList<String> al = new ArrayList<>();
-    for (Employee i : pm.find(1).getEmployees()) {
-      al.add("EMPLOYEE: " + i.getEmployeeId());
-      /*for (Project p : pm.findByEmpId(i.getEmployeeId())) {
-        al.add("PROJECT: " + p.getProjectName());
-        for (WorkPackage wp : wm.find(p, i)) {
-          al.add("WORKPACKAGE: " + wp.getDescription());
-        }
-      }
-      al.add("timesheet approver: " + i.getTimesheetApprover().getFirstName());
-    }
-    al.add("ASDASDASD");
-    for (WorkPackage wp : pm.find(1).getWorkPackages()) {
-      al.add(wp.getDescription());*/
-    }
-    return al;
+  public List<Employee> getList() {
+    return em.getAll();
+  }
+  
+  public String add() {
+    WorkPackage w = new WorkPackage();
+    ArrayList<Employee> al = new ArrayList<>();
+    al.add(em.find(1));
+    w.setAssignedEmployees(al);
+    w.setProject(pm.find(1));
+    w.setDescription(username);
+    wm.persist(w);
+    return null;
   }
   
   /**
