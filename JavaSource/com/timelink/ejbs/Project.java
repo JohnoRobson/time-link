@@ -1,36 +1,63 @@
 package com.timelink.ejbs;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-//import javax.persistence.Entity;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-//import javax.persistence.Table;
+import javax.persistence.Table;
 
 @SuppressWarnings("serial")
-//@Entity
-//@Table(name = "Project")
+@Entity
+@Table(name = "prj_header")
 public class Project implements Serializable {
   
   @Id
+  @Column(name = "prjh_id")
   private int projectNumber;
+  
+  @Column(name = "prjh_name")
   private String projectName;
   
   @OneToOne
-  @JoinColumn(name = "projectManager",
-      referencedColumnName = "EmployeeId")
+  @JoinColumn(name = "prjh_manager_id",
+      referencedColumnName = "emp_id")
   private Employee projectManager;
   
+  //TODO Get this figured out
+  /*
   @OneToOne
   @JoinColumn(name = "projectManagerAssistant",
       referencedColumnName = "EmployeeId")
   private Employee projectManagerAssistant;
+  */
   
-  private List<WorkPackage> workPackages;
+  /*@OneToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "wp_header",
+      joinColumns = @JoinColumn(name = "wph_prjh_id"))*/
+  @OneToMany(mappedBy = "project",
+      fetch = FetchType.EAGER)
+  private Set<WorkPackage> workPackages;
+  
+  @Column(name = "prjh_customer")
   private String customer;
-  private List<Employee> employees;
+  
+  
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "prj_line",
+      joinColumns = @JoinColumn(name = "prjl_prjh_id", referencedColumnName = "prjh_id"),
+      inverseJoinColumns = @JoinColumn(name = "prjl_emp_id", referencedColumnName = "emp_id"))
+  private Set<Employee> employees;
   
   /**
    * Returns the projectNumber.
@@ -84,24 +111,25 @@ public class Project implements Serializable {
    * Returns the projectManagerAssistant.
    * @return the projectManagerAssistant
    */
-  public Employee getProjectManagerAssistant() {
+  /*public Employee getProjectManagerAssistant() {
     return projectManagerAssistant;
-  }
+  }*/
   
   /**
    * Sets the projectManagerAssistant to projectManagerAssistant.
    * @param projectManagerAssistant the projectManagerAssistant to set
    */
-  public void setProjectManagerAssistant(Employee projectManagerAssistant) {
+  /*public void setProjectManagerAssistant(Employee projectManagerAssistant) {
     this.projectManagerAssistant = projectManagerAssistant;
-  }
+  }*/
   
   /**
    * Returns the workPackages.
    * @return the workPackages
    */
   public List<WorkPackage> getWorkPackages() {
-    return workPackages;
+    
+    return new ArrayList<WorkPackage>(workPackages);
   }
   
   /**
@@ -109,7 +137,7 @@ public class Project implements Serializable {
    * @param workPackages the workPackages to set
    */
   public void setWorkPackages(List<WorkPackage> workPackages) {
-    this.workPackages = workPackages;
+    this.workPackages = new HashSet<WorkPackage>(workPackages);
   }
   
   /**
@@ -133,7 +161,7 @@ public class Project implements Serializable {
    * @return the employees
    */
   public List<Employee> getEmployees() {
-    return employees;
+    return new ArrayList<Employee>(employees);
   }
   
   /**
@@ -141,7 +169,7 @@ public class Project implements Serializable {
    * @param employees the employees to set
    */
   public void setEmployees(List<Employee> employees) {
-    this.employees = employees;
+    this.employees = new HashSet<Employee>(employees);
   }
   
   

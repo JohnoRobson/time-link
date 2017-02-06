@@ -48,7 +48,7 @@ public class EmployeeManager {
    * @return All employees in the database.
    */
   public List<Employee> getAll() {
-    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employees e", Employee.class);
+    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee e", Employee.class);
     return query.getResultList();
   }
 }

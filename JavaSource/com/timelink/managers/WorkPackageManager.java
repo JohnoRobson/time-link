@@ -1,5 +1,6 @@
 package com.timelink.managers;
 
+import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
 
@@ -39,6 +40,24 @@ public class WorkPackageManager {
     TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WP_Header"
         + "WHERE prj_header_id = :proId", WorkPackage.class)
         .setParameter("proId", proj.getProjectNumber());
+    return query.getResultList();
+  }
+  
+  /**
+   * Returns all work packages within a project that the employee emp
+   * has been assigned to.
+   * @param proj The project to be searched.
+   * @param emp The employee whose work packages will be returned.
+   * @return All work packages within a project that emp is assigned to.
+   */
+  public List<WorkPackage> find(Project proj, Employee emp) {
+    TypedQuery<WorkPackage> query = em.createQuery("SELECT DISTINCT wp "
+        + "FROM WorkPackage AS wp, WorkPackageLine AS wpl "
+        + "WHERE wpl.workPackageEmployeeId = :empId "
+        + "AND wpl.workPackageId = wp.workPackageId "
+        + "AND wp.project.projectNumber = :projectId", WorkPackage.class)
+        .setParameter("projectId", proj.getProjectNumber())
+        .setParameter("empId", emp.getEmployeeId());
     return query.getResultList();
   }
   

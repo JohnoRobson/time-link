@@ -1,25 +1,45 @@
 package com.timelink.ejbs;
 
-import com.timelink.TimesheetStatus;
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
-//import javax.persistence.Entity;
-//import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-@SuppressWarnings("serial")
-//@Entity
-//@Table(name = "Timesheet")
-public class Timesheet implements Serializable {
+
+@Entity
+@Table(name = "ts_header")
+public class Timesheet {
+  
+  @Id
+  @Column(name = "tsh_id")
   private int timesheetId;
+  
+  @Column(name = "tsh_emp_id")
   private int employeeId;
+  
+  @Column(name = "tsh_date_created")
   private Date date;
+  
+  @Transient
   private Employee timesheetApprover;
-  private BigDecimal overtime;
-  private BigDecimal flextime;
-  private TimesheetStatus status;
+  
+  @Column(name = "tsh_overtime")
+  //private BigDecimal overtime;
+  private float overtime;
+  
+  @Column(name = "tsh_flextime")
+  //private BigDecimal flextime;
+  private float flextime;
+  
+  @Column(name = "tsh_status")
+  //private TimesheetStatus status;
+  private String status;
+  
+  @Transient
   private List<TimesheetRow> rows;  
   
   /**
@@ -90,7 +110,7 @@ public class Timesheet implements Serializable {
    * Returns overtime.
    * @return the overtime
    */
-  public BigDecimal getOvertime() {
+  public float getOvertime() {
     return overtime;
   }
 
@@ -98,7 +118,7 @@ public class Timesheet implements Serializable {
    * Sets overtime to overtime.
    * @param overtime the overtime to set
    */
-  public void setOvertime(BigDecimal overtime) {
+  public void setOvertime(float overtime) {
     this.overtime = overtime;
   }
 
@@ -106,7 +126,7 @@ public class Timesheet implements Serializable {
    * Returns flextime.
    * @return the flextime
    */
-  public BigDecimal getFlextime() {
+  public float getFlextime() {
     return flextime;
   }
 
@@ -114,7 +134,7 @@ public class Timesheet implements Serializable {
    * Sets flextime to flextime.
    * @param flextime the flextime to set
    */
-  public void setFlextime(BigDecimal flextime) {
+  public void setFlextime(float flextime) {
     this.flextime = flextime;
   }
   
@@ -122,7 +142,7 @@ public class Timesheet implements Serializable {
    * Returns status
    * @return the status
    */
-  public TimesheetStatus getStatus() {
+  public String getStatus() {
     return status;
   }
   
@@ -130,7 +150,7 @@ public class Timesheet implements Serializable {
    * Sets status to status.
    * @param status the status to set
    */
-  public void setStatus(TimesheetStatus status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 

@@ -2,10 +2,18 @@ package com.timelink.controllers;
 
 import com.timelink.Session;
 import com.timelink.ejbs.Credentials;
+import com.timelink.ejbs.Employee;
+import com.timelink.ejbs.Project;
+import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.CredentialManager;
 import com.timelink.managers.EmployeeManager;
+import com.timelink.managers.ProjectManager;
+import com.timelink.managers.WorkPackageManager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -20,6 +28,8 @@ public class LoginController implements Serializable {
   @Inject CredentialManager cm;
   @Inject EmployeeManager em;
   @Inject Session ss;
+  @Inject ProjectManager pm;
+  @Inject WorkPackageManager wm;
   
   private String username;
   private String password;
@@ -29,6 +39,22 @@ public class LoginController implements Serializable {
   //TODO remove this
   public String getHello() {
     return cm.find("Admin", "Admin").getUsername();
+    
+  }
+  
+  public List<Employee> getList() {
+    return em.getAll();
+  }
+  
+  public String add() {
+    WorkPackage w = new WorkPackage();
+    ArrayList<Employee> al = new ArrayList<>();
+    al.add(em.find(1));
+    w.setAssignedEmployees(al);
+    w.setProject(pm.find(1));
+    w.setDescription(username);
+    wm.persist(w);
+    return null;
   }
   
   /**

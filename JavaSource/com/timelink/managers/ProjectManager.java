@@ -15,7 +15,7 @@ public class ProjectManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   /**
-   * Returns the Project that match the id given,
+   * Returns the Project that matches the id given,
    * or null if no matching Project are found.
    * 
    * @param id The id of the project to search for/
@@ -33,13 +33,19 @@ public class ProjectManager {
    * @param id The EmployeeId to find Projects by.
    * @return List of project names.
    */
-  public List findByEmpId(int id) {
-    return em.createQuery(
-        "SELECT ph.prjh_name"
-        + "FROM Prj_Header ph, Prj_Line pl"
-        + "WHERE pl.prjl_emp_id = " + id)
-        .getResultList();
-        
+//  public List findByEmpId(int id) {
+//    return em.createQuery(
+//        "SELECT ph.prjh_name"
+//        + "FROM Prj_Header ph, Prj_Line pl"
+//        + "WHERE pl.prjl_emp_id = " + id)
+//        .getResultList();  
+//  }
+  
+  public List<Project> findByEmpId(int id) {
+    return em.createQuery("SELECT p FROM Project as p, ProjectLine as pl "
+        + "WHERE p.projectNumber = pl.projectId AND pl.projectEmployeeId = :empId", Project.class)
+        .setParameter("empId", id)
+        .getResultList();  
   }
   
   /**

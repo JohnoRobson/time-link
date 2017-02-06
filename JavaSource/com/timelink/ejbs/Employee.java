@@ -2,32 +2,46 @@ package com.timelink.ejbs;
 
 import java.io.Serializable;
 
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
+//import javax.persistence.JoinColumn;
+//import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Employees")
+@Table(name = "employee")
 public class Employee implements Serializable {
+  
   @Id
+  @Column(name = "emp_id")
   private int employeeId;
   
   @OneToOne
-  @JoinColumn(name = "TimesheetApprover",
-      referencedColumnName = "EmployeeId")
+  @JoinTable(name = "ts_approver",
+      joinColumns = @JoinColumn(name = "tsa_appr_emp_id"),
+      inverseJoinColumns = @JoinColumn(name = "tsa_emp_id"))
   private Employee timesheetApprover;
   
-  @OneToOne
-  @JoinColumn(name = "Supervisor",
-      referencedColumnName = "EmployeeId")
-  private Employee supervisor;
+//  @OneToOne
+//  @JoinColumn(name = "Supervisor",
+//      referencedColumnName = "EmployeeId")
+//  private Employee supervisor;
+  
+  @Column(name = "emp_fname")
   private String firstName;
+  @Column(name = "emp_lname")
   private String lastName;
-  private String labourGrade;
-  private String status;
+  //TODO Implement labour grade
+  //@Column(name = "emp_lg_id")
+  //private String labourGrade;
+  
+  //private String status;
   
   /**
    * Returns the employeeId.
@@ -60,22 +74,22 @@ public class Employee implements Serializable {
   public void setTimesheetApprover(Employee timesheetApprover) {
     this.timesheetApprover = timesheetApprover;
   }
-  
-  /**
-   * Returns the supervisor.
-   * @return the supervisor
-   */
-  public Employee getSupervisor() {
-    return supervisor;
-  }
-  
-  /**
-   * Sets the supervisor to supervisor.
-   * @param supervisor the supervisor to set
-   */
-  public void setSupervisor(Employee supervisor) {
-    this.supervisor = supervisor;
-  }
+
+//  /**
+//   * Returns the supervisor.
+//   * @return the supervisor
+//   */
+//  public Employee getSupervisor() {
+//    return supervisor;
+//  }
+//  
+//  /**
+//   * Sets the supervisor to supervisor.
+//   * @param supervisor the supervisor to set
+//   */
+//  public void setSupervisor(Employee supervisor) {
+//    this.supervisor = supervisor;
+//  }
   
   /**
    * Returns the firstName.
@@ -109,37 +123,37 @@ public class Employee implements Serializable {
     this.lastName = lastName;
   }
   
-  /**
-   * Returns the labourGrade.
-   * @return the labourGrade
-   */
-  public String getLabourGrade() {
-    return labourGrade;
-  }
+//  /**
+//   * Returns the labourGrade.
+//   * @return the labourGrade
+//   */
+//  public String getLabourGrade() {
+//    return labourGrade;
+//  }
+//  
+//  /**
+//   * Sets labourGrade to labourGrade.
+//   * @param labourGrade the labourGrade to set
+//   */
+//  public void setLabourGrade(String labourGrade) {
+//    this.labourGrade = labourGrade;
+//  }
   
-  /**
-   * Sets labourGrade to labourGrade.
-   * @param labourGrade the labourGrade to set
-   */
-  public void setLabourGrade(String labourGrade) {
-    this.labourGrade = labourGrade;
-  }
-  
-  /**
-   * Returns status.
-   * @return the status
-   */
-  public String getStatus() {
-    return status;
-  }
-  
-  /**
-   * Sets status to status.
-   * @param status the status to set
-   */
-  public void setStatus(String status) {
-    this.status = status;
-  }
+//  /**
+//   * Returns status.
+//   * @return the status
+//   */
+//  public String getStatus() {
+//    return status;
+//  }
+//  
+//  /**
+//   * Sets status to status.
+//   * @param status the status to set
+//   */
+//  public void setStatus(String status) {
+//    this.status = status;
+//  }
   
   
 }
