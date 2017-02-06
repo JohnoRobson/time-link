@@ -25,8 +25,8 @@ public class HoursManager {
    *         null if none is found.-
    */
   public Hours find(int projectId, int wpId, Date date) {
-    TypedQuery<Hours> query = em.createQuery("SELECT h FROM HOURS WHERE"
-        + "projectId = :projectId AND workPackageId = :wpId AND Date = :date", Hours.class)
+    TypedQuery<Hours> query = em.createQuery("SELECT h FROM HOURS AS h WHERE"
+        + "h.projectId = :projectId AND h.workPackageId = :wpId AND h.date = :date", Hours.class)
         .setParameter("projectId", projectId)
         .setParameter("upId", wpId)
         .setParameter("date", date);

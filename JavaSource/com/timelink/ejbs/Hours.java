@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 @SuppressWarnings("serial")
 //@Entity
+//@IdClass(HoursId.class)
 //@Table(name = "Hours")
 public class Hours implements Serializable {
   

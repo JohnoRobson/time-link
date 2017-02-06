@@ -3,23 +3,43 @@ package com.timelink.ejbs;
 import java.io.Serializable;
 import java.util.List;
 
-//import javax.persistence.Entity;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-//import javax.persistence.Table;
+import javax.persistence.Table;
 
 @SuppressWarnings("serial")
-//@Entity
-//@Table(name = "WorkPackage")
+@Entity
+@Table(name = "wp_header")
 public class WorkPackage implements Serializable {
+  
+  @Id
+  @Column(name = "wph_id")
   private int workPackageId;
-  private Project project;
-  private WorkPackage parentPackage;
   
   @OneToOne
-  @JoinColumn(name = "responsibleEngineer",
-      referencedColumnName = "EmployeeId")
-  private Employee responsibleEngineer;
+  @JoinColumn(name = "wph_prjh_id",
+      referencedColumnName = "prjh_id")
+  private Project project;
+  
+  //TODO Let Edward know that work packages need to reference their parents.
+  //private WorkPackage parentPackage;
+  
+//  @OneToOne
+//  @JoinColumn(name = "responsibleEngineer",
+//      table = "employee", 
+//      referencedColumnName = "emp_id")
+//  private Employee responsibleEngineer;
+  
+  @OneToMany
+  @JoinTable(name = "wp_line",
+      joinColumns = @JoinColumn(name = "wpl_wph_id"),
+      inverseJoinColumns = @JoinColumn(name = "wpl_emp_id"))
   private List<Employee> assignedEmployees;
   
   /**
@@ -54,37 +74,37 @@ public class WorkPackage implements Serializable {
     this.project = project;
   }
   
-  /**
-   * Returns the parentPackage.
-   * @return the parentPackage
-   */
-  public WorkPackage getParentPackage() {
-    return parentPackage;
-  }
+//  /**
+//   * Returns the parentPackage.
+//   * @return the parentPackage
+//   */
+//  public WorkPackage getParentPackage() {
+//    return parentPackage;
+//  }
+//  
+//  /**
+//   * Sets the parentPackage to parentPackage.
+//   * @param parentPackage the parentPackage to set
+//   */
+//  public void setParentPackage(WorkPackage parentPackage) {
+//    this.parentPackage = parentPackage;
+//  }
   
-  /**
-   * Sets the parentPackage to parentPackage.
-   * @param parentPackage the parentPackage to set
-   */
-  public void setParentPackage(WorkPackage parentPackage) {
-    this.parentPackage = parentPackage;
-  }
-  
-  /**
-   * Returns the responsibleEngineer for this project.
-   * @return the responsibleEngineer
-   */
-  public Employee getResponsibleEngineer() {
-    return responsibleEngineer;
-  }
-  
-  /**
-   * Sets the responsibleEngineer to responsibleEngineer.
-   * @param responsibleEngineer the responsibleEngineer to set
-   */
-  public void setResponsibleEngineer(Employee responsibleEngineer) {
-    this.responsibleEngineer = responsibleEngineer;
-  }
+//  /**
+//   * Returns the responsibleEngineer for this project.
+//   * @return the responsibleEngineer
+//   */
+//  public Employee getResponsibleEngineer() {
+//    return responsibleEngineer;
+//  }
+//  
+//  /**
+//   * Sets the responsibleEngineer to responsibleEngineer.
+//   * @param responsibleEngineer the responsibleEngineer to set
+//   */
+//  public void setResponsibleEngineer(Employee responsibleEngineer) {
+//    this.responsibleEngineer = responsibleEngineer;
+//  }
   
   /**
    * Returns the assignedEmployees.
