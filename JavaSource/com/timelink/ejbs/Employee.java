@@ -2,9 +2,13 @@ package com.timelink.ejbs;
 
 import java.io.Serializable;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 //import javax.persistence.JoinColumn;
 //import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -18,12 +22,12 @@ public class Employee implements Serializable {
   @Column(name = "emp_id")
   private int employeeId;
   
-  /*
   @OneToOne
-  @JoinColumn(name = "TimesheetApprover",
-      referencedColumnName = "EmployeeId")
+  @JoinTable(name = "ts_approver",
+      joinColumns = @JoinColumn(name = "tsa_appr_emp_id"),
+      inverseJoinColumns = @JoinColumn(name = "tsa_emp_id"))
   private Employee timesheetApprover;
-  */
+  
 //  @OneToOne
 //  @JoinColumn(name = "Supervisor",
 //      referencedColumnName = "EmployeeId")
@@ -55,22 +59,22 @@ public class Employee implements Serializable {
     this.employeeId = employeeId;
   }
   
-//  /**
-//   * Returns the timesheetApprover.
-//   * @return the timesheetApprover
-//   */
-//  public Employee getTimesheetApprover() {
-//    return timesheetApprover;
-//  }
-//  
-//  /**
-//   * Sets the timesheetApprover to timesheetApprover.
-//   * @param timesheetApprover the timesheetApprover to set
-//   */
-//  public void setTimesheetApprover(Employee timesheetApprover) {
-//    this.timesheetApprover = timesheetApprover;
-//  }
-  //
+  /**
+   * Returns the timesheetApprover.
+   * @return the timesheetApprover
+   */
+  public Employee getTimesheetApprover() {
+    return timesheetApprover;
+  }
+  
+  /**
+   * Sets the timesheetApprover to timesheetApprover.
+   * @param timesheetApprover the timesheetApprover to set
+   */
+  public void setTimesheetApprover(Employee timesheetApprover) {
+    this.timesheetApprover = timesheetApprover;
+  }
+
 //  /**
 //   * Returns the supervisor.
 //   * @return the supervisor

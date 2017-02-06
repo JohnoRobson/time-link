@@ -1,7 +1,10 @@
 package com.timelink.ejbs;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -38,22 +42,22 @@ public class Project implements Serializable {
   private Employee projectManagerAssistant;
   */
   
-//  @JoinColumn(name = "prjh_wp_id",
-//      table = "wp_header",
-//      referencedColumnName = "wph_id")
-//  @OneToMany(cascade = {CascadeType.ALL},
-//            mappedBy = "prjh_header")
-//  private List<WorkPackage> workPackages;
+  /*@OneToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "wp_header",
+      joinColumns = @JoinColumn(name = "wph_prjh_id"))*/
+  @OneToMany(mappedBy = "project",
+      fetch = FetchType.EAGER)
+  private Set<WorkPackage> workPackages;
   
   @Column(name = "prjh_customer")
   private String customer;
   
   
-  @OneToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "prj_line",
-      joinColumns = @JoinColumn(name = "prjl_prjh_id"),
-      inverseJoinColumns = @JoinColumn(name = "prjl_emp_id"))
-  private List<Employee> employees;
+      joinColumns = @JoinColumn(name = "prjl_prjh_id", referencedColumnName = "prjh_id"),
+      inverseJoinColumns = @JoinColumn(name = "prjl_emp_id", referencedColumnName = "emp_id"))
+  private Set<Employee> employees;
   
   /**
    * Returns the projectNumber.
@@ -119,21 +123,22 @@ public class Project implements Serializable {
 //    this.projectManagerAssistant = projectManagerAssistant;
 //  }
   
-//  /**
-//   * Returns the workPackages.
-//   * @return the workPackages
-//   */
-//  public List<WorkPackage> getWorkPackages() {
-//    return workPackages;
-//  }
-//  
-//  /**
-//   * Sets the workPackages to workPackages.
-//   * @param workPackages the workPackages to set
-//   */
-//  public void setWorkPackages(List<WorkPackage> workPackages) {
-//    this.workPackages = workPackages;
-//  }
+  /**
+   * Returns the workPackages.
+   * @return the workPackages
+   */
+  public List<WorkPackage> getWorkPackages() {
+    
+    return new ArrayList<WorkPackage>(workPackages);
+  }
+  
+  /**
+   * Sets the workPackages to workPackages.
+   * @param workPackages the workPackages to set
+   */
+  public void setWorkPackages(List<WorkPackage> workPackages) {
+    this.workPackages = new HashSet<WorkPackage>(workPackages);
+  }
   
   /**
    * Returns the customer.
@@ -156,7 +161,7 @@ public class Project implements Serializable {
    * @return the employees
    */
   public List<Employee> getEmployees() {
-    return employees;
+    return new ArrayList<Employee>(employees);
   }
   
   /**
@@ -164,7 +169,7 @@ public class Project implements Serializable {
    * @param employees the employees to set
    */
   public void setEmployees(List<Employee> employees) {
-    this.employees = employees;
+    this.employees = new HashSet<Employee>(employees);
   }
   
   

@@ -36,12 +36,50 @@ public class WorkPackage implements Serializable {
 //      referencedColumnName = "emp_id")
 //  private Employee responsibleEngineer;
   
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "wp_line",
       joinColumns = @JoinColumn(name = "wpl_wph_id"),
       inverseJoinColumns = @JoinColumn(name = "wpl_emp_id"))
   private List<Employee> assignedEmployees;
   
+  @Column(name = "wph_code")
+  private String code;
+  
+  @Column(name = "wph_descr")
+  private String description;
+  
+  /**
+   * Returns the code.
+   * @return the code
+   */
+  public String getCode() {
+    return code;
+  }
+
+  /**
+   * Sets code to code.
+   * @param code the code to set
+   */
+  public void setCode(String code) {
+    this.code = code;
+  }
+
+  /**
+   * Returns the description.
+   * @return the description
+   */
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * Sets description to desciption.
+   * @param description the description to set
+   */
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
   /**
    * Returns the workPackageId.
    * @return the workPackageId

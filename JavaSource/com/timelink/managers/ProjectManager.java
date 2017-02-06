@@ -15,7 +15,7 @@ public class ProjectManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   /**
-   * Returns the Project that match the id given,
+   * Returns the Project that matches the id given,
    * or null if no matching Project are found.
    * 
    * @param id The id of the project to search for/

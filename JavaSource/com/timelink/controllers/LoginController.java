@@ -4,9 +4,11 @@ import com.timelink.Session;
 import com.timelink.ejbs.Credentials;
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
+import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.CredentialManager;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
+import com.timelink.managers.WorkPackageManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class LoginController implements Serializable {
   @Inject EmployeeManager em;
   @Inject Session ss;
   @Inject ProjectManager pm;
+  @Inject WorkPackageManager wm;
   
   private String username;
   private String password;
@@ -42,10 +45,18 @@ public class LoginController implements Serializable {
   public List<String> getList() {
     ArrayList<String> al = new ArrayList<>();
     for (Employee i : pm.find(1).getEmployees()) {
-      al.add(i.getFirstName());
-      for (Project p : pm.findByEmpId(i.getEmployeeId())) {
-        al.add(p.getProjectName());
+      al.add("EMPLOYEE: " + i.getEmployeeId());
+      /*for (Project p : pm.findByEmpId(i.getEmployeeId())) {
+        al.add("PROJECT: " + p.getProjectName());
+        for (WorkPackage wp : wm.find(p, i)) {
+          al.add("WORKPACKAGE: " + wp.getDescription());
+        }
       }
+      al.add("timesheet approver: " + i.getTimesheetApprover().getFirstName());
+    }
+    al.add("ASDASDASD");
+    for (WorkPackage wp : pm.find(1).getWorkPackages()) {
+      al.add(wp.getDescription());*/
     }
     return al;
   }
