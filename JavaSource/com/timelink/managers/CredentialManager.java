@@ -2,11 +2,13 @@ package com.timelink.managers;
 
 import com.timelink.ejbs.Credentials;
 import com.timelink.ejbs.CredentialsId;
+import com.timelink.ejbs.Hours;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 @Dependent
 @Stateless
@@ -25,7 +27,11 @@ public class CredentialManager {
    * @return Credentials that match the given user name and password.
    */
   public Credentials find(String username, String password) {
-    return em.find(Credentials.class, new CredentialsId(username, password));
+    TypedQuery<Credentials> query = em.createQuery("SELECT c FROM Credentials AS c WHERE"
+        + " c.username = :username AND c.password = :password", Credentials.class)
+        .setParameter("username", username)
+        .setParameter("password", password);
+    return query.getSingleResult();
   }
   
   /**

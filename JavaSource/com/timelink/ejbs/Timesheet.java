@@ -4,10 +4,13 @@ import java.sql.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -27,6 +30,7 @@ public class Timesheet {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "tsh_id")
   private int timesheetId;
   
@@ -54,7 +58,8 @@ public class Timesheet {
   //private TimesheetStatus status;
   private String status;
   
-  @OneToMany(fetch = FetchType.EAGER)
+  @OneToMany(fetch = FetchType.EAGER,
+      cascade=CascadeType.ALL)
   @JoinColumn(name = "tsl_tsh_id",
       referencedColumnName = "tsh_id")
   private List<TimesheetRow> rows;  
@@ -68,6 +73,7 @@ public class Timesheet {
         em.find(
             Employee.class,
             getEmployeeId()));
+    System.out.println("setup timesheet");
     setTimesheetApprover(
         getEmployee()
         .getTimesheetApprover());

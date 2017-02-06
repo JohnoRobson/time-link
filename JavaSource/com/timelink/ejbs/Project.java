@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -23,6 +25,7 @@ import javax.persistence.Table;
 public class Project implements Serializable {
   
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "prjh_id")
   private int projectNumber;
   
@@ -129,7 +132,10 @@ public class Project implements Serializable {
    */
   public List<WorkPackage> getWorkPackages() {
     
-    return new ArrayList<WorkPackage>(workPackages);
+    if (workPackages != null) {
+      return new ArrayList<WorkPackage>(workPackages);
+    }
+    return new ArrayList<WorkPackage>();
   }
   
   /**

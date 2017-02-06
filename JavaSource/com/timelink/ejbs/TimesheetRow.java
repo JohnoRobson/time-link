@@ -1,10 +1,15 @@
 package com.timelink.ejbs;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,13 +22,14 @@ import javax.persistence.Transient;
 public class TimesheetRow {
   
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "tsl_id")
   private int timesheetRowId;
   
   @Transient
   private Project project;
   
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "tsl_tsh_id",
       referencedColumnName = "tsh_id")
   private Timesheet timesheet;
@@ -31,7 +37,8 @@ public class TimesheetRow {
   @Transient
   private WorkPackage workPackage;
   
-  @OneToMany(fetch = FetchType.EAGER)
+  @OneToMany(fetch = FetchType.EAGER,
+      cascade = CascadeType.PERSIST)
   @JoinColumn(name = "tsl_id",
       referencedColumnName = "tsl_id")
   private List<Hours> hours;
@@ -39,6 +46,32 @@ public class TimesheetRow {
   @Column(name = "tsl_note")
   private String note;
   
+  //TODO Fix this stub.
+  public boolean validate() {
+    return true;
+  }
+  
+  public TimesheetRow() {
+    project = new Project();
+    workPackage = new WorkPackage();
+    
+    //init();
+  }
+  
+  //TODO fix this trash
+  //@PostConstruct
+  public void init() {
+    if (hours == null || hours.size() < 6) {
+      ArrayList<Hours> hrs = new ArrayList<>();
+      for (int i = 0; i < 7; ++i) {
+        Hours h = new Hours();
+        h.setHour(0);
+        h.setTimesheetId(timesheet.getTimesheetId());
+        h.setTimesheetLineId(timesheetRowId);
+        hrs.add(h);
+      }
+    }
+  }
   /**
    * Returns timesheetRowId.
    * @return the timesheetRowId

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@IdClass(CredentialsId.class)
+//@IdClass(CredentialsId.class)
 @Table(name = "credential")
 public class Credentials implements Serializable {
   
@@ -18,7 +18,7 @@ public class Credentials implements Serializable {
   @Column(name = "cre_emp_name")
   private String username;
   
-  @Id
+  //@Id
   @Column(name = "cre_pw")
   private String password;
   

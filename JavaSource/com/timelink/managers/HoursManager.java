@@ -24,6 +24,7 @@ public class HoursManager {
    * @return An Hours that matches the given data, or
    *         null if none is found.-
    */
+  //TODO fix this
   public Hours find(int projectId, int wpId, Date date) {
     TypedQuery<Hours> query = em.createQuery("SELECT h FROM HOURS AS h WHERE"
         + "h.projectId = :projectId AND h.workPackageId = :wpId AND h.date = :date", Hours.class)

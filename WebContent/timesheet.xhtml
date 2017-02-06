@@ -3,7 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
        <title></title>
        <h:outputStylesheet library="css" name="styles.css"/>
@@ -37,6 +38,173 @@
 	                <p>Week:</p><p>5</p>
 	            </div>
 	        </div>
+	        
+	        <h:form>
+	        <p:dataTable id="table" var="row" value="#{TimesheetController.timesheet.rows}" editable="true" editMode="cell" rowIndexVar="index">
+	        	<p:column headerText="project">
+					<p:cellEditor>
+					    <f:facet name="output">
+					        <!-- <h:outputText value="#{row.project.projectNumber != null ? projectHandler.getProject(row.projectID).name : '-'}" id="projID" />  -->
+					        <h:outputText value="#{row.project.projectName}" id="projID" />
+					    </f:facet>
+					    <f:facet name="input">
+	                        <p:selectOneMenu value="#{row.project}" style="width:100%">
+	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
+                                <f:selectItems value="#{ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) != null ? ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro}" />
+                            </p:selectOneMenu>
+	                    </f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column headerText="work package">
+					<p:cellEditor>
+					    <f:facet name="output">
+					        <!-- <h:outputText value="#{row.project.projectNumber != null ? projectHandler.getProject(row.projectID).name : '-'}" id="projID" />  -->
+					        <h:outputText value="#{row.workPackage.code}" id="wpID" />
+					    </f:facet>
+					    <f:facet name="input">
+	                        <p:selectOneMenu value="#{row.workPackage}" style="width:100%">
+	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
+                                <f:selectItems value="#{row.project.workPackages != null ? row.project.workPackages : asd}" var="pro" itemLabel="#{pro.code}" itemValue="#{pro}"/>
+                            </p:selectOneMenu>
+	                    </f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column headerText="sat">
+                    <p:cellEditor>
+                        
+                        <f:facet name="output">
+                            <h:outputText value="#{row.hours.get(0).hour}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            
+                            <h:inputText value="#{row.hours.get(0).hour}">
+                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
+
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                    
+                    </p:column>
+                <p:column headerText="sun">
+                    <p:cellEditor>
+                        
+                        <f:facet name="output">
+                            <h:outputText value="#{row.hours.get(1).hour}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            
+                            <h:inputText value="#{row.hours.get(1).hour}">
+                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
+
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="sun">
+                    <p:cellEditor>
+                        
+                        <f:facet name="output">
+                            <h:outputText value="#{row.hours.get(1).hour}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            
+                            <h:inputText value="#{row.hours.get(1).hour}">
+                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
+
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="mon">
+                    <p:cellEditor>
+                        
+                        <f:facet name="output">
+                            <h:outputText value="#{row.hours.get(2).hour}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            
+                            <h:inputText value="#{row.hours.get(2).hour}">
+                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
+
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="tues">
+                    <p:cellEditor>
+                        
+                        <f:facet name="output">
+                            <h:outputText value="#{row.hours.get(3).hour}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            
+                            <h:inputText value="#{row.hours.get(3).hour}">
+                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
+
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="wed">
+                    <p:cellEditor>
+                        
+                        <f:facet name="output">
+                            <h:outputText value="#{row.hours.get(4).hour}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            
+                            <h:inputText value="#{row.hours.get(4).hour}">
+                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
+
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="thurs">
+                    <p:cellEditor>
+                        
+                        <f:facet name="output">
+                            <h:outputText value="#{row.hours.get(5).hour}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            
+                            <h:inputText value="#{row.hours.get(5).hour}">
+                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
+
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="fri">
+                    <p:cellEditor>
+                        
+                        <f:facet name="output">
+                            <h:outputText value="#{row.hours.get(6).hour}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            
+                            <h:inputText value="#{row.hours.get(6).hour}">
+                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
+
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+	        </p:dataTable>
+	        	<p:commandButton action="#{TimesheetController.save()}" value="save"></p:commandButton>
+	        	<p:commandButton action="#{TimesheetController.addRow()}" value="addRow"></p:commandButton>
+	        </h:form>
 	        <!--  
 	        <div id="timesheet">
 	            <h:messages errorClass="errors" layout="table"/>

@@ -1,8 +1,12 @@
 package com.timelink.managers;
 
+import com.timelink.ejbs.Employee;
+import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Timesheet;
+import com.timelink.ejbs.TimesheetRow;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -24,7 +28,22 @@ public class TimesheetManager {
    *         was not found.
    */
   public Timesheet find(int id) {
-    return em.find(Timesheet.class, id);
+    Timesheet t = em.find(Timesheet.class, id);
+    
+    for (TimesheetRow row : t.getRows()) {
+      if (row.getHours() == null || row.getHours().size() < 6) {
+        ArrayList<Hours> hrs = new ArrayList<>();
+        for (int i = 0; i < 7; ++i) {
+          Hours h = new Hours();
+          h.setHour(0);
+          h.setTimesheetId(id);
+          h.setTimesheetLineId(row.getTimesheetRowId());
+          hrs.add(h);
+        }
+        row.setHours(hrs);
+      }
+    }
+    return t;
   }
   
   /**
@@ -40,6 +59,14 @@ public class TimesheetManager {
    * @param ts The timesheet to be updated.
    */
   public void merge(Timesheet ts) {
+    for (TimesheetRow row : ts.getRows()) {
+      if (row.getHours() != null) {
+        for (Hours h : row.getHours()) {
+          em.merge(h);
+        }
+      }
+      em.merge(row);
+    }
     em.merge(ts);
   }
   
@@ -50,12 +77,19 @@ public class TimesheetManager {
    * @return A timesheet that matches the timesheetId and date entered.
    */
   public Timesheet findByEmpDate(int tsId, Date date) {
-    //TODO fix this SQL
-    TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheets WHERE"
-        + "TimesheetId = :id AND Date = :date", Timesheet.class)
+    TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet WHERE "
+        + "timesheetId = :id AND date = :date", Timesheet.class)
         .setParameter("id", tsId)
         .setParameter("date", date);
     return query.getSingleResult();
+  }
+  
+  public Timesheet findLatest(Employee emp) {
+    TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet AS t WHERE "
+        + "t.employeeId = :empId ORDER BY t.date", Timesheet.class)
+        .setParameter("empId", emp.getEmployeeId());
+    
+    return find(query.getSingleResult().getEmployeeId());
   }
   
   /**
