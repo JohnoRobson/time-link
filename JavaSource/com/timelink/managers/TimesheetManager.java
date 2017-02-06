@@ -30,18 +30,9 @@ public class TimesheetManager {
   public Timesheet find(int id) {
     Timesheet t = em.find(Timesheet.class, id);
     
-    for (TimesheetRow row : t.getRows()) {
-      if (row.getHours() == null || row.getHours().size() < 6) {
-        ArrayList<Hours> hrs = new ArrayList<>();
-        for (int i = 0; i < 7; ++i) {
-          Hours h = new Hours();
-          h.setHour(0);
-          h.setTimesheetId(id);
-          h.setTimesheetLineId(row.getTimesheetRowId());
-          hrs.add(h);
-        }
-        row.setHours(hrs);
-      }
+    if (t.getRows().size() == 0) {
+      t.addRow();
+      t.addRow();
     }
     return t;
   }
@@ -51,6 +42,16 @@ public class TimesheetManager {
    * @param ts The timesheet to be added to the database.
    */
   public void persist(Timesheet ts) {
+    for (TimesheetRow row : ts.getRows()) {
+      if (row.getHours() != null) {
+        for (Hours h : row.getHours()) {
+          h.setProjectId(row.getProjectId());
+          h.setWorkPackageId(row.getWorkPackageId());
+          em.persist(h);
+        }
+      }
+      em.persist(row);
+    }
     em.persist(ts);
   }
   
@@ -62,6 +63,8 @@ public class TimesheetManager {
     for (TimesheetRow row : ts.getRows()) {
       if (row.getHours() != null) {
         for (Hours h : row.getHours()) {
+          h.setProjectId(row.getProjectId());
+          h.setWorkPackageId(row.getWorkPackageId());
           em.merge(h);
         }
       }

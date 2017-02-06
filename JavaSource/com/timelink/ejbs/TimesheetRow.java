@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,12 +17,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.timelink.managers.ProjectManager;
+
 @Entity
+@Dependent
 @Table(name = "ts_line")
 public class TimesheetRow {
+  
+  @Transient
+  @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +37,7 @@ public class TimesheetRow {
   private int timesheetRowId;
   
   @Transient
-  private Project project;
+  private Integer projectId = 0;
   
   @ManyToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "tsl_tsh_id",
@@ -35,7 +45,7 @@ public class TimesheetRow {
   private Timesheet timesheet;
   
   @Transient
-  private WorkPackage workPackage;
+  private Integer workPackageId = 0;
   
   @OneToMany(fetch = FetchType.EAGER,
       cascade = CascadeType.PERSIST)
@@ -52,26 +62,40 @@ public class TimesheetRow {
   }
   
   public TimesheetRow() {
-    project = new Project();
-    workPackage = new WorkPackage();
-    
-    //init();
   }
   
-  //TODO fix this trash
-  //@PostConstruct
   public void init() {
-    if (hours == null || hours.size() < 6) {
-      ArrayList<Hours> hrs = new ArrayList<>();
+    if (getHours().size() == 0) {
+      hours = new ArrayList<Hours>();
       for (int i = 0; i < 7; ++i) {
         Hours h = new Hours();
-        h.setHour(0);
-        h.setTimesheetId(timesheet.getTimesheetId());
-        h.setTimesheetLineId(timesheetRowId);
-        hrs.add(h);
+        hours.add(h);
       }
     }
   }
+  
+  public Integer getProjectId() {
+    if (projectId == 0 && getHours().size() > 0) {
+      projectId = getHours().get(0).getProjectId();
+    }
+    return projectId;
+  }
+  
+  public void setProjectId(Integer projId) {
+    projectId = projId;
+  }
+  
+  public Integer getWorkPackageId() {
+    if (workPackageId == 0 && getHours().size() > 0) {
+      workPackageId = getHours().get(0).getWorkPackageId();
+    }
+    return workPackageId;
+  }
+  
+  public void setWorkPackageId(Integer wpId) {
+    workPackageId = wpId;
+  }
+  
   /**
    * Returns timesheetRowId.
    * @return the timesheetRowId
@@ -88,21 +112,21 @@ public class TimesheetRow {
     this.timesheetRowId = timesheetRowId;
   }
   
-  /**
-   * Returns project.
-   * @return the project
-   */
-  public Project getProject() {
-    return project;
-  }
-  
-  /**
-   * Sets project to project.
-   * @param project the project to set
-   */
-  public void setProject(Project project) {
-    this.project = project;
-  }
+//  /**
+//   * Returns project.
+//   * @return the project
+//   */
+//  public Project getProject() {
+//    return project;
+//  }
+//  
+//  /**
+//   * Sets project to project.
+//   * @param project the project to set
+//   */
+//  public void setProject(Project project) {
+//    this.project = project;
+//  }
   
   /**
    * Returns timesheet.
@@ -120,21 +144,21 @@ public class TimesheetRow {
     this.timesheet = timesheet;
   }
   
-  /**
-   * Returns workpackage.
-   * @return the workPackage
-   */
-  public WorkPackage getWorkPackage() {
-    return workPackage;
-  }
-  
-  /**
-   * Sets workpackage to workpackage.
-   * @param workPackage the workPackage to set
-   */
-  public void setWorkPackage(WorkPackage workPackage) {
-    this.workPackage = workPackage;
-  }
+//  /**
+//   * Returns workpackage.
+//   * @return the workPackage
+//   */
+//  public WorkPackage getWorkPackage() {
+//    return workPackage;
+//  }
+//  
+//  /**
+//   * Sets workpackage to workpackage.
+//   * @param workPackage the workPackage to set
+//   */
+//  public void setWorkPackage(WorkPackage workPackage) {
+//    this.workPackage = workPackage;
+//  }
   
   /**
    * Returns hours.

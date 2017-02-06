@@ -40,18 +40,18 @@
 	        </div>
 	        
 	        <h:form>
+	        <p:remoteCommand name="onCellEdit" update="table" />
 	        <p:dataTable id="table" var="row" value="#{TimesheetController.timesheet.rows}" editable="true" editMode="cell" rowIndexVar="index">
 	        	<p:column headerText="project">
 					<p:cellEditor>
 					    <f:facet name="output">
-					        <!-- <h:outputText value="#{row.project.projectNumber != null ? projectHandler.getProject(row.projectID).name : '-'}" id="projID" />  -->
-					        <h:outputText value="#{row.project.projectName}" id="projID" />
+					        <h:outputText value="#{ProjectManager.find(row.projectId) != null ? ProjectManager.find(row.projectId).projectName : '-'}" id="projID" />
 					    </f:facet>
 					    <f:facet name="input">
-	                        <p:selectOneMenu value="#{row.project}" style="width:100%">
+	                        <p:selectOneMenu value="#{row.projectId}" style="width:100%">
 	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-                                <f:selectItems value="#{ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) != null ? ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro}" />
+                                <f:selectItems value="#{ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) != null ? ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
                             </p:selectOneMenu>
 	                    </f:facet>
 					</p:cellEditor>
@@ -60,14 +60,13 @@
 				<p:column headerText="work package">
 					<p:cellEditor>
 					    <f:facet name="output">
-					        <!-- <h:outputText value="#{row.project.projectNumber != null ? projectHandler.getProject(row.projectID).name : '-'}" id="projID" />  -->
-					        <h:outputText value="#{row.workPackage.code}" id="wpID" />
+					        <h:outputText value="#{WorkPackageManager.find(row.workPackageId) != null ? WorkPackageManager.find(row.workPackageId).code: '-'}" id="wpID" />
 					    </f:facet>
 					    <f:facet name="input">
-	                        <p:selectOneMenu value="#{row.workPackage}" style="width:100%">
+	                        <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
 	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-                                <f:selectItems value="#{row.project.workPackages != null ? row.project.workPackages : asd}" var="pro" itemLabel="#{pro.code}" itemValue="#{pro}"/>
+                                <f:selectItems value="#{ProjectManager.find(row.projectId) != null ? ProjectManager.find(row.projectId).workPackages : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
                             </p:selectOneMenu>
 	                    </f:facet>
 					</p:cellEditor>

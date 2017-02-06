@@ -1,6 +1,7 @@
 package com.timelink.ejbs;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -73,10 +74,17 @@ public class Timesheet {
         em.find(
             Employee.class,
             getEmployeeId()));
-    System.out.println("setup timesheet");
     setTimesheetApprover(
         getEmployee()
         .getTimesheetApprover());
+  }
+  
+  public void addRow() {
+    TimesheetRow newRow = new TimesheetRow();
+    newRow.setTimesheet(this);
+    newRow.setHours(new ArrayList<Hours>());
+    //em.persist(newRow);
+    getRows().add(newRow);
   }
   
   /**

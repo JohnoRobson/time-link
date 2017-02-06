@@ -59,9 +59,9 @@ public class TimesheetController implements Serializable {
   }
   
   public String addRow() {
-    ArrayList<TimesheetRow> ar = new ArrayList<TimesheetRow>(timesheet.getRows());
-    ar.add(new TimesheetRow());
-    timesheet.setRows(ar);
+    //ArrayList<TimesheetRow> ar = new ArrayList<TimesheetRow>(timesheet.getRows());
+    //ar.add(new TimesheetRow());
+    timesheet.addRow();
     save();
     return null;
   }

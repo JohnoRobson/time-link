@@ -8,12 +8,14 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 @Dependent
 @Stateless
+@Named("WorkPackageManager")
 public class WorkPackageManager {
   
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
