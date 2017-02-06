@@ -83,7 +83,7 @@ public class Timesheet {
     TimesheetRow newRow = new TimesheetRow();
     newRow.setTimesheet(this);
     newRow.setHours(new ArrayList<Hours>());
-    //em.persist(newRow);
+    newRow.init();
     getRows().add(newRow);
   }
   
