@@ -3,9 +3,18 @@ package com.timelink.ejbs;
 import java.sql.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -13,6 +22,9 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "ts_header")
 public class Timesheet {
+  
+  @Transient
+  @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   @Id
   @Column(name = "tsh_id")
@@ -27,6 +39,9 @@ public class Timesheet {
   @Transient
   private Employee timesheetApprover;
   
+  @Transient
+  private Employee employee;
+  
   @Column(name = "tsh_overtime")
   //private BigDecimal overtime;
   private float overtime;
@@ -39,8 +54,24 @@ public class Timesheet {
   //private TimesheetStatus status;
   private String status;
   
-  @Transient
+  @OneToMany(fetch = FetchType.EAGER)
+  @JoinColumn(name = "tsl_tsh_id",
+      referencedColumnName = "tsh_id")
   private List<TimesheetRow> rows;  
+  
+  public Timesheet() {
+  }
+  
+  @PostConstruct
+  public void setUp() {
+    setEmployee(
+        em.find(
+            Employee.class,
+            getEmployeeId()));
+    setTimesheetApprover(
+        getEmployee()
+        .getTimesheetApprover());
+  }
   
   /**
    * Returns timesheetId.
@@ -105,6 +136,18 @@ public class Timesheet {
   public void setTimesheetApprover(Employee timesheetApprover) {
     this.timesheetApprover = timesheetApprover;
   }
+  
+  /**
+   * Returns employee.
+   * @return the employee.
+   */
+  public Employee getEmployee() {
+    return employee;
+  }
+
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
+  }
 
   /**
    * Returns overtime.
@@ -168,94 +211,5 @@ public class Timesheet {
    */
   public void setRows(List<TimesheetRow> rows) {
     this.rows = rows;
-  }
-
-  class TimesheetRow {
-    private int timesheetRowId;
-    private Project project;
-    private Timesheet timesheet;
-    private WorkPackage workPackage;
-    private List<Hours> hours;
-    
-    /**
-     * Returns timesheetRowId.
-     * @return the timesheetRowId
-     */
-    public int getTimesheetRowId() {
-      return timesheetRowId;
-    }
-    
-    /**
-     * Set timesheetRowId to timesheetRowId.
-     * @param timesheetRowId the timesheetRowId to set
-     */
-    public void setTimesheetRowId(int timesheetRowId) {
-      this.timesheetRowId = timesheetRowId;
-    }
-    
-    /**
-     * Returns project.
-     * @return the project
-     */
-    public Project getProject() {
-      return project;
-    }
-    
-    /**
-     * Sets project to project.
-     * @param project the project to set
-     */
-    public void setProject(Project project) {
-      this.project = project;
-    }
-    
-    /**
-     * Returns timesheet.
-     * @return the timesheet
-     */
-    public Timesheet getTimesheet() {
-      return timesheet;
-    }
-    
-    /**
-     * Sets timesheet to timesheet.
-     * @param timesheet the timesheet to set
-     */
-    public void setTimesheet(Timesheet timesheet) {
-      this.timesheet = timesheet;
-    }
-    
-    /**
-     * Returns workpackage.
-     * @return the workPackage
-     */
-    public WorkPackage getWorkPackage() {
-      return workPackage;
-    }
-    
-    /**
-     * Sets workpackage to workpackage.
-     * @param workPackage the workPackage to set
-     */
-    public void setWorkPackage(WorkPackage workPackage) {
-      this.workPackage = workPackage;
-    }
-    
-    /**
-     * Returns hours.
-     * @return the hours
-     */
-    public List<Hours> getHours() {
-      return hours;
-    }
-    
-    /**
-     * Sets hours to hours.
-     * @param hours the hours to set
-     */
-    public void setHours(List<Hours> hours) {
-      this.hours = hours;
-    }
-    
   }
 }

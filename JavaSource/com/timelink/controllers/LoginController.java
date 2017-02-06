@@ -3,11 +3,12 @@ package com.timelink.controllers;
 import com.timelink.Session;
 import com.timelink.ejbs.Credentials;
 import com.timelink.ejbs.Employee;
-import com.timelink.ejbs.Project;
+import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.CredentialManager;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
+import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
 
 import java.io.Serializable;
@@ -30,6 +31,7 @@ public class LoginController implements Serializable {
   @Inject Session ss;
   @Inject ProjectManager pm;
   @Inject WorkPackageManager wm;
+  @Inject TimesheetManager tm;
   
   private String username;
   private String password;
@@ -42,8 +44,8 @@ public class LoginController implements Serializable {
     
   }
   
-  public List<Employee> getList() {
-    return em.getAll();
+  public List<Hours> getList() {
+    return tm.find(1).getRows().get(0).getHours();
   }
   
   public String add() {
