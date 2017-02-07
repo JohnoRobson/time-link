@@ -7,6 +7,7 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+@SuppressWarnings("serial")
 @SessionScoped
 @Named("Session")
 public class Session implements Serializable {

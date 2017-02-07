@@ -28,21 +28,13 @@ public class ProjectManager {
   }
   
   /**
-   * Returns all the Project names that are
+   * Returns all the Project that are
    * available for an employee, queried by their id,
    * returns null if no matching results.
    * 
    * @param id The EmployeeId to find Projects by.
    * @return List of project names.
    */
-//  public List findByEmpId(int id) {
-//    return em.createQuery(
-//        "SELECT ph.prjh_name"
-//        + "FROM Prj_Header ph, Prj_Line pl"
-//        + "WHERE pl.prjl_emp_id = " + id)
-//        .getResultList();  
-//  }
-  
   public List<Project> findByEmpId(int id) {
     return em.createQuery("SELECT p FROM Project as p, ProjectLine as pl "
         + "WHERE p.projectNumber = pl.projectId AND pl.projectEmployeeId = :empId", Project.class)

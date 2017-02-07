@@ -1,8 +1,6 @@
 package com.timelink.managers;
 
 import com.timelink.ejbs.Credentials;
-import com.timelink.ejbs.CredentialsId;
-import com.timelink.ejbs.Hours;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;

@@ -23,6 +23,7 @@ public class WorkPackageLine implements Serializable {
   private int workPackageEmployeeId;
 
   /**
+   * Returns the workPackageId.
    * @return the workPackageId
    */
   public int getWorkPackageId() {
@@ -30,6 +31,7 @@ public class WorkPackageLine implements Serializable {
   }
 
   /**
+   * Sets the workPackageId to workPackageId.
    * @param workPackageId the workPackageId to set
    */
   public void setWorkPackageId(int workPackageId) {
@@ -37,6 +39,7 @@ public class WorkPackageLine implements Serializable {
   }
 
   /**
+   * Returns the workPackageHeaderId.
    * @return the workPackageHeaderId
    */
   public int getWorkPackageHeaderId() {
@@ -44,6 +47,7 @@ public class WorkPackageLine implements Serializable {
   }
 
   /**
+   * Sets the workPackageHeaderId to workPackageHeaderId.
    * @param workPackageHeaderId the workPackageHeaderId to set
    */
   public void setWorkPackageHeaderId(int workPackageHeaderId) {
@@ -51,6 +55,7 @@ public class WorkPackageLine implements Serializable {
   }
 
   /**
+   * Returns the workPacakgeEmployeeId.
    * @return the workPackageEmployeeId
    */
   public int getWorkPackageEmployeeId() {
@@ -58,6 +63,7 @@ public class WorkPackageLine implements Serializable {
   }
 
   /**
+   * Sets the workPacakgeEmployeeId to workPackageEmployeeId.
    * @param workPackageEmployeeId the workPackageEmployeeId to set
    */
   public void setWorkPackageEmployeeId(int workPackageEmployeeId) {
