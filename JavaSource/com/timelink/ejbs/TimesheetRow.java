@@ -81,7 +81,6 @@ public class TimesheetRow {
     hours = new ArrayList<Hours>();
     for (int i = 0; i < 7; ++i) {
       Hours hrs = new Hours();
-      System.out.println("timesheetID: " + ts.getTimesheetId());
       hrs.setTimesheetLineId(timesheetRowId);
       hrs.setTimesheetId(ts.getTimesheetId());
       hours.add(hrs);

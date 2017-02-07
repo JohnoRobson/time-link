@@ -24,18 +24,18 @@
 	    <div id="content">
 	        <div id="timesheetHeader">
 	            <div id="left" class="headerPart">
-	                <p>Name:</p><p>Rick Kim</p>
+	                <p>Name:</p><p><h:outputText value="#{Session.currentEmployee.firstName} #{Session.currentEmployee.lastName}" /></p>
 	                <br />
-	                <p>Title:</p><p>UI Specialist</p>
+	                <p>Title:</p><p>PLACEHOLDER: UI Specialist</p>
 	                <br />
-	                <p>Date:</p><p>Feb 2, 2016</p>
+	                <p>Date:</p><p><h:outputText value="#{TimesheetController.timesheet.date}" /></p>
 	            </div>
 	            <div id="right" class="headerPart">
-	                <p>UserID:</p><p>rKim</p>
+	                <p>UserID:</p><p><h:outputText value="#{Session.currentEmployee.employeeId}" /></p>
 	                <br />
-	                <p>Department:</p><p>BCIT_IS</p>
+	                <p>Department:</p><p>PLACEHOLDER: BCIT_IS</p>
 	                <br />
-	                <p>Week:</p><p>5</p>
+	                <p>Week:</p><p>PLACEHOLDER: 5</p>
 	            </div>
 	        </div>
 	        

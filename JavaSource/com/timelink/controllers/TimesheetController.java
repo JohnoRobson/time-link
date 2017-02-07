@@ -5,6 +5,8 @@ import com.timelink.ejbs.Timesheet;
 import com.timelink.managers.TimesheetManager;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.Calendar;
 
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
@@ -56,14 +58,23 @@ public class TimesheetController implements Serializable {
     return null;
   }
   
+  //TODO make this work on a weekly, rather than a daily basis.
   /**
    * Adds a new timesheet for the logged in user.
+   * If there is already a timesheet that matches the current day,
+   * one will not be created.
    * @return Null, so that the page can be reloaded.
    */
   public String addTimesheet() {
+    if (timesheet != null && timesheet.getDate().toString()
+        .equals(new Date(Calendar.getInstance().getTime().getTime()).toString())) {
+      return null;
+    }
     tm.merge(timesheet);
     timesheet = new Timesheet(ses.getCurrentEmployee());
     tm.persist(timesheet);
+    //Update the timesheet PK so that it can be added to it's rows and hours.
+    timesheet = tm.findLatest(ses.getCurrentEmployee());
     return null;
   }
   

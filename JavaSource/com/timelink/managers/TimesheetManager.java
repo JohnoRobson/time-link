@@ -91,7 +91,9 @@ public class TimesheetManager {
     
     //If no timesheets are found
     if (query.getResultList().size() == 0) {
-      return new Timesheet(emp);
+      Timesheet tm = new Timesheet(emp);
+      persist(tm);
+      return tm;
     }
     
     return find(query.getSingleResult().getEmployeeId());

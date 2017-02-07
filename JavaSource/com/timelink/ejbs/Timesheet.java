@@ -2,6 +2,7 @@ package com.timelink.ejbs;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -79,6 +80,7 @@ public class Timesheet {
     setEmployee(emp);
     rows = new ArrayList<TimesheetRow>();
     setStatus("N");
+    date = new Date(Calendar.getInstance().getTime().getTime());
   }
   
   //TODO find out if this does anything.
