@@ -35,7 +35,7 @@ public class TimesheetRow {
   @Transient
   private Integer projectId = 0;
   
-  @ManyToOne(cascade = CascadeType.PERSIST)
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "tsl_tsh_id",
       referencedColumnName = "tsh_id")
   private Timesheet timesheet;
@@ -44,7 +44,7 @@ public class TimesheetRow {
   private Integer workPackageId = 0;
   
   @OneToMany(fetch = FetchType.EAGER,
-      cascade = CascadeType.PERSIST)
+      cascade = CascadeType.ALL)
   @JoinColumn(name = "tsl_id",
       referencedColumnName = "tsl_id")
   private List<Hours> hours;
@@ -63,7 +63,28 @@ public class TimesheetRow {
   public TimesheetRow() {
     hours = new ArrayList<Hours>();
     for (int i = 0; i < 7; ++i) {
-      hours.add(new Hours());
+      Hours hrs = new Hours();
+      hrs.setTimesheetLineId(timesheetRowId);
+      if (timesheet != null) {
+        hrs.setTimesheetId(timesheet.getTimesheetId());
+      }
+      hours.add(hrs);
+    }
+  }
+  
+  /**
+   * The constructor for TimesheetRow used when added a new timesheet row
+   * to a timesheet.
+   */
+  public TimesheetRow(Timesheet ts) {
+    timesheet = ts;
+    hours = new ArrayList<Hours>();
+    for (int i = 0; i < 7; ++i) {
+      Hours hrs = new Hours();
+      System.out.println("timesheetID: " + ts.getTimesheetId());
+      hrs.setTimesheetLineId(timesheetRowId);
+      hrs.setTimesheetId(ts.getTimesheetId());
+      hours.add(hrs);
     }
   }
   
@@ -80,10 +101,14 @@ public class TimesheetRow {
   
   /**
    * Sets projectId to projectId.
+   * Also sets the projectId in the hours to projectId.
    * @param projId The projectId to be set.
    */
   public void setProjectId(Integer projId) {
     projectId = projId;
+    for (Hours hrs : hours) {
+      hrs.setProjectId(projectId);
+    }
   }
   
   /**
@@ -99,10 +124,14 @@ public class TimesheetRow {
   
   /**
    * Sets the workPackageId to wpId.
+   * Also sets the workPackageId in the hours to workPackageId.
    * @param wpId The workPackageId to be set.
    */
   public void setWorkPackageId(Integer wpId) {
     workPackageId = wpId;
+    for (Hours hrs : hours) {
+      hrs.setWorkPackageId(workPackageId);
+    }
   }
   
   /**

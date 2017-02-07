@@ -1,9 +1,7 @@
 package com.timelink.managers;
 
 import com.timelink.ejbs.Employee;
-import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Timesheet;
-import com.timelink.ejbs.TimesheetRow;
 
 import java.sql.Date;
 import java.util.List;
@@ -28,11 +26,6 @@ public class TimesheetManager {
    */
   public Timesheet find(int id) {
     Timesheet ts = em.find(Timesheet.class, id);
-    
-    if (ts.getRows().size() == 0) {
-      ts.addRow();
-      ts.addRow();
-    }
     return ts;
   }
   
@@ -41,7 +34,7 @@ public class TimesheetManager {
    * @param ts The timesheet to be added to the database.
    */
   public void persist(Timesheet ts) {
-    for (TimesheetRow row : ts.getRows()) {
+    /*for (TimesheetRow row : ts.getRows()) {
       if (row.getHours() != null) {
         for (Hours h : row.getHours()) {
           h.setProjectId(row.getProjectId());
@@ -50,7 +43,7 @@ public class TimesheetManager {
         }
       }
       em.persist(row);
-    }
+    }*/
     em.persist(ts);
   }
   
@@ -59,7 +52,7 @@ public class TimesheetManager {
    * @param ts The timesheet to be updated.
    */
   public void merge(Timesheet ts) {
-    for (TimesheetRow row : ts.getRows()) {
+    /*for (TimesheetRow row : ts.getRows()) {
       if (row.getHours() != null) {
         for (Hours h : row.getHours()) {
           h.setProjectId(row.getProjectId());
@@ -68,7 +61,7 @@ public class TimesheetManager {
         }
       }
       em.merge(row);
-    }
+    }*/
     em.merge(ts);
   }
   
@@ -95,6 +88,11 @@ public class TimesheetManager {
     TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet AS t WHERE "
         + "t.employeeId = :empId ORDER BY t.date", Timesheet.class)
         .setParameter("empId", emp.getEmployeeId());
+    
+    //If no timesheets are found
+    if (query.getResultList().size() == 0) {
+      return new Timesheet(emp);
+    }
     
     return find(query.getSingleResult().getEmployeeId());
   }

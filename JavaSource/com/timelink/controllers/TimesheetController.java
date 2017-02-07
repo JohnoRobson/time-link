@@ -25,13 +25,13 @@ public class TimesheetController implements Serializable {
   }
   
   /**
-   * Returns timesheet.
+   * Returns timesheet.  If there isn't a timesheet for the current employee
+   * one will be created.
    * @return the timesheet
    */
   public Timesheet getTimesheet() {
     if (timesheet == null) {
       timesheet = tm.findLatest(ses.getCurrentEmployee());
-      
     }
     return timesheet;
   }
@@ -57,13 +57,22 @@ public class TimesheetController implements Serializable {
   }
   
   /**
+   * Adds a new timesheet for the logged in user.
+   * @return Null, so that the page can be reloaded.
+   */
+  public String addTimesheet() {
+    tm.merge(timesheet);
+    timesheet = new Timesheet(ses.getCurrentEmployee());
+    tm.persist(timesheet);
+    return null;
+  }
+  
+  /**
    * Adds a row to the current timesheet.
    * @return null, to reload the page.
    */
   public String addRow() {
     timesheet.addRow();
-    tm.merge(timesheet);
-    save();
     return null;
   }
 }

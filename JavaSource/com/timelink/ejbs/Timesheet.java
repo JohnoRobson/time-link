@@ -62,16 +62,23 @@ public class Timesheet {
       referencedColumnName = "tsh_id")
   private List<TimesheetRow> rows;  
   
+  //TODO get dates working for time sheets, rows and hours.
   /**
    * The constructor for the timesheet.
    */
   public Timesheet() {
-    //TODO make this stop spamming the database with unaccessible hours and rows.
+  }
+  
+  /**
+   * Constructor used when calling new on this timesheet.
+   * @param emp The employee that this timesheet belongs to.
+   */
+  public Timesheet(Employee emp) {
+    setEmployeeId(emp.getEmployeeId());
+    setTimesheetApprover(emp.getTimesheetApprover());
+    setEmployee(emp);
     rows = new ArrayList<TimesheetRow>();
-    rows.add(new TimesheetRow());
-    rows.add(new TimesheetRow());
-    rows.add(new TimesheetRow());
-    rows.add(new TimesheetRow());
+    setStatus("N");
   }
   
   //TODO find out if this does anything.
@@ -89,8 +96,11 @@ public class Timesheet {
         .getTimesheetApprover());
   }
   
+  /**
+   * Adds a timesheetRow to this timesheet.
+   */
   public void addRow() {
-    getRows().add(new TimesheetRow());
+    getRows().add(new TimesheetRow(this));
   }
   
   /**

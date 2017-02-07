@@ -41,7 +41,8 @@
 	        
 	        <h:form>
 	        <p:remoteCommand name="onCellEdit" update="table" />
-	        <p:dataTable id="table" var="row" value="#{TimesheetController.timesheet.rows}" editable="true" editMode="cell" rowIndexVar="index">
+	        <p:dataTable id="table" var="row" value="#{TimesheetController.timesheet.rows}" editable="true" editMode="cell" rowIndexVar="index"
+	        render="#{TimesheetController.timesheet != null}">
 	        	<p:column headerText="project">
 					<p:cellEditor>
 					    <f:facet name="output">
@@ -200,12 +201,27 @@
                     </p:cellEditor>
                 </p:column>
                 
+                <p:column headerText="notes">
+                    <p:cellEditor>
+                        
+                        <f:facet name="output">
+                            <h:outputText value="#{row.note}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText value="#{row.note}">
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 	        </p:dataTable>
 	        	<p:commandButton action="#{TimesheetController.save()}" value="save" ajax="false" >
 	        	</p:commandButton>
-	        	<p:commandButton action="#{TimesheetController.addRow()}" value="addRow" ajax="false" >
+	        	<p:commandButton action="#{TimesheetController.addRow()}" value="add row" ajax="false" >
+	        	</p:commandButton>
+	        	<p:commandButton action="#{TimesheetController.addTimesheet()}" value="add timesheet" ajax="false" >
 	        	</p:commandButton>
 	        </h:form>
+	        <h:outputText value="STATUS: #{TimesheetController.timesheet.status}" />
 	        <!--  
 	        <div id="timesheet">
 	            <h:messages errorClass="errors" layout="table"/>
