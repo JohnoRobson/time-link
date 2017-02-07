@@ -4,6 +4,7 @@ import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Timesheet;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -106,9 +107,22 @@ public class TimesheetManager {
    * @return the timesheet approver whose id matches empId.
    */
   public List<Timesheet> findByApprover(int empId) {
-    TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheets WHERE"
-        + "TimesheetApprover = :empId", Timesheet.class)
-        .setParameter("empId", empId);
-    return query.getResultList();
+    ArrayList<Timesheet> result = new ArrayList<Timesheet>();
+    TypedQuery<Employee> queryOne = em.createQuery("SELECT e FROM Employee AS e, "
+        + "TimesheetApprover AS tsa "
+        + "WHERE e.employeeId = tsa.approveeEmployeeId "
+        + "AND :empid = tsa.approverEmployeeId", Employee.class)
+        .setParameter("empid", empId);
+    
+    for (Employee e : queryOne.getResultList()) {
+      TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet AS t "
+          + "WHERE t.employeeId = :empId", Timesheet.class)
+          .setParameter("empId", e.getEmployeeId());
+      List<Timesheet> res = query.getResultList();
+      for (Timesheet t : res) {
+        result.add(t);
+      }
+    }
+    return result;
   }
 }

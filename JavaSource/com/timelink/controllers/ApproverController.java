@@ -1,18 +1,23 @@
 package com.timelink.controllers;
 
+import com.timelink.Session;
 import com.timelink.ejbs.Timesheet;
+import com.timelink.managers.TimesheetManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @SuppressWarnings("serial")
 @SessionScoped
 @Named("ApproverController")
 public class ApproverController implements Serializable {
+  @Inject TimesheetManager tm;
+  @Inject Session ses;
   private List<Timesheet> timesheets;
   private Timesheet viewingTimesheet;
 
@@ -61,17 +66,23 @@ public class ApproverController implements Serializable {
    * Refresh the list of timesheets to be reviewed.
    */
   public void refreshList() {
-    Timesheet[] apprTimesheets;
+    List<Timesheet> apprTimesheets;
     //TODO Change below to a Timesheet query
-    apprTimesheets = new Timesheet[10];
+    apprTimesheets = tm.findByApprover(ses.getCurrentEmployee().getEmployeeId());
     timesheets = new ArrayList<Timesheet>();
     for (Timesheet t : apprTimesheets) {
       timesheets.add(t);
     }
   }
   
+  /**
+   * Save the new status of the timesheets.
+   * @return null to reload page
+   */
   public String save() {
-    //TODO Iterate through timesheets and save values
+    for (Timesheet t: timesheets) {
+      tm.merge(t);
+    }
     return null;
   }
   

@@ -1,11 +1,14 @@
 package com.timelink.ejbs;
 
+import com.timelink.managers.HoursManager;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
+import javax.persistence.TypedQuery;
 
 @Entity
 @Table(name = "ts_header")
@@ -158,6 +161,7 @@ public class Timesheet {
    * @return the timesheetApprover
    */
   public Employee getTimesheetApprover() {
+    timesheetApprover = getEmployee().getTimesheetApprover();
     return timesheetApprover;
   }
 
@@ -177,8 +181,28 @@ public class Timesheet {
     return employee;
   }
 
+  /**
+   * Sets employee to employee.
+   * @param employee the employee to set
+   */
   public void setEmployee(Employee employee) {
     this.employee = employee;
+  }
+  
+  /**
+   * Returns total hours.
+   * @return float sum of hours
+   */
+  public float getTotalHours() { 
+    //TODO Fix this, getting Servlet and Null pointer exceptions when used.
+    float sum = 0;
+    /*List<Hours> totalHours = findTotalHours(timesheetId);
+    if (totalHours != null) {
+      for (Hours h : totalHours) {
+        sum += h.getHour();
+      }
+    }*/
+    return sum;
   }
 
   /**
@@ -244,4 +268,21 @@ public class Timesheet {
   public void setRows(List<TimesheetRow> rows) {
     this.rows = rows;
   }
+  
+  //TODO Should we put this in HoursManager or this? I feel like
+  // if we inject something to use an entity manager when this already
+  // has one seems unnecessary.
+  /**
+   * Searches the database for Hours that match a timesheetId.
+   * 
+   * @param timesheetId to search by
+   * @return Hours[] matching the timesheetId
+   */
+  public List<Hours> findTotalHours(int timesheetId) {
+    TypedQuery<Hours> query = em.createQuery("SELECT h FROM Hours h WHERE "
+        + "h.timesheetId = :timesheetId", Hours.class)
+        .setParameter("timesheetId", timesheetId);
+    return query.getResultList();
+  }
+  
 }

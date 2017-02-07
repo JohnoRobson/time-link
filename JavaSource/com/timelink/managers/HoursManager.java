@@ -4,6 +4,8 @@ package com.timelink.managers;
 import com.timelink.ejbs.Hours;
 
 import java.sql.Date;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
@@ -32,6 +34,19 @@ public class HoursManager {
         .setParameter("upId", wpId)
         .setParameter("date", date);
     return query.getSingleResult();
+  }
+  
+  /**
+   * Searches the database for Hours that match a timesheetId.
+   * 
+   * @param timesheetId to search by
+   * @return Hours[] matching the timesheetId
+   */
+  public List<Hours> findTotalHours(int timesheetId) {
+    TypedQuery<Hours> query = em.createQuery("SELECT h FROM Hours h WHERE "
+        + "h.timesheetId = :timesheetId", Hours.class)
+        .setParameter("timesheetId", timesheetId);
+    return query.getResultList();
   }
   
   /**

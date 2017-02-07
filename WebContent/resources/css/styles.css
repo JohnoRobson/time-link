@@ -71,3 +71,16 @@ body {
 .headerPart p {
 	display: inline;
 }
+
+form {
+	clear: left;
+}
+
+#approverForm {
+	width: 50%;
+	margin: auto;
+}
+
+#approveTable {
+	border-spacing: 1%;
+}
