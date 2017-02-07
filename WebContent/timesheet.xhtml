@@ -201,8 +201,10 @@
                 </p:column>
                 
 	        </p:dataTable>
-	        	<p:commandButton action="#{TimesheetController.save()}" value="save"></p:commandButton>
-	        	<p:commandButton action="#{TimesheetController.addRow()}" value="addRow"></p:commandButton>
+	        	<p:commandButton action="#{TimesheetController.save()}" value="save" ajax="false" >
+	        	</p:commandButton>
+	        	<p:commandButton action="#{TimesheetController.addRow()}" value="addRow" ajax="false" >
+	        	</p:commandButton>
 	        </h:form>
 	        <!--  
 	        <div id="timesheet">

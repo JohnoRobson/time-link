@@ -14,10 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -60,14 +57,27 @@ public class Timesheet {
   private String status;
   
   @OneToMany(fetch = FetchType.EAGER,
-      cascade=CascadeType.ALL)
+      cascade = CascadeType.ALL)
   @JoinColumn(name = "tsl_tsh_id",
       referencedColumnName = "tsh_id")
   private List<TimesheetRow> rows;  
   
+  /**
+   * The constructor for the timesheet.
+   */
   public Timesheet() {
+    //TODO make this stop spamming the database with unaccessible hours and rows.
+    rows = new ArrayList<TimesheetRow>();
+    rows.add(new TimesheetRow());
+    rows.add(new TimesheetRow());
+    rows.add(new TimesheetRow());
+    rows.add(new TimesheetRow());
   }
   
+  //TODO find out if this does anything.
+  /**
+   * Helps set up the timesheet.
+   */
   @PostConstruct
   public void setUp() {
     setEmployee(
@@ -80,11 +90,7 @@ public class Timesheet {
   }
   
   public void addRow() {
-    TimesheetRow newRow = new TimesheetRow();
-    newRow.setTimesheet(this);
-    newRow.setHours(new ArrayList<Hours>());
-    newRow.init();
-    getRows().add(newRow);
+    getRows().add(new TimesheetRow());
   }
   
   /**

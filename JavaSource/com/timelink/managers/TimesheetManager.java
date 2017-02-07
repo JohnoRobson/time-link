@@ -6,7 +6,6 @@ import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -28,13 +27,13 @@ public class TimesheetManager {
    *         was not found.
    */
   public Timesheet find(int id) {
-    Timesheet t = em.find(Timesheet.class, id);
+    Timesheet ts = em.find(Timesheet.class, id);
     
-    if (t.getRows().size() == 0) {
-      t.addRow();
-      t.addRow();
+    if (ts.getRows().size() == 0) {
+      ts.addRow();
+      ts.addRow();
     }
-    return t;
+    return ts;
   }
   
   /**
@@ -87,6 +86,11 @@ public class TimesheetManager {
     return query.getSingleResult();
   }
   
+  /**
+   * Returns the latest timesheet in the database for the Employee given.
+   * @param emp The Employee whose timesheet will be returned.
+   * @return The latest timesheet in the database for the given Employee.
+   */
   public Timesheet findLatest(Employee emp) {
     TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet AS t WHERE "
         + "t.employeeId = :empId ORDER BY t.date", Timesheet.class)

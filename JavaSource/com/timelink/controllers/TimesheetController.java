@@ -2,11 +2,9 @@ package com.timelink.controllers;
 
 import com.timelink.Session;
 import com.timelink.ejbs.Timesheet;
-import com.timelink.ejbs.TimesheetRow;
 import com.timelink.managers.TimesheetManager;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
@@ -58,9 +56,11 @@ public class TimesheetController implements Serializable {
     return null;
   }
   
+  /**
+   * Adds a row to the current timesheet.
+   * @return null, to reload the page.
+   */
   public String addRow() {
-    //ArrayList<TimesheetRow> ar = new ArrayList<TimesheetRow>(timesheet.getRows());
-    //ar.add(new TimesheetRow());
     timesheet.addRow();
     tm.merge(timesheet);
     save();

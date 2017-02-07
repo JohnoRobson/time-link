@@ -3,9 +3,7 @@ package com.timelink.ejbs;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,8 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import com.timelink.managers.ProjectManager;
 
 @Entity
 @Dependent
@@ -61,19 +57,20 @@ public class TimesheetRow {
     return true;
   }
   
+  /**
+   * The constructor for TimesheetRow.
+   */
   public TimesheetRow() {
-  }
-  
-  public void init() {
-    if (getHours().size() == 0) {
-      hours = new ArrayList<Hours>();
-      for (int i = 0; i < 7; ++i) {
-        Hours h = new Hours();
-        hours.add(h);
-      }
+    hours = new ArrayList<Hours>();
+    for (int i = 0; i < 7; ++i) {
+      hours.add(new Hours());
     }
   }
   
+  /**
+   * Returns the projectId.
+   * @return the projectId.
+   */
   public Integer getProjectId() {
     if (projectId == 0 && getHours().size() > 0) {
       projectId = getHours().get(0).getProjectId();
@@ -81,10 +78,18 @@ public class TimesheetRow {
     return projectId;
   }
   
+  /**
+   * Sets projectId to projectId.
+   * @param projId The projectId to be set.
+   */
   public void setProjectId(Integer projId) {
     projectId = projId;
   }
   
+  /**
+   * Returns the workpackageId, or initializes the workPackageId
+   * to the value of the hours stored in this TimesheetRow.
+   */
   public Integer getWorkPackageId() {
     if (workPackageId == 0 && getHours().size() > 0) {
       workPackageId = getHours().get(0).getWorkPackageId();
@@ -92,6 +97,10 @@ public class TimesheetRow {
     return workPackageId;
   }
   
+  /**
+   * Sets the workPackageId to wpId.
+   * @param wpId The workPackageId to be set.
+   */
   public void setWorkPackageId(Integer wpId) {
     workPackageId = wpId;
   }
@@ -112,21 +121,21 @@ public class TimesheetRow {
     this.timesheetRowId = timesheetRowId;
   }
   
-//  /**
-//   * Returns project.
-//   * @return the project
-//   */
-//  public Project getProject() {
-//    return project;
-//  }
-//  
-//  /**
-//   * Sets project to project.
-//   * @param project the project to set
-//   */
-//  public void setProject(Project project) {
-//    this.project = project;
-//  }
+  /**
+   * Returns project.
+   * @return the project
+   */
+  /*public Project getProject() {
+    return project;
+  }*/
+  
+  /**
+   * Sets project to project.
+   * @param project the project to set
+   */
+  /*public void setProject(Project project) {
+    this.project = project;
+  }*/
   
   /**
    * Returns timesheet.
@@ -144,21 +153,21 @@ public class TimesheetRow {
     this.timesheet = timesheet;
   }
   
-//  /**
-//   * Returns workpackage.
-//   * @return the workPackage
-//   */
-//  public WorkPackage getWorkPackage() {
-//    return workPackage;
-//  }
-//  
-//  /**
-//   * Sets workpackage to workpackage.
-//   * @param workPackage the workPackage to set
-//   */
-//  public void setWorkPackage(WorkPackage workPackage) {
-//    this.workPackage = workPackage;
-//  }
+  /**
+   * Returns workpackage.
+   * @return the workPackage
+   */
+  /*public WorkPackage getWorkPackage() {
+    return workPackage;
+  }*/
+  
+  /**
+   * Sets workpackage to workpackage.
+   * @param workPackage the workPackage to set
+   */
+  /*public void setWorkPackage(WorkPackage workPackage) {
+    this.workPackage = workPackage;
+  }*/
   
   /**
    * Returns hours.
