@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -24,36 +23,47 @@ public class ProjectLine implements Serializable {
   private int projectEmployeeId;
   
   /**
+   * Returns the projectLineId.
    * @return the projectLineId
    */
   public int getProjectLineId() {
     return projectLineId;
   }
+  
   /**
+   * Sets the projectLineId to projectLineId.
    * @param projectLineId the projectLineId to set
    */
   public void setProjectLineId(int projectLineId) {
     this.projectLineId = projectLineId;
   }
+  
   /**
+   * Returns the projectId.
    * @return the projectId
    */
   public int getProjectId() {
     return projectId;
   }
+  
   /**
+   * Sets the projectLineId to projectLineId.
    * @param projectId the projectId to set
    */
   public void setProjectId(int projectId) {
     this.projectId = projectId;
   }
+  
   /**
+   * Returns the projectEmployeeId.
    * @return the projectEmployeeId
    */
   public int getProjectEmployeeId() {
     return projectEmployeeId;
   }
+  
   /**
+   * Sets the projectEmployeeId to projectEmployeeId.
    * @param projectEmployeeId the projectEmployeeId to set
    */
   public void setProjectEmployeeId(int projectEmployeeId) {

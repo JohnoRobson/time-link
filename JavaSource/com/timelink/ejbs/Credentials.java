@@ -5,12 +5,10 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-//@IdClass(CredentialsId.class)
 @Table(name = "credential")
 public class Credentials implements Serializable {
   
@@ -18,7 +16,6 @@ public class Credentials implements Serializable {
   @Column(name = "cre_emp_name")
   private String username;
   
-  //@Id
   @Column(name = "cre_pw")
   private String password;
   
