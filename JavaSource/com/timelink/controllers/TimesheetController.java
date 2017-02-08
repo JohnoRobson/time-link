@@ -49,13 +49,19 @@ public class TimesheetController implements Serializable {
   //TODO make this gud
   public String save() {
     tm.merge(timesheet);
+    timesheet = getTimesheet();
     return null;
   }
   
   //TODO make this gud
   public String submit() {
-    timesheet.setStatus("gud");
+    timesheet.setStatus("1");
     return null;
+  }
+  
+  public void refresh() {
+    timesheet = null;
+    getTimesheet();
   }
   
   //TODO make this work on a weekly, rather than a daily basis.

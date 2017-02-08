@@ -17,13 +17,16 @@
 	            <ul id="navList">
 	                <li><a href="home.xhtml">Home</a></li>
 	                <li><a href="timesheet.xhtml">Timesheet</a></li>
-	                <li><a href="report.xhtml">Report</a></li>
+	                <h:panelGroup rendered="#{Session.approver}">
+	                	<li><a href="report.xhtml">Report</a></li>
+	                </h:panelGroup>
+	                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
 	            </ul>
 	        </div>
 	    </div>
 	    
 	    <h:form id="approverForm">
-		    <p:dataTable id="approveTable" var="row" value="#{ApproverController.list}" >
+		    <p:dataTable id="approveTable" var="row" value="#{ApproverController.list}">
 		        <p:column headerText="Date" >
 		            <!-- DATE COLUMN -->
 		            #{row.date}
@@ -51,16 +54,20 @@
 	                                <f:selectItems value="#{ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) != null ? ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
 	                            </p:selectOneMenu>
 		         -->
-		        <p:column headerText="Status" editable="true">
+		         <p:column headerText="Status">
+		            #{row.status}
+		        </p:column>
+		        <p:column headerText="Change Status" editable="true">
 		            <!-- FlexTime COLUMN -->
-		            <p:selectOneMenu value="#{row.status}" style="width:100%">
-		                <f:selectItem itemLabel="N" itemValue="#{0}" />
-		                <f:selectItem itemLabel="A" itemValue="#{1}" />
-		                <f:selectItem itemLabel="R" itemValue="#{2}" />
-		            </p:selectOneMenu>
+			            <p:selectOneMenu value="#{row.status}" style="width:100%">
+			                <f:selectItem itemLabel="Not submitted" itemValue="#{0}" />
+			                <f:selectItem itemLabel="Waiting for approval" itemValue="#{1}" />
+			                <f:selectItem itemLabel="Approved" itemValue="#{2}" />
+			                <f:selectItem itemLabel="Rejected" itemValue="#{3}" />
+			            </p:selectOneMenu>
 		        </p:column>
 		    </p:dataTable>
-		    <h:commandButton value="Save" action="#{ApproverController.save}"/>
+		    <p:commandButton value="Save" action="#{ApproverController.save}" ajax="false" />
 	    </h:form>
 	    <!-- Once the Timesheet table is figured out on Timesheet
 	         you can just paste it here, will require more CSS to look properly though -->
