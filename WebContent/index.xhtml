@@ -13,13 +13,13 @@
         <h:form>
             <h:panelGrid columns="2">
                 Username
-                <h:inputText id="username" value="#{LoginController.username}" />
+                <h:inputText styleClass="username" id="username" value="#{LoginController.username}" />
                 Password
-                <h:inputSecret id="password" value="#{LoginController.password}" />
+                <h:inputSecret styleClass="password" value="#{LoginController.password}" />
             </h:panelGrid>
             <p>
                 <!-- LoginController.login in action method below later -->
-                <h:commandButton value="Login" action="#{LoginController.login}"/>
+                <h:commandButton styleClass="login-btn" value="Login" action="#{LoginController.login}"/>
             </p>
         </h:form>
 	</h:body>

@@ -18,14 +18,21 @@ import javax.inject.Named;
 @Named("LoginController")
 public class LoginController implements Serializable {
   
-  @Inject CredentialManager cm;
-  @Inject EmployeeManager em;
-  @Inject Session ss;
+  CredentialManager cm;
+  EmployeeManager em;
+  Session ss;
   
   private String username;
   private String password;
   private int employeeId;
   Credentials cr;
+  
+  @Inject
+  public LoginController(CredentialManager cm, EmployeeManager em, Session ss) {
+    this.cm = cm;
+    this.em = em;
+    this.ss = ss;
+  }
   
   /**
    * Returns the username.

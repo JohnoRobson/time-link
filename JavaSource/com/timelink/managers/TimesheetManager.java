@@ -87,7 +87,7 @@ public class TimesheetManager {
    */
   public Timesheet findLatest(Employee emp) {
     TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet AS t WHERE "
-        + "t.employeeId = :empId ORDER BY t.date DESC", Timesheet.class)
+        + "t.employeeId = :empId ORDER BY t.date", Timesheet.class)
         .setParameter("empId", emp.getEmployeeId());
     
     //If no timesheets are found
@@ -97,10 +97,7 @@ public class TimesheetManager {
       return tm;
     }
     
-    query.setFirstResult(0);
-    query.setMaxResults(1);
-    
-    return query.getSingleResult();
+    return find(query.getSingleResult().getEmployeeId());
   }
   
   /**
