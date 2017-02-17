@@ -9,22 +9,19 @@
        <h:outputStylesheet library="css" name="styles.css"/>
        <link rel="stylesheet" href="resources/css/styles.css" />
     </h:head>
-	<h:body>
-	    <div id="nav">
-	        <div id="navContent">
-	            <h1>TimeLink</h1>
-	            <ul id="navList">
-	                <li><a href="home.xhtml">Home</a></li>
-	                <li><a href="timesheet.xhtml">Timesheet</a></li>
-	                <h:panelGroup rendered="#{Session.approver}">
-	                	<li><a href="report.xhtml">Report</a></li>
-	                </h:panelGroup>
-	                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
-	            </ul>
-	        </div>
-	    </div>
-	    <div id="content">
-	        <h1>Welcome!</h1>
-	    </div>
-	</h:body>
+    <h:body>
+        <div id="nav">
+            <div id="navContent">
+                <h1 class="page-title">TimeLink</h1>
+                <ul id="navList">
+                    <li><a href="home.xhtml">Home</a></li>
+                    <li><a href="timesheet.xhtml">Timesheet</a></li>
+					<li><a href="report.xhtml">Report</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="content">
+            <h1>Welcome!</h1>
+        </div>
+    </h:body>
 </html>
