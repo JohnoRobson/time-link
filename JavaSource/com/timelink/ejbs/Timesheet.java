@@ -1,5 +1,6 @@
 package com.timelink.ejbs;
 
+import com.timelink.TimesheetStatus;
 import com.timelink.managers.HoursManager;
 
 import java.sql.Date;
@@ -82,7 +83,7 @@ public class Timesheet {
     setTimesheetApprover(emp.getTimesheetApprover());
     setEmployee(emp);
     rows = new ArrayList<TimesheetRow>();
-    setStatus("N");
+    setStatus("0");
     date = new Date(Calendar.getInstance().getTime().getTime());
   }
   
@@ -190,18 +191,18 @@ public class Timesheet {
   }
   
   /**
-   * Returns total hours.
-   * @return float sum of hours
+   * Returns the sum of the hours in the rows of this timesheet.
+   * @return float Sum of hours.
    */
   public float getTotalHours() { 
-    //TODO Fix this, getting Servlet and Null pointer exceptions when used.
     float sum = 0;
-    /*List<Hours> totalHours = findTotalHours(timesheetId);
-    if (totalHours != null) {
-      for (Hours h : totalHours) {
-        sum += h.getHour();
+
+    for (TimesheetRow row : getRows()) {
+      for (Hours hrs : row.getHours()) {
+        sum += hrs.getHour();
       }
-    }*/
+    }
+    
     return sum;
   }
 
@@ -242,7 +243,7 @@ public class Timesheet {
    * @return the status
    */
   public String getStatus() {
-    return status;
+    return TimesheetStatus.values()[Integer.parseInt(status)].toString();
   }
   
   /**

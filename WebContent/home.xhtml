@@ -16,7 +16,10 @@
 	            <ul id="navList">
 	                <li><a href="home.xhtml">Home</a></li>
 	                <li><a href="timesheet.xhtml">Timesheet</a></li>
-	                <li><a href="report.xhtml">Report</a></li>
+	                <h:panelGroup rendered="#{Session.approver}">
+	                	<li><a href="report.xhtml">Report</a></li>
+	                </h:panelGroup>
+	                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
 	            </ul>
 	        </div>
 	    </div>

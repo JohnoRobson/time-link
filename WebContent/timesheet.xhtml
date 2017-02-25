@@ -17,7 +17,10 @@
 	            <ul id="navList">
 	                <li><a href="home.xhtml">Home</a></li>
 	                <li><a href="timesheet.xhtml">Timesheet</a></li>
-	                <li><a href="report.xhtml">Report</a></li>
+	                <h:panelGroup rendered="#{Session.approver}">
+	                	<li><a href="report.xhtml">Report</a></li>
+	                </h:panelGroup>
+	                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -41,7 +44,7 @@
 	        
 	        <h:form>
 	        <p:remoteCommand name="onCellEdit" update="table" />
-	        <p:dataTable id="table" var="row" value="#{TimesheetController.timesheet.rows}" editable="true" editMode="cell" rowIndexVar="index"
+	        <p:dataTable id="table" var="row" value="#{TimesheetController.timesheet.rows}" editable="#{TimesheetController.timesheet.status eq 'NOTSUBMITTED' || TimesheetController.timesheet.status eq 'REJECTED'}" editMode="cell" rowIndexVar="index"
 	        render="#{TimesheetController.timesheet != null}">
 	        	<p:column headerText="project">
 					<p:cellEditor>
@@ -219,6 +222,8 @@
 	        	<p:commandButton action="#{TimesheetController.addRow()}" value="add row" ajax="false" >
 	        	</p:commandButton>
 	        	<p:commandButton action="#{TimesheetController.addTimesheet()}" value="add timesheet" ajax="false" >
+	        	</p:commandButton>
+	        	<p:commandButton action="#{TimesheetController.submit()}" value="Submit" ajax="false" >
 	        	</p:commandButton>
 	        </h:form>
 	        <h:outputText value="STATUS: #{TimesheetController.timesheet.status}" />
