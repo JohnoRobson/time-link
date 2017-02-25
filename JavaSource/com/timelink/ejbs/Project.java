@@ -55,7 +55,6 @@ public class Project implements Serializable {
   @Column(name = "prjh_customer")
   private String customer;
   
-  
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "prj_line",
       joinColumns = @JoinColumn(name = "prjl_prjh_id", referencedColumnName = "prjh_id"),
