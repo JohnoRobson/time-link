@@ -26,7 +26,12 @@
 	        </div>
 	    </div>
 	    <div id="content">
-	        <h1>Welcome!</h1>
+	        <h1>Add Employees to Projects page</h1>
+	        <h:dataTable value="#{AssignEmployeesController.projects}" var="project">
+	            <h:column>
+	                #{project.projectName}
+	            </h:column>
+	        </h:dataTable>
 	    </div>
 	</h:body>
 </html>

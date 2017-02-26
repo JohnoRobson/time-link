@@ -28,6 +28,17 @@ public class ProjectManager {
   }
   
   /**
+   * Returns all Projects in the database, or null if
+   * none exist.
+   * 
+   * @return Project list that are in the database
+   */
+  public List<Project> findAll() {
+    return em.createQuery("SELECT p FROM Project as p", Project.class)
+        .getResultList();
+  }
+  
+  /**
    * Returns all the Project that are
    * available for an employee, queried by their id,
    * returns null if no matching results.
