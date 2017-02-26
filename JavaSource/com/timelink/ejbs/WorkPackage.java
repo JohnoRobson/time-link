@@ -36,7 +36,6 @@ public class WorkPackage implements Serializable {
   
 //  @OneToOne
 //  @JoinColumn(name = "responsibleEngineer",
-//      table = "employee", 
 //      referencedColumnName = "emp_id")
 //  private Employee responsibleEngineer;
   

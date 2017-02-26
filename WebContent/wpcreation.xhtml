@@ -22,6 +22,9 @@
 	                <h:panelGroup rendered="#{Session.approver}">
 	                	<li><a href="report.xhtml">Report</a></li>
 	                </h:panelGroup>
+	                <h:panelGroup rendered="#{Session.projectManagerOrAssistant}">
+	                	<li><a href="wpcreation.xhtml">Create Work Package</a></li>
+	                </h:panelGroup>
 	                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
 	            </ul>
 	        </div>
@@ -33,20 +36,23 @@
 	            <f:facet name="header">
                     <h:outputText value="Create a Project" />
                 </f:facet>
-	            <h:outputText value="Project Name: "/>
-	            <h:inputText value="#{NewProjectController.projectName}"/>
-	            <h:outputText value="Project Description: "/>
-	            <h:inputText value="#{NewProjectController.projectDescription}"/>
-	            <h:outputText value="Customer: "/>
-	            <h:inputText value="#{NewProjectController.customer}"/>
-	            <h:outputText value="Project Manager: "/>
-	            <p:selectOneMenu value="#{NewProjectController.projectManager}">
+	            <h:outputText value="Work Package Code: "/>
+	            <h:inputText value="#{NewWorkPackageController.wpCode}"/>
+	            <h:outputText value="Work Package Description: "/>
+	            <h:inputText value="#{NewWorkPackageController.wpDescription}"/>
+	            <h:outputText value="Project: "/>
+	            <p:selectOneMenu value="#{NewWorkPackageController.projectId}">
 	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-                                <f:selectItems value="#{NewProjectController.getProjectManagers() != null ? NewProjectController.getProjectManagers() : null}" var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
+                                <f:selectItems value="#{NewWorkPackageController.getAllProjects() != null ? NewWorkPackageController.getAllProjects() : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
+                            </p:selectOneMenu>
+	            <h:outputText value="Responsible Engineer: "/>
+	            <p:selectOneMenu value="#{NewWorkPackageController.responsibleEngineer}">
+	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+                                <f:selectItems value="#{NewWorkPackageController.getResponsibleEngineers() != null ? NewWorkPackageController.getResponsibleEngineers() : null}" var="re" itemLabel="#{re.firstName}" itemValue="#{re.employeeId}" />
                             </p:selectOneMenu>
 	            </p:panelGrid>
 	            <br />
-	            <h:commandButton value="Create Project" action="#{NewProjectController.createProject}"/>
+	            <h:commandButton value="Create Project" action="#{NewWorkPackageController.createWorkPackage}"/>
 	        </h:form>
 	    </div>
 	</h:body>

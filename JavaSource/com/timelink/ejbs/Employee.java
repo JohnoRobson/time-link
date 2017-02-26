@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.timelink.roles.RoleEnum;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "employee")
@@ -168,6 +170,17 @@ public class Employee implements Serializable {
   
   public List<Role> getRoles() {
     return roles;
+  }
+  
+  public boolean hasRole(RoleEnum roleEnum) {
+    boolean bool = false;
+    for (Role r : roles) {
+      if (r.getRole() == roleEnum) {
+        bool = true;
+        break;
+      }
+    }
+    return bool;
   }
   
   

@@ -65,4 +65,6 @@ public class EmployeeManager {
         .setParameter("role", role);
     return query.getResultList();
   }
+  
+  
 }

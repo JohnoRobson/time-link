@@ -161,8 +161,8 @@ INSERT INTO credential VALUES (2, "tsa", "tsa");
 INSERT INTO credential VALUES (3, "pm", "pm");
 INSERT INTO credential VALUES (4, "re", "re");
 
-INSERT INTO prj_header VALUES (0, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", 1, 1);
-INSERT INTO prj_header VALUES (0, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", 2, 1);
+INSERT INTO prj_header VALUES (0, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", 1, 3);
+INSERT INTO prj_header VALUES (0, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", 2, 3);
 
 INSERT INTO prj_line VALUES (0, 1, 1);
 INSERT INTO prj_line VALUES (0, 2, 1);

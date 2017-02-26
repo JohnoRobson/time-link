@@ -1,6 +1,7 @@
 package com.timelink;
 
 import com.timelink.ejbs.Employee;
+import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
 
@@ -60,6 +61,11 @@ public class Session implements Serializable {
   
   public boolean isApprover() {
     return isApprover;
+  }
+  
+  public boolean isProjectManagerOrAssistant() {
+    return currentEmployee.hasRole(RoleEnum.PROJECT_MANAGER)
+        || currentEmployee.hasRole(RoleEnum.PROJECT_MANAGER_ASSISTANT);
   }
   
 }
