@@ -21,7 +21,7 @@ CREATE TABLE `timelink_dev`.`job_title` (
   `jt_code` INT NOT NULL,
   `jt_descr` VARCHAR(45) NULL,
   PRIMARY KEY (`jt_id`),
-  UNIQUE INDEX `jt_code_UNIQUE` (`jt_code` ASC),
+  --UNIQUE INDEX `jt_code_UNIQUE` (`jt_code` ASC),
   UNIQUE INDEX `jt_id_UNIQUE` (`jt_id` ASC));
 
  -- ts_approver
@@ -143,6 +143,12 @@ CREATE TABLE `timelink_dev`.`prj_line` (
   
 INSERT INTO employee VALUES (0, null, "adminfname", "adminlname", 1, null, null, null, null);
 INSERT INTO employee VALUES (0, null, "tsafname", "tsalname", 2, null, null, null, null);
+INSERT INTO employee VALUEs (0, null, "pmfname", "pmlname", 3, null, null, null, null);
+
+INSERT INTO job_title VALUES (0, 0, 1);
+INSERT INTO job_title VALUES (0, 0, 2);
+INSERT INTO job_title VALUES (0, 0, 3);
+INSERT INTO job_title VALUES (0, 4, 3);
 
 INSERT INTO ts_approver VALUES (0, 2, 1);
 
