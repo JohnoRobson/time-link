@@ -1,13 +1,17 @@
 package com.timelink.ejbs;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,6 +30,10 @@ public class Employee implements Serializable {
       joinColumns = @JoinColumn(name = "tsa_appr_emp_id"),
       inverseJoinColumns = @JoinColumn(name = "tsa_emp_id"))
   private Employee timesheetApprover;
+  
+  @OneToMany(fetch = FetchType.EAGER,
+      mappedBy = "employee")
+  private List<Role> roles;
   
 //  @OneToOne
 //  @JoinColumn(name = "Supervisor",
@@ -153,6 +161,14 @@ public class Employee implements Serializable {
 //  public void setStatus(String status) {
 //    this.status = status;
 //  }
+  
+  public void setRoles(List<Role> roles) {
+    this.roles = roles;
+  }
+  
+  public List<Role> getRoles() {
+    return roles;
+  }
   
   
 }

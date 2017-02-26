@@ -1,9 +1,13 @@
 package com.timelink.controllers;
 
+import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
+import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
+import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -14,10 +18,11 @@ import javax.inject.Named;
 @Named("NewProjectController")
 public class NewProjectController implements Serializable {
   @Inject ProjectManager pm;
+  @Inject EmployeeManager em;
   private String projectName;
   private String projectDescription;
   private String customer;
-  private String projectManager;
+  private Integer projectManager;
   
   /**
    * Returns the projectName.
@@ -71,7 +76,7 @@ public class NewProjectController implements Serializable {
    * Returns the projectManager.
    * @return the projectManager
    */
-  public String getProjectManager() {
+  public Integer getProjectManager() {
     return projectManager;
   }
   
@@ -79,7 +84,7 @@ public class NewProjectController implements Serializable {
    * Sets the projectManager to projectManager.
    * @param projectManager the projectManager to set
    */
-  public void setProjectManager(String projectManager) {
+  public void setProjectManager(Integer projectManager) {
     this.projectManager = projectManager;
   }
   
@@ -100,8 +105,13 @@ public class NewProjectController implements Serializable {
     project.setProjectName(projectName);
     project.setDescription(projectDescription);
     project.setCustomer(customer);
+    project.setProjectManager(em.find(projectManager));
     pm.persist(project);
     reset();
     return "assignemp";
+  }
+  
+  public List<Employee> getProjectManagers() {
+    return em.getAllEmployeesWithRole(RoleEnum.PROJECT_MANAGER);
   }
 }

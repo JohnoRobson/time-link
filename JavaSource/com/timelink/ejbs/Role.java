@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -25,8 +27,9 @@ public class Role implements Serializable {
   /*
    * TODO: this is gross and needs to be fixed in the database.
    */
-  @Column(name = "jt_descr")
-  private String employeeId;
+  @ManyToOne
+  @JoinColumn(name = "jt_descr")
+  private Employee employee;
 
   /**
    * Returns the jobTitleId.
@@ -64,16 +67,16 @@ public class Role implements Serializable {
    * Returns the employee.
    * @return the employee
    */
-  public final int getEmployeeId() {
-    return Integer.parseInt(employeeId);
+  public final Employee getEmployee() {
+    return employee;
   }
 
   /**
    * Sets the employee to employee.
    * @param employeeId the employee to set
    */
-  public final void setEmployee(String employeeId) {
-    this.employeeId = employeeId;
+  public final void setEmployee(Employee employeeId) {
+    this.employee = employeeId;
   }
   
   

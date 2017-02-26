@@ -1,6 +1,7 @@
 package com.timelink.managers;
 
 import com.timelink.ejbs.Employee;
+import com.timelink.roles.RoleEnum;
 
 import java.util.List;
 
@@ -49,6 +50,19 @@ public class EmployeeManager {
    */
   public List<Employee> getAll() {
     TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee e", Employee.class);
+    return query.getResultList();
+  }
+  
+  /**
+   * Returns a list of all Employees in the database that have
+   * the specified role.
+   * @param role The role to be searched for.
+   * @return A list of all Employees in the database that have the role.
+   */
+  public List<Employee> getAllEmployeesWithRole(RoleEnum role) {
+    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e, Role AS r WHERE "
+        + "r.role = :role AND e.employeeId = r.employee.employeeId", Employee.class)
+        .setParameter("role", role);
     return query.getResultList();
   }
 }
