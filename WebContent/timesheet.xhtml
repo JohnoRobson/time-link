@@ -11,7 +11,7 @@
        <link rel="stylesheet" href="resources/css/styles.css" />
     </h:head>
 	<h:body>
-	    <div id="nav">
+	    <div id="nav" style="height:15%">
 	        <div id="navContent">
 	            <h1>TimeLink</h1>
 	            <ul id="navList">
@@ -43,8 +43,8 @@
 	                <p>Week:</p><p>PLACEHOLDER: 5</p>
 	            </div>
 	        </div>
-	        
-	        <h:form>
+	    </div>
+	    <h:form>
 	        <p:remoteCommand name="onCellEdit" update="table" />
 	        <p:dataTable id="table" var="row" value="#{TimesheetController.timesheet.rows}" editable="#{TimesheetController.timesheet.status eq 'NOTSUBMITTED' || TimesheetController.timesheet.status eq 'REJECTED'}" editMode="cell" rowIndexVar="index"
 	        render="#{TimesheetController.timesheet != null}">
@@ -208,7 +208,6 @@
                 
                 <p:column headerText="notes">
                     <p:cellEditor>
-                        
                         <f:facet name="output">
                             <h:outputText value="#{row.note}" />
                         </f:facet>
@@ -227,8 +226,7 @@
 	        	</p:commandButton>
 	        	<p:commandButton action="#{TimesheetController.submit()}" value="Submit" ajax="false" >
 	        	</p:commandButton>
-	        </h:form>
-	        <h:outputText value="STATUS: #{TimesheetController.timesheet.status}" />
-	    </div>
+	        	<h:outputText value="STATUS: #{TimesheetController.timesheet.status}" />
+	    </h:form>
 	</h:body>
 </html>
