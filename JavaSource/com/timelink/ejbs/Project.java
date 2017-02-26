@@ -55,7 +55,9 @@ public class Project implements Serializable {
   @Column(name = "prjh_customer")
   private String customer;
   
-  
+  @Column(name = "prjh_descr")
+  private String description;
+
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "prj_line",
       joinColumns = @JoinColumn(name = "prjl_prjh_id", referencedColumnName = "prjh_id"),
@@ -160,6 +162,22 @@ public class Project implements Serializable {
    */
   public void setCustomer(String customer) {
     this.customer = customer;
+  }
+  
+  /**
+   * Return the description.
+   * @return the description
+   */
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * Sets the description to description.
+   * @param description the description to set
+   */
+  public void setDescription(String description) {
+    this.description = description;
   }
   
   /**
