@@ -1,10 +1,10 @@
 package com.timelink;
 
 import com.timelink.ejbs.Employee;
+import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -19,13 +19,15 @@ public class Session implements Serializable {
   /** Current Employee. */
   private Employee currentEmployee;
   
-  /** Employee is a timesheet approver. */
+  /** Employee is a time sheet approver. */
   private boolean isApprover;
   
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
-  public Session() { }
-  
+  /**
+   * Sets the isApprover variable to true or false, depending on if the currently
+   * logged in employee is a timesheet approver or not.
+   */
   public void isApproverCheck() {
     TypedQuery<Employee> queryOne = em.createQuery("SELECT e FROM Employee AS e, "
         + "TimesheetApprover AS tsa "
@@ -60,6 +62,11 @@ public class Session implements Serializable {
   
   public boolean isApprover() {
     return isApprover;
+  }
+  
+  public boolean isProjectManagerOrAssistant() {
+    return currentEmployee.hasRole(RoleEnum.PROJECT_MANAGER)
+        || currentEmployee.hasRole(RoleEnum.PROJECT_MANAGER_ASSISTANT);
   }
   
 }

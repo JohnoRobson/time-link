@@ -150,22 +150,6 @@ public class TimesheetRow {
   }
   
   /**
-   * Returns project.
-   * @return the project
-   */
-  /*public Project getProject() {
-    return project;
-  }*/
-  
-  /**
-   * Sets project to project.
-   * @param project the project to set
-   */
-  /*public void setProject(Project project) {
-    this.project = project;
-  }*/
-  
-  /**
    * Returns timesheet.
    * @return the timesheet
    */
@@ -180,22 +164,6 @@ public class TimesheetRow {
   public void setTimesheet(Timesheet timesheet) {
     this.timesheet = timesheet;
   }
-  
-  /**
-   * Returns workpackage.
-   * @return the workPackage
-   */
-  /*public WorkPackage getWorkPackage() {
-    return workPackage;
-  }*/
-  
-  /**
-   * Sets workpackage to workpackage.
-   * @param workPackage the workPackage to set
-   */
-  /*public void setWorkPackage(WorkPackage workPackage) {
-    this.workPackage = workPackage;
-  }*/
   
   /**
    * Returns hours.

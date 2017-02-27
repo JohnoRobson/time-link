@@ -1,9 +1,15 @@
 package com.timelink.controllers;
 
+import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
+import com.timelink.ejbs.Role;
+import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
+import com.timelink.managers.RoleManager;
+import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -14,10 +20,12 @@ import javax.inject.Named;
 @Named("NewProjectController")
 public class NewProjectController implements Serializable {
   @Inject ProjectManager pm;
+  @Inject EmployeeManager em;
+  @Inject RoleManager rm;
   private String projectName;
   private String projectDescription;
   private String customer;
-  private String projectManager;
+  private Integer projectManager;
   
   /**
    * Returns the projectName.
@@ -71,7 +79,7 @@ public class NewProjectController implements Serializable {
    * Returns the projectManager.
    * @return the projectManager
    */
-  public String getProjectManager() {
+  public Integer getProjectManager() {
     return projectManager;
   }
   
@@ -79,7 +87,7 @@ public class NewProjectController implements Serializable {
    * Sets the projectManager to projectManager.
    * @param projectManager the projectManager to set
    */
-  public void setProjectManager(String projectManager) {
+  public void setProjectManager(Integer projectManager) {
     this.projectManager = projectManager;
   }
   
@@ -100,8 +108,32 @@ public class NewProjectController implements Serializable {
     project.setProjectName(projectName);
     project.setDescription(projectDescription);
     project.setCustomer(customer);
+    makeEmployeePm();
+    project.setProjectManager(em.find(projectManager));
     pm.persist(project);
     reset();
     return "assignemp";
+  }
+  
+  /**
+   * Returns a list of all employees.
+   * @return Return a list of all employees.
+   */
+  public List<Employee> getEmployees() {
+    return em.getAll();
+  }
+  
+  /**
+   * Gives an employee the Project Manager Role if it doesn't
+   * already have it.
+   */
+  private void makeEmployeePm() {
+    Employee emp = em.find(projectManager);
+    if (!emp.hasRole(RoleEnum.PROJECT_MANAGER)) {
+      Role role = new Role();
+      role.setEmployee(emp);
+      role.setRole(RoleEnum.PROJECT_MANAGER);
+      rm.persist(role);
+    }
   }
 }

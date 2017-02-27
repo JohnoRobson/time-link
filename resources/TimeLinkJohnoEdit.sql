@@ -19,9 +19,10 @@ CREATE TABLE `timelink_dev`.`employee` (
 CREATE TABLE `timelink_dev`.`job_title` (
   `jt_id` INT NOT NULL AUTO_INCREMENT,
   `jt_code` INT NOT NULL,
-  `jt_descr` VARCHAR(45) NULL,
+  `jt_descr` INT NOT NULL,
+  -- `jt_descr` VARCHAR(45) NULL,
   PRIMARY KEY (`jt_id`),
-  UNIQUE INDEX `jt_code_UNIQUE` (`jt_code` ASC),
+  -- UNIQUE INDEX `jt_code_UNIQUE` (`jt_code` ASC),
   UNIQUE INDEX `jt_id_UNIQUE` (`jt_id` ASC));
 
  -- ts_approver
@@ -143,14 +144,25 @@ CREATE TABLE `timelink_dev`.`prj_line` (
   
 INSERT INTO employee VALUES (0, null, "adminfname", "adminlname", 1, null, null, null, null);
 INSERT INTO employee VALUES (0, null, "tsafname", "tsalname", 2, null, null, null, null);
+INSERT INTO employee VALUES (0, null, "pmfname", "pmlname", 3, null, null, null, null);
+INSERT INTO employee VALUES (0, null, "refname", "relname", 4, null, null, null, null);
+
+INSERT INTO job_title VALUES (0, 0, 1);
+INSERT INTO job_title VALUES (0, 0, 2);
+INSERT INTO job_title VALUES (0, 0, 3);
+INSERT INTO job_title VALUES (0, 0, 4);
+INSERT INTO job_title VALUES (0, 4, 3);
+INSERT INTO job_title VALUES (0, 5, 4);
 
 INSERT INTO ts_approver VALUES (0, 2, 1);
 
 INSERT INTO credential VALUES (1, "Admin", "Admin");
 INSERT INTO credential VALUES (2, "tsa", "tsa");
+INSERT INTO credential VALUES (3, "pm", "pm");
+INSERT INTO credential VALUES (4, "re", "re");
 
-INSERT INTO prj_header VALUES (0, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", 1, 1);
-INSERT INTO prj_header VALUES (0, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", 2, 1);
+INSERT INTO prj_header VALUES (0, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", 1, 3);
+INSERT INTO prj_header VALUES (0, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", 2, 3);
 
 INSERT INTO prj_line VALUES (0, 1, 1);
 INSERT INTO prj_line VALUES (0, 2, 1);
@@ -177,3 +189,8 @@ INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 8);
 
 INSERT INTO ts_line VALUES (0, 1, "row 1 note");
 
+INSERT INTO labour_grade VALUES (0, "P1", 100);
+INSERT INTO labour_grade VALUES (0, "P2", 200);
+INSERT INTO labour_grade VALUES (0, "P3", 300);
+INSERT INTO labour_grade VALUES (0, "P4", 400);
+INSERT INTO labour_grade VALUES (0, "P5", 500);
