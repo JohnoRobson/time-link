@@ -37,9 +37,10 @@ public class ProjectPlanningController implements Serializable {
   }
 
   /**
+   * Returns the current project's id.
    * @return the currentProject
    */
-  public final Integer getCurrentProjectId() {
+  public Integer getCurrentProjectId() {
     if (currentProject == null) {
       return null;
     }
@@ -47,9 +48,11 @@ public class ProjectPlanningController implements Serializable {
   }
 
   /**
+   * Sets the current project to one with the given
+   * ID.
    * @param currentProject the currentProject to set
    */
-  public final void setCurrentProjectId(Integer currentProject) {
+  public void setCurrentProjectId(Integer currentProject) {
     this.currentProject = pm.find(currentProject);
   }
   
@@ -63,27 +66,34 @@ public class ProjectPlanningController implements Serializable {
   }
   
   
-  //=============
+  //WORKPACKAGE MODAL STUFF
   
   /**
+   * Returns the wpCode.
    * @return the wpCode
    */
   public String getWpCode() {
     return wpCode;
   }
+  
   /**
+   * Sets the wpCode to wpCode.
    * @param wpCode the wpCode to set
    */
   public void setWpCode(String wpCode) {
     this.wpCode = wpCode;
   }
+  
   /**
+   * Returns the wpDescription.
    * @return the wpDescription
    */
   public String getWpDescription() {
     return wpDescription;
   }
+  
   /**
+   * Sets the wpDescription to wpDescription.
    * @param wpDescription the wpDescription to set
    */
   public void setWpDescription(String wpDescription) {
@@ -91,17 +101,25 @@ public class ProjectPlanningController implements Serializable {
   }
   
   /**
+   * Returns the responsibleEngineer for the current project.
    * @return the responsibleEngineer
    */
   public Integer getResponsibleEngineer() {
     return responsibleEngineerId;
   }
+  
   /**
-   * @param responsibleEngineer the responsibleEngineer to set
+   * Sets the responsibleEngineer to one with the given ID.
+   * @param responsibleEngineerId the responsibleEngineer to set
    */
   public void setResponsibleEngineer(Integer responsibleEngineerId) {
     this.responsibleEngineerId = responsibleEngineerId;
   }
+  
+  /**
+   * Creates a new work package with the entered details.
+   * @return null to reload the page.
+   */
   public String createWorkPackage() {
     WorkPackage wp = new WorkPackage();
     wp.setCode(getWpCode());

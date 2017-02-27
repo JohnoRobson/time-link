@@ -172,6 +172,11 @@ public class Employee implements Serializable {
     return roles;
   }
   
+  /**
+   * Returns true if the employee has the specified role.
+   * @param roleEnum the role to be checked.
+   * @return True, if the employee has the specified role.
+   */
   public boolean hasRole(RoleEnum roleEnum) {
     boolean bool = false;
     for (Role r : roles) {
