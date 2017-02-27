@@ -57,10 +57,10 @@ public class Role implements Serializable {
 
   /**
    * Sets the role to role.
-   * @param role the role to set
+   * @param roleEnum the role to set
    */
-  public final void setRole(int role) {
-    this.role = RoleEnum.values()[role];
+  public final void setRole(RoleEnum roleEnum) {
+    this.role = roleEnum;
   }
 
   /**

@@ -17,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -50,6 +51,7 @@ public class Project implements Serializable {
       joinColumns = @JoinColumn(name = "wph_prjh_id"))*/
   @OneToMany(mappedBy = "project",
       fetch = FetchType.EAGER)
+  @OrderBy("code ASC")
   private Set<WorkPackage> workPackages;
   
   @Column(name = "prjh_customer")

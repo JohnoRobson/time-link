@@ -1,7 +1,6 @@
 package com.timelink.ejbs;
 
 import com.timelink.TimesheetStatus;
-import com.timelink.managers.HoursManager;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;

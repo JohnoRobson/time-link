@@ -45,7 +45,7 @@
 	            <h:outputText value="Project Manager: "/>
 	            <p:selectOneMenu value="#{NewProjectController.projectManager}">
 	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-                                <f:selectItems value="#{NewProjectController.getProjectManagers() != null ? NewProjectController.getProjectManagers() : null}" var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
+                                <f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
                             </p:selectOneMenu>
 	            </p:panelGrid>
 	            <br />

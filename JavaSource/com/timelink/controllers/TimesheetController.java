@@ -47,6 +47,10 @@ public class TimesheetController implements Serializable {
   }
   
   //TODO make this gud
+  /**
+   * Saves the current timesheet and reloads it from the database.
+   * @return A null to reload the page.
+   */
   public String save() {
     tm.merge(timesheet);
     timesheet = getTimesheet();

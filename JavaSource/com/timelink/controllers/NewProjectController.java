@@ -2,8 +2,10 @@ package com.timelink.controllers;
 
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
+import com.timelink.ejbs.Role;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
+import com.timelink.managers.RoleManager;
 import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
@@ -19,6 +21,7 @@ import javax.inject.Named;
 public class NewProjectController implements Serializable {
   @Inject ProjectManager pm;
   @Inject EmployeeManager em;
+  @Inject RoleManager rm;
   private String projectName;
   private String projectDescription;
   private String customer;
@@ -105,13 +108,32 @@ public class NewProjectController implements Serializable {
     project.setProjectName(projectName);
     project.setDescription(projectDescription);
     project.setCustomer(customer);
+    makeEmployeePm();
     project.setProjectManager(em.find(projectManager));
     pm.persist(project);
     reset();
     return "assignemp";
   }
   
-  public List<Employee> getProjectManagers() {
-    return em.getAllEmployeesWithRole(RoleEnum.PROJECT_MANAGER);
+  /**
+   * Returns a list of all employees.
+   * @return Return a list of all employees.
+   */
+  public List<Employee> getEmployees() {
+    return em.getAll();
+  }
+  
+  /**
+   * Gives an employee the Project Manager Role if it doesn't
+   * already have it.
+   */
+  private void makeEmployeePm() {
+    Employee emp = em.find(projectManager);
+    if (!emp.hasRole(RoleEnum.PROJECT_MANAGER)) {
+      Role role = new Role();
+      role.setEmployee(emp);
+      role.setRole(RoleEnum.PROJECT_MANAGER);
+      rm.persist(role);
+    }
   }
 }

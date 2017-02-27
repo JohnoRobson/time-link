@@ -23,6 +23,7 @@ public class LabourGrade implements Serializable {
   private float costRate;
 
   /**
+   * Returns the labourGradeId.
    * @return the labourGradeId
    */
   public int getLabourGradeId() {
@@ -30,6 +31,7 @@ public class LabourGrade implements Serializable {
   }
 
   /**
+   * Sets the labourGradeId to labourGradeId.
    * @param labourGradeId the labourGradeId to set
    */
   public void setLabourGradeId(int labourGradeId) {
@@ -37,6 +39,7 @@ public class LabourGrade implements Serializable {
   }
 
   /**
+   * Returns the name.
    * @return the name
    */
   public String getName() {
@@ -44,6 +47,7 @@ public class LabourGrade implements Serializable {
   }
 
   /**
+   * Sets name to name.
    * @param name the name to set
    */
   public void setName(String name) {
@@ -51,6 +55,7 @@ public class LabourGrade implements Serializable {
   }
 
   /**
+   * Returns the getCostRate.
    * @return the costRate
    */
   public float getCostRate() {
@@ -58,6 +63,7 @@ public class LabourGrade implements Serializable {
   }
 
   /**
+   * Sets the getCostRate to costRate.
    * @param costRate the costRate to set
    */
   public void setCostRate(float costRate) {

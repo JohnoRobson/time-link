@@ -2,6 +2,7 @@ package com.timelink.controllers;
 
 import com.timelink.Session;
 import com.timelink.ejbs.Employee;
+import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.EmployeeManager;
@@ -31,6 +32,8 @@ public class ProjectPlanningController implements Serializable {
   private String wpCode;
   private String wpDescription;
   private Project currentProject;
+  private List<LabourGrade> labourGrades;
+  private WorkPackage editingWorkPackageId;
   
   public List<Project> getProjects() {
     return pm.findByProjectManager(ses.getCurrentEmployee().getEmployeeId());
@@ -131,6 +134,22 @@ public class ProjectPlanningController implements Serializable {
     return null;
   }
   
+  /**
+   * Edits the work package with Id matching editingWorkPackageId.
+   * @return null to reload the page.
+   */
+  public String editWorkPackage() {
+    //WorkPackage wp = wpm.find(editingWorkPackageId);
+    //wp.setCode(getWpCode());
+    editingWorkPackageId.setDescription(getWpDescription());
+    editingWorkPackageId.setProject(currentProject);
+    //wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
+    wpm.merge(editingWorkPackageId);
+    //setCurrentProjectId(currentProject.getProjectNumber());
+    return null;
+    
+  }
+  
   public List<Employee> getResponsibleEngineers() {
     return em.getAllEmployeesWithRole(RoleEnum.RESPONSIBLE_ENGINEER);
   }
@@ -142,5 +161,34 @@ public class ProjectPlanningController implements Serializable {
   public boolean validateWorkPackage() {
     return true;
   }
+  
+  /**
+   * Returns a list of all labour grades in the database.
+   * @return A list of all labour grades in the database.
+   */
+  public List<LabourGrade> getLabourGrades() {
+    if (labourGrades == null) {
+      labourGrades = lgm.getAllLabourGrades();
+    }
+    
+    return labourGrades;
+  }
 
+  /**
+   * Returns the Id of the work package to edit.
+   * @return the editingWorkPackageId
+   */
+  public WorkPackage getEditingWorkPackageId() {
+    return editingWorkPackageId;
+  }
+
+  /**
+   * Sets the Id of the work package to edit.
+   * @param editingWorkPackageId the editingWorkPackageId to set
+   */
+  public void setEditingWorkPackageId(WorkPackage editingWorkPackageId) {
+    this.editingWorkPackageId = editingWorkPackageId;
+  }
+  
+  
 }
