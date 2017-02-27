@@ -1,9 +1,11 @@
 package com.timelink.controllers;
 
+import com.timelink.Session;
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.EmployeeManager;
+import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.roles.RoleEnum;
@@ -17,73 +19,97 @@ import javax.inject.Named;
 
 @SuppressWarnings("serial")
 @SessionScoped
-@Named("NewWorkPackageController")
-public class NewWorkPackageController implements Serializable {
+@Named("ProjectPlanningController")
+public class ProjectPlanningController implements Serializable {
   
+  @Inject ProjectManager pm;
+  @Inject Session ses;
+  @Inject LabourGradeManager lgm;
   @Inject EmployeeManager em;
   @Inject WorkPackageManager wpm;
-  @Inject ProjectManager pm;
   private Integer responsibleEngineerId;
-  private Integer projectId;
   private String wpCode;
   private String wpDescription;
+  private Project currentProject;
+  
+  public List<Project> getProjects() {
+    return pm.findByProjectManager(ses.getCurrentEmployee().getEmployeeId());
+  }
+
+  /**
+   * @return the currentProject
+   */
+  public final Integer getCurrentProjectId() {
+    if (currentProject == null) {
+      return null;
+    }
+    return currentProject.getProjectNumber();
+  }
+
+  /**
+   * @param currentProject the currentProject to set
+   */
+  public final void setCurrentProjectId(Integer currentProject) {
+    this.currentProject = pm.find(currentProject);
+  }
+  
+  public Project getCurrentProject() {
+    return currentProject;
+  }
+  
+  public String save() {
+    pm.merge(currentProject);
+    return null;
+  }
+  
+  
+  //=============
   
   /**
    * @return the wpCode
    */
-  public final String getWpCode() {
+  public String getWpCode() {
     return wpCode;
   }
   /**
    * @param wpCode the wpCode to set
    */
-  public final void setWpCode(String wpCode) {
+  public void setWpCode(String wpCode) {
     this.wpCode = wpCode;
   }
   /**
    * @return the wpDescription
    */
-  public final String getWpDescription() {
+  public String getWpDescription() {
     return wpDescription;
   }
   /**
    * @param wpDescription the wpDescription to set
    */
-  public final void setWpDescription(String wpDescription) {
+  public void setWpDescription(String wpDescription) {
     this.wpDescription = wpDescription;
   }
   
   /**
    * @return the responsibleEngineer
    */
-  public final Integer getResponsibleEngineer() {
+  public Integer getResponsibleEngineer() {
     return responsibleEngineerId;
   }
   /**
    * @param responsibleEngineer the responsibleEngineer to set
    */
-  public final void setResponsibleEngineer(Integer responsibleEngineerId) {
+  public void setResponsibleEngineer(Integer responsibleEngineerId) {
     this.responsibleEngineerId = responsibleEngineerId;
-  }
-  /**
-   * @return the project
-   */
-  public final Integer getProjectId() {
-    return projectId;
-  }
-  /**
-   * @param project the project to set
-   */
-  public final void setProjectId(Integer projectId) {
-    this.projectId = projectId;
   }
   public String createWorkPackage() {
     WorkPackage wp = new WorkPackage();
     wp.setCode(getWpCode());
     wp.setDescription(getWpDescription());
-    wp.setProject(pm.find(getProjectId()));
+    wp.setProject(currentProject);
     //wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
     wpm.persist(wp);
+    setCurrentProjectId(currentProject.getProjectNumber());
     return null;
   }
   
@@ -98,4 +124,5 @@ public class NewWorkPackageController implements Serializable {
   public boolean validateWorkPackage() {
     return true;
   }
+
 }

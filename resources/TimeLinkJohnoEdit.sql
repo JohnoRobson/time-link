@@ -189,3 +189,8 @@ INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 8);
 
 INSERT INTO ts_line VALUES (0, 1, "row 1 note");
 
+INSERT INTO labour_grade VALUES (0, "P1", 100);
+INSERT INTO labour_grade VALUES (0, "P2", 200);
+INSERT INTO labour_grade VALUES (0, "P3", 300);
+INSERT INTO labour_grade VALUES (0, "P4", 400);
+INSERT INTO labour_grade VALUES (0, "P5", 500);

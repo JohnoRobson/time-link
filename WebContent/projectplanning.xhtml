@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+       <title></title>
+       <h:outputStylesheet library="css" name="styles.css"/>
+       <link rel="stylesheet" href="resources/css/styles.css" />
+    </h:head>
+	<h:body>
+	    <div id="nav" style="height:15%">
+	        <div id="navContent">
+	            <h1>TimeLink</h1>
+	            <ul id="navList">
+	                <li><a href="home.xhtml">Home</a></li>
+	                <li><a href="timesheet.xhtml">Timesheet</a></li>
+	                <li><a href="projcreation.xhtml">Create Project</a></li>
+	                <li><a href="assignemp.xhtml">Manage Project</a></li>
+	                <h:panelGroup rendered="#{Session.approver}">
+	                	<li><a href="report.xhtml">Report</a></li>
+	                </h:panelGroup>
+	                <h:panelGroup rendered="#{Session.projectManagerOrAssistant}">
+	                	<li><a href="projectplanning.xhtml">Enter Project Planning Information</a></li>
+	                </h:panelGroup>
+	                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
+	            </ul>
+	        </div>
+	    </div>
+	    <div id="main">
+	    <h:form>
+	    	<p:commandButton
+                value="Create Work Package"
+                type="submit"
+                onclick="PF('createwp').show();"
+                />
+	    	<p:selectOneMenu value="#{ProjectPlanningController.currentProjectId}">
+	            <p:ajax event="itemSelect" update="matrix" />
+	            <f:selectItem itemLabel="" itemValue="#{0}"/>
+	            <f:selectItems value="#{ProjectPlanningController.getProjects() != null ? ProjectPlanningController.getProjects() : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
+        	</p:selectOneMenu>
+	    	<p:dataTable id="matrix" var="row" value="#{ProjectPlanningController.getCurrentProject().workPackages}" editable="#{false}" editMode="cell" rowIndexVar="index">
+	    		<p:column headerText="Work Package">
+					<h:outputText value="#{row.code}" />
+				</p:column>
+				<p:column headerText="Work Package Description">
+					<h:outputText value="#{row.description}" />
+				</p:column>
+	    	</p:dataTable>
+	    	<p:commandButton value="Save Changes" action="#{ProjectPlanningController.save()}" ajax="false" />
+	    </h:form>
+	    </div>
+	    <p:dialog
+	    	header="Create a work package"
+            widgetVar="createwp"
+            modal="true"
+            height="300">
+	    	<h:form>
+	            <p:panelGrid columns="2">
+	            <h:outputText value="Work Package Code: "/>
+	            <h:inputText value="#{ProjectPlanningController.wpCode}"/>
+	            <h:outputText value="Work Package Description: "/>
+	            <h:inputText value="#{ProjectPlanningController.wpDescription}"/>
+	            <h:outputText value="Responsible Engineer: "/>
+	            <p:selectOneMenu value="#{ProjectPlanningController.responsibleEngineer}">
+	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+                                <f:selectItems value="#{ProjectPlanningController.getResponsibleEngineers() != null ? ProjectPlanningController.getResponsibleEngineers() : null}" var="re" itemLabel="#{re.firstName}" itemValue="#{re.employeeId}" />
+                            </p:selectOneMenu>
+	            </p:panelGrid>
+	            <br />
+	            <h:commandButton value="Create Work Package" action="#{ProjectPlanningController.createWorkPackage}" ajax="true" />
+	        </h:form>
+	    </p:dialog>
+	</h:body>
+</html>

@@ -70,4 +70,16 @@ public class ProjectManager {
   public void merge(Project proj) {
     em.merge(proj);
   }
+  
+  /**
+   * Returns a list of all projects that have a project manager with the specified id.
+   * @param empId The id to be searched for.
+   * @return A List of all projects managed by an project manager with id id.
+   */
+  public List<Project> findByProjectManager(int empId) {
+    return em.createQuery("SELECT p FROM Project as p "
+        + "WHERE p.projectManager.employeeId = :empId", Project.class)
+        .setParameter("empId", empId)
+        .getResultList();  
+  }
 }
