@@ -140,6 +140,16 @@ CREATE TABLE `timelink_dev`.`prj_line` (
   PRIMARY KEY (`wpl_id`),
   UNIQUE INDEX `wpl_id_UNIQUE` (`wpl_id` ASC));
   
+  -- Plan_Hour
+  CREATE TABLE `timelink_dev`.`plan_hour` (
+  `ph_id` INT NOT NULL AUTO_INCREMENT,
+  `ph_level` INT NULL,
+  `ph_prjl_id` INT NULL,
+  `ph_wpl_id` INT NULL,
+  `ph_man_day` INT NULL,
+  PRIMARY KEY (`ph_id`),
+  UNIQUE INDEX `ph_id_UNIQUE` (`ph_id` ASC));
+  
   USE timelink_dev;
   
 INSERT INTO employee VALUES (0, null, "adminfname", "adminlname", 1, null, null, null, null);
@@ -194,3 +204,6 @@ INSERT INTO labour_grade VALUES (0, "P2", 200);
 INSERT INTO labour_grade VALUES (0, "P3", 300);
 INSERT INTO labour_grade VALUES (0, "P4", 400);
 INSERT INTO labour_grade VALUES (0, "P5", 500);
+
+INSERT INTO plan_hour VALUES(0, 1, 1, 1, 3);
+INSERT INTO plan_hour VALUES(0, 2, 1, 1, 5);

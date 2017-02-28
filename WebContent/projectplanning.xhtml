@@ -42,7 +42,8 @@
 	            <f:selectItem itemLabel="" itemValue="#{0}"/>
 	            <f:selectItems value="#{ProjectPlanningController.getProjects() != null ? ProjectPlanningController.getProjects() : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
         	</p:selectOneMenu>
-	    	<p:dataTable id="matrix" var="row" value="#{ProjectPlanningController.getCurrentProject().workPackages}" editable="#{false}" editMode="cell" rowIndexVar="index">
+        	<p:remoteCommand name="onCellEdit" update="matrix" />
+	    	<p:dataTable id="matrix" var="row" value="#{ProjectPlanningController.getCurrentProject().workPackages}" editable="#{true}" editMode="cell" rowIndexVar="index">
 	    		<p:column>
 	    			<p:commandButton
 		                value="Edit"
@@ -58,17 +59,29 @@
 				<p:column headerText="Work Package Description">
 					<h:outputText value="#{row.description}" />
 				</p:column>
-				<p:columns value="#{ProjectPlanningController.getLabourGrades()}" var="lg" headerText="#{lg.name}">
-					<h:outputText value="INSERT VALUE HERE" />
+				<p:columns value="#{ProjectPlanningController.getLabourGrades()}" var="lg">
+					<f:facet name="header">
+                		<h:outputText value="#{lg.name}" />
+                		<br />
+                		<h:outputText value="Rate: #{lg.costRate}" />
+            		</f:facet>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:inputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}" />
+						</f:facet>
+					</p:cellEditor>
 				</p:columns>
 				<p:column headerText="Total Hours">
-					<h:outputText value="INSERT VALUE HERE" />
+					<h:outputText value="#{row.getTotalPlannedHours()}" />
 				</p:column>
 				<p:column headerText="Total">
-					<h:outputText value="INSERT VALUE HERE" />
+					<h:outputText value="#{row.getTotalPlannedCosts()}" />
 				</p:column>
 	    	</p:dataTable>
-	    	<p:commandButton value="Save Changes" action="#{ProjectPlanningController.save()}" ajax="false" />
+	    	<p:commandButton value="Save Planned Hours" action="#{ProjectPlanningController.save()}" ajax="false" />
 	    </h:form>
 	    </div>
 	    

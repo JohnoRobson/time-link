@@ -1,11 +1,16 @@
 package com.timelink.ejbs;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +19,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @SuppressWarnings("serial")
 @Entity
@@ -50,6 +57,12 @@ public class WorkPackage implements Serializable {
   
   @Column(name = "wph_descr")
   private String description;
+  
+//TODO find out if the was the best way to do it.
+  @OneToMany(fetch = FetchType.EAGER,
+              mappedBy = "workPackage",
+              cascade = CascadeType.ALL)
+  private Set<PlannedHours> plannedHours;
   
   /**
    * Returns the code.
@@ -161,5 +174,83 @@ public class WorkPackage implements Serializable {
    */
   public void setAssignedEmployees(List<Employee> assignedEmployees) {
     this.assignedEmployees = assignedEmployees;
+  }
+  
+  public List<PlannedHours> getPlannedHours() {
+    if (plannedHours != null) {
+      return new ArrayList<PlannedHours>(plannedHours);
+    }
+    return new ArrayList<PlannedHours>();
+  }
+  
+  public void setPlannedHours(List<PlannedHours> plannedHours) {
+    this.plannedHours = new HashSet<PlannedHours>(plannedHours);
+  }
+  
+  public int getTotalFromGrade(Integer labourGradeId) {
+    int total = 0;
+    
+    for (PlannedHours hour: plannedHours) {
+      if (hour.getLabourGrade().getLabourGradeId() == labourGradeId) {
+        total = hour.getManDay();
+        break;
+      }
+    }
+    return total;
+  }
+  
+  public PlannedHours getPlannedHourFromLabourGrade(Integer labourGradeId) {
+    PlannedHours hour = new PlannedHours();
+    
+    for (PlannedHours h : plannedHours) {
+      if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
+        hour = h;
+        break;
+      }
+    }
+    
+    if (hour.getLabourGrade() == null) {
+      LabourGrade lg = new LabourGrade();
+      lg.setLabourGradeId(labourGradeId);
+      hour.setLabourGrade(lg);
+      plannedHours.add(hour);
+      
+      for (PlannedHours h : plannedHours) {
+        if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
+          return h;
+        }
+      }
+    }
+    
+    return hour;
+  }
+  
+  public void removePlannedHourByLabourGrade(Integer labourGradeId) {
+    for (PlannedHours h : plannedHours) {
+      if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
+        plannedHours.remove(h);
+        break;
+      }
+    }
+  }
+  
+  public int getTotalPlannedHours() {
+    int total = 0;
+    
+    for (PlannedHours hour : plannedHours) {
+      total += hour.getManDay();
+    }
+    
+    return total;
+  }
+  
+  public int getTotalPlannedCosts() {
+    int totalCost = 0;
+    
+    for (PlannedHours hour : plannedHours) {
+      totalCost += (hour.getManDay() * hour.getLabourGrade().getCostRate());
+    }
+    
+    return totalCost;
   }
 }

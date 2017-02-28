@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -50,7 +51,8 @@ public class Project implements Serializable {
   @JoinTable(name = "wp_header",
       joinColumns = @JoinColumn(name = "wph_prjh_id"))*/
   @OneToMany(mappedBy = "project",
-      fetch = FetchType.EAGER)
+      fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL)
   @OrderBy("code ASC")
   private Set<WorkPackage> workPackages;
   
@@ -197,6 +199,5 @@ public class Project implements Serializable {
   public void setEmployees(List<Employee> employees) {
     this.employees = new HashSet<Employee>(employees);
   }
-  
   
 }

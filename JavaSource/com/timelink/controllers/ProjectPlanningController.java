@@ -3,6 +3,7 @@ package com.timelink.controllers;
 import com.timelink.Session;
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.LabourGrade;
+import com.timelink.ejbs.PlannedHours;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.EmployeeManager;
@@ -64,6 +65,18 @@ public class ProjectPlanningController implements Serializable {
   }
   
   public String save() {
+    //Save all planned hours in the project
+    //Remove any planned hours that have 0 manDays.
+    for (WorkPackage wp : currentProject.getWorkPackages()) {
+      for (LabourGrade lg : getLabourGrades()) {
+        if (wp.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).getManDay() != 0) {
+          wp.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).setLabourGrade(lg);
+          wp.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).setWorkPackageLineId(wp);
+        } else {
+          wp.removePlannedHourByLabourGrade(lg.getLabourGradeId());
+        }
+      }
+    }
     pm.merge(currentProject);
     return null;
   }
@@ -189,6 +202,7 @@ public class ProjectPlanningController implements Serializable {
   public void setEditingWorkPackageId(WorkPackage editingWorkPackageId) {
     this.editingWorkPackageId = editingWorkPackageId;
   }
+  
   
   
 }

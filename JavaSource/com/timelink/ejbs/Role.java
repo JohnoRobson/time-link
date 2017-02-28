@@ -24,9 +24,6 @@ public class Role implements Serializable {
   @Column(name = "jt_code")
   private RoleEnum role;
   
-  /*
-   * TODO: this is gross and needs to be fixed in the database.
-   */
   @ManyToOne
   @JoinColumn(name = "jt_descr")
   private Employee employee;

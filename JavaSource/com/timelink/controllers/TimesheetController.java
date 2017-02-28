@@ -58,8 +58,14 @@ public class TimesheetController implements Serializable {
   }
   
   //TODO make this gud
+  /**
+   * Sets the current timesheet's status to submitted
+   * and saves it.
+   * @return A null to reload the page.
+   */
   public String submit() {
     timesheet.setStatus("1");
+    save();
     return null;
   }
   
