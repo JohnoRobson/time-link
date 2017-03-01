@@ -3,7 +3,10 @@ package com.timelink.ejbs;
 import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -46,6 +50,12 @@ public class Employee implements Serializable {
   private String firstName;
   @Column(name = "emp_lname")
   private String lastName;
+  
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "prj_line",
+      joinColumns = @JoinColumn(name = "prjl_emp_id"),
+      inverseJoinColumns = @JoinColumn(name = "prjl_prjh_id"))
+  private Set<Project> projects;
   //TODO Implement labour grade
   //@Column(name = "emp_lg_id")
   //private String labourGrade;
@@ -188,5 +198,16 @@ public class Employee implements Serializable {
     return bool;
   }
   
+  public List<Project> getProjects() {
+    if (projects != null) {
+      return new ArrayList<Project>(projects);
+    }
+
+    return new ArrayList<Project>();
+  }
+  
+  public void setProjects(List<Project> projects) {
+    this.projects = new HashSet<Project>(projects);
+  }
   
 }

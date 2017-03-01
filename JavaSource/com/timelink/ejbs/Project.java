@@ -47,9 +47,6 @@ public class Project implements Serializable {
   private Employee projectManagerAssistant;
   */
   
-  /*@OneToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "wp_header",
-      joinColumns = @JoinColumn(name = "wph_prjh_id"))*/
   @OneToMany(mappedBy = "project",
       fetch = FetchType.EAGER,
       cascade = CascadeType.ALL)

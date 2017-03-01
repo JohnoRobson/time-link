@@ -2,11 +2,15 @@ package com.timelink.controllers;
 
 import com.timelink.Session;
 import com.timelink.ejbs.Timesheet;
+import com.timelink.ejbs.WorkPackage;
+import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
+import com.timelink.managers.WorkPackageManager;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
@@ -20,7 +24,9 @@ import javax.inject.Named;
 public class TimesheetController implements Serializable {
   private Timesheet timesheet;
   @Inject TimesheetManager tm;
+  @Inject WorkPackageManager wpm;
   @Inject Session ses;
+  @Inject ProjectManager pm;
   
   public TimesheetController() {
     
@@ -101,5 +107,16 @@ public class TimesheetController implements Serializable {
   public String addRow() {
     timesheet.addRow();
     return null;
+  }
+  
+  /**
+   * Returns WorkPackages in the given project that the current employee is
+   * assigned to.
+   * @param projectNumber The projectId to be searched
+   * @return A List of WorkPackages that the current employee is assigned to
+   *     that are in the given project.
+   */
+  public List<WorkPackage> getAssignedWorkPackages(int projectNumber) {
+    return wpm.findAssigned(ses.getCurrentEmployee(), pm.find(projectNumber));
   }
 }
