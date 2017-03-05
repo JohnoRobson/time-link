@@ -22,7 +22,7 @@
 	                <h:panelGroup rendered="#{Session.approver}">
 	                	<li><a href="report.xhtml">Report</a></li>
 	                </h:panelGroup>
-	                <h:panelGroup rendered="#{Session.projectManagerOrAssistant}">
+	                <h:panelGroup rendered="#{Session.projectManager || Session.projectManagerAssistant}">
 	                	<li><a href="projectplanning.xhtml">Enter Project Planning Information</a></li>
 	                </h:panelGroup>
 	                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
