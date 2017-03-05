@@ -41,10 +41,10 @@ public class Employee implements Serializable {
       mappedBy = "employee")
   private List<Role> roles;
   
-//  @OneToOne
-//  @JoinColumn(name = "Supervisor",
-//      referencedColumnName = "EmployeeId")
-//  private Employee supervisor;
+  //  @OneToOne
+  //  @JoinColumn(name = "Supervisor",
+  //      referencedColumnName = "EmployeeId")
+  //  private Employee supervisor;
   
   @Column(name = "emp_fname")
   private String firstName;
@@ -56,9 +56,9 @@ public class Employee implements Serializable {
       joinColumns = @JoinColumn(name = "prjl_emp_id"),
       inverseJoinColumns = @JoinColumn(name = "prjl_prjh_id"))
   private Set<Project> projects;
-  //TODO Implement labour grade
-  //@Column(name = "emp_lg_id")
-  //private String labourGrade;
+  
+  @Column(name = "emp_lg_id")
+  private Integer labourGrade;
   
   //private String status;
   
@@ -94,21 +94,21 @@ public class Employee implements Serializable {
     this.timesheetApprover = timesheetApprover;
   }
 
-//  /**
-//   * Returns the supervisor.
-//   * @return the supervisor
-//   */
-//  public Employee getSupervisor() {
-//    return supervisor;
-//  }
-//  
-//  /**
-//   * Sets the supervisor to supervisor.
-//   * @param supervisor the supervisor to set
-//   */
-//  public void setSupervisor(Employee supervisor) {
-//    this.supervisor = supervisor;
-//  }
+  //  /**
+  //   * Returns the supervisor.
+  //   * @return the supervisor
+  //   */
+  //  public Employee getSupervisor() {
+  //    return supervisor;
+  //  }
+  //  
+  //  /**
+  //   * Sets the supervisor to supervisor.
+  //   * @param supervisor the supervisor to set
+  //   */
+  //  public void setSupervisor(Employee supervisor) {
+  //    this.supervisor = supervisor;
+  //  }
   
   /**
    * Returns the firstName.
@@ -142,37 +142,37 @@ public class Employee implements Serializable {
     this.lastName = lastName;
   }
   
-//  /**
-//   * Returns the labourGrade.
-//   * @return the labourGrade
-//   */
-//  public String getLabourGrade() {
-//    return labourGrade;
-//  }
-//  
-//  /**
-//   * Sets labourGrade to labourGrade.
-//   * @param labourGrade the labourGrade to set
-//   */
-//  public void setLabourGrade(String labourGrade) {
-//    this.labourGrade = labourGrade;
-//  }
+  /**
+   * Returns the labourGrade.
+   * @return the labourGrade
+   */
+  public Integer getLabourGrade() {
+    return labourGrade;
+  }
   
-//  /**
-//   * Returns status.
-//   * @return the status
-//   */
-//  public String getStatus() {
-//    return status;
-//  }
-//  
-//  /**
-//   * Sets status to status.
-//   * @param status the status to set
-//   */
-//  public void setStatus(String status) {
-//    this.status = status;
-//  }
+  /**
+   * Sets labourGrade to labourGrade.
+   * @param labourGrade the labourGrade to set
+   */
+  public void setLabourGrade(Integer labourGrade) {
+    this.labourGrade = labourGrade;
+  }
+  
+  //  /**
+  //   * Returns status.
+  //   * @return the status
+  //   */
+  //  public String getStatus() {
+  //    return status;
+  //  }
+  //  
+  //  /**
+  //   * Sets status to status.
+  //   * @param status the status to set
+  //   */
+  //  public void setStatus(String status) {
+  //    this.status = status;
+  //  }
   
   public void setRoles(List<Role> roles) {
     this.roles = roles;
@@ -198,6 +198,11 @@ public class Employee implements Serializable {
     return bool;
   }
   
+  /**
+   * Returns a List of Projects that this Employee
+   * is assigned to.
+   * @return A List of Projects.
+   */
   public List<Project> getProjects() {
     if (projects != null) {
       return new ArrayList<Project>(projects);
@@ -206,6 +211,10 @@ public class Employee implements Serializable {
     return new ArrayList<Project>();
   }
   
+  /**
+   * Sets the projects of this Employee to projects.
+   * @param projects The projects to set.
+   */
   public void setProjects(List<Project> projects) {
     this.projects = new HashSet<Project>(projects);
   }

@@ -63,6 +63,7 @@ public class Project implements Serializable {
   @JoinTable(name = "prj_line",
       joinColumns = @JoinColumn(name = "prjl_prjh_id", referencedColumnName = "prjh_id"),
       inverseJoinColumns = @JoinColumn(name = "prjl_emp_id", referencedColumnName = "emp_id"))
+  @OrderBy("lastName ASC")
   private Set<Employee> employees;
   
   /**

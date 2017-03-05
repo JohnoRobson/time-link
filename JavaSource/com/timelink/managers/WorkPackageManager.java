@@ -46,7 +46,7 @@ public class WorkPackageManager {
   }
   
   /**
-   * Returns a list of WorkPackages that the employee given is assigned to
+   * Returns a list of WorkPackages that the given employee is assigned to
    * that are in the given Project
    * @param emp The employee
    * @param proj The project

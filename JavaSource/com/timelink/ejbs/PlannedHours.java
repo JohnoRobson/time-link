@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -28,10 +27,6 @@ public class PlannedHours implements Serializable {
   @ManyToOne
   private LabourGrade labourGrade;
   
-//  //Should be projectId
-//  @ManyToOne
-//  private Project project;
-  
   //Should be workPackageId.
   @JoinColumn(name = "ph_wpl_id",
       referencedColumnName = "wph_id")
@@ -39,7 +34,7 @@ public class PlannedHours implements Serializable {
   private WorkPackage workPackage;
   
   @Column(name = "ph_man_day")
-  private Integer manDay;
+  private int manDay;
 
   /**
    * Returns the plannedHoursId.
@@ -73,24 +68,8 @@ public class PlannedHours implements Serializable {
     this.labourGrade = labourGrade;
   }
 
-//  /**
-//   * Returns the project.
-//   * @return the project
-//   */
-//  public Project getProject() {
-//    return project;
-//  }
-//
-//  /**
-//   * Sets the project to project.
-//   * @param project the project to set
-//   */
-//  public void setProject(Project project) {
-//    this.project = project;
-//  }
-
   /**
-   * Returns the workPackage
+   * Returns the workPackage.
    * @return the workPackage
    */
   public WorkPackage getWorkPackage() {

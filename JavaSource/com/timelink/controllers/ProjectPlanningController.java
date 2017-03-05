@@ -3,7 +3,6 @@ package com.timelink.controllers;
 import com.timelink.Session;
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.LabourGrade;
-import com.timelink.ejbs.PlannedHours;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.EmployeeManager;
@@ -64,6 +63,10 @@ public class ProjectPlanningController implements Serializable {
     return currentProject;
   }
   
+  /**
+   * Saves the planned project.
+   * @return null to reload the page.
+   */
   public String save() {
     //Save all planned hours in the project
     //Remove any planned hours that have 0 manDays.
