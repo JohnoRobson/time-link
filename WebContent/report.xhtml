@@ -4,14 +4,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-       <title></title>
-       <h:outputStylesheet library="css" name="styles.css"/>
-       <link rel="stylesheet" href="resources/css/styles.css" />
-    </h:head>
+
 	<h:body>
-		<p:growl id="growl" showDetail="true" sticky="true" />  
+	<ui:composition template="resources/templates/template.xhtml">
+		<ui:define name="header">
 	    <div id="nav" style="height:15%">
 	        <div id="navContent">
 	            <h1>TimeLink</h1>
@@ -30,7 +28,9 @@
 	            </ul>
 	        </div>
 	    </div>
-	    
+	    </ui:define>
+	    <ui:define name="content">
+        <p:growl id="growl" showDetail="true" sticky="true" />  
 	    <h:form id="approverForm" style="width: 100%">
 	    	<p:panelGrid columns="2">
 	    		<p:panel>
@@ -248,21 +248,26 @@
 	    		</p:panel>
 	    	</p:panelGrid>
 	    </h:form>
-
-	    <!-- Work Package Edit Modal -->
-	    <p:dialog
-	    	header="Reason for rejecting timesheet"
-            widgetVar="rejectmodal"
-            modal="true"
-            height="300">
-	    	<h:form>
-	            <p:panelGrid columns="2">
-	            <h:outputText value="Rejection reason: "/>
-	            <h:inputText value="PLACEHOLDER DOES NOT SAVE TEXT"/>
-	            </p:panelGrid>
-	            <br />
-	            <h:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />
-	        </h:form>
-	    </p:dialog>
+		</ui:define>
+		<ui:define name="footer">
+			#Feeterhere
+		</ui:define>
+	</ui:composition>
+    
+    <!-- Rejection modal -->
+    <p:dialog
+        header="Reason for rejecting timesheet"
+        widgetVar="rejectmodal"
+        modal="true"
+        height="300">
+        <h:form>
+            <p:panelGrid columns="2">
+            <h:outputText value="Rejection reason: "/>
+            <h:inputText value="PLACEHOLDER DOES NOT SAVE TEXT"/>
+            </p:panelGrid>
+            <br />
+            <h:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />
+        </h:form>
+    </p:dialog>
 	</h:body>
 </html>
