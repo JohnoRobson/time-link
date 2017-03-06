@@ -5,16 +5,14 @@ import com.timelink.ejbs.Credentials;
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 @Dependent
 @Stateless
 public class CredentialManager {
-  //TODO change this to match the schema when we get it.
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
-  
-  //TODO make this class work.
   
   /**
    * Returns Credentials that match the user name and password given,
@@ -29,7 +27,11 @@ public class CredentialManager {
         + " c.username = :username AND c.password = :password", Credentials.class)
         .setParameter("username", username)
         .setParameter("password", password);
-    return query.getSingleResult();
+    try {
+      return query.getSingleResult();
+    } catch (NoResultException ex) {
+      return null;
+    }
   }
   
   /**

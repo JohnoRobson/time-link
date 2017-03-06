@@ -54,10 +54,10 @@ public class WorkPackage implements Serializable {
   private String description;
   
   @Column(name = "wp_charged")
-  private boolean isCharged;
+  private Boolean isCharged;
   
   @Column(name = "wp_closed")
-  private boolean isClosed;
+  private Boolean isClosed;
   
   //TODO find out if the was the best way to do it.
   @OneToMany(fetch = FetchType.EAGER,
