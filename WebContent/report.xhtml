@@ -4,13 +4,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-       <title></title>
-       <h:outputStylesheet library="css" name="styles.css"/>
-       <link rel="stylesheet" href="resources/css/styles.css" />
-    </h:head>
+
 	<h:body>
+	<ui:composition template="resources/templates/template.xhtml">
+		<ui:define name="header">
 	    <div id="nav" style="height:15%">
 	        <div id="navContent">
 	            <h1>TimeLink</h1>
@@ -29,7 +28,8 @@
 	            </ul>
 	        </div>
 	    </div>
-	    
+	    </ui:define>
+	    <ui:define name="content">
 	    <h:form id="approverForm">
 		    <p:dataTable id="approveTable" var="row" value="#{ApproverController.list}">
 		        <p:column headerText="Date" >
@@ -76,5 +76,10 @@
 	    </h:form>
 	    <!-- Once the Timesheet table is figured out on Timesheet
 	         you can just paste it here, will require more CSS to look properly though -->
+		</ui:define>
+		<ui:define name="footer">
+			#Feeterhere
+		</ui:define>
+	</ui:composition>
 	</h:body>
 </html>
