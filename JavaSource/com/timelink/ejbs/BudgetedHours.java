@@ -29,7 +29,7 @@ public class BudgetedHours implements Serializable {
   
   @JoinColumn(name = "bh_wp_id",
       referencedColumnName = "wp_id")
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne(cascade = CascadeType.MERGE)
   private WorkPackage workPackage;
   
   @Column(name = "bh_man_day")
@@ -80,6 +80,9 @@ public class BudgetedHours implements Serializable {
    * @param workPackage the workPackage to set
    */
   public void setWorkPackageLineId(WorkPackage workPackage) {
+    if (!workPackage.getPlannedHours().contains(this)) {
+      workPackage.getPlannedHours().add(this);
+    }
     this.workPackage = workPackage;
   }
 
@@ -88,6 +91,7 @@ public class BudgetedHours implements Serializable {
    * @return the manDay
    */
   public Integer getManDay() {
+    System.out.println("getManDay(): " + manDay + " " + this.toString());
     return manDay;
   }
 
@@ -96,7 +100,7 @@ public class BudgetedHours implements Serializable {
    * @param manDay the manDay to set
    */
   public void setManDay(Integer manDay) {
-    System.out.println("SET MAN DAY TO " + manDay.intValue());
+    System.out.println("setManDay(): " + manDay + " " + this.toString());
     this.manDay = manDay;
   }
   

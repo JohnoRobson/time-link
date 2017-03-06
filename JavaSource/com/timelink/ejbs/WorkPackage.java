@@ -264,13 +264,8 @@ public class WorkPackage implements Serializable {
       LabourGrade lg = new LabourGrade();
       lg.setLabourGradeId(labourGradeId);
       hour.setLabourGrade(lg);
+      hour.setWorkPackageLineId(this);
       plannedHours.add(hour);
-      
-      for (BudgetedHours h : plannedHours) {
-        if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
-          return h;
-        }
-      }
     }
     
     return hour;

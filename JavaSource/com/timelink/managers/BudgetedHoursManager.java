@@ -2,19 +2,41 @@ package com.timelink.managers;
 
 
 import com.timelink.ejbs.BudgetedHours;
+import com.timelink.ejbs.Hours;
+import com.timelink.ejbs.WorkPackage;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 @Dependent
 @Stateless
-public class PlannedHoursManager {
+public class BudgetedHoursManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   public BudgetedHours find(int plannedHoursId) {
     return em.find(BudgetedHours.class, plannedHoursId);
+  }
+  
+  public BudgetedHours find(WorkPackage wp, int labourGradeId) {
+    try {
+      TypedQuery<BudgetedHours> query = em.createQuery("SELECT bh FROM BudgetedHours AS bh WHERE "
+          + "bh.labourGrade.labourGradeId = :lgId "
+          + "AND bh IN :plhrs", BudgetedHours.class)
+          .setParameter("plhrs", wp.getPlannedHours())
+          .setParameter("lgId", labourGradeId);
+      if (query.getResultList().size() > 0) {
+        return query.getSingleResult();
+      } else {
+        return null;
+      }
+    } catch (PersistenceException ex) {
+      return null;
+    }
+    
   }
   
   /**
