@@ -16,11 +16,14 @@ public class LabourGrade implements Serializable {
   @Column(name = "lg_id")
   private int labourGradeId;
   
-  @Column(name = "lg_name")
+  @Column(name = "lg_level")
   private String name;
   
-  @Column(name = "lg_cost_rate")
+  @Column(name = "lg_cost")
   private float costRate;
+  
+  @Column(name = "lg_year")
+  private Integer year;
 
   /**
    * Returns the labourGradeId.
@@ -68,6 +71,22 @@ public class LabourGrade implements Serializable {
    */
   public void setCostRate(float costRate) {
     this.costRate = costRate;
+  }
+  
+  /**
+   * Returns the year.
+   * @return the year
+   */
+  public int getYear() {
+    return year;
+  }
+  
+  /**
+   * Sets the year to year.
+   * @param year the year to set
+   */
+  public void setYear(int year) {
+    this.year = year;
   }
   
   

@@ -39,21 +39,6 @@ public class ProjectManager {
   }
   
   /**
-   * Returns all the Project that are
-   * available for an employee, queried by their id,
-   * returns null if no matching results.
-   * 
-   * @param id The EmployeeId to find Projects by.
-   * @return List of project names.
-   */
-  public List<Project> findByEmpId(int id) {
-    return em.createQuery("SELECT p FROM Project as p, ProjectLine as pl "
-        + "WHERE p.projectNumber = pl.projectId AND pl.projectEmployeeId = :empId", Project.class)
-        .setParameter("empId", id)
-        .getResultList();  
-  }
-  
-  /**
    * Adds project to the database.
    * 
    * @param proj The project to be added

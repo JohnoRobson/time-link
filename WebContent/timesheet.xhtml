@@ -22,7 +22,7 @@
 	                <h:panelGroup rendered="#{Session.approver}">
 	                	<li><a href="report.xhtml">Report</a></li>
 	                </h:panelGroup>
-	                <h:panelGroup rendered="#{Session.projectManagerOrAssistant}">
+	                <h:panelGroup rendered="#{Session.projectManager || Session.projectManagerAssistant}">
 	                	<li><a href="projectplanning.xhtml">Enter Project Planning Information</a></li>
 	                </h:panelGroup>
 	                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
@@ -60,7 +60,7 @@
 	                        <p:selectOneMenu value="#{row.projectId}" style="width:100%">
 	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-                                <f:selectItems value="#{ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) != null ? ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
+                                <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
                             </p:selectOneMenu>
 	                    </f:facet>
 					</p:cellEditor>
@@ -75,7 +75,7 @@
 	                        <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
 	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-                                <f:selectItems value="#{ProjectManager.find(row.projectId) != null ? ProjectManager.find(row.projectId).workPackages : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
+                                <f:selectItems value="#{ProjectManager.find(row.projectId) != null ? TimesheetController.getAssignedWorkPackages(row.projectId) : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
                             </p:selectOneMenu>
 	                    </f:facet>
 					</p:cellEditor>

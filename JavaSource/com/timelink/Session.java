@@ -64,9 +64,23 @@ public class Session implements Serializable {
     return isApprover;
   }
   
-  public boolean isProjectManagerOrAssistant() {
-    return currentEmployee.hasRole(RoleEnum.PROJECT_MANAGER)
-        || currentEmployee.hasRole(RoleEnum.PROJECT_MANAGER_ASSISTANT);
+  public boolean isProjectManager() {
+    return currentEmployee.hasRole(RoleEnum.PROJECT_MANAGER);
   }
   
+  public boolean isProjectManagerAssistant() {
+    return currentEmployee.hasRole(RoleEnum.PROJECT_MANAGER_ASSISTANT);
+  }
+  
+  public boolean isSupervisor() {
+    return currentEmployee.hasRole(RoleEnum.SUPERVISOR);
+  }
+  
+  public boolean isHumanResources() {
+    return currentEmployee.hasRole(RoleEnum.HUMAN_RESOURCES);
+  }
+  
+  public boolean isResponsibleEngineer() {
+    return currentEmployee.hasRole(RoleEnum.RESPONSIBLE_ENGINEER);
+  }
 }

@@ -16,7 +16,7 @@ public class TimesheetApprover implements Serializable {
   @Column(name = "tsa_id")
   private int timesheetApproverId;
   
-  @Column(name = "tsa_appr_emp_id")
+  @Column(name = "tsa_appr_id")
   private int approverEmployeeId;
   
   @Column(name = "tsa_emp_id")

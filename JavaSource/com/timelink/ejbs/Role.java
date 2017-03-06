@@ -21,14 +21,11 @@ public class Role implements Serializable {
   @Column(name = "jt_id")
   private int jobTitleId;
   
-  @Column(name = "jt_code")
+  @Column(name = "jt_type")
   private RoleEnum role;
   
-  /*
-   * TODO: this is gross and needs to be fixed in the database.
-   */
   @ManyToOne
-  @JoinColumn(name = "jt_descr")
+  @JoinColumn(name = "jt_emp_id")
   private Employee employee;
 
   /**
