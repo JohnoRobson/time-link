@@ -5,6 +5,7 @@ import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.managers.BudgetedHoursManager;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
@@ -28,6 +29,7 @@ public class ProjectPlanningController implements Serializable {
   @Inject LabourGradeManager lgm;
   @Inject EmployeeManager em;
   @Inject WorkPackageManager wpm;
+  @Inject BudgetedHoursManager bhm;
   private Integer responsibleEngineerId;
   private String wpCode;
   private String wpDescription;
@@ -56,6 +58,10 @@ public class ProjectPlanningController implements Serializable {
    * @param currentProject the currentProject to set
    */
   public void setCurrentProjectId(Integer currentProject) {
+    if (this.currentProject != null
+        && this.currentProject.getProjectNumber() == currentProject) {
+      return;
+    }
     this.currentProject = pm.find(currentProject);
   }
   
@@ -81,6 +87,7 @@ public class ProjectPlanningController implements Serializable {
       }
     }
     pm.merge(currentProject);
+    currentProject = pm.find(currentProject.getProjectNumber());
     return null;
   }
   

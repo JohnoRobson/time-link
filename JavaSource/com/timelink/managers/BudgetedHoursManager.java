@@ -54,4 +54,12 @@ public class BudgetedHoursManager {
   public void merge(BudgetedHours hours) {
     em.merge(hours);
   }
+  
+  /**
+   * Removes a BudgetedHours from the database.
+   * @param hours The BudgetedHours to be removed.
+   */
+  public void remove(BudgetedHours hours) {
+    em.remove(hours);
+  }
 }

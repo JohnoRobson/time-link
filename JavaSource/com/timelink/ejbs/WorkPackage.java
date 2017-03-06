@@ -62,7 +62,8 @@ public class WorkPackage implements Serializable {
   //TODO find out if the was the best way to do it.
   @OneToMany(fetch = FetchType.EAGER,
               mappedBy = "workPackage",
-              cascade = CascadeType.ALL)
+              cascade = CascadeType.ALL,
+              orphanRemoval = true)
   private Set<BudgetedHours> plannedHours;
   
   /**
@@ -279,6 +280,7 @@ public class WorkPackage implements Serializable {
     for (BudgetedHours h : plannedHours) {
       if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
         plannedHours.remove(h);
+        h.setWorkPackageLineId(null);
         break;
       }
     }
