@@ -23,19 +23,19 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "prj_header")
+@Table(name = "Project")
 public class Project implements Serializable {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "prjh_id")
+  @Column(name = "prj_id")
   private int projectNumber;
   
-  @Column(name = "prjh_name")
+  @Column(name = "prj_name")
   private String projectName;
   
   @OneToOne
-  @JoinColumn(name = "prjh_manager_id",
+  @JoinColumn(name = "prj_manager_id",
       referencedColumnName = "emp_id")
   private Employee projectManager;
   
@@ -53,16 +53,16 @@ public class Project implements Serializable {
   @OrderBy("code ASC")
   private Set<WorkPackage> workPackages;
   
-  @Column(name = "prjh_customer")
+  @Column(name = "prj_customer")
   private String customer;
   
-  @Column(name = "prjh_descr")
+  @Column(name = "prj_descr")
   private String description;
 
   @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "prj_line",
-      joinColumns = @JoinColumn(name = "prjl_prjh_id", referencedColumnName = "prjh_id"),
-      inverseJoinColumns = @JoinColumn(name = "prjl_emp_id", referencedColumnName = "emp_id"))
+  @JoinTable(name = "prj_emp",
+      joinColumns = @JoinColumn(name = "pe_prj_id", referencedColumnName = "prj_id"),
+      inverseJoinColumns = @JoinColumn(name = "pe_emp_id", referencedColumnName = "emp_id"))
   @OrderBy("lastName ASC")
   private Set<Employee> employees;
   

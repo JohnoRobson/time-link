@@ -1,7 +1,7 @@
 package com.timelink.managers;
 
 
-import com.timelink.ejbs.PlannedHours;
+import com.timelink.ejbs.BudgetedHours;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
@@ -13,15 +13,15 @@ import javax.persistence.PersistenceContext;
 public class PlannedHoursManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
-  public PlannedHours find(int plannedHoursId) {
-    return em.find(PlannedHours.class, plannedHoursId);
+  public BudgetedHours find(int plannedHoursId) {
+    return em.find(BudgetedHours.class, plannedHoursId);
   }
   
   /**
    * Adds hours to the database.
    * @param hours The Hours to be added to the database.
    */
-  public void persist(PlannedHours hours) {
+  public void persist(BudgetedHours hours) {
     em.persist(hours);
   }
   
@@ -29,7 +29,7 @@ public class PlannedHoursManager {
    * Updates an Hours in the database with hours.
    * @param hours The Hours object that will update the database.
    */
-  public void merge(PlannedHours hours) {
+  public void merge(BudgetedHours hours) {
     em.merge(hours);
   }
 }

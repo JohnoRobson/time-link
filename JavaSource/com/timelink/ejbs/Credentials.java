@@ -13,13 +13,13 @@ import javax.persistence.Table;
 public class Credentials implements Serializable {
   
   @Id
-  @Column(name = "cre_emp_name")
+  @Column(name = "cre_emp_user_id")
   private String username;
   
   @Column(name = "cre_pw")
   private String password;
   
-  @Column(name = "cre_emp_id")
+  @Column(name = "cre_id")
   private int employeeId;
   
   /**

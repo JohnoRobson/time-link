@@ -21,43 +21,49 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "wp_header")
+@Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "wph_id")
+  @Column(name = "wp_id")
   private int workPackageId;
   
   @OneToOne
-  @JoinColumn(name = "wph_prjh_id",
-      referencedColumnName = "prjh_id")
+  @JoinColumn(name = "wp_prj_id",
+      referencedColumnName = "prj_id")
   private Project project;
   
   //private WorkPackage parentPackage;
   
-  //  @OneToOne
-  //  @JoinColumn(name = "responsibleEngineer",
-  //      referencedColumnName = "emp_id")
-  //  private Employee responsibleEngineer;
+  @OneToOne
+  @JoinColumn(name = "wp_re_eng_id",
+      referencedColumnName = "emp_id")
+  private Employee responsibleEngineer;
   
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-  @JoinTable(name = "wp_line",
-      joinColumns = @JoinColumn(name = "wpl_wph_id"),
-      inverseJoinColumns = @JoinColumn(name = "wpl_emp_id"))
+  @JoinTable(name = "wp_emp",
+      joinColumns = @JoinColumn(name = "we_wp_id"),
+      inverseJoinColumns = @JoinColumn(name = "we_emp_id"))
   private List<Employee> assignedEmployees;
   
-  @Column(name = "wph_code")
+  @Column(name = "wp_code")
   private String code;
   
-  @Column(name = "wph_descr")
+  @Column(name = "wp_descr")
   private String description;
+  
+  @Column(name = "wp_charged")
+  private boolean isCharged;
+  
+  @Column(name = "wp_closed")
+  private boolean isClosed;
   
   //TODO find out if the was the best way to do it.
   @OneToMany(fetch = FetchType.EAGER,
               mappedBy = "workPackage",
               cascade = CascadeType.ALL)
-  private Set<PlannedHours> plannedHours;
+  private Set<BudgetedHours> plannedHours;
   
   /**
    * Returns the code.
@@ -139,21 +145,21 @@ public class WorkPackage implements Serializable {
   //    this.parentPackage = parentPackage;
   //  }
   
-  //  /**
-  //   * Returns the responsibleEngineer for this project.
-  //   * @return the responsibleEngineer
-  //   */
-  //  public Employee getResponsibleEngineer() {
-  //    return responsibleEngineer;
-  //  }
-  //  
-  //  /**
-  //   * Sets the responsibleEngineer to responsibleEngineer.
-  //   * @param responsibleEngineer the responsibleEngineer to set
-  //   */
-  //  public void setResponsibleEngineer(Employee responsibleEngineer) {
-  //    this.responsibleEngineer = responsibleEngineer;
-  //  }
+  /**
+   * Returns the responsibleEngineer for this project.
+   * @return the responsibleEngineer
+   */
+  public Employee getResponsibleEngineer() {
+    return responsibleEngineer;
+  }
+  
+  /**
+   * Sets the responsibleEngineer to responsibleEngineer.
+   * @param responsibleEngineer the responsibleEngineer to set
+   */
+  public void setResponsibleEngineer(Employee responsibleEngineer) {
+    this.responsibleEngineer = responsibleEngineer;
+  }
   
   /**
    * Returns the assignedEmployees.
@@ -172,19 +178,51 @@ public class WorkPackage implements Serializable {
   }
   
   /**
+   * Returns the isCharged.
+   * @return the isCharged
+   */
+  public boolean isCharged() {
+    return isCharged;
+  }
+
+  /**
+   * Sets isCharged to isCharged.
+   * @param isCharged the isCharged to set
+   */
+  public void setCharged(boolean isCharged) {
+    this.isCharged = isCharged;
+  }
+
+  /**
+   * Returns isClosed.
+   * @return the isClosed
+   */
+  public boolean isClosed() {
+    return isClosed;
+  }
+
+  /**
+   * Sets the isClosed to isClosed.
+   * @param isClosed the isClosed to set
+   */
+  public void setClosed(boolean isClosed) {
+    this.isClosed = isClosed;
+  }
+
+  /**
    * Returns a List of PlannedHours associated with
    * this WorkPackage.
    * @return A List of PlannedHours.
    */
-  public List<PlannedHours> getPlannedHours() {
+  public List<BudgetedHours> getPlannedHours() {
     if (plannedHours != null) {
-      return new ArrayList<PlannedHours>(plannedHours);
+      return new ArrayList<BudgetedHours>(plannedHours);
     }
-    return new ArrayList<PlannedHours>();
+    return new ArrayList<BudgetedHours>();
   }
   
-  public void setPlannedHours(List<PlannedHours> plannedHours) {
-    this.plannedHours = new HashSet<PlannedHours>(plannedHours);
+  public void setPlannedHours(List<BudgetedHours> plannedHours) {
+    this.plannedHours = new HashSet<BudgetedHours>(plannedHours);
   }
   
   /**
@@ -196,7 +234,7 @@ public class WorkPackage implements Serializable {
   public int getTotalFromGrade(Integer labourGradeId) {
     int total = 0;
     
-    for (PlannedHours hour: plannedHours) {
+    for (BudgetedHours hour: plannedHours) {
       if (hour.getLabourGrade().getLabourGradeId() == labourGradeId) {
         total = hour.getManDay();
         break;
@@ -212,10 +250,10 @@ public class WorkPackage implements Serializable {
    * @return The PlannedHour in this WorkPackage with the 
    *     specified Id.
    */
-  public PlannedHours getPlannedHourFromLabourGrade(Integer labourGradeId) {
-    PlannedHours hour = new PlannedHours();
+  public BudgetedHours getPlannedHourFromLabourGrade(Integer labourGradeId) {
+    BudgetedHours hour = new BudgetedHours();
     
-    for (PlannedHours h : plannedHours) {
+    for (BudgetedHours h : plannedHours) {
       if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
         hour = h;
         break;
@@ -228,7 +266,7 @@ public class WorkPackage implements Serializable {
       hour.setLabourGrade(lg);
       plannedHours.add(hour);
       
-      for (PlannedHours h : plannedHours) {
+      for (BudgetedHours h : plannedHours) {
         if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
           return h;
         }
@@ -243,7 +281,7 @@ public class WorkPackage implements Serializable {
    * @param labourGradeId The labourGradeId to be searched.
    */
   public void removePlannedHourByLabourGrade(Integer labourGradeId) {
-    for (PlannedHours h : plannedHours) {
+    for (BudgetedHours h : plannedHours) {
       if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
         plannedHours.remove(h);
         break;
@@ -258,7 +296,7 @@ public class WorkPackage implements Serializable {
   public int getTotalPlannedHours() {
     int total = 0;
     if (plannedHours != null && plannedHours.size() > 0) {
-      for (PlannedHours hour : plannedHours) {
+      for (BudgetedHours hour : plannedHours) {
         total += hour.getManDay();
       }
     }
@@ -274,7 +312,7 @@ public class WorkPackage implements Serializable {
     int totalCost = 0;
     
     if (plannedHours != null  && plannedHours.size() > 0) {
-      for (PlannedHours hour : plannedHours) {
+      for (BudgetedHours hour : plannedHours) {
         totalCost += (hour.getManDay() * hour.getLabourGrade().getCostRate());
       }
     }

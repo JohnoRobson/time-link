@@ -14,42 +14,41 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "plan_hour")
-public class PlannedHours implements Serializable {
+@Table(name = "Budget_Hour")
+public class BudgetedHours implements Serializable {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ph_id")
-  private int plannedHoursId;
+  @Column(name = "bh_id")
+  private int budgetHoursId;
   
-  @JoinColumn(name = "ph_level",
+  @JoinColumn(name = "bh_level",
       referencedColumnName = "lg_id")
   @ManyToOne
   private LabourGrade labourGrade;
   
-  //Should be workPackageId.
-  @JoinColumn(name = "ph_wpl_id",
-      referencedColumnName = "wph_id")
+  @JoinColumn(name = "bh_wp_id",
+      referencedColumnName = "wp_id")
   @ManyToOne(cascade = CascadeType.ALL)
   private WorkPackage workPackage;
   
-  @Column(name = "ph_man_day")
+  @Column(name = "bh_man_day")
   private int manDay;
 
   /**
-   * Returns the plannedHoursId.
-   * @return the plannedHoursId
+   * Returns the budgetHoursId.
+   * @return the budgetHoursId
    */
-  public int getPlannedHoursId() {
-    return plannedHoursId;
+  public int getBudgetedHoursId() {
+    return budgetHoursId;
   }
 
   /**
-   * Sets the plannedHoursId.
-   * @param plannedHoursId the plannedHoursId to set
+   * Sets the budgetHoursId.
+   * @param budgetHoursId the budgetHoursId to set
    */
-  public void setPlannedHoursId(int plannedHoursId) {
-    this.plannedHoursId = plannedHoursId;
+  public void setPlannedHoursId(int budgetHoursId) {
+    this.budgetHoursId = budgetHoursId;
   }
 
   /**
@@ -100,7 +99,5 @@ public class PlannedHours implements Serializable {
     System.out.println("SET MAN DAY TO " + manDay.intValue());
     this.manDay = manDay;
   }
-  
-  
   
 }

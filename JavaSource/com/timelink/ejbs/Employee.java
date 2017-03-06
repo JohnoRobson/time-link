@@ -3,6 +3,7 @@ package com.timelink.ejbs;
 import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +34,7 @@ public class Employee implements Serializable {
   
   @OneToOne
   @JoinTable(name = "ts_approver",
-      joinColumns = @JoinColumn(name = "tsa_appr_emp_id"),
+      joinColumns = @JoinColumn(name = "tsa_appr_id"),
       inverseJoinColumns = @JoinColumn(name = "tsa_emp_id"))
   private Employee timesheetApprover;
   
@@ -52,13 +53,34 @@ public class Employee implements Serializable {
   private String lastName;
   
   @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "prj_line",
-      joinColumns = @JoinColumn(name = "prjl_emp_id"),
-      inverseJoinColumns = @JoinColumn(name = "prjl_prjh_id"))
+  @JoinTable(name = "prj_emp",
+      joinColumns = @JoinColumn(name = "pe_emp_id"),
+      inverseJoinColumns = @JoinColumn(name = "pe_prj_id"))
   private Set<Project> projects;
   
   @Column(name = "emp_lg_id")
   private Integer labourGrade;
+  
+  @Column(name = "emp_user_id")
+  private String userId;
+  
+  @Column(name = "emp_email")
+  private String email;
+  
+  @Column(name = "emp_effect_from")
+  private Date effectFrom;
+  
+  @Column(name = "emp_effect_to")
+  private Date effectTo;
+  
+  @Column(name = "emp_flex_time")
+  private Integer flexTime;
+  
+  @Column(name = "emp_vacation_time")
+  private Integer vacationTime;
+  
+  @Column(name = "emp_vacation_rate")
+  private Integer vacationRate;
   
   //private String status;
   
@@ -217,6 +239,118 @@ public class Employee implements Serializable {
    */
   public void setProjects(List<Project> projects) {
     this.projects = new HashSet<Project>(projects);
+  }
+
+  /**
+   * Returns the userId.
+   * @return the userId
+   */
+  public String getUserId() {
+    return userId;
+  }
+
+  /**
+   * Sets the userId to userId.
+   * @param userId the userId to set
+   */
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
+  /**
+   * Returns the email.
+   * @return the email
+   */
+  public String getEmail() {
+    return email;
+  }
+
+  /**
+   * Sets the email to email.
+   * @param email the email to set
+   */
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  /**
+   * Returns the effectFrom.
+   * @return the effectFrom
+   */
+  public Date getEffectFrom() {
+    return effectFrom;
+  }
+
+  /**
+   * Sets the effectFrom to effectFrom.
+   * @param effectFrom the effectFrom to set
+   */
+  public void setEffectFrom(Date effectFrom) {
+    this.effectFrom = effectFrom;
+  }
+
+  /**
+   * Returns the effectTo.
+   * @return the effectTo
+   */
+  public Date getEffectTo() {
+    return effectTo;
+  }
+
+  /**
+   * Sets the effectTo to EffectTo.
+   * @param effectTo the effectTo to set
+   */
+  public void setEffectTo(Date effectTo) {
+    this.effectTo = effectTo;
+  }
+
+  /**
+   * Returns the flexTime.
+   * @return the flexTime
+   */
+  public int getFlexTime() {
+    return flexTime;
+  }
+
+  /**
+   * Sets the flexTime to flexTime.
+   * @param flexTime the flexTime to set
+   */
+  public void setFlexTime(int flexTime) {
+    this.flexTime = flexTime;
+  }
+
+  /**
+   * Returns the vacationTime.
+   * @return the vacationTime
+   */
+  public int getVacationTime() {
+    return vacationTime;
+  }
+
+  /**
+   * Sets the vacationTime to vacationTime.
+   * @param vacationTime the vacationTime to set
+   */
+  public void setVacationTime(int vacationTime) {
+    this.vacationTime = vacationTime;
+  }
+
+  /**
+   * Returns the vacationRate.
+   * @return the vacationRate
+   */
+  public int getVacationRate() {
+    return vacationRate;
+  }
+
+  /**
+   * Sets the vacationRate to vacationRate.
+   * @param vacationRate the vacationRate to set
+   */
+  public void setVacationRate(int vacationRate) {
+    this.vacationRate = vacationRate;
   }
   
 }
