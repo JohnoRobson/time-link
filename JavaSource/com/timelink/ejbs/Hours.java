@@ -37,6 +37,9 @@ public class Hours implements Serializable {
   
   @Column(name = "tsho_hour")
   private float hour;
+  
+  @Column(name = "tsho_labour_cost")
+  private Float labourCost;
 
   /**
    * Returns the hourId.
@@ -148,6 +151,22 @@ public class Hours implements Serializable {
    */
   public final void setHour(float hour) {
     this.hour = hour;
+  }
+
+  /**
+   * Returns the labourCost.
+   * @return the labourCost
+   */
+  public float getLabourCost() {
+    return labourCost;
+  }
+
+  /**
+   * Sets the labourCost to labourCost.
+   * @param labourCost the labourCost to set
+   */
+  public void setLabourCost(float labourCost) {
+    this.labourCost = labourCost;
   }
   
   

@@ -46,20 +46,19 @@ public class WorkPackageManager {
   }
   
   /**
-   * Returns all work packages within a project that the employee emp
-   * has been assigned to.
-   * @param proj The project to be searched.
-   * @param emp The employee whose work packages will be returned.
-   * @return All work packages within a project that emp is assigned to.
+   * Returns a list of WorkPackages that the given employee is assigned to
+   * that are in the given Project
+   * @param emp The employee
+   * @param proj The project
+   * @return A list of WorkPackages.
    */
-  public List<WorkPackage> find(Project proj, Employee emp) {
-    TypedQuery<WorkPackage> query = em.createQuery("SELECT DISTINCT wp "
-        + "FROM WorkPackage AS wp, WorkPackageLine AS wpl "
-        + "WHERE wpl.workPackageEmployeeId = :empId "
-        + "AND wpl.workPackageId = wp.workPackageId "
-        + "AND wp.project.projectNumber = :projectId", WorkPackage.class)
-        .setParameter("projectId", proj.getProjectNumber())
-        .setParameter("empId", emp.getEmployeeId());
+  public List<WorkPackage> findAssigned(Employee emp, Project proj) {
+    TypedQuery<WorkPackage> query = em.createQuery("SELECT DISTINCT wph FROM WorkPackage AS wph, "
+        + "Project AS proj "
+        + "WHERE wph.project.projectNumber = :projNumber "
+        + "AND :empPara MEMBER OF wph.assignedEmployees", WorkPackage.class)
+        .setParameter("projNumber", proj.getProjectNumber())
+        .setParameter("empPara", emp);
     return query.getResultList();
   }
   
