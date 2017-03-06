@@ -4,23 +4,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    <h:head>
-       <title></title>
-    </h:head>
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
 	<h:body>
-		<h:messages />
-        <h:form>
-            <h:panelGrid columns="2">
-                Username
-                <h:inputText id="username" value="#{LoginController.username}" />
-                Password
-                <h:inputSecret id="password" value="#{LoginController.password}" />
-            </h:panelGrid>
-            <p>
-                <!-- LoginController.login in action method below later -->
-                <h:commandButton value="Login" action="#{LoginController.login}"/>
-            </p>
-        </h:form>
+		<ui:composition template="resources/templates/template.xhtml">
+			<ui:define name="header">
+				<h1>Timelink - Login</h1>
+			</ui:define>
+			
+			<ui:define name="content">
+				<div class="title">
+					<h1>Timelink</h1>
+				</div>
+				<div>
+					<h:form>
+						<h:panelGrid columns="2">
+							Usename
+							<h:inputText id="username" value="#{LoginController.username}" />
+							Password
+							<h:inputSecret id="password" value="#{LoginController.password}" />
+						</h:panelGrid>
+						<p>
+							 <!-- LoginController.login in action method below later -->
+							 <h:commandButton value="Login" action="#{LoginController.login}" />
+						</p>
+					</h:form>
+				</div>
+			</ui:define>
+			<ui:define name="footer">
+				footer stuff
+			</ui:define>
+		</ui:composition>
+
 	</h:body>
 </html>
