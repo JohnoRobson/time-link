@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -124,10 +126,20 @@ public class ApproverController implements Serializable {
   }
   
   /**
-   * Declines all timesheets in the selectedTimesheets List.
-   * @return null to reload the page.
+   * Declines a selected timesheet.
    */
-  public String decline() {
+  public void declineValidate() {
+    if (selectedTimesheets.size() > 1) {
+      FacesContext context = FacesContext.getCurrentInstance();
+      context.addMessage(null,
+          new FacesMessage("Cannot decline more than one timesheet at a time."));
+      return;
+    }
+    
+    return;
+  }
+  
+  public String declineSave() {
     for (Timesheet t : selectedTimesheets) {
       t.setStatus("" + TimesheetStatus.REJECTED.ordinal());
       tm.merge(t);

@@ -11,6 +11,7 @@
        <link rel="stylesheet" href="resources/css/styles.css" />
     </h:head>
 	<h:body>
+		<p:growl id="growl" showDetail="true" sticky="true" />  
 	    <div id="nav" style="height:15%">
 	        <div id="navContent">
 	            <h1>TimeLink</h1>
@@ -70,7 +71,7 @@
 			        </p:column>
 				    </p:dataTable>
 				    <p:commandButton value="Approve" action="#{ApproverController.approve()}" ajax="false" />
-				    <p:commandButton value="Decline" action="#{ApproverController.decline()}" ajax="false" />
+				    <p:commandButton value="Decline" action="#{ApproverController.declineValidate()}" onclick="PF('rejectmodal').show();" update="growl" />
 	    		</p:panel>
 	    		<p:panel>
 	    			    			<p:dataTable id="table" var="row" value="#{ApproverController.viewingTimesheet.rows}" editable="#{false}" editMode="cell" rowIndexVar="index">
@@ -247,7 +248,21 @@
 	    		</p:panel>
 	    	</p:panelGrid>
 	    </h:form>
-	    <!-- Once the Timesheet table is figured out on Timesheet
-	         you can just paste it here, will require more CSS to look properly though -->
+
+	    <!-- Work Package Edit Modal -->
+	    <p:dialog
+	    	header="Reason for rejecting timesheet"
+            widgetVar="rejectmodal"
+            modal="true"
+            height="300">
+	    	<h:form>
+	            <p:panelGrid columns="2">
+	            <h:outputText value="Rejection reason: "/>
+	            <h:inputText value="PLACEHOLDER DOES NOT SAVE TEXT"/>
+	            </p:panelGrid>
+	            <br />
+	            <h:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />
+	        </h:form>
+	    </p:dialog>
 	</h:body>
 </html>
