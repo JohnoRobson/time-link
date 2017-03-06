@@ -92,9 +92,7 @@ public class Timesheet {
   @PostConstruct
   public void setUp() {
     setEmployee(
-        em.find(
-            Employee.class,
-            getEmployeeId()));
+        em.find(Employee.class, getEmployeeId()));
     setTimesheetApprover(
         getEmployee()
         .getTimesheetApprover());

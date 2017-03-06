@@ -231,5 +231,8 @@
 	        	</p:commandButton>
 	        	<h:outputText value="STATUS: #{TimesheetController.timesheet.status}" />
 	    </h:form>
+	    <p:panel rendered="#{TimesheetController.timesheet.status.equals('REJECTED')}">
+	    	<h:outputText value="PLACEHOLDER REASON FOR THE TIMESHEET BEING DECLINED" />
+	    </p:panel>
 	</h:body>
 </html>
