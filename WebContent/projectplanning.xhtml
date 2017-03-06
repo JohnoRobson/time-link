@@ -96,8 +96,12 @@
             	height="300">
 	    	<h:form>
 	            <p:panelGrid columns="2">
-	            	<h:outputText value="Work Package Code: "/>
-	            	<h:inputText value="#{ProjectPlanningController.wpCode}"/>
+	            	<h:outputText value="Work Package Parent: "/>
+	            	<p:selectOneMenu value="#{ProjectPlanningController.wpCode}">
+	            		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+	            		<f:selectItem itemLabe="" value="#{null}" />
+                    	<f:selectItems value="#{ProjectPlanningController.getCurrentProject().workPackages != null ? ProjectPlanningController.currentProject.workPackages : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.code}" />
+					</p:selectOneMenu>
 	            	<h:outputText value="Work Package Description: "/>
 	            	<h:inputText value="#{ProjectPlanningController.wpDescription}"/>
 	            	<h:outputText value="Responsible Engineer: "/>
