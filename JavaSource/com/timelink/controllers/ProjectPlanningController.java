@@ -231,6 +231,7 @@ public class ProjectPlanningController implements Serializable {
     wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
     wpm.persist(wp);
     setCurrentProjectId(currentProject.getProjectNumber());
+    save();
     return null;
   }
   

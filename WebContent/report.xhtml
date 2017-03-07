@@ -33,7 +33,7 @@
 	    <ui:define name="content">
         <p:growl id="growl" showDetail="true" sticky="true" />  
 	    	<p:panelGrid columns="2">
-	    		<p:panel id="panelq">
+	    		<p:panel>
 	    			<h:form id="approverForm" style="width: 100%">
 		    		<p:dataTable id="approveTable" var="row" value="#{ApproverController.list}" selection="#{ApproverController.selectedTimesheets}" rowKey="#{row.timesheetId}" >
 		    		   <p:ajax event="rowSelectCheckbox" update=":#{p:component('buttons')}" />
