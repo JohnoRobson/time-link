@@ -27,6 +27,12 @@ public class Role implements Serializable {
   @ManyToOne
   @JoinColumn(name = "jt_emp_id")
   private Employee employee;
+  
+  public Role() { }
+  
+  public Role(RoleEnum role) {
+    this.role = role;
+  }
 
   /**
    * Returns the jobTitleId.

@@ -3,12 +3,13 @@ package com.timelink.ejbs;
 import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,6 +38,10 @@ public class Employee implements Serializable {
       joinColumns = @JoinColumn(name = "tsa_appr_id"),
       inverseJoinColumns = @JoinColumn(name = "tsa_emp_id"))
   private Employee timesheetApprover;
+  
+  
+  @OneToOne(mappedBy = "employee", cascade = {CascadeType.ALL})
+  private Credentials credentials;
   
   @OneToMany(fetch = FetchType.EAGER,
       mappedBy = "employee")
@@ -132,6 +137,14 @@ public class Employee implements Serializable {
   //    this.supervisor = supervisor;
   //  }
   
+  public Credentials getCredentials() {
+    return credentials;
+  }
+
+  public void setCredentials(Credentials credentials) {
+    this.credentials = credentials;
+  }
+
   /**
    * Returns the firstName.
    * @return the firstName

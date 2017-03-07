@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -13,29 +15,33 @@ import javax.persistence.Table;
 public class Credentials implements Serializable {
   
   @Id
+  @Column(name = "cre_id")
+  private int credentialsId;
+  
   @Column(name = "cre_emp_user_id")
   private String username;
+  
+  @OneToOne
+  @JoinColumn(name = "cre_emp_id")
+  private Employee employee;
   
   @Column(name = "cre_pw")
   private String password;
   
-  @Column(name = "cre_id")
-  private int employeeId;
-  
   /**
-   * Returns the employeeId.
-   * @return the employeeId
+   * Returns the credentialsId.
+   * @return the credentialsId
    */
-  public int getEmployeeId() {
-    return employeeId;
+  public int getCredentialsId() {
+    return credentialsId;
   }
   
   /**
-   * Sets the employeeId to employeeId.
-   * @param employeeId the employeeId to set
+   * Sets the credentialsId to credentialsId.
+   * @param credentialsId the credentialsId to set
    */
-  public void setEmployeeId(int employeeId) {
-    this.employeeId = employeeId;
+  public void setCredentialsId(int credentialsId) {
+    this.credentialsId = credentialsId;
   }
   
   /**
@@ -68,5 +74,17 @@ public class Credentials implements Serializable {
    */
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public int getEmployeeId() {
+    return employee.getEmployeeId();
+  }
+
+  public Employee getEmployee() {
+    return employee;
+  }
+
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
   }
 }

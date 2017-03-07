@@ -102,6 +102,7 @@ DROP TABLE IF EXISTS `credential`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `credential` (
   `cre_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cre_emp_id` int(11) DEFAULT NULL,
   `cre_emp_user_id` varchar(45) DEFAULT NULL,
   `cre_pw` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`cre_id`),
@@ -233,6 +234,7 @@ CREATE TABLE `ts_header` (
   `tsh_overtime` float DEFAULT NULL,
   `tsh_flextime` float DEFAULT NULL,
   `tsh_status` varchar(10) DEFAULT NULL,
+  `tsh_rejectreason` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`tsh_id`),
   UNIQUE KEY `tsh_id_UNIQUE` (`tsh_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -304,10 +306,10 @@ CREATE TABLE `wp_emp` (
   
   USE timelink_dev;
   
-INSERT INTO employee VALUES (1, null, "adminfname", "adminlname", 1, "a@a.com", 2, null, null, null, null, null);
-INSERT INTO employee VALUES (2, null, "tsafname", "tsalname", 2, "tsa@tsa.com", 1, null, null, null, null, null);
-INSERT INTO employee VALUES (3, null, "pmfname", "pmlname", 3, "pm@pm.com", 1, null, null, null, null, null);
-INSERT INTO employee VALUES (4, null, "refname", "relname", 4, "ref@ref.com", 1, null, null, null, null, null);
+INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", 1, "a@a.com", 2, null, null, null, null, null);
+INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", 2, "tsa@tsa.com", 1, null, null, null, null, null);
+INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", 3, "pm@pm.com", 1, null, null, null, null, null);
+INSERT INTO employee VALUES (4, "re", "refname", "relname", 4, "ref@ref.com", 1, null, null, null, null, null);
 
 INSERT INTO job_title VALUES (1, 1, 0);
 INSERT INTO job_title VALUES (2, 2, 0);
@@ -318,10 +320,10 @@ INSERT INTO job_title VALUES (6, 4, 5);
 
 INSERT INTO ts_approver VALUES (0, 2, 1);
 
-INSERT INTO credential VALUES (1, "Admin", "Admin");
-INSERT INTO credential VALUES (2, "tsa", "tsa");
-INSERT INTO credential VALUES (3, "pm", "pm");
-INSERT INTO credential VALUES (4, "re", "re");
+INSERT INTO credential VALUES (1, 1, "Admin", "Admin");
+INSERT INTO credential VALUES (2, 2, "tsa", "tsa");
+INSERT INTO credential VALUES (3, 3, "pm", "pm");
+INSERT INTO credential VALUES (4, 4, "re", "re");
 
 INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3);
 INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3);
@@ -339,7 +341,7 @@ INSERT INTO wp_emp VALUES (0, 2, 1);
 INSERT INTO wp_emp VALUES (0, 3, 1);
 INSERT INTO wp_emp VALUES (0, 4, 1);
 
-INSERT INTO ts_header VALUES(0, 1, "2017-01-30", null, 2, 0, 1, 1);
+INSERT INTO ts_header VALUES(0, 1, "2017-01-30", null, 2, 0, 1, 1, null);
 
 INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 0, null);
 INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 0, null);
@@ -358,4 +360,4 @@ INSERT INTO labour_grade VALUES (4, null, "P4", 400);
 INSERT INTO labour_grade VALUES (5, null, "P5", 500);
 
 INSERT INTO Budget_Hour VALUES(0, 1, 1, 3);
-INSERT INTO Budget_hour VALUES(0, 2, 1, 5);
+INSERT INTO Budget_Hour VALUES(0, 2, 1, 5);
