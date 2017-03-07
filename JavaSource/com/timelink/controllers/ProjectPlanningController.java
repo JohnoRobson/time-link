@@ -87,7 +87,6 @@ public class ProjectPlanningController implements Serializable {
       }
     }
     pm.merge(currentProject);
-    currentProject = pm.find(currentProject.getProjectNumber());
     return null;
   }
   
@@ -246,7 +245,6 @@ public class ProjectPlanningController implements Serializable {
     editingWorkPackageId.setProject(currentProject);
     //wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
     wpm.merge(editingWorkPackageId);
-    //setCurrentProjectId(currentProject.getProjectNumber());
     return null;
     
   }

@@ -1,6 +1,7 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
+import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.ProjectManager;
@@ -22,7 +23,7 @@ import javax.inject.Named;
 @SessionScoped
 @Named("TimesheetController")
 public class TimesheetController implements Serializable {
-  private Timesheet timesheet;
+  private Timesheet selectedTimesheet;
   @Inject TimesheetManager tm;
   @Inject WorkPackageManager wpm;
   @Inject Session ses;
@@ -33,51 +34,51 @@ public class TimesheetController implements Serializable {
   }
   
   /**
-   * Returns timesheet.  If there isn't a timesheet for the current employee
+   * Returns selectedTimesheet.  If there isn't a timesheet for the current employee
    * one will be created.
-   * @return the timesheet
+   * @return the selectedTimesheet
    */
-  public Timesheet getTimesheet() {
-    if (timesheet == null) {
-      timesheet = tm.findLatest(ses.getCurrentEmployee());
+  public Timesheet getSelectedTimesheet() {
+    if (selectedTimesheet == null) {
+      selectedTimesheet = null;
     }
-    return timesheet;
+    return selectedTimesheet;
   }
 
   /**
-   * Sets timesheet to timesheet.
-   * @param timesheet the timesheet to set
+   * Sets selectedTimesheet to selectedTimesheet.
+   * @param selectedTimesheet the selectedTimesheet to set
    */
-  public void setTimesheet(Timesheet timesheet) {
-    this.timesheet = timesheet;
+  public void setSelectedTimesheet(Timesheet selectedTimesheet) {
+    this.selectedTimesheet = selectedTimesheet;
   }
   
   //TODO make this gud
   /**
-   * Saves the current timesheet and reloads it from the database.
+   * Saves the current selectedTimesheet and reloads it from the database.
    * @return A null to reload the page.
    */
   public String save() {
-    tm.merge(timesheet);
-    timesheet = getTimesheet();
+    tm.merge(selectedTimesheet);
+    selectedTimesheet = getSelectedTimesheet();
     return null;
   }
   
   //TODO make this gud
   /**
-   * Sets the current timesheet's status to submitted
+   * Sets the current selectedTimesheet's status to submitted
    * and saves it.
    * @return A null to reload the page.
    */
   public String submit() {
-    timesheet.setStatus("1");
+    selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
     save();
     return null;
   }
   
   public void refresh() {
-    timesheet = null;
-    getTimesheet();
+    selectedTimesheet = null;
+    getSelectedTimesheet();
   }
   
   //TODO make this work on a weekly, rather than a daily basis.
@@ -88,24 +89,24 @@ public class TimesheetController implements Serializable {
    * @return Null, so that the page can be reloaded.
    */
   public String addTimesheet() {
-    if (timesheet != null && timesheet.getDate().toString()
+    if (selectedTimesheet != null && selectedTimesheet.getDate().toString()
         .equals(new Date(Calendar.getInstance().getTime().getTime()).toString())) {
       return null;
     }
-    tm.merge(timesheet);
-    timesheet = new Timesheet(ses.getCurrentEmployee());
-    tm.persist(timesheet);
-    //Update the timesheet PK so that it can be added to it's rows and hours.
-    timesheet = tm.findLatest(ses.getCurrentEmployee());
+    tm.merge(selectedTimesheet);
+    selectedTimesheet = new Timesheet(ses.getCurrentEmployee());
+    tm.persist(selectedTimesheet);
+    //Update the selectedTimesheet PK so that it can be added to it's rows and hours.
+    selectedTimesheet = tm.findLatest(ses.getCurrentEmployee());
     return null;
   }
   
   /**
-   * Adds a row to the current timesheet.
+   * Adds a row to the current selectedTimesheet.
    * @return null, to reload the page.
    */
   public String addRow() {
-    timesheet.addRow();
+    selectedTimesheet.addRow();
     return null;
   }
   
@@ -118,5 +119,39 @@ public class TimesheetController implements Serializable {
    */
   public List<WorkPackage> getAssignedWorkPackages(int projectNumber) {
     return wpm.findAssigned(ses.getCurrentEmployee(), pm.find(projectNumber));
+  }
+
+  /**
+   * Return the selectedTimesheetId.
+   * @return the selectedTimesheetId
+   */
+  public Integer getSelectedTimesheetId() {
+    if (selectedTimesheet == null) {
+      return null;
+    }
+    return selectedTimesheet.getTimesheetId();
+  }
+
+  /**
+   * Set the selectedTimesheetId to selectedTimesheetId.
+   * @param selectedTimesheetId the selectedTimesheetId to set
+   */
+  public void setSelectedTimesheetId(Integer selectedTimesheetId) {
+    if (selectedTimesheetId == null) {
+      return;
+    }
+    
+    if (this.selectedTimesheet != null
+        && this.selectedTimesheet.getTimesheetId() == selectedTimesheetId) {
+      return;
+    }
+    
+    Timesheet ts = tm.find(selectedTimesheetId);
+    tm.detach(ts);
+    this.selectedTimesheet = tm.find(selectedTimesheetId);
+  }
+  
+  public List<Timesheet> getTimesheets() {
+    return tm.findByEmployee(ses.getCurrentEmployee());
   }
 }

@@ -5,7 +5,9 @@ import com.timelink.TimesheetStatus;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.CascadeType;
@@ -18,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -63,7 +66,8 @@ public class Timesheet {
       cascade = CascadeType.ALL)
   @JoinColumn(name = "tsl_tsh_id",
       referencedColumnName = "tsh_id")
-  private List<TimesheetRow> rows;  
+  @OrderBy("timesheetRowId ASC")
+  private Set<TimesheetRow> rows;  
   
   //TODO get dates working for time sheets, rows and hours.
   /**
@@ -80,7 +84,7 @@ public class Timesheet {
     setEmployeeId(emp.getEmployeeId());
     setTimesheetApprover(emp.getTimesheetApprover());
     setEmployee(emp);
-    rows = new ArrayList<TimesheetRow>();
+    rows = new HashSet<TimesheetRow>();
     setStatus("0");
     date = new Date(Calendar.getInstance().getTime().getTime());
   }
@@ -255,7 +259,10 @@ public class Timesheet {
    * @return the rows
    */
   public List<TimesheetRow> getRows() {
-    return rows;
+    if (rows != null) {
+      return new ArrayList<TimesheetRow>(rows);
+    }
+    return new ArrayList<TimesheetRow>();
   }
 
   /**
@@ -263,7 +270,7 @@ public class Timesheet {
    * @param rows the rows to set
    */
   public void setRows(List<TimesheetRow> rows) {
-    this.rows = rows;
+    this.rows = new HashSet<TimesheetRow>(rows);
   }
   
   //TODO Should we put this in HoursManager or this? I feel like

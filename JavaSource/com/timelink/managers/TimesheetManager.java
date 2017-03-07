@@ -128,4 +128,21 @@ public class TimesheetManager {
     }
     return result;
   }
+  
+  /**
+   * Returns a list of all Timesheets that an employee has.
+   * @param emp The employee to be searched
+   * @return A List of all Timesheets belonging to emp.
+   */
+  public List<Timesheet> findByEmployee(Employee emp) {
+    TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet As t "
+        + "WHERE t.employeeId = :empId "
+        + "ORDER BY t.date DESC", Timesheet.class)
+        .setParameter("empId", emp.getEmployeeId());
+    return query.getResultList();
+  }
+  
+  public void detach(Timesheet ts) {
+    em.detach(ts);
+  }
 }

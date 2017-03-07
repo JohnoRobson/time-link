@@ -31,14 +31,14 @@
 	    </div>
 	    </ui:define>
 	    <ui:define name="content">
-	    <div id="content">
+	    	
 	        <div id="timesheetHeader">
 	            <div id="left" class="headerPart">
 	                <p>Name:</p><p><h:outputText value="#{Session.currentEmployee.firstName} #{Session.currentEmployee.lastName}" /></p>
 	                <br />
 	                <p>Title:</p><p>PLACEHOLDER: UI Specialist</p>
 	                <br />
-	                <p>Date:</p><p><h:outputText value="#{TimesheetController.timesheet.date}" /></p>
+	                <p>Date:</p><p><h:outputText value="#{TimesheetController.selectedTimesheet.date}" /></p>
 	            </div>
 	            <div id="right" class="headerPart">
 	                <p>UserID:</p><p><h:outputText value="#{Session.currentEmployee.employeeId}" /></p>
@@ -46,13 +46,22 @@
 	                <p>Department:</p><p>PLACEHOLDER: BCIT_IS</p>
 	                <br />
 	                <p>Week:</p><p>PLACEHOLDER: 5</p>
+	                <br />
 	            </div>
 	        </div>
-	    </div>
-	    <h:form>
+	        <h:form>
+	        <p:panel id="tscontent">
+	        	<p><h:outputText value="STATUS: #{TimesheetController.selectedTimesheet.status}" /></p>
+	        	<p:selectOneMenu value="#{TimesheetController.selectedTimesheetId}">
+		            	<p:ajax event="itemSelect" update=":#{p:component('tscontent')}" />
+		            	<f:selectItem itemLabel="Select Timesheet" itemValue="" noSelectionOption="true" />
+		            	<f:selectItems value="#{TimesheetController.getTimesheets() != null ? TimesheetController.getTimesheets() : null}" 
+		            				   var="ts" itemLabel="#{ts.date}" 
+		            				   itemValue="#{ts.timesheetId}" />
+        			</p:selectOneMenu>
 	        <p:remoteCommand name="onCellEdit" update="table" />
-	        <p:dataTable id="table" var="row" value="#{TimesheetController.timesheet.rows}" editable="#{TimesheetController.timesheet.status eq 'NOTSUBMITTED' || TimesheetController.timesheet.status eq 'REJECTED'}" editMode="cell" rowIndexVar="index"
-	        render="#{TimesheetController.timesheet != null}">
+	        <p:dataTable id="table" var="row" value="#{TimesheetController.selectedTimesheet.rows}" editable="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" editMode="cell" rowIndexVar="index"
+	        	render="#{TimesheetController.selectedTimesheet != null}" lazy="true">
 	        	<p:column headerText="project">
 					<p:cellEditor>
 					    <f:facet name="output">
@@ -208,19 +217,16 @@
                     </p:cellEditor>
                 </p:column>
 	        </p:dataTable>
-	        	<p:commandButton action="#{TimesheetController.save()}" value="save" ajax="false" >
-	        	</p:commandButton>
-	        	<p:commandButton action="#{TimesheetController.addRow()}" value="add row" ajax="false" >
-	        	</p:commandButton>
-	        	<p:commandButton action="#{TimesheetController.addTimesheet()}" value="add timesheet" ajax="false" >
-	        	</p:commandButton>
-	        	<p:commandButton action="#{TimesheetController.submit()}" value="Submit" ajax="false" >
-	        	</p:commandButton>
-	        	<h:outputText value="STATUS: #{TimesheetController.timesheet.status}" />
+        	<p:commandButton action="#{TimesheetController.save()}" value="save" ajax="false" />
+        	<p:commandButton action="#{TimesheetController.addRow()}" value="add row" ajax="false" />
+        	<p:commandButton action="#{TimesheetController.addTimesheet()}" value="add timesheet" ajax="false" />
+        	<p:commandButton action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
+        	
+	        </p:panel>
+		    <p:panel rendered="#{TimesheetController.selectedTimesheet.status.equals('REJECTED')}">
+		    	<h:outputText value="PLACEHOLDER REASON FOR THE TIMESHEET BEING DECLINED" />
+		    </p:panel>
 	    </h:form>
-	    <p:panel rendered="#{TimesheetController.timesheet.status.equals('REJECTED')}">
-	    	<h:outputText value="PLACEHOLDER REASON FOR THE TIMESHEET BEING DECLINED" />
-	    </p:panel>
 	    </ui:define>
 	    
 	    <ui:define name="footer">
