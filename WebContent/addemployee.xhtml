@@ -34,14 +34,28 @@
 	        <h1>Create Employee</h1>
 	        <h:form>
 	            <h:panelGrid columns="2">
+	                User ID:
+	                <h:inputText value="#{HRController.userId}" />
 	                First Name:
 	                <h:inputText value="#{HRController.firstName}" />
 	                Last Name:
 	                <h:inputText value="#{HRController.lastName}" />
 	                Email:
 	                <h:inputText value="#{HRController.email}" />
+	                Job Title:
+	                <p:selectOneMenu value="#{HRController.jobTitle}" style="width:100%">
+		                <f:selectItems value="#{HRController.roles}" />
+		            </p:selectOneMenu>
+		            Password:
+	                <h:inputSecret value="#{HRController.password}" />
+	                Confirm Password:
+	                <h:inputSecret value="#{HRController.confirmPassword}" />
+	                Effective From:
+	                <h:inputText value="#{HRController.effectiveFrom}" >
+	                    <f:convertDateTime pattern="MM/dd/yyyy" />
+	                </h:inputText>
 	            </h:panelGrid>
-	            <p:commandButton value="Cancel" action="humanresources"/>
+	            <p:commandButton value="Cancel" action="#{HRController.cancel}"/>
 	            <p:commandButton value="Save" action="#{HRController.createNewEmployee}"/>
 	        </h:form>
 	    </div>
