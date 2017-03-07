@@ -358,4 +358,4 @@ INSERT INTO labour_grade VALUES (4, null, "P4", 400);
 INSERT INTO labour_grade VALUES (5, null, "P5", 500);
 
 INSERT INTO Budget_Hour VALUES(0, 1, 1, 3);
-INSERT INTO Budget_hour VALUES(0, 2, 1, 5);
+INSERT INTO Budget_Hour VALUES(0, 2, 1, 5);
