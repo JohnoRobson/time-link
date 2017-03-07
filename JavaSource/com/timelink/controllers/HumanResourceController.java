@@ -1,10 +1,16 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
+import com.timelink.ejbs.Credentials;
 import com.timelink.ejbs.Employee;
+import com.timelink.ejbs.Role;
 import com.timelink.managers.EmployeeManager;
+import com.timelink.managers.RoleManager;
+import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -16,16 +22,19 @@ import javax.inject.Named;
 @Named("HRController")
 public class HumanResourceController implements Serializable {
   @Inject EmployeeManager em;
+  @Inject RoleManager rm;
   
   /** Current Employee being edited. */
   private Employee editingEmployee;
   
-  private Integer employeeId;
+  private String userId;
   private String firstName;
   private String lastName;
-  private String username;
   private String email;
-  private String jobTitle;
+  private RoleEnum jobTitle;
+  private String password;
+  private String confirmPassword;
+  private Date effectiveFrom;
   
   /**
    * Return the editingEmployee.
@@ -43,12 +52,12 @@ public class HumanResourceController implements Serializable {
     this.editingEmployee = editingEmployee;
   }
   
-  public int getEmployeeId() {
-    return employeeId;
+  public String getUserId() {
+    return userId;
   }
 
-  public void setEmployeeId(int employeeId) {
-    this.employeeId = employeeId;
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
   public String getFirstName() {
@@ -67,14 +76,6 @@ public class HumanResourceController implements Serializable {
     this.lastName = lastName;
   }
 
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
   public String getEmail() {
     return email;
   }
@@ -83,37 +84,84 @@ public class HumanResourceController implements Serializable {
     this.email = email;
   }
 
-  public String getJobTitle() {
+  public RoleEnum getJobTitle() {
     return jobTitle;
   }
 
-  public void setJobTitle(String jobTitle) {
+  public void setJobTitle(RoleEnum jobTitle) {
     this.jobTitle = jobTitle;
   }
   
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public String getConfirmPassword() {
+    return confirmPassword;
+  }
+
+  public void setConfirmPassword(String confirmPassword) {
+    this.confirmPassword = confirmPassword;
+  }
+
+  public Date getEffectiveFrom() {
+    return effectiveFrom;
+  }
+
+  public void setEffectiveFrom(Date effectiveFrom) {
+    this.effectiveFrom = effectiveFrom;
+  }
+
   public List<Employee> getEmployees() {
     return em.getAll();
   }
   
+  /**
+   * Return all available roles for a new Employee.
+   * @return RoleEnum list of potential roles
+   */
+  public List<RoleEnum> getRoles() {
+    ArrayList<RoleEnum> ptRoles = new ArrayList<RoleEnum>();
+    ptRoles.add(RoleEnum.EMPLOYEE);
+    ptRoles.add(RoleEnum.HUMAN_RESOURCES);
+    ptRoles.add(RoleEnum.RESPONSIBLE_ENGINEER);
+    return ptRoles;
+  }
+  
+  /**
+   * Edit an Employee.
+   * @param employee to edit
+   * @return navigation string to edit employee page
+   */
   public String edit(Employee employee) {
     editingEmployee = employee;
+    userId = employee.getUserId();
     firstName = employee.getFirstName();
     lastName = employee.getLastName();
     email = employee.getEmail();
     return "editemployee";
   }
   
+  public String cancel() {
+    clear();
+    return "humanresources";
+  }
+  
   /**
    * Clear input fields.
    */
   private void clear() {
-    employeeId = null;
+    userId = null;
     firstName = null;
     lastName = null;
-    username = null;
     email = null;
     jobTitle = null;
     editingEmployee = null;
+    effectiveFrom = null;
   }
   
   //TODO Update JavaDoc comments
@@ -123,11 +171,23 @@ public class HumanResourceController implements Serializable {
    */
   public String createNewEmployee() {
     Employee emp = new Employee();
+    emp.setUserId(userId);
     emp.setFirstName(firstName);
     emp.setLastName(lastName);
     emp.setEmail(email);
+    //emp.setEffectFrom(effectiveFrom);
+    
+    //Role role = new Role(jobTitle);
+    //role.setEmployee(emp);
+    
+    Credentials cr = new Credentials();
+    cr.setPassword(password);
+    cr.setUsername(userId);
+    cr.setEmployee(emp);
+    emp.setCredentials(cr);
     
     em.persist(emp);
+    //rm.persist(role);
     clear();
     return "humanresources";
   }
@@ -140,6 +200,7 @@ public class HumanResourceController implements Serializable {
   public String save() {
     Employee emp = new Employee();
     emp.setEmployeeId(editingEmployee.getEmployeeId());
+    emp.setUserId(userId);
     emp.setFirstName(firstName);
     emp.setLastName(lastName);
     emp.setEmail(email);

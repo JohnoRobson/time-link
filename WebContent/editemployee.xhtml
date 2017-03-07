@@ -34,6 +34,8 @@
 	        <h1>Edit Employee</h1>
 	        <h:form>
 	        	<h:panelGrid columns="2">
+	        	    User ID:
+	                <h:inputText value="#{HRController.userId}" />
 	                First Name:
 	                <h:inputText value="#{HRController.firstName}" />
 	                Last Name:
@@ -41,7 +43,7 @@
 	                Email:
 	                <h:inputText value="#{HRController.email}" />
 	            </h:panelGrid>
-	            <p:commandButton value="Cancel" action="humanresources"/>
+	            <p:commandButton value="Cancel" action="#{HRController.cancel}"/>
 	            <p:commandButton value="Save" action="#{HRController.save}"/>
 	        </h:form>
 	    </div>
