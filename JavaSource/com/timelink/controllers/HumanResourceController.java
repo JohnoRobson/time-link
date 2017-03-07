@@ -224,7 +224,11 @@ public class HumanResourceController implements Serializable {
     emp.setLastName(lastName);
     emp.setEmail(email);
     
+    //Role role = new Role(jobTitle);
+    //role.setEmployee(emp);
+    
     em.merge(emp);
+    //rm.merge(role);
     clear();
     return "humanresources";
   }
