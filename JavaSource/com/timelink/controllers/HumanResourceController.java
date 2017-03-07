@@ -233,6 +233,10 @@ public class HumanResourceController implements Serializable {
     return "humanresources";
   }
   
+  /**
+   * Save the new password for the editingEmployee.
+   * @return navigation String to reload page.
+   */
   public String newPassword() {
     if (password.equals(confirmPassword)) {
       Employee emp = editingEmployee;
