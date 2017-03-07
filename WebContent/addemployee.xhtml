@@ -44,13 +44,16 @@
 	                <h:inputText value="#{HRController.email}" />
 	                Job Title:
 	                <p:selectOneMenu value="#{HRController.jobTitle}" style="width:100%">
-			            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 		                <f:selectItems value="#{HRController.roles}" />
 		            </p:selectOneMenu>
 		            Password:
-	                <h:inputText value="#{HRController.password}" />
+	                <h:inputSecret value="#{HRController.password}" />
 	                Confirm Password:
-	                <h:inputText value="#{HRController.confirmPassword}" />
+	                <h:inputSecret value="#{HRController.confirmPassword}" />
+	                Effective From:
+	                <h:inputText value="#{HRController.effectiveFrom}" >
+	                    <f:convertDateTime pattern="MM/dd/yyyy" />
+	                </h:inputText>
 	            </h:panelGrid>
 	            <p:commandButton value="Cancel" action="#{HRController.cancel}"/>
 	            <p:commandButton value="Save" action="#{HRController.createNewEmployee}"/>

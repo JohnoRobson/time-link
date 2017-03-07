@@ -1,6 +1,5 @@
 package com.timelink.controllers;
 
-import com.timelink.Session;
 import com.timelink.ejbs.Credentials;
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Role;
@@ -9,8 +8,8 @@ import com.timelink.managers.RoleManager;
 import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -128,8 +127,23 @@ public class HumanResourceController implements Serializable {
     ArrayList<RoleEnum> ptRoles = new ArrayList<RoleEnum>();
     ptRoles.add(RoleEnum.EMPLOYEE);
     ptRoles.add(RoleEnum.HUMAN_RESOURCES);
-    ptRoles.add(RoleEnum.RESPONSIBLE_ENGINEER);
     return ptRoles;
+  }
+  
+  /**
+   * Return roles to change an Employee to, default is current role.
+   * @return RoleEnum list of roles
+   */
+  public List<RoleEnum> getChangeRoles() {
+    ArrayList<RoleEnum> chRoles = new ArrayList<RoleEnum>();
+    if (editingEmployee.hasRole(RoleEnum.HUMAN_RESOURCES)) {
+      chRoles.add(RoleEnum.HUMAN_RESOURCES);
+      chRoles.add(RoleEnum.EMPLOYEE);
+    } else {
+      chRoles.add(RoleEnum.EMPLOYEE);
+      chRoles.add(RoleEnum.HUMAN_RESOURCES);
+    }
+    return chRoles;
   }
   
   /**
@@ -162,6 +176,8 @@ public class HumanResourceController implements Serializable {
     jobTitle = null;
     editingEmployee = null;
     effectiveFrom = null;
+    password = null;
+    confirmPassword = null;
   }
   
   //TODO Update JavaDoc comments
@@ -170,26 +186,30 @@ public class HumanResourceController implements Serializable {
    * @return NAVIGATION STRING
    */
   public String createNewEmployee() {
-    Employee emp = new Employee();
-    emp.setUserId(userId);
-    emp.setFirstName(firstName);
-    emp.setLastName(lastName);
-    emp.setEmail(email);
-    //emp.setEffectFrom(effectiveFrom);
-    
-    //Role role = new Role(jobTitle);
-    //role.setEmployee(emp);
-    
-    Credentials cr = new Credentials();
-    cr.setPassword(password);
-    cr.setUsername(userId);
-    cr.setEmployee(emp);
-    emp.setCredentials(cr);
-    
-    em.persist(emp);
-    //rm.persist(role);
-    clear();
-    return "humanresources";
+    if (password.equals(confirmPassword)) {
+      Employee emp = new Employee();
+      emp.setUserId(userId);
+      emp.setFirstName(firstName);
+      emp.setLastName(lastName);
+      emp.setEmail(email);
+      emp.setEffectFrom(new Date(effectiveFrom.getTime()));
+      
+      Role role = new Role(jobTitle);
+      role.setEmployee(emp);
+      
+      Credentials cr = new Credentials();
+      cr.setPassword(password);
+      cr.setUsername(userId);
+      cr.setEmployee(emp);
+      emp.setCredentials(cr);
+      
+      em.persist(emp);
+      rm.persist(role);
+      clear();
+      return "humanresources";
+    } else {
+      return null;
+    }
   }
   
   //TODO Update JavaDoc comments
@@ -198,8 +218,7 @@ public class HumanResourceController implements Serializable {
    * @return NAVIGATION STRING
    */
   public String save() {
-    Employee emp = new Employee();
-    emp.setEmployeeId(editingEmployee.getEmployeeId());
+    Employee emp = editingEmployee;
     emp.setUserId(userId);
     emp.setFirstName(firstName);
     emp.setLastName(lastName);
@@ -208,5 +227,21 @@ public class HumanResourceController implements Serializable {
     em.merge(emp);
     clear();
     return "humanresources";
+  }
+  
+  public String newPassword() {
+    if (password.equals(confirmPassword)) {
+      Employee emp = editingEmployee;
+      
+      Credentials cr = new Credentials();
+      cr.setCredentialsId(emp.getCredentials().getCredentialsId());
+      cr.setPassword(password);
+      cr.setUsername(userId);
+      cr.setEmployee(emp);
+      emp.setCredentials(cr);
+      
+      em.merge(emp);
+    } 
+    return null;
   }
 }
