@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html">
 
     <h:head>
@@ -10,24 +11,32 @@
        <link rel="stylesheet" href="resources/css/styles.css" />
     </h:head>
     <h:body>
+    	<p:layout fullPage="true">
    	 	<!-- header template place holder -->
-    	<div class="header">
-    		<ui:insert name="header">
-    			<ui:include src="header.xhtml" />
-    		</ui:insert>
-    	</div>
+   	 	<p:layoutUnit class="head" position="north" size="180">
+	    	<div class="header">
+	    		<ui:insert name="header">
+	    			<ui:include src="header.xhtml" />
+	    		</ui:insert>
+	    	</div>
+    	</p:layoutUnit>
     	<!--  content template place holder  -->
-    	<div class="content">
-    		<ui:insert name="content">
-    			<ui:include src="content.xhtml" />
-    		</ui:insert>
-    	</div>
+    	<p:layoutUnit class="mainContent" position="center" size="500" resizable="true">
+	    	<div class="content">
+	    		<ui:insert name="content">
+	    			<ui:include src="content.xhtml" />
+	    		</ui:insert>
+	    	</div>
+    	</p:layoutUnit>
     	<!-- footer template place holder -->
-    	<div class="footer">
-    		<ui:insert name="footer">
-    			<ui:include src="footer.xhtml" />
-    		</ui:insert>
-    	</div>
+    	<p:layoutUnit class="footerBar" position="south" size="100">
+	    	<div class="footerBanner">
+	    		<ui:insert name="footer">
+	    			<ui:include src="footer.xhtml" />
+	    		</ui:insert>
+	    	</div>
+    	</p:layoutUnit>
+    	</p:layout>
     </h:body>
 </html>
 
