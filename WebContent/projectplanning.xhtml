@@ -37,7 +37,8 @@
 	    		<p:commandButton
                 	value="Create Work Package"
                 	type="submit"
-                	onclick="PF('createwp').show();"/>
+                	onclick="PF('createwp').show();"
+                	update=":#{p:component('creationModal')}"/>
 	    		<p:selectOneMenu value="#{ProjectPlanningController.currentProjectId}">
 	            	<p:ajax event="itemSelect" update="matrix" />
 	            	<f:selectItem itemLabel="" itemValue="#{0}"/>
@@ -97,8 +98,11 @@
             	height="300">
 	    	<h:form>
 	            <p:panelGrid columns="2">
-	            	<h:outputText value="Work Package Code: "/>
-	            	<h:inputText value="#{ProjectPlanningController.wpCode}"/>
+	            	<h:outputText value="Work Package Parent: "/>
+	            	<p:selectOneMenu value="#{ProjectPlanningController.wpCode}" id="creationModal">
+	            		<f:selectItem itemLabe="" value="#{null}" />
+                    	<f:selectItems value="#{ProjectPlanningController.getCurrentProject().workPackages != null ? ProjectPlanningController.currentProject.workPackages : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.code}" />
+					</p:selectOneMenu>
 	            	<h:outputText value="Work Package Description: "/>
 	            	<h:inputText value="#{ProjectPlanningController.wpDescription}"/>
 	            	<h:outputText value="Responsible Engineer: "/>

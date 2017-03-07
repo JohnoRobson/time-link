@@ -62,6 +62,15 @@ public class WorkPackageManager {
     return query.getResultList();
   }
   
+  public WorkPackage findParent(WorkPackage wp) {
+    StringBuilder sb = new StringBuilder(wp.getCode());
+    sb.setCharAt(sb.indexOf("0") - 1, '0');
+    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
+        + "WHERE wp.code = :code", WorkPackage.class)
+        .setParameter("code", sb.toString());
+    return query.getSingleResult();
+  }
+  
   /**
    * Adds wp to the database.
    * 
