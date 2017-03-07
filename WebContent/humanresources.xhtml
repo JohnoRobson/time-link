@@ -34,8 +34,14 @@
 	        <h1>Employees</h1>
 	        <h:form>
 	            <p:dataTable value="#{HRController.employees}" var="employee">
+	                <p:column headerText="UserId">
+	                    #{employee.userId}
+	                </p:column>
 	                <p:column headerText="First Name">
 	                    #{employee.firstName}
+	                </p:column>
+	                <p:column headerText="Last Name">
+	                    #{employee.lastName}
 	                </p:column>
 	                <p:column>
 	                    <p:commandLink value="Edit" 
