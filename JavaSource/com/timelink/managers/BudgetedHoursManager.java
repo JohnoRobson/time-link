@@ -2,7 +2,6 @@ package com.timelink.managers;
 
 
 import com.timelink.ejbs.BudgetedHours;
-import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.WorkPackage;
 
 import javax.ejb.Stateless;

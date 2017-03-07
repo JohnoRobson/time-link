@@ -99,21 +99,6 @@
                     </p:cellEditor>
                     
                     </p:column>
-                <p:column headerText="sun">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(1).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(1).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
                 
                 <p:column headerText="sun">
                     <p:cellEditor>

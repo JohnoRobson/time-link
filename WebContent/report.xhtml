@@ -32,11 +32,15 @@
 	    </ui:define>
 	    <ui:define name="content">
         <p:growl id="growl" showDetail="true" sticky="true" />  
-	    <h:form id="approverForm" style="width: 100%">
 	    	<p:panelGrid columns="2">
-	    		<p:panel>
+	    		<p:panel id="panelq">
+	    			<h:form id="approverForm" style="width: 100%">
 		    		<p:dataTable id="approveTable" var="row" value="#{ApproverController.list}" selection="#{ApproverController.selectedTimesheets}" rowKey="#{row.timesheetId}" >
-		    		<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+		    		   <p:ajax event="rowSelectCheckbox" update=":#{p:component('buttons')}" />
+  					   <p:ajax event="rowUnselectCheckbox" update=":#{p:component('buttons')}" />
+ 					   <p:ajax event="rowSelect" update=":#{p:component('buttons')}" />
+ 					   <p:ajax event="rowUnselect" update=":#{p:component('buttons')}" />
+		    		<p:column selectionMode="multiple" style="width:16px;text-align:center" />
 			        <p:column headerText="Date" >
 			            <!-- DATE COLUMN -->
 			            #{row.date}
@@ -57,13 +61,6 @@
 			            <!-- FlexTime COLUMN -->
 			            #{row.flextime}
 			        </p:column>
-			        <!-- 
-			        <p:selectOneMenu value="#{row.projectId}" style="width:100%">
-			                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-			                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-		                                <f:selectItems value="#{ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) != null ? ProjectManager.findByEmpId(Session.getCurrentEmployee().employeeId) : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
-		                            </p:selectOneMenu>
-			         -->
 			         <p:column headerText="Status">
 			            #{row.status}
 			        </p:column>
@@ -71,8 +68,13 @@
 			        	<p:commandButton value="View" action="#{ApproverController.setViewingTimesheet(row)}" ajax="false"/>
 			        </p:column>
 				    </p:dataTable>
-				    <p:commandButton value="Approve" action="#{ApproverController.approve()}" ajax="false" />
-				    <p:commandButton value="Decline" action="#{ApproverController.declineValidate()}" onclick="PF('rejectmodal').show();" update="growl" />
+				    <p:remoteCommand name="onCellEdit" update="buttons" />
+				    <p:panel id="buttons">
+				    	<p:commandButton value="Approve" action="#{ApproverController.approve()}" ajax="false" />
+				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() != 1}" update="growl" actionListener="#{ApproverController.declineValidate}" />
+				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() == 1}" update="growl" onclick="PF('rejectmodal').show()" />
+				    </p:panel>
+				    	    </h:form>
 	    		</p:panel>
 	    		<p:panel>
 	    			    			<p:dataTable id="table" var="row" value="#{ApproverController.viewingTimesheet.rows}" editable="#{false}" editMode="cell" rowIndexVar="index">
@@ -83,7 +85,6 @@
 					    </f:facet>
 					    <f:facet name="input">
 	                        <p:selectOneMenu value="#{row.projectId}" style="width:100%">
-	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
                                 <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
                             </p:selectOneMenu>
@@ -98,7 +99,6 @@
 					    </f:facet>
 					    <f:facet name="input">
 	                        <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
-	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
                                 <f:selectItems value="#{ProjectManager.find(row.projectId) != null ? TimesheetController.getAssignedWorkPackages(row.projectId) : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
                             </p:selectOneMenu>
@@ -122,22 +122,6 @@
                     </p:cellEditor>
                     
                     </p:column>
-                <p:column headerText="sun">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(1).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(1).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-                
                 <p:column headerText="sun">
                     <p:cellEditor>
                         
@@ -248,14 +232,7 @@
 	        </p:dataTable>
 	    		</p:panel>
 	    	</p:panelGrid>
-	    </h:form>
-		</ui:define>
-		<ui:define name="footer">
-			#Feeterhere
-		</ui:define>
-	</ui:composition>
-    
-    <!-- Rejection modal -->
+	    	    <!-- Rejection modal -->
     <p:dialog
         header="Reason for rejecting timesheet"
         widgetVar="rejectmodal"
@@ -270,5 +247,10 @@
             <h:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />
         </h:form>
     </p:dialog>
+		</ui:define>
+		<ui:define name="footer">
+			#Feeterhere
+		</ui:define>
+	</ui:composition>
 	</h:body>
 </html>
