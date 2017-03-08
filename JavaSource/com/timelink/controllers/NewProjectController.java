@@ -26,6 +26,7 @@ public class NewProjectController implements Serializable {
   private String projectDescription;
   private String customer;
   private Integer projectManager;
+  private Integer projectManagerAssistant;
   
   /**
    * Returns the projectName.
@@ -91,11 +92,28 @@ public class NewProjectController implements Serializable {
     this.projectManager = projectManager;
   }
   
+  /**
+   * Returns the projectManager.
+   * @return the projectManager
+   */
+  public Integer getProjectManagerAssistant() {
+    return projectManager;
+  }
+  
+  /**
+   * Sets the projectManager to projectManager.
+   * @param projectManagerAssistant the projectManager to set
+   */
+  public void setProjectManagerAssistant(Integer projectManagerAssistant) {
+    this.projectManagerAssistant = projectManagerAssistant;
+  }
+  
   private void reset() {
     projectName = null;
     projectDescription = null;
     customer = null;
     projectManager = null;
+    projectManagerAssistant = null;
   }
   
   /**
@@ -109,7 +127,10 @@ public class NewProjectController implements Serializable {
     project.setDescription(projectDescription);
     project.setCustomer(customer);
     makeEmployeePm();
+    makeEmployeePma();
     project.setProjectManager(em.find(projectManager));
+    //TODO uncomment this once the project manager assistant field is in the database.
+    //project.setProjectManagerAssistant(em.find(projectManagerAssistant)));
     pm.persist(project);
     reset();
     return "assignemp";
@@ -133,6 +154,20 @@ public class NewProjectController implements Serializable {
       Role role = new Role();
       role.setEmployee(emp);
       role.setRole(RoleEnum.PROJECT_MANAGER);
+      rm.persist(role);
+    }
+  }
+  
+  /**
+   * Gives an employee the Project Manager Assistant Role if it doesn't
+   * already have it.
+   */
+  private void makeEmployeePma() {
+    Employee emp = em.find(projectManagerAssistant);
+    if (!emp.hasRole(RoleEnum.PROJECT_MANAGER_ASSISTANT)) {
+      Role role = new Role();
+      role.setEmployee(emp);
+      role.setRole(RoleEnum.PROJECT_MANAGER_ASSISTANT);
       rm.persist(role);
     }
   }

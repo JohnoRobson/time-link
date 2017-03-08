@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PersistenceContext;
@@ -38,16 +39,17 @@ public class Timesheet {
   @Column(name = "tsh_id")
   private int timesheetId;
   
-  @Column(name = "tsh_emp_id")
-  private int employeeId;
-  
   @Column(name = "tsh_date_created")
   private Date date;
   
-  @Transient
+  @JoinColumn(name = "tsh_approver_id",
+      referencedColumnName = "emp_id")
+  @ManyToOne
   private Employee timesheetApprover;
   
-  @Transient
+  @JoinColumn(name = "tsh_emp_Id",
+      referencedColumnName = "emp_id")
+  @ManyToOne
   private Employee employee;
   
   @Column(name = "tsh_overtime")
@@ -81,7 +83,7 @@ public class Timesheet {
    * @param emp The employee that this timesheet belongs to.
    */
   public Timesheet(Employee emp) {
-    setEmployeeId(emp.getEmployeeId());
+    setEmployee(emp);
     setTimesheetApprover(emp.getTimesheetApprover());
     setEmployee(emp);
     rows = new HashSet<TimesheetRow>();
@@ -89,24 +91,11 @@ public class Timesheet {
     date = new Date(Calendar.getInstance().getTime().getTime());
   }
   
-  //TODO find out if this does anything.
-  /**
-   * Helps set up the timesheet.
-   */
-  @PostConstruct
-  public void setUp() {
-    setEmployee(
-        em.find(Employee.class, getEmployeeId()));
-    setTimesheetApprover(
-        getEmployee()
-        .getTimesheetApprover());
-  }
-  
   /**
    * Adds a timesheetRow to this timesheet.
    */
   public void addRow() {
-    getRows().add(new TimesheetRow(this));
+    rows.add(new TimesheetRow(this));
   }
   
   /**
@@ -126,19 +115,19 @@ public class Timesheet {
   }
 
   /**
-   * Returns employeeId.
-   * @return the employeeId
+   * Returns employee.
+   * @return the employee
    */
-  public int getEmployeeId() {
-    return employeeId;
+  public Employee getEmployee() {
+    return employee;
   }
 
   /**
    * Sets employeeId to employeeId.
    * @param employeeId the employeeId to set
    */
-  public void setEmployeeId(int employeeId) {
-    this.employeeId = employeeId;
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
   }
 
   /**
@@ -172,22 +161,6 @@ public class Timesheet {
    */
   public void setTimesheetApprover(Employee timesheetApprover) {
     this.timesheetApprover = timesheetApprover;
-  }
-  
-  /**
-   * Returns employee.
-   * @return the employee.
-   */
-  public Employee getEmployee() {
-    return employee;
-  }
-
-  /**
-   * Sets employee to employee.
-   * @param employee the employee to set
-   */
-  public void setEmployee(Employee employee) {
-    this.employee = employee;
   }
   
   /**

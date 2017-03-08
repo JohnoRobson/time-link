@@ -35,8 +35,8 @@ public class Employee implements Serializable {
   
   @OneToOne
   @JoinTable(name = "ts_approver",
-      joinColumns = @JoinColumn(name = "tsa_appr_id"),
-      inverseJoinColumns = @JoinColumn(name = "tsa_emp_id"))
+      joinColumns = @JoinColumn(name = "tsa_emp_id"),
+      inverseJoinColumns = @JoinColumn(name = "tsa_appr_id"))
   private Employee timesheetApprover;
   
   

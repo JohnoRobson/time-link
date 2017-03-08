@@ -59,7 +59,9 @@ public class TimesheetController implements Serializable {
    * @return A null to reload the page.
    */
   public String save() {
-    tm.merge(selectedTimesheet);
+    if (selectedTimesheet != null) {
+      tm.merge(selectedTimesheet);
+    }
     selectedTimesheet = getSelectedTimesheet();
     return null;
   }
@@ -93,7 +95,7 @@ public class TimesheetController implements Serializable {
         .equals(new Date(Calendar.getInstance().getTime().getTime()).toString())) {
       return null;
     }
-    tm.merge(selectedTimesheet);
+    save();
     selectedTimesheet = new Timesheet(ses.getCurrentEmployee());
     tm.persist(selectedTimesheet);
     //Update the selectedTimesheet PK so that it can be added to it's rows and hours.
