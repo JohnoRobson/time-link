@@ -3,14 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-       <title></title>
-       <h:outputStylesheet library="css" name="styles.css"/>
-       <link rel="stylesheet" href="resources/css/styles.css" />
-    </h:head>
+
 	<h:body>
+	<ui:composition name="resources/templates/template.xhtml">
+		<ui:define name="header">
 	    <div id="nav" style="height:15%">
 	        <div id="navContent">
 	            <h1>TimeLink</h1>
@@ -30,6 +29,8 @@
 	            </ul>
 	        </div>
 	    </div>
+	    </ui:define>
+	    <ui:define name="content">
 	    <div id="content">
 	        <h1>Employees</h1>
 	        <h:form>
@@ -51,5 +52,7 @@
 	            <p:commandButton value="New Employee" action="addemployee" />
 	        </h:form>
 	    </div>
+	    </ui:define>
+	</ui:composition>
 	</h:body>
 </html>
