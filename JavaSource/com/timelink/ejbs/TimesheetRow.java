@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -47,6 +48,7 @@ public class TimesheetRow {
       cascade = CascadeType.ALL)
   @JoinColumn(name = "tsl_id",
       referencedColumnName = "tsl_id")
+  @OrderBy("hourId ASC")
   private List<Hours> hours;
   
   @Column(name = "tsl_note")

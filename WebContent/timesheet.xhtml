@@ -235,8 +235,12 @@
 	        	<br />
 	        	<h:outputText value="OverTime #{TimesheetController.selectedTimesheet != null ? (TimesheetController.selectedTimesheet.getTotalHours() > 40 ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0) : 0}" />
 	        	<br />
-	        	<h:outputText value="FlexHours #{TimesheetController.selectedTimesheet != null ? (TimesheetController.selectedTimesheet.getTotalHours() lt 40 ? 40 - TimesheetController.selectedTimesheet.getTotalHours() : 0) : 0}" />
+	        	<h:outputText value="FlexHours #{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0}" />
 	        	<br />
+	        	
+	        	<p:panel rendered="#{TimesheetController.selectedTimesheet.status.equals('REJECTED')}">
+		    		<h:outputText value="PLACEHOLDER REASON FOR THE TIMESHEET BEING DECLINED" />
+		    	</p:panel>
 	        
 	        </p:panel>
 	        
@@ -246,9 +250,7 @@
         	<p:commandButton action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
         	
 	        </p:panel>
-		    <p:panel rendered="#{TimesheetController.selectedTimesheet.status.equals('REJECTED')}">
-		    	<h:outputText value="PLACEHOLDER REASON FOR THE TIMESHEET BEING DECLINED" />
-		    </p:panel>
+		    
 	    </h:form>
 	    </ui:define>
 	    

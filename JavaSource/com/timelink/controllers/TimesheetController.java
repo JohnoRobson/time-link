@@ -62,8 +62,10 @@ public class TimesheetController implements Serializable {
   public String save() {
     if (selectedTimesheet != null) {
       tm.merge(selectedTimesheet);
+      selectedTimesheet = tm.find(selectedTimesheet.getTimesheetId());
     }
-    selectedTimesheet = getSelectedTimesheet();
+    
+    //selectedTimesheet = getSelectedTimesheet();
     return null;
   }
   
@@ -76,10 +78,6 @@ public class TimesheetController implements Serializable {
   public String submit() {
     if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
       selectedTimesheet.calculateFlexAndOvertime();
-      float flex = selectedTimesheet.getEmployee().getFlexTime();
-      flex -= selectedTimesheet.getFlextime();
-      selectedTimesheet.getEmployee().setFlexTime((int) flex);
-      
     }
     selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
     save();

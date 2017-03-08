@@ -120,6 +120,11 @@ public class ApproverController implements Serializable {
    */
   public String approve() {
     for (Timesheet t : selectedTimesheets) {
+      if (!t.getStatus().equals(TimesheetStatus.APPROVED)) {
+        float flex = t.getEmployee().getFlexTime();
+        flex -= t.getFlextime();
+        t.getEmployee().setFlexTime((int) flex);
+      }
       t.setStatus("" + TimesheetStatus.APPROVED.ordinal());
       tm.merge(t);
     }

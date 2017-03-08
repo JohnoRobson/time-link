@@ -266,7 +266,7 @@ public class Timesheet {
    * Calculates the flex and overtime for this timesheet.
    */
   public void calculateFlexAndOvertime() {
-    float flex = getTotalHours() < 40 ? 40 - getTotalHours() : 0;
+    float flex = 40 - getTotalHours();
     float over = getTotalHours() > 40 ? getTotalHours() - 40 : 0;
     
     setFlextime(flex);
