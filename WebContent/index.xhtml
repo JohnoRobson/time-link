@@ -10,30 +10,49 @@
 	<h:body>
 		<ui:composition template="resources/templates/template.xhtml">
 			<ui:define name="header">
-				<h1>Timelink - Login</h1>
+			<div class="headLogo">
+				<h:graphicImage styleClass="logo" library="images" name="timelinklogo.png"/>
+				<div class="headText">
+					<h1>Timelink</h1>
+					<h3>Project Management System</h3>
+				</div>
+			</div>
 			</ui:define>
 			
 			<ui:define name="content">
+			<div class="loginContent">
 				<div class="title">
-					<h1>Timelink</h1>
+					<h1>Login</h1>
 				</div>
-				<div>
+				<div class="loginCtrl">
 					<h:form>
-						<h:panelGrid columns="2">
-							Usename
-							<h:inputText id="username" value="#{LoginController.username}" />
-							Password
-							<h:inputSecret id="password" value="#{LoginController.password}" />
+					<div>
+						<h:panelGrid styleClass="loginInput" columns="2">
+							<h:outputLabel for="username" value="Usename:" />
+							<p:inputText id="username" value="#{LoginController.username}" required="true" />
+							<h:outputLabel for="password" value="Password:" />
+							<p:password id="password" value="#{LoginController.password}" required="true" />
 						</h:panelGrid>
-						<p>
-							 <!-- LoginController.login in action method below later -->
-							 <h:commandButton value="Login" action="#{LoginController.login}" />
-						</p>
+					</div>
+					<div id="loginBtn">
+						<!-- LoginController.login in action method below later -->
+						<p:commandButton styleClass="logButton" value="Login" action="#{LoginController.login}" />
+					</div>	
 					</h:form>
 				</div>
+			</div>
 			</ui:define>
 			<ui:define name="footer">
-				footer stuff
+			<div class="footer">
+				<div class="leftFoot">
+					<p class="footInfo">Footer Information</p>
+					<p class="footCopy">2017 &copy; Copyright Team One</p>
+				</div>
+				<div class="rightFoot">
+					<!--  this needs functionality to contact admin page -->
+					<h:outputLink class="contactUsLink">Contact Admin</h:outputLink>
+				</div>
+			</div>
 			</ui:define>
 		</ui:composition>
 
