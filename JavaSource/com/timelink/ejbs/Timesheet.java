@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,7 +64,8 @@ public class Timesheet {
   private String status;
   
   @OneToMany(fetch = FetchType.EAGER,
-      cascade = CascadeType.ALL)
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
   @JoinColumn(name = "tsl_tsh_id",
       referencedColumnName = "tsh_id")
   @OrderBy("timesheetRowId ASC")
@@ -123,8 +123,8 @@ public class Timesheet {
   }
 
   /**
-   * Sets employeeId to employeeId.
-   * @param employeeId the employeeId to set
+   * Sets employee to employee.
+   * @param employee the employee to set
    */
   public void setEmployee(Employee employee) {
     this.employee = employee;
@@ -262,4 +262,27 @@ public class Timesheet {
     return query.getResultList();
   }
   
+  /**
+   * Calculates the flex and overtime for this timesheet.
+   */
+  public void calculateFlexAndOvertime() {
+    float flex = getTotalHours() < 40 ? 40 - getTotalHours() : 0;
+    float over = getTotalHours() > 40 ? getTotalHours() - 40 : 0;
+    
+    setFlextime(flex);
+    setOvertime(over);
+  }
+  
+  /**
+   * Deletes a row from this timesheet.
+   * @param row The row to delete.
+   */
+  public void deleteRow(TimesheetRow row) {
+    for (TimesheetRow r : rows) {
+      if (r.getProjectId() == row.getProjectId()) {
+        rows.remove(r);
+        break;
+      }
+    }
+  }
 }

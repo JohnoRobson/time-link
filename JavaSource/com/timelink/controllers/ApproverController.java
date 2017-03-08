@@ -140,8 +140,14 @@ public class ApproverController implements Serializable {
     return;
   }
   
+  //TODO move this business logic somewhere else
   public String declineSave() {
     for (Timesheet t : selectedTimesheets) {
+      if (!t.getStatus().equals(TimesheetStatus.REJECTED)) {
+        float flex = t.getEmployee().getFlexTime();
+        flex += t.getFlextime();
+        t.getEmployee().setFlexTime((int) flex);
+      }
       t.setStatus("" + TimesheetStatus.REJECTED.ordinal());
       tm.merge(t);
     }

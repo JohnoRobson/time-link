@@ -306,10 +306,10 @@ CREATE TABLE `wp_emp` (
   
   USE timelink_dev;
   
-INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", 1, "a@a.com", 2, null, null, null, null, null);
-INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", 2, "tsa@tsa.com", 1, null, null, null, null, null);
-INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", 3, "pm@pm.com", 1, null, null, null, null, null);
-INSERT INTO employee VALUES (4, "re", "refname", "relname", 4, "ref@ref.com", 1, null, null, null, null, null);
+INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", 1, "a@a.com", 2, null, null, 100, 100, 10);
+INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", 2, "tsa@tsa.com", 1, null, null, 100, 100, 10);
+INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", 3, "pm@pm.com", 1, null, null, 100, 100, 10);
+INSERT INTO employee VALUES (4, "re", "refname", "relname", 4, "ref@ref.com", 1, null, null, 100, 100, 10);
 
 INSERT INTO job_title VALUES (1, 1, 0);
 INSERT INTO job_title VALUES (2, 2, 0);

@@ -125,7 +125,7 @@ public class TimesheetManager {
    * @return A List of all Timesheets belonging to emp.
    */
   public List<Timesheet> findByEmployee(Employee emp) {
-    TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet As t "
+    TypedQuery<Timesheet> query = em.createQuery("SELECT DISTINCT t FROM Timesheet As t "
         + "WHERE t.employee = :emp "
         + "ORDER BY t.date DESC", Timesheet.class)
         .setParameter("emp", emp);

@@ -3,6 +3,7 @@ package com.timelink.controllers;
 import com.timelink.Session;
 import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Timesheet;
+import com.timelink.ejbs.TimesheetRow;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
@@ -66,13 +67,19 @@ public class TimesheetController implements Serializable {
     return null;
   }
   
-  //TODO make this gud
+  //TODO make this gud and move this business logic somewhere else
   /**
    * Sets the current selectedTimesheet's status to submitted
-   * and saves it.
+   * and saves it.  Also changes the employee's flex hours.
    * @return A null to reload the page.
    */
   public String submit() {
+    if (!selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
+      selectedTimesheet.calculateFlexAndOvertime();
+      float flex = selectedTimesheet.getEmployee().getFlexTime();
+      flex -= selectedTimesheet.getFlextime();
+      selectedTimesheet.getEmployee().setFlexTime((int) flex);
+    }
     selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
     save();
     return null;
@@ -155,5 +162,10 @@ public class TimesheetController implements Serializable {
   
   public List<Timesheet> getTimesheets() {
     return tm.findByEmployee(ses.getCurrentEmployee());
+  }
+  
+  public void deleteRow(TimesheetRow row) {
+    selectedTimesheet.deleteRow(row);
+    save();
   }
 }

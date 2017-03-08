@@ -59,9 +59,19 @@
 		            				   var="ts" itemLabel="#{ts.date}" 
 		            				   itemValue="#{ts.timesheetId}" />
         			</p:selectOneMenu>
-	        <p:remoteCommand name="onCellEdit" update="table" />
+	        <p:remoteCommand name="onCellEdit" update="table, totals" />
 	        <p:dataTable id="table" var="row" value="#{TimesheetController.selectedTimesheet.rows}" editable="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" editMode="cell" rowIndexVar="index"
-	        	render="#{TimesheetController.selectedTimesheet != null}" lazy="true">
+	        	render="#{TimesheetController.selectedTimesheet != null}">
+	        	
+	        	<p:column>
+	    				<p:commandButton
+		                	value="Delete Row"
+		                	type="submit"
+		                	action="#{TimesheetController.deleteRow(row)}"
+		                	ajax="false">
+		        		</p:commandButton>
+	    			</p:column>
+	        	
 	        	<p:column headerText="project">
 					<p:cellEditor>
 					    <f:facet name="output">
@@ -102,12 +112,12 @@
                             
                             <h:inputText value="#{row.hours.get(0).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+                                <p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
                     
-                    </p:column>
+                </p:column>
                 
                 <p:column headerText="sun">
                     <p:cellEditor>
@@ -119,7 +129,7 @@
                             
                             <h:inputText value="#{row.hours.get(1).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -135,7 +145,7 @@
                             
                             <h:inputText value="#{row.hours.get(2).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -151,7 +161,7 @@
                             
                             <h:inputText value="#{row.hours.get(3).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -167,7 +177,7 @@
                             
                             <h:inputText value="#{row.hours.get(4).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -183,7 +193,7 @@
                             
                             <h:inputText value="#{row.hours.get(5).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -199,7 +209,7 @@
                             
                             <h:inputText value="#{row.hours.get(6).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -216,7 +226,20 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
+            
 	        </p:dataTable>
+	        
+	        <p:panel id="totals">
+	        
+	        	<h:outputText value="Total #{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() : 0}" />
+	        	<br />
+	        	<h:outputText value="OverTime #{TimesheetController.selectedTimesheet != null ? (TimesheetController.selectedTimesheet.getTotalHours() > 40 ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0) : 0}" />
+	        	<br />
+	        	<h:outputText value="FlexHours #{TimesheetController.selectedTimesheet != null ? (TimesheetController.selectedTimesheet.getTotalHours() lt 40 ? 40 - TimesheetController.selectedTimesheet.getTotalHours() : 0) : 0}" />
+	        	<br />
+	        
+	        </p:panel>
+	        
         	<p:commandButton action="#{TimesheetController.save()}" value="save" ajax="false" />
         	<p:commandButton action="#{TimesheetController.addRow()}" value="add row" ajax="false" />
         	<p:commandButton action="#{TimesheetController.addTimesheet()}" value="add timesheet" ajax="false" />
