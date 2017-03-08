@@ -48,7 +48,7 @@ public class Timesheet {
   
   @JoinColumn(name = "tsh_emp_Id",
       referencedColumnName = "emp_id")
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.MERGE)
   private Employee employee;
   
   @Column(name = "tsh_overtime")
