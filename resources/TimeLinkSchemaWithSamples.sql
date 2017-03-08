@@ -329,7 +329,7 @@ INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer nam
 INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3);
 
 INSERT INTO prj_emp VALUES (0, 1, 1);
-INSERT INTO prj_emp VALUES (0, 2, 1);
+INSERT INTO prj_emp VALUES (2, 2, 1);
 
 INSERT INTO WorkPackage VALUES (1, 1, "100000000", null, null, "Part of the cool project", 0, 0);
 INSERT INTO WorkPackage VALUES (2, 1, "200000000", null, null, "second part of the cool project", 0, 0);
@@ -337,19 +337,19 @@ INSERT INTO WorkPackage VALUES (3, 2, "100000000", null, null, "work package for
 INSERT INTO WorkPackage VALUES (4, 2, "200000000", null, null, "second work package for the sequel", 0, 0);
 
 INSERT INTO wp_emp VALUES (0, 1, 1);
-INSERT INTO wp_emp VALUES (0, 2, 1);
-INSERT INTO wp_emp VALUES (0, 3, 1);
-INSERT INTO wp_emp VALUES (0, 4, 1);
+INSERT INTO wp_emp VALUES (2, 2, 1);
+INSERT INTO wp_emp VALUES (3, 3, 1);
+INSERT INTO wp_emp VALUES (4, 4, 1);
 
 INSERT INTO ts_header VALUES(0, 1, "2017-01-30", null, 2, 0, 1, 1, null);
 
 INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 0, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 0, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 6, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 5, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 9, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 6, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 8, null);
+INSERT INTO ts_hour VALUES (2, 1, 1, 1, 1, null, 0, null);
+INSERT INTO ts_hour VALUES (3, 1, 1, 1, 1, null, 6, null);
+INSERT INTO ts_hour VALUES (4, 1, 1, 1, 1, null, 5, null);
+INSERT INTO ts_hour VALUES (5, 1, 1, 1, 1, null, 9, null);
+INSERT INTO ts_hour VALUES (6, 1, 1, 1, 1, null, 6, null);
+INSERT INTO ts_hour VALUES (7, 1, 1, 1, 1, null, 8, null);
 
 INSERT INTO ts_line VALUES (0, 1, "row 1 note");
 
@@ -360,4 +360,4 @@ INSERT INTO labour_grade VALUES (4, null, "P4", 400);
 INSERT INTO labour_grade VALUES (5, null, "P5", 500);
 
 INSERT INTO Budget_Hour VALUES(0, 1, 1, 3);
-INSERT INTO Budget_Hour VALUES(0, 2, 1, 5);
+INSERT INTO Budget_Hour VALUES(2, 2, 1, 5);
