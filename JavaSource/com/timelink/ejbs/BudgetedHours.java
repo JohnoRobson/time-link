@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Budget_Hour")
+@Table(name = "budget_hour")
 public class BudgetedHours implements Serializable {
   
   @Id

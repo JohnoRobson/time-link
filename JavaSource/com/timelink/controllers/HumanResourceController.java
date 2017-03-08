@@ -30,6 +30,7 @@ public class HumanResourceController implements Serializable {
   private String firstName;
   private String lastName;
   private String email;
+  private Integer vacationAccrual;
   private RoleEnum jobTitle;
   private String password;
   private String confirmPassword;
@@ -81,6 +82,20 @@ public class HumanResourceController implements Serializable {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  /**
+   * @return the vacationAccrual
+   */
+  public int getVacationAccrual() {
+    return vacationAccrual;
+  }
+
+  /**
+   * @param vacationAccrual the vacationAccrual to set
+   */
+  public void setVacationAccrual(int vacationAccrual) {
+    this.vacationAccrual = vacationAccrual;
   }
 
   public RoleEnum getJobTitle() {
@@ -157,6 +172,7 @@ public class HumanResourceController implements Serializable {
     firstName = employee.getFirstName();
     lastName = employee.getLastName();
     email = employee.getEmail();
+    vacationAccrual = employee.getVacationRate();
     return "editemployee";
   }
   
@@ -173,6 +189,7 @@ public class HumanResourceController implements Serializable {
     firstName = null;
     lastName = null;
     email = null;
+    vacationAccrual = null;
     jobTitle = null;
     editingEmployee = null;
     effectiveFrom = null;
@@ -192,6 +209,7 @@ public class HumanResourceController implements Serializable {
       emp.setFirstName(firstName);
       emp.setLastName(lastName);
       emp.setEmail(email);
+      emp.setVacationRate(vacationAccrual);
       emp.setEffectFrom(new Date(effectiveFrom.getTime()));
       
       Role role = new Role(jobTitle);
@@ -223,6 +241,7 @@ public class HumanResourceController implements Serializable {
     emp.setFirstName(firstName);
     emp.setLastName(lastName);
     emp.setEmail(email);
+    emp.setVacationRate(vacationAccrual);
     
     //Role role = new Role(jobTitle);
     //role.setEmployee(emp);
