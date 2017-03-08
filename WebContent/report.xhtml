@@ -233,23 +233,20 @@
 	    		</p:panel>
 	    	</p:panelGrid>
 	    	    <!-- Rejection modal -->
-    <p:dialog
-        header="Reason for rejecting timesheet"
-        widgetVar="rejectmodal"
-        modal="true"
-        height="300">
-        <h:form>
-            <p:panelGrid columns="2">
-            <h:outputText value="Rejection reason: "/>
-            <h:inputText value="PLACEHOLDER DOES NOT SAVE TEXT"/>
-            </p:panelGrid>
-            <br />
-            <h:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />
-        </h:form>
-    </p:dialog>
-		</ui:define>
-		<ui:define name="footer">
-			#Feeterhere
+	    <p:dialog
+	        header="Reason for rejecting timesheet"
+	        widgetVar="rejectmodal"
+	        modal="true"
+	        height="300">
+	        <h:form>
+	            <p:panelGrid columns="2">
+	            <h:outputText value="Rejection reason: "/>
+	            <h:inputText value="PLACEHOLDER DOES NOT SAVE TEXT"/>
+	            </p:panelGrid>
+	            <br />
+	            <h:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />
+	        </h:form>
+	    </p:dialog>
 		</ui:define>
 	</ui:composition>
 	</h:body>
