@@ -1,21 +1,187 @@
 /*@CHARSET "ISO-8859-1";*/
+/* html selectors styling */
+* {
+	margin:0;
+	padding:0;
+}
 
 html {
 	height: 100%;
 	width: 100%;
 	background-color: #f2f2f2;
+	font-family: Arial,sans-serif;
+    font-size: 1.1em;
 }
 
 body {
 	height: 100%;
-	background-color: #e6e6e6;
+	background-color: white;
 	margin: 0;
 }
+
+/* end of html selector styles */
 
 #nav {
 	width: 100%;
 	height: 10%;
 	background-color: #bfbfbf;
+}
+
+/* this is the wrapper for the whole site 
+   location: template.xhtml */
+.container {
+ 	display: flex;
+ 	width: 100%;
+    position: relative;
+    overflow: hidden;
+    
+}
+
+/* styles for the header banner 
+   .head - located template.xhtml */
+.head {
+	background: #F5F5F5;
+	border-radius: 0;
+	border: 0;
+	margin-top:0;
+	margin-bottom:0;
+	padding:0;
+	overflow:hidden;
+}
+/*.headLogo located on index.xhtml */
+.headLogo {
+	background: #F5F5F5;
+	display: flex;
+	margin:auto;
+	justify-content: center;
+	padding-bottom: 2.5vh;
+	padding-top:2.5vh;
+}
+
+/* .headText located index.xhtml */
+.headText {
+	display:flex;
+	flex-direction: column;
+	padding-top:5vh;
+}
+
+.headText h1 {
+	font-size: 2em;
+}
+
+.headText h3 {
+	font-size: 1em;
+}
+
+/* header logo size */
+.logo {
+	height: 20vh;
+}
+
+
+/* end of head banner styles */
+
+/* Main content part Login Page styles 
+   .mainContent located in template.xhtml */
+.mainContent {
+	background: #F5F5F5;
+	border-radius: 0;
+	border: 0;
+	margin-top:0;
+	margin-bottom:0;
+	padding:0;
+	overflow:hidden;
+	
+}
+
+/* title of page - index.xhtml */
+.title {
+	text-align:center;
+	margin-top: 2vh;
+	margin-bottom: 3vh;
+}
+
+/* login form controls - index.xhtml */
+.loginCtrl {
+	display:flex;
+	justify-content:center;
+}
+
+/* Login input console styles - index.xhtml */
+.loginInput {
+	border: 2px black solid;
+	padding: 7vh;
+	border-radius: 2vh;
+	-webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
+	-moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
+	box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
+}
+
+/* the div that holds the login button - index.xhtml */
+#loginBtn {
+	float:right;
+	margin-top: 3vh;
+	margin-bottom: 3vh;
+}
+
+
+/*Login button itself - index.xhtml */
+.logButton {
+	background:white !important;
+	padding-left: 2vh;
+	padding-right: 2vh;
+	border: 2px black solid !important;
+	-webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
+	-moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
+	box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
+}
+
+.footerBar {
+	background: #F5F5F5;
+	border-radius: 0;
+	border: 0;
+	margin-top:0;
+	margin-bottom:0;
+	padding:0;
+	overflow:hidden;
+}
+
+.footer {
+	background: #F5F5F5;
+	display:flex;	
+	padding-bottom: 5vh;
+	padding-top: 5vh;
+}
+
+.leftFoot {
+	justify-content:left;
+	margin-left:60vh;
+
+}
+
+.rightFoot {
+	justify-content:right;
+	margin-left:60vh;
+}
+
+.footInfo {
+	font-size: .75em;
+	font-weight:bold;
+}
+
+.footCopy {
+	font-size: .5em;
+}
+
+
+.contactUsLink {
+	font-size: .75em;
+	color: blue !important;
+	text-decoration: none !important;
+}
+
+.contactUsLink\:hover {
+	color: #4f4f4f !imporant;
 }
 
 #navContent h1 {

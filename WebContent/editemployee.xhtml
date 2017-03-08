@@ -34,16 +34,35 @@
 	        <h1>Edit Employee</h1>
 	        <h:form>
 	        	<h:panelGrid columns="2">
+	        	    User ID:
+	                <h:inputText value="#{HRController.userId}" />
 	                First Name:
 	                <h:inputText value="#{HRController.firstName}" />
 	                Last Name:
 	                <h:inputText value="#{HRController.lastName}" />
 	                Email:
 	                <h:inputText value="#{HRController.email}" />
+	                Role:
+	                <p:selectOneMenu value="#{HRController.jobTitle}" style="width:100%">
+		                <f:selectItems value="#{HRController.changeRoles}" />
+		            </p:selectOneMenu>
 	            </h:panelGrid>
-	            <p:commandButton value="Cancel" action="humanresources"/>
+	            <p:commandButton value="Cancel" action="#{HRController.cancel}"/>
 	            <p:commandButton value="Save" action="#{HRController.save}"/>
+	            <p:commandButton value="Change Password" type="button" onclick="PF('dlg2').show();" />
 	        </h:form>
+	        <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="125">
+	            <h:form>
+	               <h:outputText value="Change Password" />
+                    <h:panelGrid columns="2">
+	        	        Password:
+	                    <h:inputSecret value="#{HRController.password}" />
+	                    Confirm Password:
+	                    <h:inputSecret value="#{HRController.confirmPassword}" />
+	                    <p:commandButton ajax="false" value="Save New Password" action="#{HRController.newPassword}"/>
+	                </h:panelGrid>
+	           </h:form>
+           </p:dialog>
 	    </div>
 	</h:body>
 </html>
