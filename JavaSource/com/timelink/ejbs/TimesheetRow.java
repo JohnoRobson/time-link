@@ -1,13 +1,14 @@
 package com.timelink.ejbs;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.Dependent;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -24,9 +24,6 @@ import javax.persistence.Transient;
 @Dependent
 @Table(name = "ts_line")
 public class TimesheetRow {
-  
-  @Transient
-  @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +46,7 @@ public class TimesheetRow {
   @JoinColumn(name = "tsl_id",
       referencedColumnName = "tsl_id")
   @OrderBy("hourId ASC")
-  private List<Hours> hours;
+  private Set<Hours> hours;
   
   @Column(name = "tsl_note")
   private String note;
@@ -63,7 +60,7 @@ public class TimesheetRow {
    * The constructor for TimesheetRow.
    */
   public TimesheetRow() {
-    hours = new ArrayList<Hours>();
+    hours = new HashSet<Hours>();
     for (int i = 0; i < 7; ++i) {
       Hours hrs = new Hours();
       hrs.setTimesheetRow(this);
@@ -80,7 +77,7 @@ public class TimesheetRow {
    */
   public TimesheetRow(Timesheet ts) {
     timesheet = ts;
-    hours = new ArrayList<Hours>();
+    hours = new HashSet<Hours>();
     for (int i = 0; i < 7; ++i) {
       Hours hrs = new Hours();
       hrs.setTimesheetRow(this);
@@ -172,7 +169,10 @@ public class TimesheetRow {
    * @return the hours
    */
   public List<Hours> getHours() {
-    return hours;
+    if (hours != null) {
+      return new ArrayList<Hours>(hours);
+    }
+    return new ArrayList<Hours>();
   }
   
   /**
@@ -180,7 +180,7 @@ public class TimesheetRow {
    * @param hours the hours to set
    */
   public void setHours(List<Hours> hours) {
-    this.hours = hours;
+    this.hours = new HashSet<Hours>(hours);
   }
   
   public String getNote() {

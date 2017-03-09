@@ -4,6 +4,7 @@ import com.timelink.Session;
 import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.managers.TimesheetManager;
+import com.timelink.services.FlextimeService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import javax.inject.Named;
 public class ApproverController implements Serializable {
   @Inject TimesheetManager tm;
   @Inject Session ses;
+  @Inject FlextimeService flextimeService;
   private List<Timesheet> timesheets;
   private List<Timesheet> selectedTimesheets;
   private Timesheet viewingTimesheet;
@@ -120,11 +122,7 @@ public class ApproverController implements Serializable {
    */
   public String approve() {
     for (Timesheet t : selectedTimesheets) {
-      if (!t.getStatus().equals(TimesheetStatus.APPROVED)) {
-        float flex = t.getEmployee().getFlexTime();
-        flex -= t.getFlextime();
-        t.getEmployee().setFlexTime((int) flex);
-      }
+      flextimeService.applyFlextime(t);
       t.setStatus("" + TimesheetStatus.APPROVED.ordinal());
       tm.merge(t);
     }
@@ -145,14 +143,13 @@ public class ApproverController implements Serializable {
     return;
   }
   
-  //TODO move this business logic somewhere else
+  /**
+   * Declines a timesheet.
+   * @return null to reload the page
+   */
   public String declineSave() {
     for (Timesheet t : selectedTimesheets) {
-      if (!t.getStatus().equals(TimesheetStatus.REJECTED)) {
-        float flex = t.getEmployee().getFlexTime();
-        flex += t.getFlextime();
-        t.getEmployee().setFlexTime((int) flex);
-      }
+      flextimeService.revertFlextime(t);
       t.setStatus("" + TimesheetStatus.REJECTED.ordinal());
       tm.merge(t);
     }
