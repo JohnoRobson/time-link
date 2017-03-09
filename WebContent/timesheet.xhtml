@@ -51,7 +51,6 @@
 	        </div>
 	        <h:form>
 	        <p:panel id="tscontent">
-	        	<p><h:outputText value="STATUS: #{TimesheetController.selectedTimesheet.status}" /></p>
 	        	<p:selectOneMenu value="#{TimesheetController.selectedTimesheetId}">
 		            	<p:ajax event="itemSelect" update=":#{p:component('tscontent')}" />
 		            	<f:selectItem itemLabel="Select Timesheet" itemValue="" noSelectionOption="true" />
@@ -63,12 +62,13 @@
 	        <p:dataTable id="table" var="row" value="#{TimesheetController.selectedTimesheet.rows}" editable="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" editMode="cell" rowIndexVar="index"
 	        	render="#{TimesheetController.selectedTimesheet != null}">
 	        	
-	        	<p:column>
+	        	<p:column >
 	    				<p:commandButton
 		                	value="Delete Row"
 		                	type="submit"
 		                	action="#{TimesheetController.deleteRow(row)}"
-		                	ajax="false">
+		                	ajax="false"
+		                	rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}">
 		        		</p:commandButton>
 	    			</p:column>
 	        	
@@ -239,6 +239,7 @@
 	        	<br />
 	        	<h:outputText value="FlexHours #{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0}" />
 	        	<br />
+	        	<p><h:outputText value="STATUS: #{TimesheetController.selectedTimesheet.status}" /></p>
 	        	
 	        	<p:panel rendered="#{TimesheetController.selectedTimesheet.status.equals('REJECTED')}">
 		    		<h:outputText value="PLACEHOLDER REASON FOR THE TIMESHEET BEING DECLINED" />
@@ -246,10 +247,10 @@
 	        
 	        </p:panel>
 	        
-        	<p:commandButton action="#{TimesheetController.save()}" value="save" ajax="false" />
-        	<p:commandButton action="#{TimesheetController.addRow()}" value="add row" ajax="false" />
+        	<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" action="#{TimesheetController.save()}" value="save" ajax="false" />
+        	<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" action="#{TimesheetController.addRow()}" value="add row" ajax="false" />
         	<p:commandButton value="add timesheet" onclick="PF('addts').show();" />
-        	<p:commandButton action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
+        	<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
         	
 	        </p:panel>
 		    
