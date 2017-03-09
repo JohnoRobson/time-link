@@ -24,9 +24,13 @@
 	            <h:inputText value="#{NewProjectController.customer}"/>
 	            <h:outputText value="Project Manager: "/>
 	            <p:selectOneMenu value="#{NewProjectController.projectManager}">
-	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-                                <f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
-                            </p:selectOneMenu>
+               		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+                	<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
+                </p:selectOneMenu>
+                <p:selectOneMenu value="#{NewProjectController.projectManagerAssistant}">
+               		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+                	<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" var="pma" itemLabel="#{pma.firstName}" itemValue="#{pma.employeeId}" />
+                </p:selectOneMenu>
 	            </p:panelGrid>
 	            <br />
 	            <h:commandButton value="Create Project" action="#{NewProjectController.createProject}"/>

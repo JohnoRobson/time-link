@@ -282,3 +282,7 @@ form {
 #approveTable {
 	border-spacing: 1%;
 }
+
+.ui-layout-unit.ui-widget.ui-widget-content.ui-corner-all.ui-layout-center.mainContent.ui-layout-pane.ui-layout-pane-center {
+	z-index: auto !important; /* I'm sorry */
+}

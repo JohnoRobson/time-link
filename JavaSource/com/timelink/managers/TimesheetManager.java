@@ -35,16 +35,6 @@ public class TimesheetManager {
    * @param ts The timesheet to be added to the database.
    */
   public void persist(Timesheet ts) {
-    /*for (TimesheetRow row : ts.getRows()) {
-      if (row.getHours() != null) {
-        for (Hours h : row.getHours()) {
-          h.setProjectId(row.getProjectId());
-          h.setWorkPackageId(row.getWorkPackageId());
-          em.persist(h);
-        }
-      }
-      em.persist(row);
-    }*/
     em.persist(ts);
   }
   
@@ -87,8 +77,8 @@ public class TimesheetManager {
    */
   public Timesheet findLatest(Employee emp) {
     TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet AS t WHERE "
-        + "t.employeeId = :empId ORDER BY t.date DESC", Timesheet.class)
-        .setParameter("empId", emp.getEmployeeId());
+        + "t.employee = :emp ORDER BY t.date DESC", Timesheet.class)
+        .setParameter("emp", emp);
     
     //If no timesheets are found
     if (query.getResultList().size() == 0) {
@@ -119,13 +109,30 @@ public class TimesheetManager {
     
     for (Employee e : queryOne.getResultList()) {
       TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet AS t "
-          + "WHERE t.employeeId = :empId", Timesheet.class)
-          .setParameter("empId", e.getEmployeeId());
+          + "WHERE t.employee = :emp", Timesheet.class)
+          .setParameter("emp", e);
       List<Timesheet> res = query.getResultList();
       for (Timesheet t : res) {
         result.add(t);
       }
     }
     return result;
+  }
+  
+  /**
+   * Returns a list of all Timesheets that an employee has.
+   * @param emp The employee to be searched
+   * @return A List of all Timesheets belonging to emp.
+   */
+  public List<Timesheet> findByEmployee(Employee emp) {
+    TypedQuery<Timesheet> query = em.createQuery("SELECT DISTINCT t FROM Timesheet As t "
+        + "WHERE t.employee = :emp "
+        + "ORDER BY t.date DESC", Timesheet.class)
+        .setParameter("emp", emp);
+    return query.getResultList();
+  }
+  
+  public void detach(Timesheet ts) {
+    em.detach(ts);
   }
 }

@@ -306,10 +306,10 @@ CREATE TABLE `wp_emp` (
   
   USE timelink_dev;
   
-INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", 1, "a@a.com", 2, null, null, null, null, null);
-INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", 2, "tsa@tsa.com", 1, null, null, null, null, null);
-INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", 3, "pm@pm.com", 1, null, null, null, null, null);
-INSERT INTO employee VALUES (4, "re", "refname", "relname", 4, "ref@ref.com", 1, null, null, null, null, null);
+INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", 1, "a@a.com", 2, null, null, 100, 100, 10);
+INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", 2, "tsa@tsa.com", 1, null, null, 100, 100, 10);
+INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", 3, "pm@pm.com", 1, null, null, 100, 100, 10);
+INSERT INTO employee VALUES (4, "re", "refname", "relname", 4, "ref@ref.com", 1, null, null, 100, 100, 10);
 
 INSERT INTO job_title VALUES (1, 1, 0);
 INSERT INTO job_title VALUES (2, 2, 0);
@@ -327,10 +327,12 @@ INSERT INTO credential VALUES (4, 4, "re", "re");
 
 INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3);
 INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3);
+INSERT INTO Project VALUES (10, "Sick Day", "A Sick Day", "A Sick Day", null, null);
 
 INSERT INTO prj_emp VALUES (0, 1, 1);
 INSERT INTO prj_emp VALUES (2, 2, 1);
 
+INSERT INTO WorkPackage VALUES (0, 10, "Sick Day", null, null, "A sick day", 0, 0);
 INSERT INTO WorkPackage VALUES (1, 1, "100000000", null, null, "Part of the cool project", 0, 0);
 INSERT INTO WorkPackage VALUES (2, 1, "200000000", null, null, "second part of the cool project", 0, 0);
 INSERT INTO WorkPackage VALUES (3, 2, "100000000", null, null, "work package for the cool project the sequel", 0, 0);

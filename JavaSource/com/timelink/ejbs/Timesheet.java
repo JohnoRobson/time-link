@@ -2,12 +2,14 @@ package com.timelink.ejbs;
 
 import com.timelink.TimesheetStatus;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +19,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -35,16 +39,17 @@ public class Timesheet {
   @Column(name = "tsh_id")
   private int timesheetId;
   
-  @Column(name = "tsh_emp_id")
-  private int employeeId;
-  
   @Column(name = "tsh_date_created")
   private Date date;
   
-  @Transient
+  @JoinColumn(name = "tsh_approver_id",
+      referencedColumnName = "emp_id")
+  @ManyToOne
   private Employee timesheetApprover;
   
-  @Transient
+  @JoinColumn(name = "tsh_emp_Id",
+      referencedColumnName = "emp_id")
+  @ManyToOne(cascade = CascadeType.MERGE)
   private Employee employee;
   
   @Column(name = "tsh_overtime")
@@ -60,16 +65,19 @@ public class Timesheet {
   private String status;
   
   @OneToMany(fetch = FetchType.EAGER,
-      cascade = CascadeType.ALL)
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
   @JoinColumn(name = "tsl_tsh_id",
       referencedColumnName = "tsh_id")
-  private List<TimesheetRow> rows;  
+  @OrderBy("timesheetRowId ASC")
+  private Set<TimesheetRow> rows;  
   
   //TODO get dates working for time sheets, rows and hours.
   /**
    * The constructor for the timesheet.
    */
   public Timesheet() {
+    
   }
   
   /**
@@ -77,32 +85,19 @@ public class Timesheet {
    * @param emp The employee that this timesheet belongs to.
    */
   public Timesheet(Employee emp) {
-    setEmployeeId(emp.getEmployeeId());
+    setEmployee(emp);
     setTimesheetApprover(emp.getTimesheetApprover());
     setEmployee(emp);
-    rows = new ArrayList<TimesheetRow>();
+    rows = new HashSet<TimesheetRow>();
     setStatus("0");
-    date = new Date(Calendar.getInstance().getTime().getTime());
-  }
-  
-  //TODO find out if this does anything.
-  /**
-   * Helps set up the timesheet.
-   */
-  @PostConstruct
-  public void setUp() {
-    setEmployee(
-        em.find(Employee.class, getEmployeeId()));
-    setTimesheetApprover(
-        getEmployee()
-        .getTimesheetApprover());
+    //date = new Date(Calendar.getInstance().getTime().getTime());
   }
   
   /**
    * Adds a timesheetRow to this timesheet.
    */
   public void addRow() {
-    getRows().add(new TimesheetRow(this));
+    rows.add(new TimesheetRow(this));
   }
   
   /**
@@ -122,19 +117,19 @@ public class Timesheet {
   }
 
   /**
-   * Returns employeeId.
-   * @return the employeeId
+   * Returns employee.
+   * @return the employee
    */
-  public int getEmployeeId() {
-    return employeeId;
+  public Employee getEmployee() {
+    return employee;
   }
 
   /**
-   * Sets employeeId to employeeId.
-   * @param employeeId the employeeId to set
+   * Sets employee to employee.
+   * @param employee the employee to set
    */
-  public void setEmployeeId(int employeeId) {
-    this.employeeId = employeeId;
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
   }
 
   /**
@@ -168,22 +163,6 @@ public class Timesheet {
    */
   public void setTimesheetApprover(Employee timesheetApprover) {
     this.timesheetApprover = timesheetApprover;
-  }
-  
-  /**
-   * Returns employee.
-   * @return the employee.
-   */
-  public Employee getEmployee() {
-    return employee;
-  }
-
-  /**
-   * Sets employee to employee.
-   * @param employee the employee to set
-   */
-  public void setEmployee(Employee employee) {
-    this.employee = employee;
   }
   
   /**
@@ -255,7 +234,10 @@ public class Timesheet {
    * @return the rows
    */
   public List<TimesheetRow> getRows() {
-    return rows;
+    if (rows != null) {
+      return new ArrayList<TimesheetRow>(rows);
+    }
+    return new ArrayList<TimesheetRow>();
   }
 
   /**
@@ -263,7 +245,7 @@ public class Timesheet {
    * @param rows the rows to set
    */
   public void setRows(List<TimesheetRow> rows) {
-    this.rows = rows;
+    this.rows = new HashSet<TimesheetRow>(rows);
   }
   
   //TODO Should we put this in HoursManager or this? I feel like
@@ -282,4 +264,33 @@ public class Timesheet {
     return query.getResultList();
   }
   
+  /**
+   * Calculates the flex and overtime for this timesheet.
+   */
+  public void calculateFlexAndOvertime() {
+    float flex = 40 - getTotalHours();
+    float over = getTotalHours() > 40 ? getTotalHours() - 40 : 0;
+    
+    setFlextime(flex);
+    setOvertime(over);
+  }
+  
+  /**
+   * Deletes a row from this timesheet.
+   * @param row The row to delete.
+   */
+  public void deleteRow(TimesheetRow row) {
+    for (TimesheetRow r : rows) {
+      if (r.getProjectId() == row.getProjectId()) {
+        rows.remove(r);
+        break;
+      }
+    }
+  }
+  
+  public int getWeekNumber() {
+    Calendar calendar = new GregorianCalendar();
+    calendar.setTime(date);
+    return calendar.get(Calendar.WEEK_OF_YEAR);
+  }
 }
