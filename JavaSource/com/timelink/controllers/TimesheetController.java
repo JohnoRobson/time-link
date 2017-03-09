@@ -10,8 +10,8 @@ import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.ManagedBean;
@@ -29,6 +29,10 @@ public class TimesheetController implements Serializable {
   @Inject WorkPackageManager wpm;
   @Inject Session ses;
   @Inject ProjectManager pm;
+  
+  //ADD TIMESHEET MODAL STUFF
+  private int week;
+  private int year;
   
   public TimesheetController() {
     
@@ -89,6 +93,14 @@ public class TimesheetController implements Serializable {
     getSelectedTimesheet();
   }
   
+  private Date getDateFromWeekYear() {
+    Calendar calendar = Calendar.getInstance();
+    calendar.clear();
+    calendar.set(Calendar.WEEK_OF_YEAR, week);
+    calendar.set(Calendar.YEAR, year);
+    return calendar.getTime();
+  }
+  
   //TODO make this work on a weekly, rather than a daily basis.
   /**
    * Adds a new timesheet for the logged in user.
@@ -103,6 +115,7 @@ public class TimesheetController implements Serializable {
     }
     save();
     selectedTimesheet = new Timesheet(ses.getCurrentEmployee());
+    selectedTimesheet.setDate(getDateFromWeekYear());
     tm.persist(selectedTimesheet);
     //Update the selectedTimesheet PK so that it can be added to it's rows and hours.
     selectedTimesheet = tm.findLatest(ses.getCurrentEmployee());
@@ -166,5 +179,42 @@ public class TimesheetController implements Serializable {
   public void deleteRow(TimesheetRow row) {
     selectedTimesheet.deleteRow(row);
     save();
+  }
+  
+  public WorkPackage getSickWorkPackage() {
+    return wpm.findSickDay();
+  }
+  
+  //ADD TIMESHEET MODAL
+  /**
+   * Returns week.
+   * @return the week
+   */
+  public int getWeek() {
+    return week;
+  }
+
+  /**
+   * Sets week to week.
+   * @param week the week to set
+   */
+  public void setWeek(int week) {
+    this.week = week;
+  }
+
+  /**
+   * Returns week.
+   * @return the year
+   */
+  public int getYear() {
+    return year;
+  }
+
+  /**
+   * Sets week to week.
+   * @param year the year to set
+   */
+  public void setYear(int year) {
+    this.year = year;
   }
 }

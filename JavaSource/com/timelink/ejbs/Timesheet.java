@@ -2,9 +2,10 @@ package com.timelink.ejbs;
 
 import com.timelink.TimesheetStatus;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -76,6 +77,7 @@ public class Timesheet {
    * The constructor for the timesheet.
    */
   public Timesheet() {
+    
   }
   
   /**
@@ -88,7 +90,7 @@ public class Timesheet {
     setEmployee(emp);
     rows = new HashSet<TimesheetRow>();
     setStatus("0");
-    date = new Date(Calendar.getInstance().getTime().getTime());
+    //date = new Date(Calendar.getInstance().getTime().getTime());
   }
   
   /**
@@ -284,5 +286,11 @@ public class Timesheet {
         break;
       }
     }
+  }
+  
+  public int getWeekNumber() {
+    Calendar calendar = new GregorianCalendar();
+    calendar.setTime(date);
+    return calendar.get(Calendar.WEEK_OF_YEAR);
   }
 }

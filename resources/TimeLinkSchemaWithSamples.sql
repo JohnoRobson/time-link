@@ -327,10 +327,12 @@ INSERT INTO credential VALUES (4, 4, "re", "re");
 
 INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3);
 INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3);
+INSERT INTO Project VALUES (10, "Sick Day", "A Sick Day", "A Sick Day", null, null);
 
 INSERT INTO prj_emp VALUES (0, 1, 1);
 INSERT INTO prj_emp VALUES (2, 2, 1);
 
+INSERT INTO WorkPackage VALUES (0, 10, "Sick Day", null, null, "A sick day", 0, 0);
 INSERT INTO WorkPackage VALUES (1, 1, "100000000", null, null, "Part of the cool project", 0, 0);
 INSERT INTO WorkPackage VALUES (2, 1, "200000000", null, null, "second part of the cool project", 0, 0);
 INSERT INTO WorkPackage VALUES (3, 2, "100000000", null, null, "work package for the cool project the sequel", 0, 0);

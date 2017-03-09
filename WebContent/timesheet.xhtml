@@ -56,7 +56,7 @@
 		            	<p:ajax event="itemSelect" update=":#{p:component('tscontent')}" />
 		            	<f:selectItem itemLabel="Select Timesheet" itemValue="" noSelectionOption="true" />
 		            	<f:selectItems value="#{TimesheetController.getTimesheets() != null ? TimesheetController.getTimesheets() : null}" 
-		            				   var="ts" itemLabel="#{ts.date}" 
+		            				   var="ts" itemLabel="Year: #{1900 + ts.date.getYear()} Week Number: #{ts.getWeekNumber()}" 
 		            				   itemValue="#{ts.timesheetId}" />
         			</p:selectOneMenu>
 	        <p:remoteCommand name="onCellEdit" update="table, totals" />
@@ -81,6 +81,7 @@
 	                        <p:selectOneMenu value="#{row.projectId}" style="width:100%">
 	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
+	                            <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().project.projectNumber}" />
                                 <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
                             </p:selectOneMenu>
 	                    </f:facet>
@@ -96,6 +97,7 @@
 	                        <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
 	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
+	                            <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().workPackageId}" />
                                 <f:selectItems value="#{ProjectManager.find(row.projectId) != null ? TimesheetController.getAssignedWorkPackages(row.projectId) : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
                             </p:selectOneMenu>
 	                    </f:facet>
@@ -246,12 +248,31 @@
 	        
         	<p:commandButton action="#{TimesheetController.save()}" value="save" ajax="false" />
         	<p:commandButton action="#{TimesheetController.addRow()}" value="add row" ajax="false" />
-        	<p:commandButton action="#{TimesheetController.addTimesheet()}" value="add timesheet" ajax="false" />
+        	<p:commandButton value="add timesheet" onclick="PF('addts').show();" />
         	<p:commandButton action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
         	
 	        </p:panel>
 		    
 	    </h:form>
+	    
+	    <!-- Add Timesheet Modal -->
+	    <p:dialog
+	    	header="Create New Timesheet"
+            widgetVar="addts"
+            modal="true"
+            height="300">
+	    	<h:form>
+	            <p:panelGrid columns="2">
+	            	<h:outputText value="Year: "/>
+	            	<h:inputText value="#{TimesheetController.year}" required="true" />
+	            	<h:outputText value="Week Number: "/>
+	            	<h:inputText value="#{TimesheetController.week}" required="true" />
+	            </p:panelGrid>
+	            <br />
+	            <h:commandButton value="Create Timesheet" action="#{TimesheetController.addTimesheet()}" ajax="false" />
+	        </h:form>
+	    </p:dialog>
+	    
 	    </ui:define>
 	    
 	    <ui:define name="footer">

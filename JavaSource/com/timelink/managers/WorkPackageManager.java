@@ -88,4 +88,11 @@ public class WorkPackageManager {
   public void merge(WorkPackage wp) {
     em.merge(wp);
   }
+  
+  public WorkPackage findSickDay() {
+    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
+        + "WHERE wp.code = :code", WorkPackage.class)
+        .setParameter("code", "Sick Day");
+    return query.getSingleResult();
+  }
 }
