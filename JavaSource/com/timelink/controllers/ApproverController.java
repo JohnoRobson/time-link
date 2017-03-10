@@ -146,6 +146,17 @@ public class ApproverController implements Serializable {
       context.addMessage(null,
           new FacesMessage("Cannot decline more than one timesheet at a time."));
       return;
+    } else if (selectedTimesheets.size() == 0) {
+      FacesContext context = FacesContext.getCurrentInstance();
+      context.addMessage(null,
+          new FacesMessage("Must have a timesheet selected."));
+      return;
+    } else if (((Timesheet)selectedTimesheets.toArray()[0]).getStatus()
+        .equals(TimesheetStatus.APPROVED.name())) {
+      //If the one selected timesheet is already approved.
+      FacesContext context = FacesContext.getCurrentInstance();
+      context.addMessage(null,
+          new FacesMessage("Cannot reject an already approved timesheet."));
     }
     
     return;
