@@ -31,7 +31,7 @@ CREATE TABLE `Budget_Hour` (
   `bh_man_day` int(11) DEFAULT NULL,
   PRIMARY KEY (`bh_id`),
   UNIQUE KEY `ph_id_UNIQUE` (`bh_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,6 +48,7 @@ CREATE TABLE `Project` (
   `prj_customer` varchar(45) DEFAULT NULL,
   `prj_wp_id` int(11) DEFAULT NULL,
   `prj_manager_id` int(11) DEFAULT NULL,
+  `prj_manager_assist_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`prj_id`),
   UNIQUE KEY `prjh_id_UNIQUE` (`prj_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -108,7 +109,7 @@ CREATE TABLE `credential` (
   PRIMARY KEY (`cre_id`),
   UNIQUE KEY `cre_emp_id_UNIQUE` (`cre_id`),
   UNIQUE KEY `cre_emp_name_UNIQUE` (`cre_emp_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +135,7 @@ CREATE TABLE `employee` (
   PRIMARY KEY (`emp_id`),
   UNIQUE KEY `emp_id_UNIQUE` (`emp_id`),
   UNIQUE KEY `emp_name_UNIQUE` (`emp_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +151,7 @@ CREATE TABLE `job_title` (
   `jt_type` int(11) DEFAULT NULL,
   PRIMARY KEY (`jt_id`),
   UNIQUE KEY `jt_id_UNIQUE` (`jt_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +169,7 @@ CREATE TABLE `labour_grade` (
   PRIMARY KEY (`lg_id`),
   UNIQUE KEY `lg_id_UNIQUE` (`lg_id`),
   UNIQUE KEY `lg_name_UNIQUE` (`lg_level`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +185,7 @@ CREATE TABLE `prj_emp` (
   `pe_emp_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`pe_id`),
   UNIQUE KEY `prjl_id_UNIQUE` (`pe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,7 +216,7 @@ CREATE TABLE `ts_approver` (
   `tsa_emp_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`tsa_id`),
   UNIQUE KEY `tsa_id_UNIQUE` (`tsa_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,7 +238,7 @@ CREATE TABLE `ts_header` (
   `tsh_rejectreason` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`tsh_id`),
   UNIQUE KEY `tsh_id_UNIQUE` (`tsh_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +259,7 @@ CREATE TABLE `ts_hour` (
   `tsho_labour_cost` float DEFAULT NULL,
   PRIMARY KEY (`tsho_id`),
   UNIQUE KEY `tsho_id_UNIQUE` (`tsho_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,7 +275,7 @@ CREATE TABLE `ts_line` (
   `tsl_note` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`tsl_id`),
   UNIQUE KEY `tsl_id_UNIQUE` (`tsl_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -290,7 +291,7 @@ CREATE TABLE `wp_emp` (
   `we_emp_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`we_id`),
   UNIQUE KEY `wpl_id_UNIQUE` (`we_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -302,7 +303,8 @@ CREATE TABLE `wp_emp` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-05 16:14:59
+-- Dump completed on 2017-03-08 12:14:19
+
   
   USE timelink_dev;
   
@@ -318,16 +320,23 @@ INSERT INTO job_title VALUES (4, 4, 0);
 INSERT INTO job_title VALUES (5, 3, 4);
 INSERT INTO job_title VALUES (6, 4, 5);
 
+INSERT INTO job_title VALUES (7, 1, 1);
+INSERT INTO job_title VALUES (8, 1, 2);
+INSERT INTO job_title VALUES (9, 1, 3);
+INSERT INTO job_title VALUES (10, 1, 4);
+INSERT INTO job_title VALUES (11, 1, 5);
+
 INSERT INTO ts_approver VALUES (0, 2, 1);
+INSERT INTO ts_approver VALUES (1, 1, 1);
 
 INSERT INTO credential VALUES (1, 1, "Admin", "Admin");
 INSERT INTO credential VALUES (2, 2, "tsa", "tsa");
 INSERT INTO credential VALUES (3, 3, "pm", "pm");
 INSERT INTO credential VALUES (4, 4, "re", "re");
 
-INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3);
-INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3);
-INSERT INTO Project VALUES (10, "Sick Day", "A Sick Day", "A Sick Day", null, null);
+INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3, null);
+INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3, null);
+INSERT INTO Project VALUES (10, "Sick Day", "A Sick Day", "A Sick Day", null, null, null);
 
 INSERT INTO prj_emp VALUES (0, 1, 1);
 INSERT INTO prj_emp VALUES (2, 2, 1);

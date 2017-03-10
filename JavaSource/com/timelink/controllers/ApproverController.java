@@ -8,7 +8,9 @@ import com.timelink.services.FlextimeService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -24,8 +26,8 @@ public class ApproverController implements Serializable {
   @Inject TimesheetManager tm;
   @Inject Session ses;
   @Inject FlextimeService flextimeService;
-  private List<Timesheet> timesheets;
-  private List<Timesheet> selectedTimesheets;
+  private Set<Timesheet> timesheets;
+  private Set<Timesheet> selectedTimesheets;
   private Timesheet viewingTimesheet;
 
   /**
@@ -33,7 +35,10 @@ public class ApproverController implements Serializable {
    * @return the timesheets
    */
   public List<Timesheet> getTimesheets() {
-    return timesheets;
+    if (timesheets != null) {
+      return new ArrayList<Timesheet>();
+    }
+    return new ArrayList<Timesheet>(timesheets);
   }
 
   /**
@@ -41,7 +46,7 @@ public class ApproverController implements Serializable {
    * @param timesheets the timesheets to set
    */
   public void setTimesheets(List<Timesheet> timesheets) {
-    this.timesheets = timesheets;
+    this.timesheets = new HashSet<Timesheet>(timesheets);
   }
   
   /**
@@ -66,7 +71,7 @@ public class ApproverController implements Serializable {
    */
   public List<Timesheet> getList() {
     refreshList();
-    return timesheets;
+    return new ArrayList<Timesheet>(timesheets);
   }
   
   /**
@@ -74,7 +79,10 @@ public class ApproverController implements Serializable {
    * @return the selectedTimesheets
    */
   public List<Timesheet> getSelectedTimesheets() {
-    return selectedTimesheets;
+    if (selectedTimesheets != null) {
+      return new ArrayList<Timesheet>(selectedTimesheets);
+    }
+    return new ArrayList<Timesheet>();
   }
 
   /**
@@ -82,7 +90,7 @@ public class ApproverController implements Serializable {
    * @param selectedTimesheets the selectedTimesheets to set
    */
   public void setSelectedTimesheets(List<Timesheet> selectedTimesheets) {
-    this.selectedTimesheets = selectedTimesheets;
+    this.selectedTimesheets = new HashSet<Timesheet>(selectedTimesheets);
   }
 
   /**
@@ -92,7 +100,7 @@ public class ApproverController implements Serializable {
     List<Timesheet> apprTimesheets;
     //TODO Change below to a Timesheet query
     apprTimesheets = tm.findByApprover(ses.getCurrentEmployee().getEmployeeId());
-    timesheets = new ArrayList<Timesheet>();
+    timesheets = new HashSet<Timesheet>();
     for (Timesheet t : apprTimesheets) {
       if (!t.getStatus().equals("" + TimesheetStatus.NOTSUBMITTED)) {
         timesheets.add(t);
