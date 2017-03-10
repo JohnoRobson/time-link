@@ -39,7 +39,6 @@ public class Employee implements Serializable {
       inverseJoinColumns = @JoinColumn(name = "tsa_appr_id"))
   private Employee timesheetApprover;
   
-  
   @OneToOne(mappedBy = "employee", cascade = {CascadeType.ALL})
   private Credentials credentials;
   

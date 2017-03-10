@@ -44,7 +44,7 @@ public class Timesheet {
   
   @JoinColumn(name = "tsh_approver_id",
       referencedColumnName = "emp_id")
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.MERGE)
   private Employee timesheetApprover;
   
   @JoinColumn(name = "tsh_emp_Id",
@@ -71,6 +71,9 @@ public class Timesheet {
       referencedColumnName = "tsh_id")
   @OrderBy("timesheetRowId ASC")
   private Set<TimesheetRow> rows;  
+  
+  @Column(name = "tsh_rejectreason")
+  private String rejectionReason;
   
   //TODO get dates working for time sheets, rows and hours.
   /**
@@ -248,6 +251,26 @@ public class Timesheet {
     this.rows = new HashSet<TimesheetRow>(rows);
   }
   
+  /**
+   * Returns the rejectionReason.
+   * @return the rejectionReason
+   */
+  public String getRejectionReason() {
+    if (rejectionReason != null) {
+      return rejectionReason;
+    }
+    
+    return "";
+  }
+
+  /**
+   * Sets the rejectionReason to rejectionReason.
+   * @param rejectionReason the rejectionReason to set
+   */
+  public void setRejectionReason(String rejectionReason) {
+    this.rejectionReason = rejectionReason;
+  }
+
   //TODO Should we put this in HoursManager or this? I feel like
   // if we inject something to use an entity manager when this already
   // has one seems unnecessary.
@@ -288,6 +311,10 @@ public class Timesheet {
     }
   }
   
+  /**
+   * Returns the week number of the date of this timesheet.
+   * @return A week number for this timesheet.
+   */
   public int getWeekNumber() {
     Calendar calendar = new GregorianCalendar();
     calendar.setTime(date);

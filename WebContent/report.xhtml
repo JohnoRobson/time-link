@@ -51,7 +51,8 @@
 				    <p:panel id="buttons">
 				    	<p:commandButton value="Approve" action="#{ApproverController.approve()}" ajax="false" />
 				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() != 1}" update="growl" actionListener="#{ApproverController.declineValidate}" />
-				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() == 1}" update="growl" onclick="PF('rejectmodal').show()" />
+				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() == 1 and ApproverController.timesheetIsApproved()}" update="growl" actionListener="#{ApproverController.declineValidate}" />
+				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() == 1 and !ApproverController.timesheetIsApproved()}" update="growl" onclick="PF('rejectmodal').show()" />
 				    </p:panel>
 				    	    </h:form>
 	    		</p:panel>
@@ -220,7 +221,7 @@
 	        <h:form>
 	            <p:panelGrid columns="2">
 	            <h:outputText value="Rejection reason: "/>
-	            <h:inputText value="PLACEHOLDER DOES NOT SAVE TEXT"/>
+	            <h:inputText value="#{ApproverController.getSingleTimesheet().rejectionReason}"/>
 	            </p:panelGrid>
 	            <br />
 	            <h:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />

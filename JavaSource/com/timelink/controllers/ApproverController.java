@@ -151,15 +151,21 @@ public class ApproverController implements Serializable {
       context.addMessage(null,
           new FacesMessage("Must have a timesheet selected."));
       return;
-    } else if (((Timesheet)selectedTimesheets.toArray()[0]).getStatus()
-        .equals(TimesheetStatus.APPROVED.name())) {
-      //If the one selected timesheet is already approved.
-      FacesContext context = FacesContext.getCurrentInstance();
-      context.addMessage(null,
-          new FacesMessage("Cannot reject an already approved timesheet."));
+    } else {
+      if (getSingleTimesheet().getStatus().equals(TimesheetStatus.APPROVED.name())) {
+        //If the one selected timesheet is already approved.
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null,
+            new FacesMessage("Cannot reject an already approved timesheet."));
+        return;
+      }
     }
     
     return;
+  }
+  
+  public boolean timesheetIsApproved() {
+    return getSingleTimesheet().getStatus().equals(TimesheetStatus.APPROVED.name());
   }
   
   /**
@@ -173,5 +179,17 @@ public class ApproverController implements Serializable {
       tm.merge(t);
     }
     return null;
+  }
+  
+  /**
+   * Returns one timesheet.
+   * @return A single timesheet.
+   */
+  public Timesheet getSingleTimesheet() {
+    if (selectedTimesheets != null && selectedTimesheets.size() == 1) {
+      return selectedTimesheets.iterator().next();
+    } else {
+      return new Timesheet();
+    }
   }
 }
