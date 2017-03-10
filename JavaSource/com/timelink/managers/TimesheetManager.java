@@ -43,16 +43,6 @@ public class TimesheetManager {
    * @param ts The timesheet to be updated.
    */
   public void merge(Timesheet ts) {
-    /*for (TimesheetRow row : ts.getRows()) {
-      if (row.getHours() != null) {
-        for (Hours h : row.getHours()) {
-          h.setProjectId(row.getProjectId());
-          h.setWorkPackageId(row.getWorkPackageId());
-          em.merge(h);
-        }
-      }
-      em.merge(row);
-    }*/
     em.merge(ts);
   }
   
@@ -101,11 +91,9 @@ public class TimesheetManager {
    */
   public List<Timesheet> findByApprover(int empId) {
     ArrayList<Timesheet> result = new ArrayList<Timesheet>();
-    TypedQuery<Employee> queryOne = em.createQuery("SELECT e FROM Employee AS e, "
-        + "TimesheetApprover AS tsa "
-        + "WHERE e.employeeId = tsa.approveeEmployeeId "
-        + "AND :empid = tsa.approverEmployeeId", Employee.class)
-        .setParameter("empid", empId);
+    TypedQuery<Employee> queryOne = em.createQuery("SELECT e FROM Employee AS e "
+        + "WHERE e.timesheetApprover.employeeId = :empId", Employee.class)
+        .setParameter("empId", empId);
     
     for (Employee e : queryOne.getResultList()) {
       TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet AS t "

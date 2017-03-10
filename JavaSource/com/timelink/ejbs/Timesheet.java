@@ -93,7 +93,6 @@ public class Timesheet {
     setEmployee(emp);
     rows = new HashSet<TimesheetRow>();
     setStatus("0");
-    //date = new Date(Calendar.getInstance().getTime().getTime());
   }
   
   /**
