@@ -73,7 +73,6 @@ public class TimesheetController implements Serializable {
     return null;
   }
   
-  //TODO make this gud and move this business logic somewhere else
   /**
    * Sets the current selectedTimesheet's status to submitted
    * and saves it.  Also changes the employee's flex hours.

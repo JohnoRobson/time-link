@@ -221,7 +221,7 @@
 	        	<p><h:outputText value="STATUS: #{TimesheetController.selectedTimesheet.status}" /></p>
 	        	
 	        	<p:panel rendered="#{TimesheetController.selectedTimesheet.status.equals('REJECTED')}">
-		    		<h:outputText value="PLACEHOLDER REASON FOR THE TIMESHEET BEING DECLINED" />
+		    		<h:outputText value="#{TimesheetController.selectedTimesheet.rejectionReason}" />
 		    	</p:panel>
 	        
 	        </p:panel>

@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS `timelink_dev`;
+
 CREATE DATABASE  IF NOT EXISTS `timelink_dev` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `timelink_dev`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
@@ -327,15 +329,14 @@ INSERT INTO job_title VALUES (10, 1, 4);
 INSERT INTO job_title VALUES (11, 1, 5);
 
 INSERT INTO ts_approver VALUES (0, 2, 1);
-INSERT INTO ts_approver VALUES (1, 1, 1);
 
 INSERT INTO credential VALUES (1, 1, "Admin", "Admin");
 INSERT INTO credential VALUES (2, 2, "tsa", "tsa");
 INSERT INTO credential VALUES (3, 3, "pm", "pm");
 INSERT INTO credential VALUES (4, 4, "re", "re");
 
-INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3, null);
-INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3, null);
+INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3, 3);
+INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3, 3);
 INSERT INTO Project VALUES (10, "Sick Day", "A Sick Day", "A Sick Day", null, null, null);
 
 INSERT INTO prj_emp VALUES (0, 1, 1);
@@ -351,18 +352,6 @@ INSERT INTO wp_emp VALUES (0, 1, 1);
 INSERT INTO wp_emp VALUES (2, 2, 1);
 INSERT INTO wp_emp VALUES (3, 3, 1);
 INSERT INTO wp_emp VALUES (4, 4, 1);
-
-INSERT INTO ts_header VALUES(0, 1, "2017-01-30", null, 2, 0, 1, 1, null);
-
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 0, null);
-INSERT INTO ts_hour VALUES (2, 1, 1, 1, 1, null, 0, null);
-INSERT INTO ts_hour VALUES (3, 1, 1, 1, 1, null, 6, null);
-INSERT INTO ts_hour VALUES (4, 1, 1, 1, 1, null, 5, null);
-INSERT INTO ts_hour VALUES (5, 1, 1, 1, 1, null, 9, null);
-INSERT INTO ts_hour VALUES (6, 1, 1, 1, 1, null, 6, null);
-INSERT INTO ts_hour VALUES (7, 1, 1, 1, 1, null, 8, null);
-
-INSERT INTO ts_line VALUES (0, 1, "row 1 note");
 
 INSERT INTO labour_grade VALUES (1, null, "P1", 100);
 INSERT INTO labour_grade VALUES (2, null, "P2", 200);
