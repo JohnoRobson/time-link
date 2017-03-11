@@ -8,27 +8,6 @@
 
 	<h:body>
 		<ui:composition template="resources/templates/template.xhtml">
-			<ui:define name="header">
-				<div id="nav" style="height:15%">
-			        <div id="navContent">
-			            <h1>TimeLink</h1>
-			            <ul id="navList">
-			                <li><a href="home.xhtml">Home</a></li>
-			                <li><a href="timesheet.xhtml">Timesheet</a></li>
-			                <li><a href="projcreation.xhtml">Create Project</a></li>
-			                <li><a href="assignemp.xhtml">Manage Project</a></li>
-			                <h:panelGroup rendered="#{Session.approver}">
-			                	<li><a href="report.xhtml">Report</a></li>
-			                </h:panelGroup>
-			                <h:panelGroup rendered="#{Session.projectManager || Session.projectManagerAssistant}">
-			                	<li><a href="projectplanning.xhtml">Enter Project Planning Information</a></li>
-			                </h:panelGroup>
-			                <li><a href="humanresources.xhtml">Human Resources</a></li>
-			                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
-			            </ul>
-			        </div>
-			    </div>
-		    </ui:define>
 		    <ui:define name="content">
 		    	<h1>Add Employees to Projects page</h1>
 	        	<h:dataTable value="#{AssignEmployeesController.projects}" var="project">
@@ -36,9 +15,6 @@
 	                	#{project.projectName}
 	            	</h:column>
 	        	</h:dataTable>
-		    </ui:define>
-		    <ui:define name="footer">
-		    	#footsie
 		    </ui:define>
 	    </ui:composition>
 	</h:body>

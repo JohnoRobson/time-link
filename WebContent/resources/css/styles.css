@@ -37,7 +37,7 @@ body {
     
 }
 
-/* styles for the header banner 
+/* styles for the HEADER BANNER 
    .head - located template.xhtml */
 .head {
 	background: #F5F5F5;
@@ -136,6 +136,8 @@ body {
 	box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 }
 
+/* FOOTER BAR styles here 
+   footerBar located in footer.xhtml template file */
 .footerBar {
 	background: #F5F5F5;
 	border-radius: 0;
@@ -146,6 +148,7 @@ body {
 	overflow:hidden;
 }
 
+/*footer located in footer.xhtml */
 .footer {
 	background: #F5F5F5;
 	display:flex;	
@@ -153,37 +156,66 @@ body {
 	padding-top: 5vh;
 }
 
+/*leftFoot located in footer.xhtml
+  this controls the left text block in footer */
 .leftFoot {
 	justify-content:left;
 	margin-left:60vh;
 
 }
 
+/* rightFoot located in footer.xhtml 
+   right foot controls the right text block in footer*/
 .rightFoot {
 	justify-content:right;
 	margin-left:60vh;
 }
-
+/* controls main text for footer */
 .footInfo {
 	font-size: .75em;
 	font-weight:bold;
 }
-
+/*controls the text for the copyright statement in footer*/
 .footCopy {
 	font-size: .5em;
 }
 
-
+/* styles text in the footer for contact admin button */
 .contactUsLink {
 	font-size: .75em;
 	color: blue !important;
-	text-decoration: none !important;
+	text-decoration: none;
 }
-
+/*attempt at pseudo classing the link in footer, 
+	will have to look at how to do thsi in JSF later */
 .contactUsLink\:hover {
-	color: #4f4f4f !imporant;
+	color: #4f4f4f;
 }
 
+/* End of the footer banner styles */
+
+
+/*Menubar/nav bar styles start here 
+ menubar is located in header.xhtml */
+.ui-menubar,.ui-menu-child,.ui-menu {
+	margin-left: 10vh;
+	margin-top:7vh;
+	background: #F5F5F5;
+	border:none;
+}
+/*menu bar styles end here */
+
+/* home content styles start here 
+	located - home.xhtml */
+.homeContent {
+	margin:auto;
+	text-align:center;
+}	
+	
+
+/*  this is pending deletion, i jsut don't want to delete it quite yet 
+in case someone needs it, but as far as i can tell they are no longer in use 
+- armin toussi 
 #navContent h1 {
 	display: inline;
 }
@@ -212,7 +244,7 @@ body {
 
 #navList li:hover {
 	background-color: white;
-}
+} */
 
 #content {
 	width: 100%;
@@ -249,4 +281,8 @@ form {
 
 #approveTable {
 	border-spacing: 1%;
+}
+
+.ui-layout-unit.ui-widget.ui-widget-content.ui-corner-all.ui-layout-center.mainContent.ui-layout-pane.ui-layout-pane-center {
+	z-index: auto !important; /* I'm sorry */
 }

@@ -11,6 +11,7 @@ import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.roles.RoleEnum;
+import com.timelink.services.WorkPackageCodeService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,6 +31,7 @@ public class ProjectPlanningController implements Serializable {
   @Inject EmployeeManager em;
   @Inject WorkPackageManager wpm;
   @Inject BudgetedHoursManager bhm;
+  @Inject WorkPackageCodeService workPackageCodeService;
   private Integer responsibleEngineerId;
   private String wpCode;
   private String wpDescription;
@@ -87,7 +89,6 @@ public class ProjectPlanningController implements Serializable {
       }
     }
     pm.merge(currentProject);
-    currentProject = pm.find(currentProject.getProjectNumber());
     return null;
   }
   
@@ -143,89 +144,12 @@ public class ProjectPlanningController implements Serializable {
   }
   
   /**
-   * Returns a workpackage code that's been incremented
-   * on the same 'level' as the given code.
-   * @param code The code to increment
-   * @return An incremented WP code.
-   */
-  private String incrementSameLevel(String code) {
-    StringBuilder sb = new StringBuilder(code);
-    
-    //Find the first non-zero char
-    int toBeInc = sb.indexOf("0") - 1;
-    
-    //Increment it
-    if (Character.isDigit((sb.charAt(toBeInc)))) {
-      char digit = sb.charAt(toBeInc);
-      if (digit < '9') {
-        ++digit;
-        sb.setCharAt(toBeInc, digit);
-      } else {
-        sb.setCharAt(toBeInc, 'A');
-      }
-    } else if (Character.isAlphabetic((sb.charAt(toBeInc)))) {
-      //If it is not a digit increment anyway
-      char digit = sb.charAt(toBeInc);
-      if (digit < 'Z') {
-        ++digit;
-        sb.setCharAt(toBeInc, digit);
-      } else {
-        //Can't increment past Z
-        throw new IllegalArgumentException("Cannot increment this workpackage number past " + code);
-      }
-    }
-    
-    //if the char is a period, it is the first in a level
-    if (sb.charAt(toBeInc) == '.') {
-      sb.setCharAt(toBeInc, '1');
-    }
-    
-    return sb.toString();
-  }
-  
-  /**
-   * Finds the largest code on the given workpackage 'level.'
-   * @param code The code to search
-   * @return The largest wp code on the given 'level.'
-   */
-  private String findLargestCodeSameLevel(String code) {
-    String highest = code;
-    for (WorkPackage wp : currentProject.getWorkPackages()) {
-      int indexOfChk = wp.getCode().indexOf('0');
-      int indexOfCur = code.indexOf('0');
-      if (code.substring(0, indexOfChk - 1).equals(wp.getCode().substring(0, indexOfCur - 1))) {
-        if (indexOfChk == indexOfCur) {
-          if (wp.getCode().charAt(indexOfChk - 1) > highest.charAt(indexOfCur - 1)) {
-            highest = wp.getCode();
-          }
-        }
-      }
-    }
-    
-    return highest;
-  }
-  
-  private String findNextLevel(String code) {
-    StringBuilder sb = new StringBuilder(code);
-    sb.setCharAt(code.indexOf('0'), '.');
-    return sb.toString();
-  }
-  
-  private String findNewCode(String code) {
-    if (code == null) {
-      return incrementSameLevel(findLargestCodeSameLevel("100000000"));
-    } else {
-      return incrementSameLevel(findLargestCodeSameLevel(findNextLevel(code)));
-    }
-  }
-  
-  /**
    * Creates a new work package with the entered details.
    * @return null to reload the page.
    */
   public String createWorkPackage() {
     WorkPackage wp = new WorkPackage();
-    wp.setCode(findNewCode(getWpCode()));
+    wp.setCode(workPackageCodeService.generateNewCode(currentProject, getWpCode()));
     wp.setDescription(getWpDescription());
     wp.setProject(currentProject);
     wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
@@ -246,7 +170,6 @@ public class ProjectPlanningController implements Serializable {
     editingWorkPackageId.setProject(currentProject);
     //wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
     wpm.merge(editingWorkPackageId);
-    //setCurrentProjectId(currentProject.getProjectNumber());
     return null;
     
   }

@@ -2,14 +2,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
 	<body>
 		<ui:composition>
-			<div>
-				<h1>What's up friend</h1>
-			</div>
+			<div class="headLogo">
+					<h:graphicImage styleClass="logo" library="images" name="timelinklogo.png"/>
+					<div class="headText">
+						<h1>Timelink</h1>
+						<h3>Project Management System</h3>
+					</div>
+					<h:form>
+						<p:menubar styleClass="menubar">
+							<p:menuitem value="Home" url="home.xhtml" />
+							<p:menuitem value="Timesheet" url="timesheet.xhtml" />
+							<p:menuitem value="Create Project" url="projcreation.xhtml" />
+							<p:menuitem value="Manage Project" url="assignemp.xhtml" />
+							<p:menuitem value="Report" url="report.xhtml" rendered="#{Session.approver}" />
+							<p:menuitem value="Enter Project Planning Info" url="projectplanning.xhtml" 
+										rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
+							<p:menuitem value="Human Resources" url="humanresources.xhtml" />
+							<p:menuitem value="Logout" action="#{Session.endSession}" />
+						</p:menubar>
+					</h:form>
+				</div>
 		</ui:composition>
 	</body>
-
 </html>
