@@ -57,11 +57,15 @@ public class Employee implements Serializable {
   @Column(name = "emp_lname")
   private String lastName;
   
+  /*
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "prj_emp",
       joinColumns = @JoinColumn(name = "pe_emp_id"),
       inverseJoinColumns = @JoinColumn(name = "pe_prj_id"))
-  private Set<Project> projects;
+  private Set<Project> projects; */
+  
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "employees")
+  private Set<Project> projects; 
   
   @Column(name = "emp_lg_id")
   private Integer labourGrade;
@@ -365,5 +369,4 @@ public class Employee implements Serializable {
   public void setVacationRate(int vacationRate) {
     this.vacationRate = vacationRate;
   }
-  
 }
