@@ -39,13 +39,10 @@ public class Project implements Serializable {
       referencedColumnName = "emp_id")
   private Employee projectManager;
   
-  //TODO Get this figured out
-  /*
   @OneToOne
-  @JoinColumn(name = "projectManagerAssistant",
-      referencedColumnName = "EmployeeId")
+  @JoinColumn(name = "prj_manager_assist_id",
+      referencedColumnName = "emp_id")
   private Employee projectManagerAssistant;
-  */
   
   @OneToMany(mappedBy = "project",
       fetch = FetchType.EAGER,
@@ -118,17 +115,17 @@ public class Project implements Serializable {
    * Returns the projectManagerAssistant.
    * @return the projectManagerAssistant
    */
-  /*public Employee getProjectManagerAssistant() {
+  public Employee getProjectManagerAssistant() {
     return projectManagerAssistant;
-  }*/
+  }
   
   /**
    * Sets the projectManagerAssistant to projectManagerAssistant.
    * @param projectManagerAssistant the projectManagerAssistant to set
    */
-  /*public void setProjectManagerAssistant(Employee projectManagerAssistant) {
+  public void setProjectManagerAssistant(Employee projectManagerAssistant) {
     this.projectManagerAssistant = projectManagerAssistant;
-  }*/
+  }
   
   /**
    * Returns the workPackages.
