@@ -67,4 +67,8 @@ public class ProjectManager {
         .setParameter("empId", empId)
         .getResultList();  
   }
+  
+  public void flush() {
+    em.flush();
+  }
 }

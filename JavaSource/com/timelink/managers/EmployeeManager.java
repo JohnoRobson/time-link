@@ -1,6 +1,7 @@
 package com.timelink.managers;
 
 import com.timelink.ejbs.Employee;
+import com.timelink.ejbs.Project;
 import com.timelink.roles.RoleEnum;
 
 import java.util.List;
@@ -66,5 +67,22 @@ public class EmployeeManager {
     return query.getResultList();
   }
   
-  
+  /**
+   * Returns a list of Employees that do not belong to a 
+   * project.
+   * @param project to find Employees that do not exist
+   * @return A list of all employees that are not in the project
+   */
+  public List<Employee> findByNotInProject(Project project) {
+    if (project.getEmployees().size() > 0) {
+      TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+          + "WHERE e "
+          + "NOT IN :projectEmployees", Employee.class)
+          .setParameter("projectEmployees", project.getEmployees());
+      return query.getResultList();
+    } else {
+      TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e", Employee.class);
+      return query.getResultList();
+    }
+  }
 }
