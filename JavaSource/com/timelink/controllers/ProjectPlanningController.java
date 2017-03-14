@@ -89,6 +89,7 @@ public class ProjectPlanningController implements Serializable {
       }
     }
     pm.merge(currentProject);
+    currentProject = pm.find(currentProject.getProjectNumber());
     return null;
   }
   

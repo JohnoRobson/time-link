@@ -27,6 +27,7 @@
                		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
                 	<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
                 </p:selectOneMenu>
+                <h:outputText value="Project Manager Assistant: "/>
                 <p:selectOneMenu value="#{NewProjectController.projectManagerAssistant}">
                		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
                 	<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" var="pma" itemLabel="#{pma.firstName}" itemValue="#{pma.employeeId}" />
