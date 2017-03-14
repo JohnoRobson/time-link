@@ -4,17 +4,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
 	<h:body>
 		<ui:composition template="resources/templates/template.xhtml">
 		    <ui:define name="content">
 		    	<h1>Add Employees to Projects page</h1>
-	        	<h:dataTable value="#{AssignEmployeesController.projects}" var="project">
-	            	<h:column>
+		    	<h:form>
+	        	<p:dataTable value="#{AssignEmployeesController.projects}" var="project">
+	            	<p:column>
 	                	#{project.projectName}
-	            	</h:column>
-	        	</h:dataTable>
+	            	</p:column>
+	            	<p:column>
+	            	    <p:commandButton value="View" action="#{AssignEmployeesController.setSelectedProject(project)}" ajax="false"/>
+	            	</p:column>
+	        	</p:dataTable>
+	        	<h1>#{AssignEmployeesController.selectedProject.projectName}</h1>
+                <p:pickList id="pickList" value="#{AssignEmployeesController.employees}" var="employee" itemLabel="#{employee.firstName}" 
+                    itemValue="#{employee}" converter="EmployeeConverter"/>
+                <p:commandButton value="Assign" action="assignemp" ajax="false"/>
+                </h:form>
 		    </ui:define>
 	    </ui:composition>
 	</h:body>

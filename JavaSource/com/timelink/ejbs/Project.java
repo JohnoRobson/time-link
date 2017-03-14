@@ -55,8 +55,8 @@ public class Project implements Serializable {
   
   @Column(name = "prj_descr")
   private String description;
-
-  @ManyToMany(fetch = FetchType.EAGER)
+  
+  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
   @JoinTable(name = "prj_emp",
       joinColumns = @JoinColumn(name = "pe_prj_id", referencedColumnName = "prj_id"),
       inverseJoinColumns = @JoinColumn(name = "pe_emp_id", referencedColumnName = "emp_id"))

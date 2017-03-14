@@ -23,9 +23,7 @@ public class HumanResourceController implements Serializable {
   @Inject EmployeeManager em;
   @Inject RoleManager rm;
   
-  /** Current Employee being edited. */
   private Employee editingEmployee;
-  
   private String userId;
   private String firstName;
   private String lastName;
@@ -52,34 +50,66 @@ public class HumanResourceController implements Serializable {
     this.editingEmployee = editingEmployee;
   }
   
+  /**
+   * Return the userId.
+   * @return the userId
+   */
   public String getUserId() {
     return userId;
   }
 
+  /**
+   * Set the userId to userId.
+   * @param userId the userId to set
+   */
   public void setUserId(String userId) {
     this.userId = userId;
   }
 
+  /**
+   * Return the firstName.
+   * @return the firstName
+   */
   public String getFirstName() {
     return firstName;
   }
 
+  /**
+   * Set the firstName to firstName.
+   * @param firstName the firstName to set
+   */
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
+  /**
+   * Return the lastName.
+   * @return the lastName
+   */
   public String getLastName() {
     return lastName;
   }
 
+  /**
+   * Set the lastName to lastName.
+   * @param lastName the lastName to set
+   */
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
 
+  /**
+   * Return the email.
+   * @return the email
+   */
   public String getEmail() {
     return email;
   }
 
+  /**
+   * Set the email to email.
+   * @param email the email to set
+   */
   public void setEmail(String email) {
     this.email = email;
   }
@@ -98,38 +128,74 @@ public class HumanResourceController implements Serializable {
     this.vacationAccrual = vacationAccrual;
   }
 
+  /**
+   * Return the jobTitle.
+   * @return the jobTitle
+   */
   public RoleEnum getJobTitle() {
     return jobTitle;
   }
 
+  /**
+   * Set the jobTitle to jobTitle.
+   * @param jobTitle the jobTitle to set
+   */
   public void setJobTitle(RoleEnum jobTitle) {
     this.jobTitle = jobTitle;
   }
   
+  /**
+   * Return the password.
+   * @return the password
+   */
   public String getPassword() {
     return password;
   }
 
+  /**
+   * Set the password to password.
+   * @param password the password to set
+   */
   public void setPassword(String password) {
     this.password = password;
   }
 
+  /**
+   * Return the confirmPassword.
+   * @return the confirmPassword
+   */
   public String getConfirmPassword() {
     return confirmPassword;
   }
 
+  /**
+   * Set the confirmPassword to confirmPassword.
+   * @param confirmPassword the confirmPassword to set
+   */
   public void setConfirmPassword(String confirmPassword) {
     this.confirmPassword = confirmPassword;
   }
 
+  /**
+   * Return the effectiveFrom.
+   * @return the effectiveFrom
+   */
   public Date getEffectiveFrom() {
     return effectiveFrom;
   }
 
+  /**
+   * Set the effectiveFrom to effectiveFrom.
+   * @param effectiveFrom the effectiveFrom to set
+   */
   public void setEffectiveFrom(Date effectiveFrom) {
     this.effectiveFrom = effectiveFrom;
   }
 
+  /**
+   * Return all Employees.
+   * @return List of Employees
+   */
   public List<Employee> getEmployees() {
     return em.getAll();
   }
@@ -176,6 +242,10 @@ public class HumanResourceController implements Serializable {
     return "editemployee";
   }
   
+  /**
+   * Cancel.
+   * @return Navigation string to go to previous page
+   */
   public String cancel() {
     clear();
     return "humanresources";
@@ -230,10 +300,9 @@ public class HumanResourceController implements Serializable {
     }
   }
   
-  //TODO Update JavaDoc comments
   /**
    * Save employee.
-   * @return NAVIGATION STRING
+   * @return navigation string to reload page
    */
   public String save() {
     Employee emp = editingEmployee;
