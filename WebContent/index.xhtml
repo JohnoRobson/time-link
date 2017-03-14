@@ -9,6 +9,7 @@
 
 	<h:body>
 		<ui:composition template="resources/templates/template.xhtml">
+		<!-- UI define stays here because login page has a different header banner -->
 			<ui:define name="header">
 			<div class="headLogo">
 				<h:graphicImage styleClass="logo" library="images" name="timelinklogo.png"/>
@@ -39,18 +40,6 @@
 						<p:commandButton styleClass="logButton" value="Login" action="#{LoginController.login}" />
 					</div>	
 					</h:form>
-				</div>
-			</div>
-			</ui:define>
-			<ui:define name="footer">
-			<div class="footer">
-				<div class="leftFoot">
-					<p class="footInfo">Footer Information</p>
-					<p class="footCopy">2017 &copy; Copyright Team One</p>
-				</div>
-				<div class="rightFoot">
-					<!--  this needs functionality to contact admin page -->
-					<h:outputLink class="contactUsLink">Contact Admin</h:outputLink>
 				</div>
 			</div>
 			</ui:define>

@@ -7,10 +7,11 @@
 
     <h:head>
        <title></title>
-       <h:outputStylesheet library="css" name="styles.css"/>
        <link rel="stylesheet" href="resources/css/styles.css" />
     </h:head>
     <h:body>
+    <!-- Keep CSS declaration here please this is to load our style sheet after prime faces sheet -->
+    	<h:outputStylesheet library="css" name="styles.css"/>
     	<p:layout fullPage="true">
    	 	<!-- header template place holder -->
    	 	<p:layoutUnit class="head" position="north" size="180">

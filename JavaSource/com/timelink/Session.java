@@ -29,11 +29,9 @@ public class Session implements Serializable {
    * logged in employee is a timesheet approver or not.
    */
   public void isApproverCheck() {
-    TypedQuery<Employee> queryOne = em.createQuery("SELECT e FROM Employee AS e, "
-        + "TimesheetApprover AS tsa "
-        + "WHERE e.employeeId = tsa.approveeEmployeeId "
-        + "AND :empid = tsa.approverEmployeeId", Employee.class)
-        .setParameter("empid", currentEmployee.getEmployeeId());
+    TypedQuery<Employee> queryOne = em.createQuery("SELECT e FROM Employee AS e "
+        + "WHERE e.timesheetApprover = :emp", Employee.class)
+        .setParameter("emp", currentEmployee);
     
     isApprover = queryOne.getResultList().size() != 0;
   }

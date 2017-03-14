@@ -33,12 +33,11 @@ public class Employee implements Serializable {
   @Column(name = "emp_id")
   private int employeeId;
   
-  @OneToOne
+  @OneToOne//(cascade = CascadeType.MERGE)
   @JoinTable(name = "ts_approver",
-      joinColumns = @JoinColumn(name = "tsa_appr_id"),
-      inverseJoinColumns = @JoinColumn(name = "tsa_emp_id"))
+      joinColumns = @JoinColumn(name = "tsa_emp_id"),
+      inverseJoinColumns = @JoinColumn(name = "tsa_appr_id"))
   private Employee timesheetApprover;
-  
   
   @OneToOne(mappedBy = "employee", cascade = {CascadeType.ALL})
   private Credentials credentials;
@@ -47,9 +46,10 @@ public class Employee implements Serializable {
       mappedBy = "employee")
   private List<Role> roles;
   
-  //  @OneToOne
-  //  @JoinColumn(name = "Supervisor",
-  //      referencedColumnName = "EmployeeId")
+  //  @ManyToOne
+  //  @JoinTable(name = "supvemp",
+  //      joinColumns = @JoinColumn(name = "se_emp_id"),
+  //      inverseJoinColumns = @JoinColumn(name = "se_supv_id"))
   //  private Employee supervisor;
   
   @Column(name = "emp_fname")
@@ -364,6 +364,28 @@ public class Employee implements Serializable {
    */
   public void setVacationRate(int vacationRate) {
     this.vacationRate = vacationRate;
+  }
+  
+  /**
+   * Returns true if the entered object is the same as this object.
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    
+    if (!(obj instanceof Employee)) {
+      return false;
+    }
+    
+    Employee  emp = (Employee) obj;
+    
+    if (emp.getUserId() != getUserId()) {
+      return false;
+    }
+    
+    return true;
   }
   
 }

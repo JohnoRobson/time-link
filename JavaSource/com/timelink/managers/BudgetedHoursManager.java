@@ -20,6 +20,12 @@ public class BudgetedHoursManager {
     return em.find(BudgetedHours.class, plannedHoursId);
   }
   
+  /**
+   * Returns a BudgetedHours that is for the given parameters.
+   * @param wp The WorkPackage that the BudgetedHours is in.
+   * @param labourGradeId The LabourGrade of the BudgetedHours.
+   * @return A BudgetedHours, or null if one is not found.
+   */
   public BudgetedHours find(WorkPackage wp, int labourGradeId) {
     try {
       TypedQuery<BudgetedHours> query = em.createQuery("SELECT bh FROM BudgetedHours AS bh WHERE "
