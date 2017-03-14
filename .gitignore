@@ -21,6 +21,8 @@ target/
 *.war
 *.ear
 *.db
+
+/WebContent/WEB-INF/classes
  
 ######################
 # Windows
