@@ -20,13 +20,13 @@ USE `timelink_dev`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Budget_Hour`
+-- Table structure for table `budget_hour`
 --
 
-DROP TABLE IF EXISTS `Budget_Hour`;
+DROP TABLE IF EXISTS `budget_hour`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Budget_Hour` (
+CREATE TABLE `budget_hour` (
   `bh_id` int(11) NOT NULL AUTO_INCREMENT,
   `bh_level` int(11) DEFAULT NULL,
   `bh_wp_id` int(11) DEFAULT NULL,
@@ -362,5 +362,5 @@ INSERT INTO labour_grade VALUES (3, 2017, "P3", 300);
 INSERT INTO labour_grade VALUES (4, 2017, "P4", 400);
 INSERT INTO labour_grade VALUES (5, 2017, "P5", 500);
 
-INSERT INTO Budget_Hour VALUES(0, 1, 1, 3);
-INSERT INTO Budget_Hour VALUES(2, 2, 1, 5);
+INSERT INTO budget_hour VALUES(0, 1, 1, 3);
+INSERT INTO budget_hour VALUES(2, 2, 1, 5);
