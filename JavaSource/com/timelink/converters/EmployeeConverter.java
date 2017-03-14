@@ -1,4 +1,4 @@
-package com.timelink;
+package com.timelink.converters;
 /**
  * Converter code taken from 
  * http://stackoverflow.com/questions/3621251/how-to-write-a-custom-converter-for-ppicklist
