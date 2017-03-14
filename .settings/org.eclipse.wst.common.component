@@ -2,6 +2,7 @@
     <wb-module deploy-name="time-link">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/" source-path="/"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/JavaSource"/>
         <dependent-module archiveName="primefaces-6.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/time-link/WebContent/WEB-INF/lib/primefaces-6.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
