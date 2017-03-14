@@ -336,22 +336,22 @@ INSERT INTO credential VALUES (3, 3, "pm", "pm");
 INSERT INTO credential VALUES (4, 4, "re", "re");
 INSERT INTO credential VALUES (5, 5, "hr", "hr");
 
-INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3);
-INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3);
-INSERT INTO Project VALUES (10, "HR Codes", "HR Codes", "TimeLink", null, 2);
+INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3, 3);
+INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3, 3);
+INSERT INTO Project VALUES (10, "HR Codes", "HR Codes", "TimeLink", null, 2, 2);
 
 INSERT INTO prj_emp VALUES (0, 1, 1);
 INSERT INTO prj_emp VALUES (2, 2, 1);
 
-INSERT INTO WorkPackage VALUES (0, 10, "Sick Day", null, null, "A sick day", 0, 0);
-INSERT INTO WorkPackage VALUES (1, 1, "100000000", null, null, "Part of the cool project", 0, 0);
-INSERT INTO WorkPackage VALUES (2, 1, "200000000", null, null, "second part of the cool project", 0, 0);
-INSERT INTO WorkPackage VALUES (3, 2, "100000000", null, null, "work package for the cool project the sequel", 0, 0);
-INSERT INTO WorkPackage VALUES (4, 2, "200000000", null, null, "second work package for the sequel", 0, 0);
-INSERT INTO WorkPackage VALUES (5, 10, "FLEX", null, 5, "Flextime", 0, 0);
-INSERT INTO WorkPackage VALUES (6, 10, "VACA", null, 5, "Vacation", 0, 0);
+INSERT INTO WorkPackage VALUES (1, 10, "Sick Day", null, null, "A sick day", 0, 0);
+INSERT INTO WorkPackage VALUES (2, 1, "100000000", null, null, "Part of the cool project", 0, 0);
+INSERT INTO WorkPackage VALUES (3, 1, "200000000", null, null, "second part of the cool project", 0, 0);
+INSERT INTO WorkPackage VALUES (4, 2, "100000000", null, null, "work package for the cool project the sequel", 0, 0);
+INSERT INTO WorkPackage VALUES (5, 2, "200000000", null, null, "second work package for the sequel", 0, 0);
+INSERT INTO WorkPackage VALUES (6, 10, "FLEX", null, 5, "Flextime", 0, 0);
+INSERT INTO WorkPackage VALUES (7, 10, "VACA", null, 5, "Vacation", 0, 0);
 
-INSERT INTO wp_emp VALUES (0, 1, 1);
+INSERT INTO wp_emp VALUES (1, 1, 1);
 INSERT INTO wp_emp VALUES (2, 2, 1);
 INSERT INTO wp_emp VALUES (3, 3, 1);
 INSERT INTO wp_emp VALUES (4, 4, 1);
