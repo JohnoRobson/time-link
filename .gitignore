@@ -23,7 +23,8 @@ target/
 *.db
 
 /WebContent/WEB-INF/classes
- 
+/WebContent/META-INF
+
 ######################
 # Windows
 ######################
