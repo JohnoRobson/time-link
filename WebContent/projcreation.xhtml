@@ -10,34 +10,37 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
 		<ui:define name="content">
-			<h1>Project Creation Page</h1>
+		<div class="homeContent">
+			<div class="pageTitle">
+				<h1>Create a Project</h1>
+			</div>
 	        <h:form>
-	        	<h:message id="projectnameerror" for="projectname" />
-	            <p:panelGrid columns="2">
-	            <f:facet name="header">
-                    <h:outputText value="Create a Project" />
-                </f:facet>
-	            <h:outputText value="Project Name: "/>
-	            <h:inputText value="#{NewProjectController.projectName}" validator="#{NewProjectController.validateProjectName}" id="projectname" />
-	            <h:outputText value="Project Description: "/>
-	            <h:inputText value="#{NewProjectController.projectDescription}"/>
-	            <h:outputText value="Customer: "/>
-	            <h:inputText value="#{NewProjectController.customer}"/>
-	            <h:outputText value="Project Manager: "/>
-	            <p:selectOneMenu value="#{NewProjectController.projectManager}">
-               		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-                	<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
+	        	<div>
+	            <h:panelGrid styleClass="panel" columns="2">
+	            	<h:outputText styleClass="projLabel" value="Project Name: "/>
+	            	<p:inputText styleClass="projInput" value="#{NewProjectController.projectName}"/>
+	            	<h:outputText styleClass="projLabel" value="Project Description: "/>
+	            	<p:inputText styleClass="projInput" value="#{NewProjectController.projectDescription}"/>
+	            	<h:outputText styleClass="projLabel" value="Customer: "/>
+	            	<p:inputText styleClass="projInput" value="#{NewProjectController.customer}"/>
+	            	<h:outputText styleClass="projLabel" value="Project Manager: "/>
+	            	<p:selectOneMenu styleClass="projInput drop" value="#{NewProjectController.projectManager}">
+	            		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+                		<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" 
+                					   var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
+                	</p:selectOneMenu>
+                	<h:outputText styleClass="projLabel" value="Project Assistant" />
+                	<p:selectOneMenu styleClass="projInput drop" value="#{NewProjectController.projectManagerAssistant}">
+               			<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+                		<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" 
+                					   var="pma" itemLabel="#{pma.firstName}" itemValue="#{pma.employeeId}" />
                 </p:selectOneMenu>
-                <h:outputText value="Project Manager Assistant: "/>
-                <p:selectOneMenu value="#{NewProjectController.projectManagerAssistant}">
-               		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-               		<f:selectItem itemLabel="" itemValue="#{null}" />
-                	<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" var="pma" itemLabel="#{pma.firstName}" itemValue="#{pma.employeeId}" />
-                </p:selectOneMenu>
-	            </p:panelGrid>
-	            <br />
-	            <h:commandButton value="Create Project" action="#{NewProjectController.createProject}"/>
+	            </h:panelGrid>
+	            <p:commandButton value="Create Project" styleClass="projBtn"
+	            				 action="#{NewProjectController.createProject}"/>
+	            </div>
 	        </h:form>
+	    </div>
 		</ui:define>
 	</ui:composition>
 	</h:body>
