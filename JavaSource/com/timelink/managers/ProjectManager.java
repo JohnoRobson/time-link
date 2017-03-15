@@ -71,4 +71,18 @@ public class ProjectManager {
   public void flush() {
     em.flush();
   }
+  
+  /**
+   * Returns true if there is no project with the same projectName as proj.
+   * @param proj The Project whose name is searched in the database
+   * @return True, if proj's name is unique.
+   */
+  public boolean projectNameIsUnique(String name) {
+    List<Project> list = em.createQuery("SELECT p FROM Project as p "
+        + "WHERE p.projectName = :projName", Project.class)
+        .setParameter("projName", name)
+        .getResultList();
+    return list.size() == 0;
+  }
+
 }
