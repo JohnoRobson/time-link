@@ -12,6 +12,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -171,4 +175,15 @@ public class NewProjectController implements Serializable {
       rm.persist(role);
     }
   }
+  
+  public void validateProjectName(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+    if (!(value instanceof String)) {
+      throw new IllegalArgumentException("value not a String");
+    }
+    
+    if (!pm.projectNameIsUnique((String) value)) {
+      throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Project name must be unique", "Project name must be unique"));
+    }
+  }
 }
+
