@@ -2,6 +2,7 @@ package com.timelink.managers;
 
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
+import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.WorkPackage;
 
 import java.util.List;
@@ -62,15 +63,6 @@ public class WorkPackageManager {
     return query.getResultList();
   }
   
-  public WorkPackage findParent(WorkPackage wp) {
-    StringBuilder sb = new StringBuilder(wp.getCode());
-    sb.setCharAt(sb.indexOf("0") - 1, '0');
-    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-        + "WHERE wp.code = :code", WorkPackage.class)
-        .setParameter("code", sb.toString());
-    return query.getSingleResult();
-  }
-  
   /**
    * Adds wp to the database.
    * 
@@ -94,5 +86,41 @@ public class WorkPackageManager {
         + "WHERE wp.code = :code", WorkPackage.class)
         .setParameter("code", "Sick Day");
     return query.getSingleResult();
+  }
+  
+  /**
+   * Returns the parent of the given work package.
+   * @param wp The work package whose parent will be returned.
+   * @return the parent work package, or null if the given work package was
+   * a top-level work package.
+   */
+  public WorkPackage findParent(WorkPackage wp) {
+    //Check if wp is a top-level work package.
+    if (wp.getCode().indexOf('0') == 1) {
+      return null;
+    }
+    
+    StringBuilder sb = new StringBuilder(wp.getCode());
+    int index = sb.indexOf("0");
+    
+    //If wp is a lowest level work package
+    if (index == -1) {
+      sb.setCharAt(sb.length(), '0');
+    } else {
+      sb.setCharAt(index, '0');
+    }
+    
+    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
+        + "WHERE wp.code = :code", WorkPackage.class)
+        .setParameter("code", sb.toString());
+    return query.getSingleResult();
+  }
+  
+  public List<WorkPackage> getAllInTimesheet(Timesheet ts) {
+    TypedQuery<WorkPackage> query = em.createQuery("SELECT DISTINCT wp FROM WorkPackage AS wp, "
+        + "Hours AS hour WHERE hour.timesheetId = :tsId AND "
+        + "wp.workPackageId = hour.workPackageId", WorkPackage.class)
+        .setParameter("tsId", ts.getTimesheetId());
+    return query.getResultList();
   }
 }

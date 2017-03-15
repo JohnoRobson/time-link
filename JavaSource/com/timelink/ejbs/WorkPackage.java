@@ -53,11 +53,13 @@ public class WorkPackage implements Serializable {
   @Column(name = "wp_descr")
   private String description;
   
+  //Indicates if the work package has been charged to
   @Column(name = "wp_charged")
-  private Boolean isCharged;
+  private boolean isCharged;
   
+  //Indicates if the work package is closed
   @Column(name = "wp_closed")
-  private Boolean isClosed;
+  private boolean isClosed;
   
   //TODO find out if the was the best way to do it.
   @OneToMany(fetch = FetchType.EAGER,

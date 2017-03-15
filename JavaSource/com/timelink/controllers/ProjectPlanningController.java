@@ -14,6 +14,7 @@ import com.timelink.roles.RoleEnum;
 import com.timelink.services.WorkPackageCodeService;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -215,6 +216,18 @@ public class ProjectPlanningController implements Serializable {
     this.editingWorkPackageId = editingWorkPackageId;
   }
   
-  
+  public List<WorkPackage> getNonChargedWorkPackages() {
+    if (currentProject != null) {
+      List<WorkPackage> list = currentProject.getWorkPackages();
+      List<WorkPackage> newList = new ArrayList<WorkPackage>();
+      for (WorkPackage wp : list) {
+        if (!wp.isCharged()) {
+          newList.add(wp);
+        }
+      }
+      return newList;
+    }
+    return null;
+  }
   
 }

@@ -3,7 +3,9 @@ package com.timelink.controllers;
 import com.timelink.Session;
 import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Timesheet;
+import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.TimesheetManager;
+import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.FlextimeService;
 
 import java.io.Serializable;
@@ -24,6 +26,7 @@ import javax.inject.Named;
 @Named("ApproverController")
 public class ApproverController implements Serializable {
   @Inject TimesheetManager tm;
+  @Inject WorkPackageManager wpm;
   @Inject Session ses;
   @Inject FlextimeService flextimeService;
   private Set<Timesheet> timesheets;
@@ -132,6 +135,7 @@ public class ApproverController implements Serializable {
     for (Timesheet t : selectedTimesheets) {
       flextimeService.applyFlextime(t);
       t.setStatus("" + TimesheetStatus.APPROVED.ordinal());
+      chargeWorkPackages(t);
       tm.merge(t);
     }
     return null;
@@ -190,6 +194,17 @@ public class ApproverController implements Serializable {
       return selectedTimesheets.iterator().next();
     } else {
       return new Timesheet();
+    }
+  }
+  
+  /**
+   * Sets all work packages in the approved timesheet to charged.
+   * @param ts The timesheet to be approved.
+   */
+  public void chargeWorkPackages(Timesheet ts) {
+    for (WorkPackage wp : wpm.getAllInTimesheet(ts)) {
+      wp.setCharged(true);
+      wpm.merge(wp);
     }
   }
 }
