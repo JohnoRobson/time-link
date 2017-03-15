@@ -15,10 +15,12 @@
 				<h1>Create a Project</h1>
 			</div>
 	        <h:form>
+			<h:message id="projectnameerror" for="projectname" />
 	        	<div>
 	            <h:panelGrid styleClass="panel" columns="2">
 	            	<h:outputText styleClass="projLabel" value="Project Name: "/>
-	            	<p:inputText styleClass="projInput" value="#{NewProjectController.projectName}"/>
+	            	<h:inputText value="#{NewProjectController.projectName}"
+				     validator="#{NewProjectController.validateProjectName}" id="projectname" />
 	            	<h:outputText styleClass="projLabel" value="Project Description: "/>
 	            	<p:inputText styleClass="projInput" value="#{NewProjectController.projectDescription}"/>
 	            	<h:outputText styleClass="projLabel" value="Customer: "/>
