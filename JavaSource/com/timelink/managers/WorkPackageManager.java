@@ -81,6 +81,10 @@ public class WorkPackageManager {
     em.merge(wp);
   }
   
+  /**
+   * Returns the sick day WorkPackage.
+   * @return The sick day WorkPackage.
+   */
   public WorkPackage findSickDay() {
     TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
         + "WHERE wp.code = :code", WorkPackage.class)
@@ -92,7 +96,7 @@ public class WorkPackageManager {
    * Returns the parent of the given work package.
    * @param wp The work package whose parent will be returned.
    * @return the parent work package, or null if the given work package was
-   * a top-level work package.
+   *     a top-level work package.
    */
   public WorkPackage findParent(WorkPackage wp) {
     //Check if wp is a top-level work package.
@@ -116,11 +120,39 @@ public class WorkPackageManager {
     return query.getSingleResult();
   }
   
+  /**
+   * Returns all WorkPackages in the given timesheet.
+   * @param ts The timesheet to be searched
+   * @return A List of WorkPackages in the given timesheet.
+   */
   public List<WorkPackage> getAllInTimesheet(Timesheet ts) {
     TypedQuery<WorkPackage> query = em.createQuery("SELECT DISTINCT wp FROM WorkPackage AS wp, "
         + "Hours AS hour WHERE hour.timesheetId = :tsId AND "
         + "wp.workPackageId = hour.workPackageId", WorkPackage.class)
         .setParameter("tsId", ts.getTimesheetId());
     return query.getResultList();
+  }
+  
+  /**
+   * Returns true if the given WorkPackage does not have children.
+   * @param wp The WorkPackages to be searched.
+   * @return True, if wp has no children.
+   */
+  public boolean isLeaf(WorkPackage wp) {
+    StringBuilder sb = new StringBuilder(wp.getCode());
+    int index = sb.indexOf("0");
+    if (index == -1) {
+      return true;
+    } else {
+      sb = new StringBuilder(sb.substring(0, index));
+    }
+    
+    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
+        + "WHERE wp.project = :workProject AND wp.code LIKE :code "
+        + "AND wp.workPackageId != :wpId", WorkPackage.class)
+        .setParameter("workProject", wp.getProject())
+        .setParameter("code", sb.toString() + "%")
+        .setParameter("wpId", wp.getWorkPackageId());
+    return query.getResultList().size() == 0;
   }
 }

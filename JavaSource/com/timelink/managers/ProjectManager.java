@@ -74,7 +74,6 @@ public class ProjectManager {
   
   /**
    * Returns true if there is no project with the same projectName as proj.
-   * @param proj The Project whose name is searched in the database
    * @return True, if proj's name is unique.
    */
   public boolean projectNameIsUnique(String name) {

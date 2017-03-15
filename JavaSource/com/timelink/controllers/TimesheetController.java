@@ -10,6 +10,7 @@ import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -138,7 +139,13 @@ public class TimesheetController implements Serializable {
    *     that are in the given project.
    */
   public List<WorkPackage> getAssignedWorkPackages(int projectNumber) {
-    return wpm.findAssigned(ses.getCurrentEmployee(), pm.find(projectNumber));
+    List<WorkPackage> list = wpm.findAssigned(ses.getCurrentEmployee(), pm.find(projectNumber));
+    ArrayList<WorkPackage> newList = new ArrayList<WorkPackage>();
+    for (WorkPackage wp : list) {
+        newList.add(wp);
+      }
+    }
+    return newList;
   }
 
   /**

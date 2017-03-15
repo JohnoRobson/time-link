@@ -216,6 +216,10 @@ public class ProjectPlanningController implements Serializable {
     this.editingWorkPackageId = editingWorkPackageId;
   }
   
+  /**
+   * Returns a list of work packages that have not been charged in the current project.
+   * @return A list of non charged work packages.
+   */
   public List<WorkPackage> getNonChargedWorkPackages() {
     if (currentProject != null) {
       List<WorkPackage> list = currentProject.getWorkPackages();

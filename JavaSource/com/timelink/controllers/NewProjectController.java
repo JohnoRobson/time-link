@@ -178,13 +178,22 @@ public class NewProjectController implements Serializable {
     }
   }
   
-  public void validateProjectName(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+  /**
+   * Returns true if the project name is unique.
+   * @param context etc
+   * @param component etc
+   * @param value the name being checked
+   * @throws ValidatorException etc
+   */
+  public void validateProjectName(FacesContext context, UIComponent component, Object value)
+      throws ValidatorException {
     if (!(value instanceof String)) {
       throw new IllegalArgumentException("value not a String");
     }
     
     if (!pm.projectNameIsUnique((String) value)) {
-      throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Project name must be unique", "Project name must be unique"));
+      throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+          "Project name must be unique", "Project name must be unique"));
     }
   }
 }
