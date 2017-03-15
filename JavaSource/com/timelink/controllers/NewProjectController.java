@@ -131,9 +131,12 @@ public class NewProjectController implements Serializable {
     project.setDescription(projectDescription);
     project.setCustomer(customer);
     makeEmployeePm();
-    makeEmployeePma();
     project.setProjectManager(em.find(projectManager));
-    project.setProjectManagerAssistant(em.find(projectManagerAssistant));
+    //Only Project Manager assistant is optional.
+    if (projectManagerAssistant != null) {
+      makeEmployeePma();
+      project.setProjectManagerAssistant(em.find(projectManagerAssistant));
+    }
     pm.persist(project);
     reset();
     return "assignemp";
