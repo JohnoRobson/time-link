@@ -133,8 +133,7 @@ public class NewProjectController implements Serializable {
     makeEmployeePm();
     makeEmployeePma();
     project.setProjectManager(em.find(projectManager));
-    //TODO uncomment this once the project manager assistant field is in the database.
-    //project.setProjectManagerAssistant(em.find(projectManagerAssistant)));
+    project.setProjectManagerAssistant(em.find(projectManagerAssistant));
     pm.persist(project);
     reset();
     return "assignemp";
