@@ -68,18 +68,19 @@
 	    	</div>
 	    
 	    
-	    	<!-- Work Package Creation Modal -->
-	    	<p:dialog
+    	<!-- Work Package Creation Modal -->
+    	<p:dialog
 	    		header="Create a work package"
             	widgetVar="createwp"
             	modal="true"
-            	height="300">
+            	height="300"
+            	id="createwp">
 	    	<h:form>
 	            <p:panelGrid columns="2">
 	            	<h:outputText value="Work Package Parent: "/>
 	            	<p:selectOneMenu value="#{ProjectPlanningController.wpCode}" id="creationModal">
-	            		<f:selectItem itemLabe="" value="#{null}" />
-                    	<f:selectItems value="#{ProjectPlanningController.getCurrentProject().workPackages != null ? ProjectPlanningController.currentProject.workPackages : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.code}" />
+	            		<f:selectItem itemLabel="" value="#{null}" />
+                    	<f:selectItems value="#{ProjectPlanningController.getNonChargedWorkPackages() != null ? ProjectPlanningController.getNonChargedWorkPackages() : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.code}" />
 					</p:selectOneMenu>
 	            	<h:outputText value="Work Package Description: "/>
 	            	<h:inputText value="#{ProjectPlanningController.wpDescription}"/>
