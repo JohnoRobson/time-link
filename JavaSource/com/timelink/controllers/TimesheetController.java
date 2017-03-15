@@ -142,6 +142,7 @@ public class TimesheetController implements Serializable {
     List<WorkPackage> list = wpm.findAssigned(ses.getCurrentEmployee(), pm.find(projectNumber));
     ArrayList<WorkPackage> newList = new ArrayList<WorkPackage>();
     for (WorkPackage wp : list) {
+      if (wpm.isLeaf(wp)) {
         newList.add(wp);
       }
     }
