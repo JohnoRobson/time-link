@@ -23,6 +23,8 @@
 						<p:menuitem value="Report" url="report.xhtml" rendered="#{Session.approver}" />
 						<p:menuitem value="Enter Project Planning Info" url="projectplanning.xhtml" 
 									rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
+						<p:menuitem value="Estimate WP effort" url="estimatewpeffort.xhtml" 
+									rendered="#{Session.responsibleEngineer}" />
 						<p:menuitem value="Human Resources" url="humanresources.xhtml" />
 						<p:menuitem value="Logout" action="#{Session.endSession}" />
 					</p:menubar>

@@ -34,7 +34,7 @@
 		            	<p:ajax event="itemSelect" update=":#{p:component('tscontent')}" />
 		            	<f:selectItem itemLabel="Select Timesheet" itemValue="" noSelectionOption="true" />
 		            	<f:selectItems value="#{TimesheetController.getTimesheets() != null ? TimesheetController.getTimesheets() : null}" 
-		            				   var="ts" itemLabel="Year: #{1900 + ts.date.getYear()} Week Number: #{ts.getWeekNumber()}" 
+		            				   var="ts" itemLabel="Year: #{1900 + ts.date.getYear()} Week Number: #{TimesheetController.getWeekNumber(ts)}" 
 		            				   itemValue="#{ts.timesheetId}" />
         			</p:selectOneMenu>
 	        <p:remoteCommand name="onCellEdit" update="table, totals" />
