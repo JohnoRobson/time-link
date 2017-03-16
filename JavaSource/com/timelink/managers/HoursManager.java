@@ -1,6 +1,7 @@
 package com.timelink.managers;
 
 
+import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Hours;
 
 import java.sql.Date;
@@ -63,5 +64,20 @@ public class HoursManager {
    */
   public void merge(Hours hours) {
     em.merge(hours);
+  }
+  
+  //TODO make this work off of the hour's labour grade, not the employee's
+  public List<Hours> findByLabourGradeInProject(int labourGradeId, int projectId) {
+    String status = "" + TimesheetStatus.APPROVED.ordinal();
+    TypedQuery<Hours> query = em.createQuery("SELECT DISTINCT h FROM Hours AS h, Employee AS emp, Timesheet AS time WHERE "
+        + "emp.labourGrade = :lgId AND "
+        + "h.projectId = :proId AND "
+        + "time.employee = emp AND "
+        + "h.timesheetId = time.timesheetId AND "
+        + "time.status = :status", Hours.class)
+        .setParameter("lgId", labourGradeId)
+        .setParameter("proId", projectId)
+        .setParameter("status", status);
+    return query.getResultList();
   }
 }

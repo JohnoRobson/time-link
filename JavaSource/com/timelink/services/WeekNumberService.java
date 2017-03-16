@@ -25,4 +25,15 @@ public class WeekNumberService implements WeekNumberServiceInterface {
     return calendar.get(Calendar.WEEK_OF_YEAR);
   }
 
+  @Override
+  //ONLY WORKS FOR THE CURRENT YEAR
+  public Date getDateFromWeekNumber(int week) {
+    Calendar calendar = new GregorianCalendar();
+    Calendar year = new GregorianCalendar();
+    calendar.clear();
+    calendar.set(Calendar.YEAR, year.get(Calendar.YEAR));
+    calendar.set(Calendar.WEEK_OF_YEAR, week);
+    return calendar.getTime();
+  }
+
 }

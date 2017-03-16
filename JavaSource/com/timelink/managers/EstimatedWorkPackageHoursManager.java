@@ -12,6 +12,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 import com.timelink.ejbs.EstimatedWorkPackageHours;
+import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
 
 @Dependent
@@ -79,6 +80,31 @@ public class EstimatedWorkPackageHoursManager {
           + "ORDER BY ew.labourGrade.labourGradeId ASC", EstimatedWorkPackageHours.class)
           .setParameter("wpId", wp.getWorkPackageId())
           .setParameter("date", date, TemporalType.DATE);
+      if (query.getResultList().size() > 0) {
+        return query.getResultList();
+      } else {
+        return null;
+      }
+    } catch (PersistenceException ex) {
+      return null;
+    }
+  }
+  
+  /**
+   * Returns a BudgetedHours that is for the given parameters.
+   * @param wp The WorkPackage that the BudgetedHours is in.
+   * @param labourGradeId The LabourGrade of the BudgetedHours.
+   * @return A BudgetedHours, or null if one is not found.
+   */
+  public List<EstimatedWorkPackageHours> find(Project pro, int labourGradeId) {
+    try {
+      TypedQuery<EstimatedWorkPackageHours> query = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageHours AS ew, "
+          + "Project AS proj WHERE "
+          + "proj.projectNumber = :proId "
+          + "AND ew.workPackage MEMBER OF proj.workPackages "
+          + "AND ew.labourGrade.labourGradeId = :lgId", EstimatedWorkPackageHours.class)
+          .setParameter("proId", pro.getProjectNumber())
+          .setParameter("lgId", labourGradeId);
       if (query.getResultList().size() > 0) {
         return query.getResultList();
       } else {

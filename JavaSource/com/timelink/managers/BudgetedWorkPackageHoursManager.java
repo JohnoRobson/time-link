@@ -67,4 +67,5 @@ public class BudgetedWorkPackageHoursManager {
   public void remove(BudgetedWorkPackageHours hours) {
     em.remove(hours);
   }
+  
 }

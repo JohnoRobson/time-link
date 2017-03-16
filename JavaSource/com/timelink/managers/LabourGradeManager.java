@@ -19,7 +19,8 @@ public class LabourGradeManager {
   }
   
   public List<LabourGrade> getAllLabourGrades() {
-    return em.createQuery("SELECT lg FROM LabourGrade as lg", LabourGrade.class)
+    return em.createQuery("SELECT lg FROM LabourGrade as lg "
+        + "ORDER BY lg.labourGradeId ASC", LabourGrade.class)
         .getResultList();
   }
   
