@@ -233,8 +233,8 @@ DROP TABLE IF EXISTS `supvemp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `supvemp` (
-  `se_id` int(11) NOT NULL,
-  `se_supv_id` varchar(45) DEFAULT NULL,
+  `se_id` int(11) NOT NULL AUTO_INCREMENT,
+  `se_supv_id` int(11) DEFAULT NULL,
   `se_emp_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`se_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -345,11 +345,12 @@ CREATE TABLE `wp_emp` (
   
   USE timelink_dev;
   
-INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", 1, "a@a.com", 2, null, null, 100, 100, 120);
-INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", 2, "tsa@tsa.com", 1, null, null, 100, 100, 80);
-INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", 3, "pm@pm.com", 1, null, null, 100, 100, 160);
-INSERT INTO employee VALUES (4, "re", "refname", "relname", 4, "ref@ref.com", 1, null, null, 100, 100, 120);
-INSERT INTO employee VALUES (5, "hr", "hrfname", "hrlname", 4, "hr@hr.com", 1, null, null, 72, 30, 120);
+INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", null, "a@a.com", 2, null, null, 100, 100, 120);
+INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", null, "tsa@tsa.com", 1, null, null, 100, 100, 80);
+INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", null, "pm@pm.com", 1, null, null, 100, 100, 160);
+INSERT INTO employee VALUES (4, "re", "refname", "relname", null, "ref@ref.com", 1, null, null, 100, 100, 120);
+INSERT INTO employee VALUES (5, "hr", "hrfname", "hrlname", null, "hr@hr.com", 1, null, null, 72, 30, 120);
+INSERT INTO employee VALUES (6, "sup", "supfname", "suplname", null, "sup@sup.com", 1, null, null, 72, 30, 120);
 
 INSERT INTO job_title VALUES (1, 1, 0);
 INSERT INTO job_title VALUES (2, 2, 0);
@@ -357,11 +358,19 @@ INSERT INTO job_title VALUES (3, 3, 0);
 INSERT INTO job_title VALUES (4, 4, 0);
 INSERT INTO job_title VALUES (5, 3, 4);
 INSERT INTO job_title VALUES (6, 4, 5);
-INSERT INTO job_title VALUES (7, 5, 2);
+INSERT INTO job_title VALUES (7, 5, 1);
 INSERT INTO job_title VALUES (8, 1, 2);
 INSERT INTO job_title VALUES (9, 1, 3);
 INSERT INTO job_title VALUES (10, 1, 4);
 INSERT INTO job_title VALUES (11, 1, 5);
+INSERT INTO job_title VALUES (12, 6, 2);
+INSERT INTO job_title VALUES (13, 6, 0);
+INSERT INTO job_title VALUES (14, 5, 0);
+
+INSERT INTO supvemp VALUES (1, 6, 1);
+INSERT INTO supvemp VALUES (2, 6, 2);
+INSERT INTO supvemp VALUES (3, 6, 3);
+INSERT INTO supvemp VALUES (4, 6, 4);
 
 INSERT INTO ts_approver VALUES (0, 2, 1);
 
@@ -370,6 +379,7 @@ INSERT INTO credential VALUES (2, 2, "tsa", "tsa");
 INSERT INTO credential VALUES (3, 3, "pm", "pm");
 INSERT INTO credential VALUES (4, 4, "re", "re");
 INSERT INTO credential VALUES (5, 5, "hr", "hr");
+INSERT INTO credential VALUES (6, 6, "sup", "sup");
 
 INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3, 3);
 INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3, 3);
