@@ -84,4 +84,8 @@ public class ProjectManager {
     return list.size() == 0;
   }
 
+  public void detach(Project pro) {
+    em.detach(pro);
+  }
+
 }
