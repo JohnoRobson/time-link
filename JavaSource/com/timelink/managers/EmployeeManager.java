@@ -85,4 +85,29 @@ public class EmployeeManager {
       return query.getResultList();
     }
   }
+  
+  /**
+   * Returns a List of all Employees who have the given supervisor.
+   * @param sup The supervisor.
+   * @return A List of Employees.
+   */
+  public List<Employee> findBySupervisor(Employee sup) {
+    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+        + "WHERE e.supervisor = :sup", Employee.class)
+        .setParameter("sup", sup);
+    return query.getResultList();
+  }
+  
+  /**
+   * Returns a List of all Employees who do not have the given supervisor.
+   * @param sup The supervisor.
+   * @return A List of Employees.
+   */
+  public List<Employee> findByNotSupervisor(Employee sup) {
+    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+        + "WHERE e.supervisor != :sup OR "
+        + "e.supervisor IS NULL", Employee.class)
+        .setParameter("sup", sup);
+    return query.getResultList();
+  }
 }

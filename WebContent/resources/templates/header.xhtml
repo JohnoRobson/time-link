@@ -27,7 +27,10 @@
 									rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
 						<p:menuitem value="Estimate WP effort" url="estimatewpeffort.xhtml" 
 									rendered="#{Session.responsibleEngineer}" />
-						<p:menuitem value="Human Resources" url="humanresources.xhtml" />
+						<p:menuitem value="Assign Employee to Supervisor" url="assignemptosuper.xhtml" 
+									rendered="#{Session.humanResources}" />
+						<p:menuitem value="Human Resources" url="humanresources.xhtml" 
+									rendered="#{Session.humanResources}" />
 						<p:menuitem value="Logout" action="#{Session.endSession}" />
 					</p:menubar>
 				</h:form>
