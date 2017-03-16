@@ -46,7 +46,7 @@ public class Employee implements Serializable {
       mappedBy = "employee")
   private List<Role> roles;
   
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne//(cascade = CascadeType.ALL)
   @JoinTable(name = "supvemp",
       joinColumns = @JoinColumn(name = "se_emp_id"),
       inverseJoinColumns = @JoinColumn(name = "se_supv_id"))

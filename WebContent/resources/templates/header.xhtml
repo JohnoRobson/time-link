@@ -31,6 +31,8 @@
 									rendered="#{Session.humanResources}" />
 						<p:menuitem value="Human Resources" url="humanresources.xhtml" 
 									rendered="#{Session.humanResources}" />
+						<p:menuitem value="Assign Employee To Timesheet Approver" url="assignemptotsa.xhtml" 
+									rendered="#{Session.supervisor}" />
 						<p:menuitem value="Logout" action="#{Session.endSession}" />
 					</p:menubar>
 				</h:form>

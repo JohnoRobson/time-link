@@ -110,4 +110,29 @@ public class EmployeeManager {
         .setParameter("sup", sup);
     return query.getResultList();
   }
+  
+  /**
+   * Returns a List of all Employees who have the given timesheet approver.
+   * @param tsa The timesheet approver.
+   * @return A List of Employees.
+   */
+  public List<Employee> findByTimesheetApprover(Employee tsa) {
+    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+        + "WHERE e.timesheetApprover = :tsa", Employee.class)
+        .setParameter("tsa", tsa);
+    return query.getResultList();
+  }
+  
+  /**
+   * Returns a List of all Employees who do not have the given timesheet approver.
+   * @param tsa The timesheet approver.
+   * @return A List of Employees.
+   */
+  public List<Employee> findByNotTimesheetApprover(Employee tsa) {
+    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+        + "WHERE e.timesheetApprover != :tsa OR "
+        + "e.timesheetApprover IS NULL", Employee.class)
+        .setParameter("tsa", tsa);
+    return query.getResultList();
+  }
 }
