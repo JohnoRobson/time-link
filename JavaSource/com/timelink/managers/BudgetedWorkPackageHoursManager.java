@@ -28,7 +28,8 @@ public class BudgetedWorkPackageHoursManager {
    */
   public BudgetedWorkPackageHours find(WorkPackage wp, int labourGradeId) {
     try {
-      TypedQuery<BudgetedWorkPackageHours> query = em.createQuery("SELECT bh FROM BudgetedProjectHours AS bh WHERE "
+      TypedQuery<BudgetedWorkPackageHours> query
+          = em.createQuery("SELECT bh FROM BudgetedProjectHours AS bh WHERE "
           + "bh.labourGrade.labourGradeId = :lgId "
           + "AND bh IN :plhrs", BudgetedWorkPackageHours.class)
           .setParameter("plhrs", wp.getPlannedHours())

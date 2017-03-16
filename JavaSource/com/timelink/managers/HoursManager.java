@@ -66,10 +66,18 @@ public class HoursManager {
     em.merge(hours);
   }
   
+  /**
+   * Returns a list of approved Hours in the database that have the given
+   * projectId and labourGradeId.
+   * @param labourGradeId The labourGradeId to be searched.
+   * @param projectId The projectId to be searched.
+   * @return A List of Hours.
+   */
   //TODO make this work off of the hour's labour grade, not the employee's
-  public List<Hours> findByLabourGradeInProject(int labourGradeId, int projectId) {
+  public List<Hours> findApprovedByLabourGradeInProject(int labourGradeId, int projectId) {
     String status = "" + TimesheetStatus.APPROVED.ordinal();
-    TypedQuery<Hours> query = em.createQuery("SELECT DISTINCT h FROM Hours AS h, Employee AS emp, Timesheet AS time WHERE "
+    TypedQuery<Hours> query = em.createQuery("SELECT DISTINCT h FROM Hours AS h, "
+        + "Employee AS emp, Timesheet AS time WHERE "
         + "emp.labourGrade = :lgId AND "
         + "h.projectId = :proId AND "
         + "time.employee = emp AND "

@@ -1,5 +1,14 @@
 package com.timelink.controllers;
 
+import com.timelink.Session;
+import com.timelink.ejbs.EstimatedWorkPackageHours;
+import com.timelink.ejbs.LabourGrade;
+import com.timelink.ejbs.WorkPackage;
+import com.timelink.managers.EstimatedWorkPackageHoursManager;
+import com.timelink.managers.LabourGradeManager;
+import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.WeekNumberService;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,15 +21,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import com.timelink.Session;
-import com.timelink.ejbs.EstimatedWorkPackageHours;
-import com.timelink.ejbs.LabourGrade;
-import com.timelink.ejbs.WorkPackage;
-import com.timelink.managers.EstimatedWorkPackageHoursManager;
-import com.timelink.managers.LabourGradeManager;
-import com.timelink.managers.WorkPackageManager;
-import com.timelink.services.WeekNumberService;
 
 @SuppressWarnings("serial")
 @SessionScoped
@@ -103,8 +103,8 @@ public class EstimateWorkPackageEffortController implements Serializable {
   }
   
   /**
-   * Sets the selectedWorkPackageId to selectedWorkPackageId.
-   * @param selectedWorkPackageId the selectedWorkPackageId to set
+   * Sets the selectedWorkPackageCreationId to selectedWorkPackageCreationId.
+   * @param selectedWorkPackageCreationId the selectedWorkPackageCreationId to set
    */
   public void setSelectedWorkPackageCreationId(Integer selectedWorkPackageCreationId) {
     if (selectedWorkPackageCreationId == null) {
@@ -144,6 +144,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
   }
 
   /**
+   * Returns the selectedWeek.
    * @return the selectedWeek
    */
   public Integer getSelectedWeek() {
@@ -151,6 +152,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
   }
 
   /**
+   * Sets the selectedWeek.
    * @param selectedWeek the selectedWeek to set
    */
   public void setSelectedWeek(Integer selectedWeek) {
@@ -158,6 +160,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
   }
 
   /**
+   * Returns the selectedYear.
    * @return the selectedYear
    */
   public Integer getSelectedYear() {
@@ -165,6 +168,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
   }
 
   /**
+   * Sets the selectedYear.
    * @param selectedYear the selectedYear to set
    */
   public void setSelectedYear(Integer selectedYear) {
@@ -172,6 +176,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
   }
   
   /**
+   * Returns the selectedDate.
    * @return the selectedDate
    */
   public String getSelectedDate() {
@@ -179,6 +184,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
   }
 
   /**
+   * Sets the selectedDate.
    * @param selectedDate the selectedDate to set
    */
   public void setSelectedDate(String selectedDate) {
@@ -186,6 +192,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
   }
 
   /**
+   * Returns the selectedWorkPackageCreation.
    * @return the selectedWorkPackageCreation
    */
   public WorkPackage getSelectedWorkPackageCreation() {
@@ -193,24 +200,43 @@ public class EstimateWorkPackageEffortController implements Serializable {
   }
 
   /**
+   * Sets the selectedWorkPackageCreation.
    * @param selectedWorkPackageCreation the selectedWorkPackageCreation to set
    */
   public void setSelectedWorkPackageCreation(WorkPackage selectedWorkPackageCreation) {
     this.selectedWorkPackageCreation = selectedWorkPackageCreation;
   }
-
-  public List<EstimatedWorkPackageHours> getAllWithWorkPackage() {
+  
+  /**
+   * Returns all EstimatedWorkPackageHours associated with the selectedWorkPackage.
+   * @return A List of EstimatedWorkPackageHours.
+   */
+  public List<EstimatedWorkPackageHours> getOnePerWeek() {
     if (selectedWorkPackage == null) {
       return null;
     }
-    return ewm.getAllWithWorkPackage(selectedWorkPackage);
+    List<EstimatedWorkPackageHours> list = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
+    
+    return list;
   }
   
+  /**
+   * Returns a String containing the week number and year of
+   * the given EstimatedWorkPackageHours.
+   * @param ew the EstimatedWorkPackageHours the be checked.
+   * @return A String.
+   */
   public String getWeekYear(EstimatedWorkPackageHours ew) {
-    return ("Week: " + weekNumberService.getWeekNumber(ew.getDateCreated()) +
-        " Year: " + (ew.getDateCreated().getYear() + 1900));
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(ew.getDateCreated());
+    return ("Week: " + weekNumberService.getWeekNumber(ew.getDateCreated())
+      + " Year: " + cal.get(Calendar.YEAR));
   }
   
+  /**
+   * Returns a List of labourGrades in the database.
+   * @return A List of labourGrades.
+   */
   public List<LabourGrade> getLabourGrades() {
     if (labourGrades == null) {
       labourGrades = lgm.getAllLabourGrades();
@@ -219,6 +245,9 @@ public class EstimateWorkPackageEffortController implements Serializable {
     return labourGrades;
   }
   
+  /**
+   * Resets the state of this SessionBean.
+   */
   @PostConstruct
   public void reset() {
     labourGrades = lgm.getAllLabourGrades();
@@ -235,6 +264,11 @@ public class EstimateWorkPackageEffortController implements Serializable {
     selectedWorkPackageCreation = null;
   }
   
+  /**
+   * Returns an EstimatedWorkPackageHours that has the given labourGradeId.
+   * @param lgId The labourGrade's ID to be searched.
+   * @return An EstimatedWorkPackageHours.
+   */
   public EstimatedWorkPackageHours getEstimateFromLabourGrade(int lgId) {
     if (estimatedHours != null) {
       for (EstimatedWorkPackageHours ew : estimatedHours) {
@@ -247,6 +281,11 @@ public class EstimateWorkPackageEffortController implements Serializable {
     return getNewEstimateWorkPackageFromLabourGrade(lgId);
   }
   
+  /**
+   * Returns a new EstimatedWorkPackageHours with the given labourGradeId.
+   * @param lgId The labourGradeId to be used.
+   * @return A new EstimatedWorkPackageHours.
+   */
   public EstimatedWorkPackageHours getNewEstimateWorkPackageFromLabourGrade(int lgId) {
     EstimatedWorkPackageHours ew = new EstimatedWorkPackageHours();
     
@@ -257,10 +296,15 @@ public class EstimateWorkPackageEffortController implements Serializable {
     return ew;
   }
   
+  /**
+   * Creates and persists a collection of EstimatedWorkPackageHours for the
+   * selectedWorkPackage and date.
+   * @return null, to reload the page.
+   */
   public String createEstimate() {
-    Date d = weekNumberService.getDateFromWeekYear(selectedWeek, selectedYear);
+    Date dd = weekNumberService.getDateFromWeekYear(selectedWeek, selectedYear);
     for (EstimatedWorkPackageHours ew : estimatedHours) {
-      ew.setDateCreated(d);
+      ew.setDateCreated(dd);
       ew.setWorkPackage(selectedWorkPackageCreation);
       ewm.persist(ew);
     }
@@ -271,19 +315,21 @@ public class EstimateWorkPackageEffortController implements Serializable {
     return null;
   }
   
+  /**
+   * Returns a List of EstimatedWorkPackageHours associated with
+   * the selectedWorkPackage and selectedDate.
+   * @return A List of EstimatedWorkPackageHours.
+   */
   public List<EstimatedWorkPackageHours> viewEstimate() {
     if (selectedWorkPackage != null && selectedDate != null) {
       SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-      Date d = new Date();
+      Calendar cal = Calendar.getInstance();
       try {
-        d = df.parse(selectedDate);
-        d.setHours(0);
-        d.setMinutes(0);
-        d.setSeconds(0);
-      } catch (ParseException e) {
-        e.printStackTrace();
+        cal.setTime(df.parse(selectedDate));
+      } catch (ParseException ex) {
+        ex.printStackTrace();
       }
-      return ewm.find(selectedWorkPackage, d);
+      return ewm.find(selectedWorkPackage, cal.getTime());
     }
     return null;
   }

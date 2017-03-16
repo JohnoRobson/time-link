@@ -30,7 +30,7 @@
 		                <p:selectOneMenu value="#{EstimateController.selectedDate}">
 		                	<p:ajax event="itemSelect" update=":#{p:component('wpeffortcontent')}" />
 			                <f:selectItem noSelectOption="true" itemDisabled="true" itemLabel="Select a report" />
-			                <f:selectItems value="#{EstimateController.getAllWithWorkPackage() != null ? EstimateController.getAllWithWorkPackage() : null}" var="wp" itemLabel="#{EstimateController.getWeekYear(wp)}" itemValue="#{wp.dateCreated.toString()}" />
+			                <f:selectItems value="#{EstimateController.getOnePerWeek() != null ? EstimateController.getOnePerWeek() : null}" var="wp" itemLabel="#{EstimateController.getWeekYear(wp)}" itemValue="#{wp.dateCreated.toString()}" />
 		                </p:selectOneMenu>
 		                <p:commandButton value="Create New Estimate" onclick="PF('addwe').show();"/>
 	                </h:panelGrid>

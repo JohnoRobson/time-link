@@ -1,10 +1,10 @@
 package com.timelink.services;
 
+import com.timelink.services.interfaces.WeekNumberServiceInterface;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import com.timelink.services.interfaces.WeekNumberServiceInterface;
 
 @SuppressWarnings("serial")
 public class WeekNumberService implements WeekNumberServiceInterface {

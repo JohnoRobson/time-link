@@ -18,6 +18,10 @@ public class LabourGradeManager {
     return em.find(LabourGrade.class, id);
   }
   
+  /**
+   * Returns a list of all LabourGrades in the database.
+   * @return A List of LabourGrades.
+   */
   public List<LabourGrade> getAllLabourGrades() {
     return em.createQuery("SELECT lg FROM LabourGrade as lg "
         + "ORDER BY lg.labourGradeId ASC", LabourGrade.class)

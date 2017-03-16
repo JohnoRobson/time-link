@@ -77,7 +77,7 @@ public class BudgetedProjectHours implements Serializable {
   
   /**
    * Sets the project to project.
-   * @param the project
+   * @param project the project
    */
   public void setProject(Project project) {
     this.project = project;
