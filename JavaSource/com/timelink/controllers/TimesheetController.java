@@ -34,8 +34,14 @@ public class TimesheetController implements Serializable {
   private int week;
   private int year;
   
-  public TimesheetController() {
-    
+  public TimesheetController() {}
+  
+  public TimesheetController(TimesheetManager tm, WorkPackageManager wpm, 
+		  Session ses,ProjectManager pm) {
+	  this.tm = tm;
+	  this.wpm = wpm;
+	  this.ses = ses;
+	  this.pm = pm;
   }
   
   /**

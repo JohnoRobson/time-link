@@ -39,6 +39,24 @@ public class ProjectPlanningController implements Serializable {
   private List<LabourGrade> labourGrades;
   private WorkPackage editingWorkPackageId;
   
+  
+  public ProjectPlanningController() {
+	  
+  }
+  
+  public ProjectPlanningController(ProjectManager pm, 
+		  Session ses, LabourGradeManager lgm, 
+		  EmployeeManager em, WorkPackageManager wpm,
+		  BudgetedHoursManager bhm, WorkPackageCodeService workPackageCodeService) {
+	  this.pm = pm;
+	  this.ses = ses;
+	  this.lgm = lgm;
+	  this.em = em;
+	  this.wpm = wpm;
+	  this.bhm = bhm;
+	  this.workPackageCodeService = workPackageCodeService;
+  }
+  
   public List<Project> getProjects() {
     return pm.findByProjectManager(ses.getCurrentEmployee().getEmployeeId());
   }
@@ -69,6 +87,10 @@ public class ProjectPlanningController implements Serializable {
   
   public Project getCurrentProject() {
     return currentProject;
+  }
+  
+  public void setCurrentProject(Project p) {
+	  this.currentProject = p;
   }
   
   /**

@@ -27,6 +27,15 @@ public class LoginController implements Serializable {
   private int employeeId;
   Credentials cr;
   
+  public LoginController() {}
+  
+  public LoginController(CredentialManager cm, EmployeeManager em, Session ses) {
+	  this.cm = cm;
+	  this.em = em;
+	  this.ss = ses;
+  }
+  
+  
   /**
    * Returns the username.
    * @return the username

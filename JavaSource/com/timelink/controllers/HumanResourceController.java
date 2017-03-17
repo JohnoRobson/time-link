@@ -36,6 +36,16 @@ public class HumanResourceController implements Serializable {
   private String confirmPassword;
   private Date effectiveFrom;
   
+  
+  public HumanResourceController(EmployeeManager empMgr, RoleManager roleMgr) {
+	  this.em = empMgr;
+	  this.rm = roleMgr;
+  }
+  
+  public HumanResourceController() {
+	  
+  }
+  
   /**
    * Return the editingEmployee.
    * @return the editingEmployee

@@ -17,6 +17,12 @@ public class AssignEmployeesController implements Serializable {
   @Inject ProjectManager pm;
   private List<Project> projects;
   
+  public AssignEmployeesController() {}
+  
+  public AssignEmployeesController (ProjectManager pm) {
+	  this.pm = pm;
+  }
+  
   public List<Project> getProjects() {
     return pm.findAll();
   }
