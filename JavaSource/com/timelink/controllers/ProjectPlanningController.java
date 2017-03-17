@@ -11,7 +11,9 @@ import com.timelink.managers.EstimatedWorkPackageHoursManager;
 import com.timelink.managers.HoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
+import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.WeekNumberService;
+import com.timelink.services.WorkPackageCodeService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,7 +36,9 @@ public class ProjectPlanningController implements Serializable {
   @Inject LabourGradeManager lgm;
   @Inject BudgetedProjectHoursManager bhm;
   @Inject EstimatedWorkPackageHoursManager ewm;
+  @Inject WorkPackageCodeService workPackageCodeService;
   @Inject WeekNumberService weekNumberService;
+  @Inject WorkPackageManager wpm;
   @Inject HoursManager hm;
   
   private HashSet<Project> projects;
@@ -68,12 +72,12 @@ public class ProjectPlanningController implements Serializable {
   
   public ProjectPlanningController(ProjectManager pm, 
 		  Session ses, LabourGradeManager lgm, 
-		  EmployeeManager em, WorkPackageManager wpm,
-		  BudgetedHoursManager bhm, WorkPackageCodeService workPackageCodeService) {
+		  EstimatedWorkPackageHoursManager ewm, WorkPackageManager wpm,
+		  BudgetedProjectHoursManager bhm, WorkPackageCodeService workPackageCodeService) {
 	  this.pm = pm;
-	  this.ses = ses;
+	  this.session = ses;
 	  this.lgm = lgm;
-	  this.em = em;
+	  this.ewm = ewm;
 	  this.wpm = wpm;
 	  this.bhm = bhm;
 	  this.workPackageCodeService = workPackageCodeService;
@@ -97,10 +101,6 @@ public class ProjectPlanningController implements Serializable {
    */
   public void setSelectedProject(Project selectedProject) {
     this.selectedProject = selectedProject;
-  }
-  
-  public void setCurrentProject(Project p) {
-	  this.currentProject = p;
   }
   
   /**
