@@ -35,6 +35,7 @@ public class AssignEmployeesController implements Serializable {
    * @return selectedProject
    */
   public Project getSelectedProject() {
+    return selectedProject;
   }
 
   /**
