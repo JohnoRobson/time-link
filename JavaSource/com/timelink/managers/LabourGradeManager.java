@@ -14,8 +14,21 @@ import javax.persistence.PersistenceContext;
 public class LabourGradeManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
+  public LabourGrade find(int id) {
+    return em.find(LabourGrade.class, id);
+  }
+  
+  /**
+   * Returns a list of all LabourGrades in the database.
+   * @return A List of LabourGrades.
+   */
   public List<LabourGrade> getAllLabourGrades() {
-    return em.createQuery("SELECT lg FROM LabourGrade as lg", LabourGrade.class)
+    return em.createQuery("SELECT lg FROM LabourGrade as lg "
+        + "ORDER BY lg.labourGradeId ASC", LabourGrade.class)
         .getResultList();
+  }
+  
+  public int getNumberOfLabourGrades() {
+    return getAllLabourGrades().size();
   }
 }

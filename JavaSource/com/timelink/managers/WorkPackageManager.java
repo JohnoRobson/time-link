@@ -155,4 +155,21 @@ public class WorkPackageManager {
         .setParameter("wpId", wp.getWorkPackageId());
     return query.getResultList().size() == 0;
   }
+  
+  /**
+   * Returns a List of all WorkPackages with the given employee
+   *   as their responsible engineer.
+   * @param emp The responsible engineer.
+   * @return A List of WorkPackages where emp is the responsible engineer.
+   */
+  public List<WorkPackage> getAllWithResponsibleEngineer(Employee emp) {
+    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
+        + "WHERE wp.responsibleEngineer = :emp", WorkPackage.class)
+        .setParameter("emp", emp);
+    return query.getResultList();
+  }
+  
+  public void detach(WorkPackage wp) {
+    em.detach(wp);
+  }
 }

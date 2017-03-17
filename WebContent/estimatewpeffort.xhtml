@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:body>
+	<ui:composition template="resources/templates/template.xhtml">
+		<ui:define name="content">
+		<div class="homeContent">
+			<div class="pageTitle">
+				<h1>Estimate weekly work package effort</h1>
+			</div>
+			<h:form>
+				<p:panel id="wpeffortcontent">
+					<h:panelGrid styleClass="panel" columns="2">
+						<f:facet name="header">
+							<h:outputText value="Select Previous Estimate" />
+						</f:facet>
+						<h:outputText value="Work Package: "/>
+						<p:selectOneMenu value="#{EstimateController.selectedWorkPackageId}">
+							<p:ajax event="itemSelect" update=":#{p:component('wpeffortcontent')}" />
+			                <f:selectItem noSelectOption="true" itemDisabled="true" itemLabel="Select a work package" />
+			                <f:selectItems value="#{EstimateController.getWorkPackages() != null ? EstimateController.getWorkPackages() : null}" var="wp" itemLabel="#{wp.project.projectName} #{wp.code}" itemValue="#{wp.workPackageId}" />
+		                </p:selectOneMenu>
+		                <h:outputText value="Date: "/>
+		                <p:selectOneMenu value="#{EstimateController.selectedDate}">
+		                	<p:ajax event="itemSelect" update=":#{p:component('wpeffortcontent')}" />
+			                <f:selectItem noSelectOption="true" itemDisabled="true" itemLabel="Select a report" />
+			                <f:selectItems value="#{EstimateController.getOnePerWeek() != null ? EstimateController.getOnePerWeek() : null}" var="wp" itemLabel="#{EstimateController.getWeekYear(wp)}" itemValue="#{wp.dateCreated.toString()}" />
+		                </p:selectOneMenu>
+		                <p:commandButton value="Create New Estimate" onclick="PF('addwe').show();"/>
+	                </h:panelGrid>
+	                <p:panelGrid styleClass="panel" columns="2" render="#{EstimateController.selectedDate != null}">
+	                	<f:facet name="header">
+							<h:outputText value="Previous Estimate" />
+						</f:facet>
+			            <ui:repeat value="#{EstimateController.viewEstimate()}" var="est">
+			            	<h:outputText value="#{est.labourGrade.name} Rate: #{est.labourGrade.costRate}"/>
+			            	<h:outputText value=" Hours: #{est.manDay} "/>
+			            	<br />
+			            </ui:repeat>
+	            	</p:panelGrid>
+                </p:panel>
+			</h:form>
+	    </div>
+	    
+	    <!-- Add Weekly Estimate -->
+	    <p:dialog
+	    	header="Create New Weekly Estimate"
+            widgetVar="addwe"
+            modal="true"
+            height="300">
+	    	<h:form>
+	            <p:panelGrid columns="2">
+	            	<h:outputText value="Week Number: "/>
+	            	<h:inputText value="#{EstimateController.selectedWeek}" required="true" />
+	            	<h:outputText value="Year: "/>
+	            	<h:inputText value="#{EstimateController.selectedYear}" required="true" />
+	            	<h:outputText value="Work Package: " />
+	            	<p:selectOneMenu value="#{EstimateController.selectedWorkPackageCreationId}" required="true">
+			                <f:selectItem noSelectOption="true" itemDisabled="true" itemLabel="Select a work package" />
+			                <f:selectItems value="#{EstimateController.getWorkPackages() != null ? EstimateController.getWorkPackages() : null}" var="wp" itemLabel="#{wp.project.projectName} #{wp.code}" itemValue="#{wp.workPackageId}" />
+		            </p:selectOneMenu>
+	            </p:panelGrid>
+	            <br />
+	            <p:panelGrid columns="2">
+		            <ui:repeat value="#{EstimateController.getLabourGrades()}" var="lg">
+		            	<h:outputText value="#{lg.name} Rate: #{lg.costRate}"/>
+		            	<h:inputText value="#{EstimateController.getEstimateFromLabourGrade(lg.labourGradeId).manDay}" required="true "/>
+		            	<br />
+		            </ui:repeat>
+	            </p:panelGrid>
+	            <p:commandButton value="Create Estimate" action="#{EstimateController.createEstimate()}" ajax="false" />
+	        </h:form>
+	    </p:dialog>
+	    
+		</ui:define>
+	</ui:composition>
+	</h:body>
+</html>
