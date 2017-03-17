@@ -8,8 +8,10 @@ import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.WeekNumberService;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +22,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @SuppressWarnings("serial")
-@ManagedBean
 @SessionScoped
 @Named("TimesheetController")
 public class TimesheetController implements Serializable {
@@ -29,6 +30,7 @@ public class TimesheetController implements Serializable {
   @Inject WorkPackageManager wpm;
   @Inject Session ses;
   @Inject ProjectManager pm;
+  @Inject WeekNumberService weekNumberService;
   
   //ADD TIMESHEET MODAL STUFF
   private int week;
@@ -98,14 +100,6 @@ public class TimesheetController implements Serializable {
     getSelectedTimesheet();
   }
   
-  private Date getDateFromWeekYear() {
-    Calendar calendar = Calendar.getInstance();
-    calendar.clear();
-    calendar.set(Calendar.WEEK_OF_YEAR, week);
-    calendar.set(Calendar.YEAR, year);
-    return calendar.getTime();
-  }
-  
   //TODO make this work on a weekly, rather than a daily basis.
   /**
    * Adds a new timesheet for the logged in user.
@@ -120,7 +114,7 @@ public class TimesheetController implements Serializable {
     }
     save();
     selectedTimesheet = new Timesheet(ses.getCurrentEmployee());
-    selectedTimesheet.setDate(getDateFromWeekYear());
+    selectedTimesheet.setDate(weekNumberService.getDateFromWeekYear(week, year));
     tm.persist(selectedTimesheet);
     //Update the selectedTimesheet PK so that it can be added to it's rows and hours.
     selectedTimesheet = tm.findLatest(ses.getCurrentEmployee());
@@ -144,7 +138,14 @@ public class TimesheetController implements Serializable {
    *     that are in the given project.
    */
   public List<WorkPackage> getAssignedWorkPackages(int projectNumber) {
-    return wpm.findAssigned(ses.getCurrentEmployee(), pm.find(projectNumber));
+    List<WorkPackage> list = wpm.findAssigned(ses.getCurrentEmployee(), pm.find(projectNumber));
+    ArrayList<WorkPackage> newList = new ArrayList<WorkPackage>();
+    for (WorkPackage wp : list) {
+      if (wpm.isLeaf(wp)) {
+        newList.add(wp);
+      }
+    }
+    return newList;
   }
 
   /**
@@ -221,5 +222,9 @@ public class TimesheetController implements Serializable {
    */
   public void setYear(int year) {
     this.year = year;
+  }
+  
+  public int getWeekNumber(Timesheet ts) {
+    return weekNumberService.getWeekNumber(ts.getDate());
   }
 }

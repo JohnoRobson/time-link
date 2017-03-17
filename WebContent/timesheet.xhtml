@@ -10,48 +10,55 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
 	    <ui:define name="content">
-	    	
-	        <div id="timesheetHeader">
-	            <div id="left" class="headerPart">
-	                <p>Name:</p><p><h:outputText value="#{Session.currentEmployee.firstName} #{Session.currentEmployee.lastName}" /></p>
-	                <br />
-	                <p>Title:</p><p>PLACEHOLDER: UI Specialist</p>
-	                <br />
-	                <p>Date:</p><p><h:outputText value="#{TimesheetController.selectedTimesheet.date}" /></p>
-	            </div>
-	            <div id="right" class="headerPart">
-	                <p>UserID:</p><p><h:outputText value="#{Session.currentEmployee.employeeId}" /></p>
-	                <br />
-	                <p>Department:</p><p>PLACEHOLDER: BCIT_IS</p>
-	                <br />
-	                <p>Week:</p><p>PLACEHOLDER: 5</p>
-	                <br />
-	            </div>
-	        </div>
+	    	<div id="timesheetHead">
+	    		<div id="timesheetSubOne">
+	    			<h:panelGrid columns="2">
+	    				<h:outputLabel value="Name:" />
+	    				<h:outputText value="#{Session.currentEmployee.firstName} #{Session.currentEmployee.lastName}" />
+	    				<h:outputLabel value="Title:" />
+	    				<h:outputText value="placeholder" />
+	   					<h:outputLabel value="Date:" />
+	   					<h:outputText value="#{TimesheetController.selectedTimesheet.date}" />
+	    			</h:panelGrid>
+	    		</div>
+	    		<div id="timesheetSubTwo">
+	    			<h:panelGrid columns="2">
+	    				<h:outputLabel value="UserId:" />
+	    				<h:outputText value="#{Session.currentEmployee.employeeId}" />
+	    				<h:outputLabel value="Department:" />
+	    				<h:outputText value="placeholder" />
+	   					<h:outputLabel value="Week No:" />
+	   					<h:outputText value="PlaceHolder 5" />
+	    			</h:panelGrid>
+	    		</div>
+	    	</div>
+
 	        <h:form>
 	        <p:panel id="tscontent">
-	        	<p:selectOneMenu value="#{TimesheetController.selectedTimesheetId}">
+	        <div class="tsCont">
+	        	<p:selectOneMenu styleClass="tsDrop" value="#{TimesheetController.selectedTimesheetId}">
 		            	<p:ajax event="itemSelect" update=":#{p:component('tscontent')}" />
 		            	<f:selectItem itemLabel="Select Timesheet" itemValue="" noSelectionOption="true" />
 		            	<f:selectItems value="#{TimesheetController.getTimesheets() != null ? TimesheetController.getTimesheets() : null}" 
-		            				   var="ts" itemLabel="Year: #{1900 + ts.date.getYear()} Week Number: #{ts.getWeekNumber()}" 
+		            				   var="ts" itemLabel="Year: #{1900 + ts.date.getYear()} Week Number: #{TimesheetController.getWeekNumber(ts)}" 
 		            				   itemValue="#{ts.timesheetId}" />
         			</p:selectOneMenu>
 	        <p:remoteCommand name="onCellEdit" update="table, totals" />
-	        <p:dataTable id="table" var="row" value="#{TimesheetController.selectedTimesheet.rows}" editable="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" editMode="cell" rowIndexVar="index"
-	        	render="#{TimesheetController.selectedTimesheet != null}">
+	        <p:dataTable id="table" var="row" value="#{TimesheetController.selectedTimesheet.rows}" 
+	        			 editable="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
+	        			 editMode="cell" rowIndexVar="index" render="#{TimesheetController.selectedTimesheet != null}">
 	        	
-	        	<p:column >
+	        	<p:column styleClass="tsHeader" rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}">
 	    				<p:commandButton
-		                	value="Delete Row"
+		                	value="x"
 		                	type="submit"
 		                	action="#{TimesheetController.deleteRow(row)}"
 		                	ajax="false"
-		                	rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}">
+		                	styleClass="tsdelbtn">
 		        		</p:commandButton>
 	    			</p:column>
 	        	
-	        	<p:column headerText="project">
+	        	<p:column headerText="project" styleClass="tsHeader">
 					<p:cellEditor>
 					    <f:facet name="output">
 					        <h:outputText value="#{ProjectManager.find(row.projectId) != null ? ProjectManager.find(row.projectId).projectName : '-'}" id="projID" />
@@ -67,7 +74,7 @@
 					</p:cellEditor>
 				</p:column>
 				
-				<p:column headerText="work package">
+				<p:column headerText="work package" styleClass="tsHeader">
 					<p:cellEditor>
 					    <f:facet name="output">
 					        <h:outputText value="#{WorkPackageManager.find(row.workPackageId) != null ? WorkPackageManager.find(row.workPackageId).code: '-'}" id="wpID" />
@@ -83,7 +90,7 @@
 					</p:cellEditor>
 				</p:column>
 				
-				<p:column headerText="sat">
+				<p:column headerText="sat" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -100,7 +107,7 @@
                     
                 </p:column>
                 
-                <p:column headerText="sun">
+                <p:column headerText="sun" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -116,7 +123,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="mon">
+                <p:column headerText="mon" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -132,7 +139,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="tues">
+                <p:column headerText="tues" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -148,7 +155,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="wed">
+                <p:column headerText="wed" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -164,7 +171,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="thurs">
+                <p:column headerText="thurs" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -180,7 +187,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="fri">
+                <p:column headerText="fri" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -196,7 +203,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="notes">
+                <p:column headerText="notes" styleClass="tsHeader">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{row.note}" />
@@ -211,28 +218,41 @@
 	        </p:dataTable>
 	        
 	        <p:panel id="totals">
-	        
-	        	<h:outputText value="Total #{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() : 0}" />
-	        	<br />
-	        	<h:outputText value="OverTime #{TimesheetController.selectedTimesheet != null ? (TimesheetController.selectedTimesheet.getTotalHours() > 40 ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0) : 0}" />
-	        	<br />
-	        	<h:outputText value="FlexHours #{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0}" />
-	        	<br />
-	        	<p><h:outputText value="STATUS: #{TimesheetController.selectedTimesheet.status}" /></p>
+	        <div class="subtotals">
+	        	<h:panelGrid columns="2">
+	        		<h:outputLabel value="Total:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() : 0}" />
+	        		<h:outputLabel value="Overtime:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? (TimesheetController.selectedTimesheet.getTotalHours() > 40 ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0) : 0}" />
+	        		<h:outputLabel value="Flexhours:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0}" />
+	        	</h:panelGrid>
+	        	<h:panelGrid styleClass="status" columns="2">
+	        		<h:outputLabel value="Status:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet.status}" />
+	        	</h:panelGrid>
+	        	
 	        	
 	        	<p:panel rendered="#{TimesheetController.selectedTimesheet.status.equals('REJECTED')}">
 		    		<h:outputText value="#{TimesheetController.selectedTimesheet.rejectionReason}" />
 		    	</p:panel>
-	        
+	        </div>
+		    </p:panel>
+		        <div class="btnGrp">
+		        	<h:panelGrid columns="2">
+	        			<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
+	        							 action="#{TimesheetController.addRow()}" value="add row" ajax="false" />
+	        			<p:commandButton value="add timesheet" onclick="PF('addts').show();" />
+	        		</h:panelGrid>
+		        	<h:panelGrid columns="2" styleClass="btnGrpTwo">
+		        		<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
+	        							 action="#{TimesheetController.save()}" value="save" ajax="false" />
+	        			<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
+	        			    			 action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
+		        	</h:panelGrid>
+	        	</div>
+        	</div>
 	        </p:panel>
-	        
-        	<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" action="#{TimesheetController.save()}" value="save" ajax="false" />
-        	<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" action="#{TimesheetController.addRow()}" value="add row" ajax="false" />
-        	<p:commandButton value="add timesheet" onclick="PF('addts').show();" />
-        	<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
-        	
-	        </p:panel>
-		    
 	    </h:form>
 	    
 	    <!-- Add Timesheet Modal -->
@@ -240,16 +260,17 @@
 	    	header="Create New Timesheet"
             widgetVar="addts"
             modal="true"
-            height="300">
+            height="200">
 	    	<h:form>
-	            <p:panelGrid columns="2">
-	            	<h:outputText value="Year: "/>
-	            	<h:inputText value="#{TimesheetController.year}" required="true" />
-	            	<h:outputText value="Week Number: "/>
-	            	<h:inputText value="#{TimesheetController.week}" required="true" />
-	            </p:panelGrid>
-	            <br />
-	            <h:commandButton value="Create Timesheet" action="#{TimesheetController.addTimesheet()}" ajax="false" />
+	            <h:panelGrid columns="2">
+	            	<h:outputText styleClass="modalText" value="Year: "/>
+	            	<p:inputText styleClass="modalText" value="#{TimesheetController.year}" required="true" />
+	            	<h:outputText styleClass="modalText" value="Week Number: "/>
+	            	<p:inputText styleClass="modalText" value="#{TimesheetController.week}" required="true" />
+	            </h:panelGrid>
+	            
+	            <p:commandButton value="Create Timesheet" styleClass="modalBtn" 
+	            				 action="#{TimesheetController.addTimesheet()}" ajax="false" />
 	        </h:form>
 	    </p:dialog>
 	    

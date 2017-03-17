@@ -7,7 +7,7 @@ import com.timelink.services.interfaces.WorkPackageCodeServiceInterface;
 @SuppressWarnings("serial")
 public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
   
-  private static final String WP_STARTING_CODE = "100000000";
+  private static final String WP_STARTING_CODE = "1000000";
   
   private Project project;
 

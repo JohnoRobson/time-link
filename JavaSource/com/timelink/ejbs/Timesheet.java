@@ -3,9 +3,7 @@ package com.timelink.ejbs;
 import com.timelink.TimesheetStatus;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -308,15 +306,5 @@ public class Timesheet {
         break;
       }
     }
-  }
-  
-  /**
-   * Returns the week number of the date of this timesheet.
-   * @return A week number for this timesheet.
-   */
-  public int getWeekNumber() {
-    Calendar calendar = new GregorianCalendar();
-    calendar.setTime(date);
-    return calendar.get(Calendar.WEEK_OF_YEAR);
   }
 }

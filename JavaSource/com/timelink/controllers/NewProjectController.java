@@ -12,6 +12,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -136,10 +140,12 @@ public class NewProjectController implements Serializable {
     project.setDescription(projectDescription);
     project.setCustomer(customer);
     makeEmployeePm();
-    makeEmployeePma();
     project.setProjectManager(em.find(projectManager));
-    //TODO uncomment this once the project manager assistant field is in the database.
-    //project.setProjectManagerAssistant(em.find(projectManagerAssistant)));
+    //Only Project Manager assistant is optional.
+    if (projectManagerAssistant != null) {
+      makeEmployeePma();
+      project.setProjectManagerAssistant(em.find(projectManagerAssistant));
+    }
     pm.persist(project);
     reset();
     return "assignemp";
@@ -180,4 +186,24 @@ public class NewProjectController implements Serializable {
       rm.persist(role);
     }
   }
+  
+  /**
+   * Returns true if the project name is unique.
+   * @param context etc
+   * @param component etc
+   * @param value the name being checked
+   * @throws ValidatorException etc
+   */
+  public void validateProjectName(FacesContext context, UIComponent component, Object value)
+      throws ValidatorException {
+    if (!(value instanceof String)) {
+      throw new IllegalArgumentException("value not a String");
+    }
+    
+    if (!pm.projectNameIsUnique((String) value)) {
+      throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+          "Project name must be unique", "Project name must be unique"));
+    }
+  }
 }
+

@@ -6,13 +6,11 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Dependent
 @Stateless
-@Named("ProjectManager")
 public class ProjectManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
@@ -67,4 +65,25 @@ public class ProjectManager {
         .setParameter("empId", empId)
         .getResultList();  
   }
+  
+  public void flush() {
+    em.flush();
+  }
+  
+  /**
+   * Returns true if there is no project with the same projectName as proj.
+   * @return True, if proj's name is unique.
+   */
+  public boolean projectNameIsUnique(String name) {
+    List<Project> list = em.createQuery("SELECT p FROM Project as p "
+        + "WHERE p.projectName = :projName", Project.class)
+        .setParameter("projName", name)
+        .getResultList();
+    return list.size() == 0;
+  }
+
+  public void detach(Project pro) {
+    em.detach(pro);
+  }
+
 }

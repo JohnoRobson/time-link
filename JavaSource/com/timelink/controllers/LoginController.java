@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @SuppressWarnings("serial")
-@ManagedBean
 @SessionScoped
 @Named("LoginController")
 public class LoginController implements Serializable {

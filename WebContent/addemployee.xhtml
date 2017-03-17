@@ -8,35 +8,40 @@
       xmlns:p="http://primefaces.org/ui">
 
 	<h:body>
-	<ui:composition temlpate="resource/templates/template.xhtml">
+	<ui:composition template="resources/templates/template.xhtml">
 	    <ui:define name="content">
-	    <div id="content">
-	        <h1>Create Employee</h1>
+	    <div class="homeContent addEmpCont">
+	    	<div class="pageTitle">
+	        	<h1>Create Employee</h1>
+	        </div>
 	        <h:form>
-	            <h:panelGrid columns="2">
-	                User ID:
-	                <h:inputText value="#{HRController.userId}" />
-	                First Name:
-	                <h:inputText value="#{HRController.firstName}" />
-	                Last Name:
-	                <h:inputText value="#{HRController.lastName}" />
-	                Email:
-	                <h:inputText value="#{HRController.email}" />
-	                Job Title:
-	                <p:selectOneMenu value="#{HRController.jobTitle}" style="width:100%">
+	            <h:panelGrid styleClass="panel" columns="2">
+	                <h:outputText styleClass="projLabel" value="User ID:" />
+	                <p:inputText styleClass="projInput" value="#{HRController.userId}" />
+	                <h:outputText styleClass="projLabel" value="First Name:" />
+	                <p:inputText styleClass="projInput" value="#{HRController.firstName}" />
+	                <h:outputText styleClass="projLabel" value="Last Name:" />
+	                <p:inputText styleClass="projInput" value="#{HRController.lastName}" />
+	                <h:outputText styleClass="projLabel" value="Email:" />
+	                <p:inputText styleClass="projInput" value="#{HRController.email}" />
+	                <h:outputText styleClass="projLabel" value="Job Title:" />
+	                <p:selectOneMenu styleClass="addEmpDrop" value="#{HRController.jobTitle}" style="width:100%">
 		                <f:selectItems value="#{HRController.roles}" />
+		                <!--  there is a bug with this shows 2 drop downs -->
 		            </p:selectOneMenu>
-		            Password:
-	                <h:inputSecret value="#{HRController.password}" />
-	                Confirm Password:
-	                <h:inputSecret value="#{HRController.confirmPassword}" />
-	                Effective From:
-	                <h:inputText value="#{HRController.effectiveFrom}" >
+		            <h:outputText styleClass="projLabel" value="Password:" />
+	                <p:password styleClass="projInput" value="#{HRController.password}" />
+	                <h:outputText styleClass="projLabel" value="Confirm Password:" />
+	                <p:password styleClass="projInput" value="#{HRController.confirmPassword}" />
+	                <h:outputText styleClass="projLabel" value="Effective From:" />
+	                <p:inputText styleClass="projInput" value="#{HRController.effectiveFrom}" >
 	                    <f:convertDateTime pattern="MM/dd/yyyy" />
-	                </h:inputText>
+	                </p:inputText>
 	            </h:panelGrid>
-	            <p:commandButton value="Cancel" action="#{HRController.cancel}"/>
-	            <p:commandButton value="Save" action="#{HRController.createNewEmployee}"/>
+	            <div class="addEmpBtn">
+	            	<p:commandButton value="Cancel" action="#{HRController.cancel}"/>
+	            	<p:commandButton value="Save" action="#{HRController.createNewEmployee}"/>
+	        	</div>
 	        </h:form>
 	    </div>
 	    </ui:define>
