@@ -22,7 +22,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @SuppressWarnings("serial")
-@ManagedBean
 @SessionScoped
 @Named("TimesheetController")
 public class TimesheetController implements Serializable {
