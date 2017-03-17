@@ -1,4 +1,4 @@
-package com.timelink;
+package com.timelink.enums;
 
 import java.io.Serializable;
 

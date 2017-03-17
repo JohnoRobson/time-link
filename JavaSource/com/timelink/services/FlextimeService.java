@@ -1,7 +1,7 @@
 package com.timelink.services;
 
-import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Timesheet;
+import com.timelink.enums.TimesheetStatus;
 import com.timelink.services.interfaces.FlextimeServiceInterface;
 
 @SuppressWarnings("serial")

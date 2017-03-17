@@ -5,12 +5,12 @@ import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.enums.RoleEnum;
 import com.timelink.managers.BudgetedWorkPackageHoursManager;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.WorkPackageManager;
-import com.timelink.roles.RoleEnum;
 import com.timelink.services.WorkPackageCodeService;
 
 import java.io.Serializable;

@@ -43,7 +43,7 @@
 		            				   var="ts" itemLabel="Year: #{1900 + ts.date.getYear()} Week Number: #{TimesheetController.getWeekNumber(ts)}" 
 		            				   itemValue="#{ts.timesheetId}" />
         			</p:selectOneMenu>
-	        <p:remoteCommand name="onCellEdit" update="table, totals" />
+	        <p:remoteCommand name="onCellEdit" update="tscontent" />
 	        <p:dataTable id="table" var="row" value="#{TimesheetController.selectedTimesheet.rows}" 
 	        			 editable="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
 	        			 editMode="cell" rowIndexVar="index" render="#{TimesheetController.selectedTimesheet != null}">

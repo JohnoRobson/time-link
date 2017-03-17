@@ -1,10 +1,10 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
