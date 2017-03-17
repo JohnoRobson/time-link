@@ -256,6 +256,8 @@ body {
 /* create project styles end here */
 
 /* timesheet styles start here */
+/*This for the sub header on the timesheetpage 
+  holds info for hte selected timesheet - timesheet.xhtml*/
 #timesheetHead {
 	display: flex;
 	flex-flow: row wrap;
@@ -272,27 +274,31 @@ body {
 	box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 }
 
+/* sub div box that holds some sub head info */
 #timesheetSubOne {
 	margin: 1%;
 	flex-grow:1;
 }
 
+/* sub div box that holds some sub head info */
 #timesheetSubTwo {
 	margin: 1%;
 	flex-grow:1;
 }
 
+/* styles the dropdown box */
 .tsDrop {
 	margin-bottom: 1%;
 	margin-top: 1%;
 }
-
+/* main context area of timesheet.xhtml */
 .tsCont {
 	width: 70%;
 	margin:auto;
 
 }
 
+/* button for deleting a row in a timesheet */
 .tsdelbtn {
 	margin-left: 15%;
 	background: white !important;
@@ -300,73 +306,188 @@ body {
 	padding: 0%;
 	
 }
-
+/* the curve on the timesheet table */
+/* note - this affects all data tables in the site */
 .ui-datatable-tablewrapper {
 	border-radius: 30px ;
 }
 
-.ui-column-title {
-	
-}
-
+/* this styles the header of the data table timesheet.xhtml */
 .tsHeader {
 	border: 2px solid white !important;
 }
 
+/* styles the timesheet rows in alternating colors */
 .ui-datatable-odd {
 	background: #eeeeee !Important;
 }
 
+/* the subtotals panes in timesheet.xhtml*/
 .subtotals {
 	display:flex;
 	flex-flow: row wrap;
 	width: 60%;	
 }
 
+/* timesheet status bar sub div */
 .status {
 	float: right;
 	margin-left: 10%;
 }
 
+/* group of buttons at the bottom of timesheet page*/
 .btnGrp {
 	display: flex;
 	flex-direction: row;
 	margin-top: 1%;
 	margin-bottom: 1%;
+
 }
 
+/* sub group of buttons at bottom of timesheet.xhtml */
 .btnGrp button {
 	background: #dfdfdf !important;
 	border: 2px solid #4f4f4f !important;
 	padding: 0 2% 0 2%;
 }
 
+/* sub group 2 of buttons at bottom of timesheet.xhtml */
 .btnGrpTwo {
 	float: right;
 }
 
+/* modal styles for creating a new timesheet - timesheet.xhtml*/
 .modalText {
 	margin:1% 0% 2% 0%;
 }
 
+/* modal button to create timesheet - timesheet.xhtml */
 .modalBtn {
 	background: #dfdfdf !important;
 	border: 2px solid #4f4f4f !important;
-	padding-left:5%;
-	padding-right:5%;
-	padding-top:2%;
-	padding-bottom: 2%;
+	padding-top:1%;
+	padding-bottom: 1%;
 	margin-top: 2%;
 	cursor: pointer;
 	float:right;
 }
 
+/* psuedo classing hover for modal button */
 .modalBtn:hover{
 	 -webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	 -moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	 box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 }
+/* end of timesheet.xhtml styles */
 
+/* start of Human Resources page styles - humanresources.xhtml */
+/* gives space on top of the title. 
+   most of the styles for the title comes from .pageTitle class
+   this empTitle is just for spacing */
+.empTitle {
+	margin-top: 2%;	
+}
+
+/*most styles come from tsCont class 
+  this is just for individual spacing on this page */
+.hrCont {
+	margin-top: 2%;
+	width: 55%;
+}
+
+/* styles the command link in the HR emp table. */
+.editBtn {
+	text-decoration:none;
+	color:blue !important;
+}
+
+/*psuedo classing for the edit link in the hr emp table */
+.editBtn:hover {
+	color: #4f4f4f !Important;
+}
+
+/* styles for button div to add new employee */
+.empBtn {
+	margin-top: 2%;
+	margin-bottom: 2%;
+}
+
+/* styles for the button to add new employee */
+.empBtn button {
+	background: #dfdfdf !important;
+	border: 2px solid #4f4f4f !important;
+	padding: 0 2% 0 2%;
+	float:right;
+}
+/* note, a lot of the styles on this page come from other 
+class for other pages like the ts class from the timesheet page */
+/* end of human resources page styles */
+
+/* addemployee.xhtml styles start here */
+/* **note a lot of the styles for this page were taken from 
+   projcreation.xhtml - mainly for the panel grid. and some taken from 
+   home page styles** */
+/* addEmpCont just gives some space for the header/content 
+   sections to breathe */
+.addEmpCont {
+	margin-top: 1%;
+	margin-bottom: 1%; 
+}
+
+/* Styles the drop down box in the addemployee.xhtml */
+.addEmpDrop {
+	font-size: .75em !important;
+	display:block;
+	width: 40% !important;
+}
+
+/* styles the buttons div in addemployee.xhtml */
+.addEmpBtn {
+	margin:auto;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	width: 31%;
+	text-align:right;
+}
+
+/* styles the buttons in addemployee.xhtml */
+.addEmpBtn button {
+	background: #dfdfdf !important;
+	border: 2px solid #4f4f4f !important;
+	padding: 0 2% 0 2%;
+}
+/* addemployee.xhtml styles end here. */
+
+/* editemployee.xhtml styles start here */
+/* **note a lot of the styles for this page were taken from 
+   projcreation.xhtml - mainly for the panel grid. and some taken from 
+   home page styles** */
+ /* editEmpTitle spaces and centers the title */
+.editEmpTitle {
+	margin-top: 1%;
+	margin-bottom: 1%;
+	text-align:center;
+}
+
+/*Styles the button group for editemployee.xhtml */
+.editEmpBtnGrp {
+	margin:auto;
+	margin-top: 1%;
+	margin-bottom: 1%;
+	width: 28%;
+	text-align: right;
+}
+
+/* styles the buttons themselves for editemployee.xhtml */
+.editEmpBtnGrp button {
+	background: #dfdfdf !important;
+	border: 2px solid #4f4f4f !important;
+	padding: 0 1% 0 1%;	
+}
+/* ** NOTE ** - the modal is being styles via the modal 
+	styles that are above. furthermore, the page itself is getting 
+	styles from projcreation.xhtml styles. */
+/* end of editemployee.xhtml styles */
 
 #content {
 	width: 100%;
@@ -377,11 +498,6 @@ body {
 	margin: auto;
 }
 
-/* #timesheetHeader {
-	width: 25%;
-	margin: auto;
-}
- */
  
 .headerPart {
 	display: inline;
@@ -406,6 +522,7 @@ form {
 	border-spacing: 1%;
 }
 
+/*don't delete this */
 .ui-layout-unit.ui-widget.ui-widget-content.ui-corner-all.ui-layout-center.mainContent.ui-layout-pane.ui-layout-pane-center {
 	z-index: auto !important; /* I'm sorry */
 }

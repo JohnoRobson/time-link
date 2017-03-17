@@ -44,7 +44,7 @@
 		            				   itemValue="#{ts.timesheetId}" />
         			</p:selectOneMenu>
 	        <p:remoteCommand name="onCellEdit" update="table, totals" />
-	        <p:dataTable id="table" var="row" styleClass="tsPanel" value="#{TimesheetController.selectedTimesheet.rows}" 
+	        <p:dataTable id="table" var="row" value="#{TimesheetController.selectedTimesheet.rows}" 
 	        			 editable="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
 	        			 editMode="cell" rowIndexVar="index" render="#{TimesheetController.selectedTimesheet != null}">
 	        	
@@ -260,7 +260,7 @@
 	    	header="Create New Timesheet"
             widgetVar="addts"
             modal="true"
-            height="300">
+            height="200">
 	    	<h:form>
 	            <h:panelGrid columns="2">
 	            	<h:outputText styleClass="modalText" value="Year: "/>
@@ -269,7 +269,7 @@
 	            	<p:inputText styleClass="modalText" value="#{TimesheetController.week}" required="true" />
 	            </h:panelGrid>
 	            
-	            <h:commandButton value="Create Timesheet" styleClass="modalBtn" 
+	            <p:commandButton value="Create Timesheet" styleClass="modalBtn" 
 	            				 action="#{TimesheetController.addTimesheet()}" ajax="false" />
 	        </h:form>
 	    </p:dialog>
