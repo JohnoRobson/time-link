@@ -2,7 +2,7 @@ package com.timelink.managers;
 
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
-import com.timelink.roles.RoleEnum;
+import com.timelink.enums.RoleEnum;
 
 import java.util.List;
 

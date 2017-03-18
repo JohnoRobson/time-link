@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.timelink.enums.WorkPackageStatusEnum;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "WorkPackage")
@@ -58,12 +60,8 @@ public class WorkPackage implements Serializable {
   private boolean isCharged;
   
   //Indicates if the work package is closed
-  @Column(name = "wp_eng_closed")
-  private boolean isClosed;
-  
-  //Indicates if the work package is finished.
-  @Column(name = "wp_closed")
-  private boolean isFinished;
+  @Column(name = "wp_status")
+  private WorkPackageStatusEnum status;
   
   //TODO find out if the was the best way to do it.
   @OneToMany(fetch = FetchType.EAGER,
@@ -201,35 +199,19 @@ public class WorkPackage implements Serializable {
   }
 
   /**
-   * Returns isClosed.
-   * @return the isClosed
+   * Returns status.
+   * @return the status
    */
-  public boolean isClosed() {
-    return isClosed;
+  public WorkPackageStatusEnum getStatus() {
+    return status;
   }
 
   /**
-   * Sets the isClosed to isClosed.
-   * @param isClosed the isClosed to set
+   * Sets the status.
+   * @param status the status to set.
    */
-  public void setClosed(boolean isClosed) {
-    this.isClosed = isClosed;
-  }
-
-  /**
-   * Returns isFinished.
-   * @return the isFinished
-   */
-  public boolean isFinished() {
-    return isFinished;
-  }
-
-  /**
-   * Sets isFinished.
-   * @param isFinished the isFinished to set
-   */
-  public void setFinished(boolean isFinished) {
-    this.isFinished = isFinished;
+  public void setStatus(WorkPackageStatusEnum status) {
+    this.status = status;
   }
 
   /**

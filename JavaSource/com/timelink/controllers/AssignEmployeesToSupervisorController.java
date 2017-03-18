@@ -1,8 +1,8 @@
 package com.timelink.controllers;
 
 import com.timelink.ejbs.Employee;
+import com.timelink.enums.RoleEnum;
 import com.timelink.managers.EmployeeManager;
-import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
 import java.util.ArrayList;

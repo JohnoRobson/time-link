@@ -1,7 +1,7 @@
 package com.timelink;
 
 import com.timelink.ejbs.Employee;
-import com.timelink.roles.RoleEnum;
+import com.timelink.enums.RoleEnum;
 
 import java.io.Serializable;
 

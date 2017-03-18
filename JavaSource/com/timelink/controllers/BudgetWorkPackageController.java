@@ -5,16 +5,18 @@ import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.enums.RoleEnum;
+import com.timelink.enums.WorkPackageStatusEnum;
 import com.timelink.managers.BudgetedWorkPackageHoursManager;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.WorkPackageManager;
-import com.timelink.roles.RoleEnum;
 import com.timelink.services.WorkPackageCodeService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -70,6 +72,56 @@ public class BudgetWorkPackageController implements Serializable {
   
   public Project getCurrentProject() {
     return currentProject;
+  }
+  
+  public List<WorkPackage> getWorkPackagesSubmittedByRE() {
+    ArrayList<WorkPackage> list = new ArrayList<WorkPackage>();
+    if (currentProject != null) {
+      for (WorkPackage wp : currentProject.getWorkPackages()) {
+        if (wp.getStatus() == WorkPackageStatusEnum.SUBMITTED_TO_PROJECT_MANAGER) {
+          list.add(wp);
+        }
+      }
+    }
+    return list;
+  }
+  
+  public List<WorkPackage> getWorkPackagesSubmittedByPM() {
+    ArrayList<WorkPackage> list = new ArrayList<WorkPackage>();
+    if (currentProject != null) {
+      for (WorkPackage wp : currentProject.getWorkPackages()) {
+        if (wp.getStatus() == WorkPackageStatusEnum.SUBMITTED_TO_RESPONSIBLE_ENGINEER) {
+          list.add(wp);
+        }
+      }
+    }
+    return list;
+  }
+  
+  public List<WorkPackage> getApprovedWorkPackages() {
+    ArrayList<WorkPackage> list = new ArrayList<WorkPackage>();
+    if (currentProject != null) {
+      for (WorkPackage wp : currentProject.getWorkPackages()) {
+        if (wp.getStatus() == WorkPackageStatusEnum.APPROVED) {
+          list.add(wp);
+        }
+      }
+    }
+    return list;
+  }
+  
+  public void approveWorkPackage() {
+    editingWorkPackageId.setStatus(WorkPackageStatusEnum.APPROVED);
+    for (LabourGrade lg : getLabourGrades()) {
+      if (editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).getManDay() != 0) {
+        editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).setLabourGrade(lg);
+        editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).setWorkPackageLineId(editingWorkPackageId);
+        editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).setDateCreated(new Date());
+      } else {
+        editingWorkPackageId.removePlannedHourByLabourGrade(lg.getLabourGradeId());
+      }
+    }
+    wpm.merge(editingWorkPackageId);
   }
   
   /**
@@ -155,6 +207,7 @@ public class BudgetWorkPackageController implements Serializable {
     wp.setDescription(getWpDescription());
     wp.setProject(currentProject);
     wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
+    wp.setStatus(WorkPackageStatusEnum.SUBMITTED_TO_RESPONSIBLE_ENGINEER);
     wpm.persist(wp);
     setCurrentProjectId(currentProject.getProjectNumber());
     save();
