@@ -246,7 +246,6 @@ public class Employee implements Serializable {
     if (projects != null) {
       return new ArrayList<Project>(projects);
     }
-
     return new ArrayList<Project>();
   }
   

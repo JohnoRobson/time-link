@@ -59,35 +59,21 @@
 	    			</p:column>
 	        	
 	        	<p:column headerText="project" styleClass="tsHeader">
-					<p:cellEditor>
-					    <f:facet name="output">
-					        <h:outputText value="#{ProjectManager.find(row.projectId) != null ? ProjectManager.find(row.projectId).projectName : '-'}" id="projID" />
-					    </f:facet>
-					    <f:facet name="input">
-	                        <p:selectOneMenu value="#{row.projectId}" style="width:100%">
-	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-	                            <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().project.projectNumber}" />
-                                <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
-                            </p:selectOneMenu>
-	                    </f:facet>
-					</p:cellEditor>
+	                <p:selectOneMenu value="#{row.projectId}" style="width:100%">
+		                <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+		                <f:selectItem itemLabel="" itemValue="#{0}"/>
+		                <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().project.projectNumber}" />
+		                <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
+	                </p:selectOneMenu>
 				</p:column>
 				
 				<p:column headerText="work package" styleClass="tsHeader">
-					<p:cellEditor>
-					    <f:facet name="output">
-					        <h:outputText value="#{WorkPackageManager.find(row.workPackageId) != null ? WorkPackageManager.find(row.workPackageId).code: '-'}" id="wpID" />
-					    </f:facet>
-					    <f:facet name="input">
-	                        <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
-	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-	                            <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().workPackageId}" />
-                                <f:selectItems value="#{ProjectManager.find(row.projectId) != null ? TimesheetController.getAssignedWorkPackages(row.projectId) : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
-                            </p:selectOneMenu>
-	                    </f:facet>
-					</p:cellEditor>
+	                <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
+		                <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+		                <f:selectItem itemLabel="" itemValue="#{0}"/>
+		                <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().workPackageId}" />
+		                <f:selectItems value="#{TimesheetController.getAssignedWorkPackages(row.projectId)}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
+	                </p:selectOneMenu>
 				</p:column>
 				
 				<p:column headerText="sat" styleClass="tsHeader weekDays">
