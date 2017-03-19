@@ -13,8 +13,8 @@
 		    	<h1>Add Employees to Work Package</h1>
 		    	<h:form>
 		    	    <p:selectOneMenu value="#{AssignWPController.projectId}" 
-		    	        valueChangeListener="#{AssignWPController.resetWP}" onchange="submit()">
-		    	        <f:selectItem itemLabel="" itemValue="null"/>
+		    	        valueChangeListener="#{AssignWPController.resetWp}" onchange="submit()">
+		    	        <f:selectItem itemLabel="" itemValue="-1"/>
                 		<f:selectItems value="#{AssignWPController.projects}"
                 		    var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectNumber}"/>
                     </p:selectOneMenu>
@@ -30,7 +30,7 @@
 	        	    <h1>#{AssignEmployeesController.selectedProject.projectName}</h1>
                     <p:pickList id="pickList" value="#{AssignWPController.employees}" var="employee" itemLabel="#{employee.firstName}" 
                         itemValue="#{employee}" converter="EmployeeConverter"/>
-                    <p:commandButton value="Assign" action="#{AssignWPController.assign}" ajax="false"/>
+                    <p:commandButton value="Assign" action="assigntowp" ajax="false"/>
 	        	</h:form>
 		    </ui:define>
 	    </ui:composition>

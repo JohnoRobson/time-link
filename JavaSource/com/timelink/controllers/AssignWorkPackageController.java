@@ -76,9 +76,13 @@ public class AssignWorkPackageController implements Serializable {
    * @param projectId the projectId to set
    */
   public void setProjectId(int projectId) {
-    this.projectId = projectId;
-    selectedProject = pm.find(projectId);
-    //selectedWorkPackage = null;
+    if (projectId == -1) {
+      selectedProject = null;
+      selectedWorkPackage = null;
+    } else {
+      this.projectId = projectId;
+      selectedProject = pm.find(projectId);
+    }
   }
 
   /**
@@ -112,40 +116,16 @@ public class AssignWorkPackageController implements Serializable {
    * @param employees that are merged with selectedProject
    */
   public void setEmployees(DualListModel<Employee> employees) {
-    /*
-    if (selectedProject != null) {
-      List<Employee> emps = new ArrayList<Employee>();
-      for (Employee e : employees.getTarget()) {
-        e.getProjects().add(selectedProject);
-        emps.add(e);
-      }
-      selectedProject.setEmployees(emps);
-      pm.merge(selectedProject);
-    } */
     if (selectedProject != null && selectedWorkPackage != null) {
-      List<Employee> emps = new ArrayList<Employee>();
-      for (Employee e : employees.getTarget()) {
-        emps.add(e);
-      }
-      selectedWorkPackage.setAssignedEmployees(new HashSet<Employee>(emps));
+      selectedWorkPackage.setAssignedEmployees(new HashSet<Employee>(employees.getTarget()));
       wpm.merge(selectedWorkPackage);
     }
   }
   
-  public void resetWP() {
-    selectedWorkPackage = null;
-  }
-  
-  // TODO Must update JavaDoc comments
   /**
-   * Reload page and display project.
-   * @return navigation string
+   * Reset the selectedWorkPackage to null.
    */
-  public String assign() {
-    /*
-    selectedProject = pm.find(projectId);
+  public void resetWp() {
     selectedWorkPackage = null;
-    System.out.println("ASSIGNHAPPENSNOW"); */
-    return "assigntowp"; 
   }
 }

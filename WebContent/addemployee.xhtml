@@ -34,9 +34,14 @@
 	                <h:inputText value="#{HRController.effectiveFrom}" >
 	                    <f:convertDateTime pattern="MM/dd/yyyy" />
 	                </h:inputText>
+	                Labour Grade:
+	                <p:selectOneMenu value="#{HRController.labourGrade}" style="width:100%">
+		                <f:selectItems value="#{HRController.labourGrades}" var="lg" itemValue="#{lg.labourGradeId}" 
+		                    itemLabel="#{lg.name}" />
+		            </p:selectOneMenu>
 	            </h:panelGrid>
-	            <p:commandButton value="Cancel" action="#{HRController.cancel}"/>
-	            <p:commandButton value="Save" action="#{HRController.createNewEmployee}"/>
+	            <p:commandButton value="Cancel" action="#{HRController.cancel}" ajax="false"/>
+	            <p:commandButton value="Save" action="#{HRController.createNewEmployee}" ajax="false"/>
 	        </h:form>
 	    </div>
 	    </ui:define>

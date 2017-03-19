@@ -22,10 +22,15 @@
 	                Email:
 	                <h:inputText value="#{HRController.email}" />
 	                Annual Vacation Accrual (Hours):
-	                <h:inputText value="#{HRController.vacationAccrual}" />
+	                <h:inputText value=" " />
 	                Role:
 	                <p:selectOneMenu value="#{HRController.jobTitle}" style="width:100%">
 		                <f:selectItems value="#{HRController.changeRoles}" />
+		            </p:selectOneMenu>
+		            Labour Grade:
+	                <p:selectOneMenu value="#{HRController.labourGrade}" style="width:100%">
+		                <f:selectItems value="#{HRController.labourGrades}" var="lg" itemValue="#{lg.labourGradeId}" 
+		                    itemLabel="#{lg.name}" />
 		            </p:selectOneMenu>
 	            </h:panelGrid>
 	            <p:commandButton value="Cancel" action="#{HRController.cancel}"/>
@@ -40,7 +45,7 @@
 	                    <h:inputSecret value="#{HRController.password}" />
 	                    Confirm Password:
 	                    <h:inputSecret value="#{HRController.confirmPassword}" />
-	                    <p:commandButton ajax="false" value="Save New Password" action="#{HRController.newPassword}"/>
+	                    <p:commandButton ajax="false" value="Save New Password" action="#{HRController.newPassword}" />
 	                </h:panelGrid>
 	           </h:form>
            </p:dialog>
