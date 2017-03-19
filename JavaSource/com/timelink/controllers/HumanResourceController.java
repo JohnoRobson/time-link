@@ -4,10 +4,10 @@ import com.timelink.ejbs.Credentials;
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Role;
+import com.timelink.enums.RoleEnum;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.RoleManager;
-import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
 import java.util.ArrayList;

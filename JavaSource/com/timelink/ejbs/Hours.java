@@ -37,6 +37,11 @@ public class Hours implements Serializable {
       referencedColumnName = "tsl_id")
   private TimesheetRow timesheetRow;
   
+  @JoinColumn(name = "lg_id",
+      referencedColumnName = "lg_id")
+  @ManyToOne
+  private LabourGrade labourGrade;
+  
   @Column(name = "tsho_date")
   private Date date;
   
@@ -124,6 +129,22 @@ public class Hours implements Serializable {
    */
   public void setTimesheetRow(TimesheetRow timesheetRow) {
     this.timesheetRow = timesheetRow;
+  }
+
+  /**
+   * Returns the labourGrade.
+   * @return the labourGrade
+   */
+  public LabourGrade getLabourGrade() {
+    return labourGrade;
+  }
+
+  /**
+   * Sets the labourGrade.
+   * @param labourGrade the labourGrade to set
+   */
+  public void setLabourGrade(LabourGrade labourGrade) {
+    this.labourGrade = labourGrade;
   }
 
   /**

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:body>
+	<ui:composition template="resources/templates/template.xhtml">  
+	    <ui:define name="content">
+	    	<div id="main">
+	    	<h1>Create work package budget</h1>
+	    	<h:form>
+        		<h2>Not Submitted Work Packages</h2>
+        		<p:remoteCommand name="onCellEdit" update="matrix" />
+	    		<p:dataTable id="matrix" var="row" value="#{BudgetWorkPackageREController.getWorkPackageList()}" editable="#{true}" editMode="cell" rowIndexVar="index">
+	    			<p:column>
+	    				<p:commandButton
+		                	value="Submit"
+		                	type="submit"
+		                	action="#{BudgetWorkPackageREController.submitWorkPackage()}"
+		                	ajax="false"
+		                	>
+		                <f:setPropertyActionListener value="#{row}" target="#{BudgetWorkPackageREController.editingWorkPackage}" />
+		        		</p:commandButton>
+	    			</p:column>
+	    			<p:column headerText="Project">
+						<h:outputText value="#{row.project.projectName}" />
+					</p:column>
+	    			<p:column headerText="Work Package">
+						<h:outputText value="#{row.code}" />
+					</p:column>
+					<p:column headerText="Work Package Description">
+						<h:outputText value="#{row.description}" />
+					</p:column>
+					<p:columns value="#{BudgetWorkPackageREController.getLabourGrades()}" var="lg">
+						<f:facet name="header">
+                			<h:outputText value="#{lg.name}" />
+                			<br />
+                			<h:outputText value="Rate: #{lg.costRate}" />
+            			</f:facet>
+						<h:inputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}">
+							<p:ajax event="change" oncomplete="onCellEdit()" />
+						</h:inputText>
+					</p:columns>
+					<p:column headerText="Total Hours">
+						<h:outputText value="#{row.getTotalPlannedHours()}" />
+					</p:column>
+					<p:column headerText="Total Costs">
+						<h:outputText value="#{row.getTotalPlannedCosts()}" />
+					</p:column>
+	    		</p:dataTable>
+	    	</h:form>
+	    	</div>
+	    </ui:define>
+	</ui:composition>
+	</h:body>
+</html>

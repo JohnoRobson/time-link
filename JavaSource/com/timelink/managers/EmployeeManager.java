@@ -3,7 +3,7 @@ package com.timelink.managers;
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
-import com.timelink.roles.RoleEnum;
+import com.timelink.enums.RoleEnum;
 
 import java.util.List;
 
@@ -95,20 +95,6 @@ public class EmployeeManager {
    * @return A list of all employees that are not in the workpackage
    */
   public List<Employee> findByNotInWorkPackage(Project project, WorkPackage workpackage) {
-    /*
-    if (workpackage.getAssignedEmployees().size() > 0) {
-      TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
-          + "WHERE e IN :projectEmployees AND e "
-          + "NOT IN :packageEmployees", Employee.class)
-          .setParameter("packageEmployees", workpackage.getAssignedEmployees())
-          .setParameter("projectEmployees", project.getEmployees());
-      return query.getResultList();
-    } else {
-      TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
-          + "WHERE e IN :projectEmployees", Employee.class)
-          .setParameter("projectEmployees", project.getEmployees());
-      return query.getResultList();
-    } */
     if (workpackage.getAssignedEmployees().size() > 0 && project.getEmployees().size() > 0) {
       TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
           + "WHERE e IN :projectEmployees AND e "
@@ -124,5 +110,55 @@ public class EmployeeManager {
     } else {
       return null;
     }
+  }
+  
+  /**
+   * Returns a List of all Employees who have the given supervisor.
+   * @param sup The supervisor.
+   * @return A List of Employees.
+   */
+  public List<Employee> findBySupervisor(Employee sup) {
+    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+        + "WHERE e.supervisor = :sup", Employee.class)
+        .setParameter("sup", sup);
+    return query.getResultList();
+  }
+  
+  /**
+   * Returns a List of all Employees who do not have the given supervisor.
+   * @param sup The supervisor.
+   * @return A List of Employees.
+   */
+  public List<Employee> findByNotSupervisor(Employee sup) {
+    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+        + "WHERE e.supervisor != :sup OR "
+        + "e.supervisor IS NULL", Employee.class)
+        .setParameter("sup", sup);
+    return query.getResultList();
+  }
+  
+  /**
+   * Returns a List of all Employees who have the given timesheet approver.
+   * @param tsa The timesheet approver.
+   * @return A List of Employees.
+   */
+  public List<Employee> findByTimesheetApprover(Employee tsa) {
+    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+        + "WHERE e.timesheetApprover = :tsa", Employee.class)
+        .setParameter("tsa", tsa);
+    return query.getResultList();
+  }
+  
+  /**
+   * Returns a List of all Employees who do not have the given timesheet approver.
+   * @param tsa The timesheet approver.
+   * @return A List of Employees.
+   */
+  public List<Employee> findByNotTimesheetApprover(Employee tsa) {
+    TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+        + "WHERE e.timesheetApprover != :tsa OR "
+        + "e.timesheetApprover IS NULL", Employee.class)
+        .setParameter("tsa", tsa);
+    return query.getResultList();
   }
 }

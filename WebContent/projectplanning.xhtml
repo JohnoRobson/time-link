@@ -10,111 +10,49 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">  
 	    <ui:define name="content">
-	    	<div id="main">
-	    	<h:form>
-	    		<p:commandButton
-                	value="Create Work Package"
-                	type="submit"
-                	onclick="PF('createwp').show();"
-                	update=":#{p:component('creationModal')}"/>
-	    		<p:selectOneMenu value="#{ProjectPlanningController.currentProjectId}">
-	            	<p:ajax event="itemSelect" update="matrix" />
-	            	<f:selectItem itemLabel="" itemValue="#{0}"/>
-	            	<f:selectItems value="#{ProjectPlanningController.getProjects() != null ? ProjectPlanningController.getProjects() : null}" 
-	            				   var="pro" itemLabel="#{pro.projectName}" 
-	            				   itemValue="#{pro.projectNumber}" />
-        		</p:selectOneMenu>
-        		<p:remoteCommand name="onCellEdit" update="matrix" />
-	    		<p:dataTable id="matrix" var="row" value="#{ProjectPlanningController.getCurrentProject().workPackages}" editable="#{true}" editMode="cell" rowIndexVar="index">
-	    			<p:column>
-	    				<p:commandButton
-		                	value="Edit"
-		                	type="submit"
-		                	onclick="PF('editwp').show();"
-		                	>
-		                <f:setPropertyActionListener value="#{row}" target="#{ProjectPlanningController.editingWorkPackageId}" />
-		        		</p:commandButton>
-	    			</p:column>
-	    			<p:column headerText="Work Package">
-						<h:outputText value="#{row.code}" />
-					</p:column>
-					<p:column headerText="Work Package Description">
-						<h:outputText value="#{row.description}" />
-					</p:column>
-					<p:columns value="#{ProjectPlanningController.getLabourGrades()}" var="lg">
-						<f:facet name="header">
-                			<h:outputText value="#{lg.name}" />
-                			<br />
-                			<h:outputText value="Rate: #{lg.costRate}" />
-            			</f:facet>
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}" />
-							</f:facet>
-							<f:facet name="input">
-								<h:inputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}" />
-							</f:facet>
-						</p:cellEditor>
-					</p:columns>
-					<p:column headerText="Total Hours">
-						<h:outputText value="#{row.getTotalPlannedHours()}" />
-					</p:column>
-					<p:column headerText="Total">
-						<h:outputText value="#{row.getTotalPlannedCosts()}" />
-					</p:column>
-	    		</p:dataTable>
-	    		<p:commandButton value="Save Planned Hours" action="#{ProjectPlanningController.save()}" ajax="false" />
-	    	</h:form>
-	    	</div>
-	    
-	    
-    	<!-- Work Package Creation Modal -->
-    	<p:dialog
-	    		header="Create a work package"
-            	widgetVar="createwp"
-            	modal="true"
-            	height="300"
-            	id="createwp">
-	    	<h:form>
-	            <p:panelGrid columns="2">
-	            	<h:outputText value="Work Package Parent: "/>
-	            	<p:selectOneMenu value="#{ProjectPlanningController.wpCode}" id="creationModal">
-	            		<f:selectItem itemLabel="" value="#{null}" />
-                    	<f:selectItems value="#{ProjectPlanningController.getNonChargedWorkPackages() != null ? ProjectPlanningController.getNonChargedWorkPackages() : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.code}" />
-					</p:selectOneMenu>
-	            	<h:outputText value="Work Package Description: "/>
-	            	<h:inputText value="#{ProjectPlanningController.wpDescription}"/>
-	            	<h:outputText value="Responsible Engineer: "/>
-	            	<p:selectOneMenu value="#{ProjectPlanningController.responsibleEngineer}">
-	            		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-                    	<f:selectItems value="#{ProjectPlanningController.getResponsibleEngineers() != null ? ProjectPlanningController.getResponsibleEngineers() : null}" var="re" itemLabel="#{re.firstName}" itemValue="#{re.employeeId}" />
-					</p:selectOneMenu>
-	            </p:panelGrid>
-	            <br />
-	            <p:commandButton value="Create Work Package" action="#{ProjectPlanningController.createWorkPackage}" ajax="false" />
-	        </h:form>
-	    </p:dialog>
-	    
-	    <!-- Work Package Edit Modal -->
-	    <p:dialog
-	    	header="Edit work package"
-            widgetVar="editwp"
-            modal="true"
-            height="300">
-	    	<h:form>
-	            <p:panelGrid columns="2">
-	            	<h:outputText value="Work Package Description: "/>
-	            	<h:inputText value="#{ProjectPlanningController.wpDescription}"/>
-	            	<h:outputText value="Responsible Engineer: "/>
-	            	<p:selectOneMenu value="#{ProjectPlanningController.responsibleEngineer}">
-	                	<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-                        	<f:selectItems value="#{ProjectPlanningController.getResponsibleEngineers() != null ? ProjectPlanningController.getResponsibleEngineers() : null}" var="re" itemLabel="#{re.firstName}" itemValue="#{re.employeeId}" />
-                    </p:selectOneMenu>
-	            </p:panelGrid>
-	            <br />
-	            <h:commandButton value="Save Changes" action="#{ProjectPlanningController.editWorkPackage}" ajax="false" />
-	        </h:form>
-	    </p:dialog>
+			<div class="pageTitle">
+				<h1>Project Planning</h1>
+			</div>
+			<h:form>
+				<p:panel id="projectplanning">
+					<h:panelGrid styleClass="panel" columns="2">
+						<h:outputText value="Select project to view" />
+						<p:selectOneMenu value="#{ProjectPlanningController.selectedProjectId}">
+			            	<p:ajax event="itemSelect" update="projectplanning" />
+			            	<f:selectItem noSelectOption="true" itemDisabled="true" itemLabel="Select a project" />
+			            	<f:selectItems value="#{ProjectPlanningController.getProjects() != null ? ProjectPlanningController.getProjects() : null}" 
+			            				   var="pro" itemLabel="#{pro.projectName}" 
+			            				   itemValue="#{pro.projectNumber}" />
+		        		</p:selectOneMenu>
+					</h:panelGrid>
+					<p:remoteCommand name="onCellEdit" update="table" />
+					<p:dataTable id="table" var="lg" value="#{ProjectPlanningController.getLabourGrades()}" editable="#{true}" editMode="cell" render="#{ProjectPlanningController.selectedProjectId != null}">
+		    			<p:column headerText="Pay Level">
+							<h:outputText value="#{lg.name}" />
+						</p:column>
+						<p:column headerText="Last Weekly Remaining Estimates">
+							<h:outputText value="#{ProjectPlanningController.getLastEstimate(lg.labourGradeId)}" />
+						</p:column>
+						<p:column headerText="Set Budget">
+							<p:cellEditor>
+		                        <f:facet name="output">
+		                            <h:outputText value="#{ProjectPlanningController.getBudgetedHourByLabourGrade(lg.labourGradeId).manDay}" />
+		                        </f:facet>
+		                        <f:facet name="input">
+		                            <h:inputText value="#{ProjectPlanningController.getBudgetedHourByLabourGrade(lg.labourGradeId).manDay}" />
+		                        </f:facet>
+		                    </p:cellEditor>
+						</p:column>
+						<p:column headerText="Charged Hours">
+							<h:outputText value="#{ProjectPlanningController.getTotalChargedHours(lg.labourGradeId)}" />
+						</p:column>
+						<p:column headerText="Remaining Budget">
+							<h:outputText value="#{ProjectPlanningController.getBudgetedHourByLabourGrade(lg.labourGradeId).manDay - ProjectPlanningController.getTotalChargedHours(lg.labourGradeId)}" />
+						</p:column>
+		    		</p:dataTable>
+		    		<p:commandButton value="Save Changes" action="#{ProjectPlanningController.saveChanges()}" ajax="false" />
+				</p:panel>
+			</h:form>
 	    </ui:define>
 	</ui:composition>
 	</h:body>

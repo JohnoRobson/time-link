@@ -1,7 +1,5 @@
 package com.timelink.ejbs;
 
-import com.timelink.roles.RoleEnum;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +20,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.timelink.enums.RoleEnum;
 
 @SuppressWarnings("serial")
 @Entity
@@ -46,11 +46,11 @@ public class Employee implements Serializable {
       mappedBy = "employee")
   private List<Role> roles;
   
-  //  @ManyToOne
-  //  @JoinTable(name = "supvemp",
-  //      joinColumns = @JoinColumn(name = "se_emp_id"),
-  //      inverseJoinColumns = @JoinColumn(name = "se_supv_id"))
-  //  private Employee supervisor;
+  @OneToOne//(cascade = CascadeType.ALL)
+  @JoinTable(name = "supvemp",
+      joinColumns = @JoinColumn(name = "se_emp_id"),
+      inverseJoinColumns = @JoinColumn(name = "se_supv_id"))
+  private Employee supervisor;
   
   @Column(name = "emp_fname")
   private String firstName;
@@ -125,21 +125,21 @@ public class Employee implements Serializable {
     this.timesheetApprover = timesheetApprover;
   }
 
-  //  /**
-  //   * Returns the supervisor.
-  //   * @return the supervisor
-  //   */
-  //  public Employee getSupervisor() {
-  //    return supervisor;
-  //  }
-  //  
-  //  /**
-  //   * Sets the supervisor to supervisor.
-  //   * @param supervisor the supervisor to set
-  //   */
-  //  public void setSupervisor(Employee supervisor) {
-  //    this.supervisor = supervisor;
-  //  }
+  /**
+   * Returns the supervisor.
+   * @return the supervisor
+   */
+  public Employee getSupervisor() {
+    return supervisor;
+  }
+  
+  /**
+   * Sets the supervisor to supervisor.
+   * @param supervisor the supervisor to set
+   */
+  public void setSupervisor(Employee supervisor) {
+    this.supervisor = supervisor;
+  }
   
   public Credentials getCredentials() {
     return credentials;
@@ -246,7 +246,6 @@ public class Employee implements Serializable {
     if (projects != null) {
       return new ArrayList<Project>(projects);
     }
-
     return new ArrayList<Project>();
   }
   
