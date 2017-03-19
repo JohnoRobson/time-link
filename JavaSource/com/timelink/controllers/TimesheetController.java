@@ -1,10 +1,11 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.TimesheetStatus;
+import com.timelink.ejbs.Project;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
@@ -136,12 +137,16 @@ public class TimesheetController implements Serializable {
    * @return A List of WorkPackages that the current employee is assigned to
    *     that are in the given project.
    */
-  public List<WorkPackage> getAssignedWorkPackages(int projectNumber) {
-    List<WorkPackage> list = wpm.findAssigned(ses.getCurrentEmployee(), pm.find(projectNumber));
-    ArrayList<WorkPackage> newList = new ArrayList<WorkPackage>();
-    for (WorkPackage wp : list) {
-      if (wpm.isLeaf(wp)) {
-        newList.add(wp);
+  public List<WorkPackage> getAssignedWorkPackages(Integer projectNumber) {
+    ArrayList<WorkPackage> newList = null;
+    Project pro = pm.find(projectNumber);
+    if (pro != null) {
+      List<WorkPackage> list = wpm.findAssigned(ses.getCurrentEmployee(), pro);
+      newList = new ArrayList<WorkPackage>();
+      for (WorkPackage wp : list) {
+        if (wpm.isLeaf(wp)) {
+          newList.add(wp);
+        }
       }
     }
     return newList;

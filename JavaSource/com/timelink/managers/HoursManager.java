@@ -1,8 +1,8 @@
 package com.timelink.managers;
 
 
-import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Hours;
+import com.timelink.enums.TimesheetStatus;
 
 import java.sql.Date;
 import java.util.List;

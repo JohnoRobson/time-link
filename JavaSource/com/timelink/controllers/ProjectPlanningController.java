@@ -151,19 +151,19 @@ public class ProjectPlanningController implements Serializable {
     return new ArrayList<EstimatedWorkPackageHours>();
   }
   
-  /**
-   * Returns the sum of the estimates that have the labourGradeId.
-   * @param labourGradeId The labourGradeId to be searched.
-   * @return A sum of the estimates.
-   */
-  public Integer getTotalEstimate(int labourGradeId) {
-    Integer total = 0;
-    List<EstimatedWorkPackageHours> list = getEstimateByLabourGrade(labourGradeId);
-    for (EstimatedWorkPackageHours ew : list) {
-      total += ew.getManDay();
-    }
-    return total;
-  }
+//  /**
+//   * Returns the sum of the estimates that have the labourGradeId.
+//   * @param labourGradeId The labourGradeId to be searched.
+//   * @return A sum of the estimates.
+//   */
+//  public Integer getTotalEstimate(int labourGradeId) {
+//    Integer total = 0;
+//    List<EstimatedWorkPackageHours> list = getEstimateByLabourGrade(labourGradeId);
+//    for (EstimatedWorkPackageHours ew : list) {
+//      total += ew.getManDay();
+//    }
+//    return total;
+//  }
   
   /**
    * Returns the sum of the estimates of the last week
@@ -173,13 +173,13 @@ public class ProjectPlanningController implements Serializable {
    */
   public Integer getLastEstimate(int labourGradeId) {
     Integer total = 0;
-    Date weekStart = new Date();
-    int weekNumber = weekNumberService.getWeekNumber(weekStart);
-    weekStart = weekNumberService.getDateFromWeekNumber(weekNumber);
-    List<EstimatedWorkPackageHours> list = getEstimateByLabourGrade(labourGradeId);
-    for (EstimatedWorkPackageHours ew : list) {
-      if (ew.getDateCreated().equals(weekStart)) {
-        total += ew.getManDay();
+    if (selectedProject != null) {
+      EstimatedWorkPackageHours last = ewm.findLatest(selectedProject, labourGradeId);
+      List<EstimatedWorkPackageHours> list = getEstimateByLabourGrade(labourGradeId);
+      for (EstimatedWorkPackageHours ew : list) {
+        if (ew.getDateCreated().equals(last.getDateCreated())) {
+          total += ew.getManDay();
+        }
       }
     }
     return total;

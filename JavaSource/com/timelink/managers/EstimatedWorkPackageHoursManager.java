@@ -50,7 +50,7 @@ public class EstimatedWorkPackageHoursManager {
   }
   
   /**
-   * Returns an EstimatedWorkPackageHours that is for the given parameters.
+   * Returns a List EstimatedWorkPackageHours that is for the given parameters.
    * @param pro The Project that the EstimatedWorkPackageHours is for.
    * @param labourGradeId The LabourGrade of the BudgetedHours.
    * @return A List of EstimatedWorkPackageHours, or null if one is not found.
@@ -67,6 +67,34 @@ public class EstimatedWorkPackageHoursManager {
           .setParameter("lgId", labourGradeId);
       if (query.getResultList().size() > 0) {
         return query.getResultList();
+      } else {
+        return null;
+      }
+    } catch (PersistenceException ex) {
+      return null;
+    }
+  }
+  
+  /**
+   * Returns the latest EstimatedWorkPackageHours that is for the given parameters.
+   * @param pro The Project that the EstimatedWorkPackageHours is for.
+   * @param labourGradeId The LabourGrade of the BudgetedHours.
+   * @return A List of EstimatedWorkPackageHours, or null if one is not found.
+   */
+  public EstimatedWorkPackageHours findLatest(Project pro, int labourGradeId) {
+    try {
+      TypedQuery<EstimatedWorkPackageHours> query
+          = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageHours AS ew, "
+          + "Project AS proj WHERE "
+          + "proj.projectNumber = :proId "
+          + "AND ew.workPackage MEMBER OF proj.workPackages "
+          + "AND ew.labourGrade.labourGradeId = :lgId "
+          + "ORDER BY ew.dateCreated DESC", EstimatedWorkPackageHours.class)
+          .setParameter("proId", pro.getProjectNumber())
+          .setParameter("lgId", labourGradeId)
+          .setMaxResults(1);
+      if (query.getResultList().size() > 0) {
+        return query.getSingleResult();
       } else {
         return null;
       }

@@ -3,10 +3,10 @@ package com.timelink.controllers;
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.Role;
+import com.timelink.enums.RoleEnum;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.RoleManager;
-import com.timelink.roles.RoleEnum;
 
 import java.io.Serializable;
 import java.util.List;

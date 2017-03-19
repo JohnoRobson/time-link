@@ -1,9 +1,9 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.FlextimeService;
