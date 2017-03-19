@@ -37,7 +37,7 @@
 	                <p:inputText styleClass="projInput" value="#{HRController.effectiveFrom}" >
 	                    <f:convertDateTime pattern="MM/dd/yyyy" />
 	                </p:inputText>
-	                Labour Grade:
+	                <h:outputText styleClass="projLabel" value="Labour Grade:"/>
 	                <p:selectOneMenu value="#{HRController.labourGrade}" style="width:100%">
 		                <f:selectItems value="#{HRController.labourGrades}" var="lg" itemValue="#{lg.labourGradeId}" 
 		                    itemLabel="#{lg.name}" />

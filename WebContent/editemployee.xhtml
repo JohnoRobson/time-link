@@ -24,7 +24,7 @@
 	                <h:outputText styleClass="projLabel" value="Email:" />
 	                <p:inputText styleClass="projInput" value="#{HRController.email}" />
 	                <h:outputText styleClass="projLabel" value="Vacation Accrual:" />
-	                <p:inputText styleClass="projInput" value="#{HRController.vacationAccrual}" />
+	                <p:inputText styleClass="projInput" value=" " />
 	                <h:outputText styleClass="projLabel" value="Role:" />
 	                <p:selectOneMenu styleClass="addEmpDrop" value="#{HRController.jobTitle}">
 		                <f:selectItems value="#{HRController.changeRoles}" />
@@ -37,10 +37,10 @@
 	            </h:panelGrid>
 	            <div class="editEmpBtnGrp">
 	            	<p:commandButton value="Change Password" type="button" onclick="PF('dlg2').show();" />
-	            	<p:commandButton value="Cancel" action="#{HRController.cancel}"/>
-	           	 	<p:commandButton value="Save" action="#{HRController.save}"/>
+	            	<p:commandButton value="Cancel" action="#{HRController.cancel}" ajax="false" />
+	           	 	<p:commandButton value="Save" action="#{HRController.save}" ajax="false" />
 	        	</div>
-	        </h:form>
+	        </h:form> 
 	        
 	        <!--  dialog box for changing an employee's password. -->
 	        <p:dialog header="Change Password" 
