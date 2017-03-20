@@ -34,7 +34,7 @@ public class EstimatedWorkPackageHoursManager {
     try {
       TypedQuery<EstimatedWorkPackageHours> query
           = em.createQuery("SELECT ew FROM EstimatedWorkPackageHours AS ew WHERE "
-          + "ew.workPackage.workPackageId = :wpId "
+          + "ew.workpackage.workPackageId = :wpId "
           + "AND ew.dateCreated = :date "
           + "ORDER BY ew.labourGrade.labourGradeId ASC", EstimatedWorkPackageHours.class)
           .setParameter("wpId", wp.getWorkPackageId())
@@ -87,7 +87,7 @@ public class EstimatedWorkPackageHoursManager {
           = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageHours AS ew, "
           + "Project AS proj WHERE "
           + "proj.projectNumber = :proId "
-          + "AND ew.workPackage MEMBER OF proj.workPackages "
+          + "AND ew.workpackage MEMBER OF proj.workPackages "
           + "AND ew.labourGrade.labourGradeId = :lgId "
           + "ORDER BY ew.dateCreated DESC", EstimatedWorkPackageHours.class)
           .setParameter("proId", pro.getProjectNumber())
@@ -115,7 +115,7 @@ public class EstimatedWorkPackageHoursManager {
       TypedQuery<EstimatedWorkPackageHours> query
           = em.createQuery("SELECT ew FROM EstimatedWorkPackageHours AS ew WHERE "
           + "ew.labourGrade.labourGradeId = :lgId "
-          + "AND ew.workPackage.workPackageId = :wpId "
+          + "AND ew.workpackage.workPackageId = :wpId "
           + "AND ew.date = :date "
           + "ORDER BY ew.labourGrade.labourGradeId ASC", EstimatedWorkPackageHours.class)
           .setParameter("wpId", wp.getWorkPackageId())
@@ -148,7 +148,7 @@ public class EstimatedWorkPackageHoursManager {
   public List<EstimatedWorkPackageHours> getAllWithWorkPackageUniqueDate(WorkPackage wp) {
     TypedQuery<EstimatedWorkPackageHours> query
         = em.createQuery("SELECT ew FROM EstimatedWorkPackageHours AS ew "
-        + "WHERE ew.workPackage = :wp GROUP BY ew.dateCreated "
+        + "WHERE ew.workpackage = :wp GROUP BY ew.dateCreated "
         + "ORDER BY ew.dateCreated DESC", EstimatedWorkPackageHours.class)
         .setParameter("wp", wp);
     return query.getResultList();

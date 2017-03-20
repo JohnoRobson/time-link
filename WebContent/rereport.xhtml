@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:body>
+		<ui:composition template="resources/templates/template.xhtml">
+			<ui:define name="content">
+			<h:form>
+			    <p:selectOneMenu value="#{LabourReportController.workPackageId}" onchange="submit()">
+		    	    <f:selectItem itemLabel="" itemValue=" "/>
+                	<f:selectItems value="#{LabourReportController.workPackages}"
+                	    var="workpackage" itemLabel="#{workpackage.code}" itemValue="#{workpackage.workPackageId}"/>
+                </p:selectOneMenu>
+                <h:outputText value="Project:" />
+                <h:outputText value="#{LabourReportController.selectedProject.projectName}" />
+                <p:panelGrid columns="2">
+                    <h:outputText value="Work Package:" />
+                    <h:outputText value="#{LabourReportController.selectedWorkPackage.workPackageId}" />
+                    <h:outputText value="Work Package Code:" />
+                    <h:outputText value="#{LabourReportController.selectedWorkPackage.code}" />
+                    <h:outputText value="Responsible Engineer:" />
+                    <h:outputText value="#{LabourReportController.selectedWorkPackage.responsibleEngineer.firstName}
+                    #{LabourReportController.selectedWorkPackage.responsibleEngineer.lastName}" />
+                    <h:outputText value="Project Manager:" />
+                    <h:outputText value="#{LabourReportController.selectedProject.projectManager.firstName}
+                    #{LabourReportController.selectedProject.projectManager.lastName}" />
+                    <h:outputText value="Project Manager Assistant:" />
+                    <h:outputText value="#{LabourReportController.selectedProject.projectManagerAssistant.firstName}
+                    #{LabourReportController.selectedProject.projectManagerAssistant.lastName}" />
+                </p:panelGrid>
+                <p:dataTable id="table" var="lg" value="#{LabourReportController.labourGrades}">
+                    <p:column>
+                        <h:outputText value="#{lg.name}" />
+                        <f:facet name="footer">
+                            <h:outputText value="Labour Cost: " />
+                        </f:facet>
+                    </p:column>
+                    <p:column headerText="Budgeted:" >
+                        <h:outputText value="#{LabourReportController.selectedWorkPackage
+                        .getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{LabourReportController.getTotalBudgeted()}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column headerText="Revised Budget:" >
+                        <h:outputText value=" " />
+                    </p:column>
+                    <p:column headerText="Estimate to Complete:" >
+                        <h:outputText value="#{LabourReportController.selectedWorkPackage
+                        .getEstimatedHourFromLabourGrade(lg.labourGradeId).manDay}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{LabourReportController.getTotalEstimated()}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column headerText="Budget to Complete:" >
+                        <h:outputText value="#{LabourReportController.getBudgetToComplete(lg.labourGradeId)}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{LabourReportController.getTotalBudgetedToComplete()}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column headerText="Variance:" >
+                        <h:outputText value="#{LabourReportController.getVariance(lg.labourGradeId)}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{LabourReportController.getTotalVariance()}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column headerText="Variance Percent:" >
+                        <h:outputText value="#{LabourReportController.getVariancePercent(lg.labourGradeId)}" >
+                            <f:convertNumber type="percent" />
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+			</h:form>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>
