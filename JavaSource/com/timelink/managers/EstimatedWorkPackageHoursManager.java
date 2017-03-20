@@ -61,7 +61,7 @@ public class EstimatedWorkPackageHoursManager {
           = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageHours AS ew, "
           + "Project AS proj WHERE "
           + "proj.projectNumber = :proId "
-          + "AND ew.workPackage MEMBER OF proj.workPackages "
+          + "AND ew.workpackage MEMBER OF proj.workPackages "
           + "AND ew.labourGrade.labourGradeId = :lgId", EstimatedWorkPackageHours.class)
           .setParameter("proId", pro.getProjectNumber())
           .setParameter("lgId", labourGradeId);

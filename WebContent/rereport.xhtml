@@ -32,6 +32,8 @@
                     <h:outputText value="Project Manager Assistant:" />
                     <h:outputText value="#{LabourReportController.selectedProject.projectManagerAssistant.firstName}
                     #{LabourReportController.selectedProject.projectManagerAssistant.lastName}" />
+                    <h:outputText value="Date:" />
+                    <h:outputText value="#{LabourReportController.getDate()}" />
                 </p:panelGrid>
                 <p:dataTable id="table" var="lg" value="#{LabourReportController.labourGrades}">
                     <p:column>
@@ -46,9 +48,6 @@
                         <f:facet name="footer">
                             <h:outputText value="#{LabourReportController.getTotalBudgeted()}" />
                         </f:facet>
-                    </p:column>
-                    <p:column headerText="Revised Budget:" >
-                        <h:outputText value=" " />
                     </p:column>
                     <p:column headerText="Estimate to Complete:" >
                         <h:outputText value="#{LabourReportController.selectedWorkPackage
@@ -73,6 +72,11 @@
                         <h:outputText value="#{LabourReportController.getVariancePercent(lg.labourGradeId)}" >
                             <f:convertNumber type="percent" />
                         </h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{LabourReportController.getTotalVariancePercent()}" >
+                                <f:convertNumber type="percent" />
+                            </h:outputText>
+                        </f:facet>
                     </p:column>
                 </p:dataTable>
 			</h:form>

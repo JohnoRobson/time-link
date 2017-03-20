@@ -2,6 +2,7 @@ package com.timelink.controllers;
 
 import com.timelink.Session;
 import com.timelink.ejbs.BudgetedWorkPackageHours;
+import com.timelink.ejbs.EstimatedWorkPackageHours;
 import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
@@ -13,6 +14,7 @@ import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.WorkPackageManager;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -101,12 +103,39 @@ public class LabourReportController implements Serializable {
     this.selectedProject = selectedWorkPackage.getProject();
   }
 
+  /**
+   * Get all work packages that are assigned to the current
+   * employee.
+   * @return list of all work packages assigned to current employee
+   */
   public List<WorkPackage> getWorkPackages() {
     return wpm.getAllWithResponsibleEngineer(ses.getCurrentEmployee());
   }
   
+  /**
+   * Return all labour grades.
+   * @return list of all labour grades
+   */
   public List<LabourGrade> getLabourGrades() {
     return lgm.getAllLabourGrades();
+  }
+  
+  /**
+   * Return the most recent date of the estimated hours.
+   * @return most recent date from estimated hours
+   */
+  public Date getDate() {
+    if (selectedWorkPackage != null) {
+      List<EstimatedWorkPackageHours> el = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
+      Date mostRecent = new Date(0);
+      for (EstimatedWorkPackageHours eh : el) {
+        if (eh.getDateCreated().after(mostRecent)) {
+          mostRecent = eh.getDateCreated();
+        }
+      }
+      return mostRecent;
+    }
+    return null;
   }
   
   /**
@@ -238,6 +267,27 @@ public class LabourReportController implements Serializable {
         total += getVariance(lb.getLabourGradeId()) * lb.getCostRate();
       }
       return total;
+    }
+    return null;
+  }
+  
+  /**
+   * Return the total variance percent of a work package.
+   * @return total variance percent of a work package
+   */
+  public Float getTotalVariancePercent() {
+    if (selectedWorkPackage != null) {
+      Float total = new Float(0);
+      Float check = new Float(0);
+      int counter = 0;
+      for (LabourGrade lb : lgm.getAllLabourGrades()) {
+        check = getVariancePercent(lb.getLabourGradeId());
+        if (check != null) {
+          counter++;
+          total += check;
+        }
+      }
+      return counter == 0 ? total : (total / counter);
     }
     return null;
   }
