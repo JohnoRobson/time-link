@@ -47,7 +47,7 @@ public class WorkPackage implements Serializable {
   @JoinTable(name = "wp_emp",
       joinColumns = @JoinColumn(name = "we_wp_id"),
       inverseJoinColumns = @JoinColumn(name = "we_emp_id"))
-  private List<Employee> assignedEmployees;
+  private Set<Employee> assignedEmployees;
   
   @Column(name = "wp_code")
   private String code;
@@ -170,7 +170,7 @@ public class WorkPackage implements Serializable {
    * Returns the assignedEmployees.
    * @return the assignedEmployees
    */
-  public List<Employee> getAssignedEmployees() {
+  public Set<Employee> getAssignedEmployees() {
     return assignedEmployees;
   }
   
@@ -178,7 +178,7 @@ public class WorkPackage implements Serializable {
    * Sets the assignedEmployees to assibleEmployees.
    * @param assignedEmployees the assignedEmployees to set
    */
-  public void setAssignedEmployees(List<Employee> assignedEmployees) {
+  public void setAssignedEmployees(Set<Employee> assignedEmployees) {
     this.assignedEmployees = assignedEmployees;
   }
   

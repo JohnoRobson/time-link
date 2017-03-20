@@ -2,6 +2,7 @@ package com.timelink.managers;
 
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
+import com.timelink.ejbs.WorkPackage;
 import com.timelink.enums.RoleEnum;
 
 import java.util.List;
@@ -83,6 +84,31 @@ public class EmployeeManager {
     } else {
       TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e", Employee.class);
       return query.getResultList();
+    }
+  }
+  
+  /**
+   * Returns a list of Employees that belong to a project,
+   * but do not belong to a work package.
+   * @param workpackage to find Employees that do not exist
+   * @param project to find Employees by
+   * @return A list of all employees that are not in the workpackage
+   */
+  public List<Employee> findByNotInWorkPackage(Project project, WorkPackage workpackage) {
+    if (workpackage.getAssignedEmployees().size() > 0 && project.getEmployees().size() > 0) {
+      TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+          + "WHERE e IN :projectEmployees AND e "
+          + "NOT IN :packageEmployees", Employee.class)
+          .setParameter("projectEmployees", project.getEmployees())
+          .setParameter("packageEmployees", workpackage.getAssignedEmployees());
+      return query.getResultList();
+    } else if (project.getEmployees().size() > 0) {
+      TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee AS e "
+          + "WHERE e IN :projectEmployees", Employee.class)
+          .setParameter("projectEmployees", project.getEmployees());
+      return query.getResultList();
+    } else {
+      return null;
     }
   }
   
