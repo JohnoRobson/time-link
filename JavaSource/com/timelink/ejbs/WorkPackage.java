@@ -1,11 +1,15 @@
 package com.timelink.ejbs;
 
+import com.timelink.enums.WorkPackageStatusEnum;
+import com.timelink.managers.HoursManager;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,13 +22,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.timelink.enums.WorkPackageStatusEnum;
+import javax.persistence.Transient;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
+  @Transient
+  @Inject HoursManager hm;
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,6 +74,12 @@ public class WorkPackage implements Serializable {
               cascade = CascadeType.ALL,
               orphanRemoval = true)
   private Set<BudgetedWorkPackageHours> plannedHours;
+  
+  @OneToMany(fetch = FetchType.EAGER,
+      mappedBy = "workpackage",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
+  private Set<EstimatedWorkPackageHours> estimatedHours;
   
   /**
    * Returns the code.
@@ -321,4 +332,51 @@ public class WorkPackage implements Serializable {
     return totalCost;
   }
   
+  /**
+   * Returns a List of PlannedHours associated with
+   * this WorkPackage.
+   * @return A List of PlannedHours.
+   */
+  public List<EstimatedWorkPackageHours> getEstimatedHours() {
+    if (estimatedHours != null) {
+      return new ArrayList<EstimatedWorkPackageHours>(estimatedHours);
+    }
+    return new ArrayList<EstimatedWorkPackageHours>();
+  }
+  
+  /**
+   * Set the estimatedHours to estimatedHours.
+   * @param estimatedHours to set the estimatedHours to
+   */
+  public void setEstimatedHours(List<EstimatedWorkPackageHours> estimatedHours) {
+    this.estimatedHours = new HashSet<EstimatedWorkPackageHours>(estimatedHours);
+  }
+  
+  /**
+   * Returns the estimatedHour in this WorkPackage that have
+   * the specified labourGradeId.
+   * @param labourGradeId The labourGrade to be searched.
+   * @return The estimatedHour in this WorkPackage with the 
+   *     specified Id.
+   */
+  public EstimatedWorkPackageHours getEstimatedHourFromLabourGrade(Integer labourGradeId) {
+    EstimatedWorkPackageHours hour = new EstimatedWorkPackageHours();
+    
+    for (EstimatedWorkPackageHours h : estimatedHours) {
+      if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
+        hour = h;
+        break;
+      }
+    }
+    
+    if (hour.getLabourGrade() == null) {
+      LabourGrade lg = new LabourGrade();
+      lg.setLabourGradeId(labourGradeId);
+      hour.setLabourGrade(lg);
+      hour.setWorkPackageLineId(this);
+      estimatedHours.add(hour);
+    }
+    
+    return hour;
+  }
 }
