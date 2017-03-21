@@ -1,11 +1,12 @@
 package com.timelink.controllers.tests;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.when;
 
-import javax.faces.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,18 +14,20 @@ import static org.mockito.Matchers.any;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import javax.faces.context.FacesContext;
 import com.timelink.Session;
-import com.timelink.TimesheetStatus;
+import com.timelink.enums.TimesheetStatus;
 import com.timelink.controllers.ApproverController;
 import com.timelink.ejbs.Timesheet;
+import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.TimesheetManager;
+import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.FlextimeService;
 
 public class ApproverControllerTest {
 	
 	private ApproverController testController;
 	private TimesheetManager tm;
+	private WorkPackageManager wpm;
 	private Session ses;
 	private FlextimeService flextimeService;
 	
@@ -32,8 +35,9 @@ public class ApproverControllerTest {
     public void setUp() {
         this.tm = mock(TimesheetManager.class);
         this.ses = mock(Session.class);
+        this.wpm = mock(WorkPackageManager.class);
 		this.flextimeService = mock(FlextimeService.class);
-		this.testController = new ApproverController(tm, ses, flextimeService);
+		this.testController = new ApproverController(tm, wpm, ses, flextimeService);
     }
 	
 	@Test
@@ -59,10 +63,17 @@ public class ApproverControllerTest {
 
 	@Test
 	public void testApprove() {
+		Timesheet mockTS1 = mock(Timesheet.class);
+		Timesheet mockTS2 = mock(Timesheet.class);
 		List<Timesheet> testTimesheets = 
-				Arrays.asList(mock(Timesheet.class), mock(Timesheet.class));
+				Arrays.asList(mockTS1, mockTS2);
+		WorkPackage wp1 = mock(WorkPackage.class);
+		WorkPackage wp2 = mock(WorkPackage.class);
+		List<WorkPackage> mockWps = Arrays.asList(wp1, wp2);
+		when(wpm.getAllInTimesheet(mockTS1)).thenReturn(mockWps);
 		testController.setSelectedTimesheets(testTimesheets);
 		assertEquals(null, testController.approve());
+		verify(wpm, Mockito.atLeast(2)).merge(any());;
 		verify(tm, Mockito.atLeast(2)).merge(any());
 	}
 

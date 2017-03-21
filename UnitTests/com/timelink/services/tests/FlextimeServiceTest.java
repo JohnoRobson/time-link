@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.timelink.TimesheetStatus;
+import com.timelink.enums.TimesheetStatus;
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.services.FlextimeService;

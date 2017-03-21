@@ -41,10 +41,11 @@ public class ApproverController implements Serializable {
    * Convenience ctor.
    * For Testing purposes.
    * */
-  public ApproverController(TimesheetManager tm, Session ses, FlextimeService fts) {
+  public ApproverController(TimesheetManager tm, WorkPackageManager wpm, Session ses, FlextimeService fts) {
 	  this.tm = tm;
 	  this.ses = ses;
 	  this.flextimeService = fts;
+	  this.wpm = wpm;
   }
   /**
    * Returns the timesheets.

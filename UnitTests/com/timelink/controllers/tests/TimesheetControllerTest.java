@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.timelink.Session;
-import com.timelink.TimesheetStatus;
+import com.timelink.enums.TimesheetStatus;
 import com.timelink.controllers.TimesheetController;
 import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Timesheet;
@@ -15,6 +15,8 @@ import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.WeekNumberService;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Matchers.any;
@@ -32,6 +34,7 @@ public class TimesheetControllerTest {
 	private WorkPackageManager wpm;
 	private Session ses;
 	private ProjectManager pm;
+	private WeekNumberService wns;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -39,7 +42,8 @@ public class TimesheetControllerTest {
 		this.wpm = mock(WorkPackageManager.class);
 		this.ses = mock(Session.class);
 		this.pm = mock(ProjectManager.class);
-		testController = new TimesheetController(tm, wpm, ses, pm);
+		this.wns = mock(WeekNumberService.class);
+		testController = new TimesheetController(tm, wpm, ses, pm, wns);
 	}
 
 	@Test

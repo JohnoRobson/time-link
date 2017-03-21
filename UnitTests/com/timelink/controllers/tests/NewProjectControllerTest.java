@@ -18,7 +18,7 @@ import com.timelink.ejbs.Role;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.RoleManager;
-import com.timelink.roles.RoleEnum;
+import com.timelink.enums.RoleEnum;
 
 public class NewProjectControllerTest {
 	private NewProjectController testController;

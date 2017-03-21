@@ -23,7 +23,7 @@ import com.timelink.managers.EstimatedWorkPackageHoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.WorkPackageManager;
-import com.timelink.roles.RoleEnum;
+import com.timelink.enums.RoleEnum;
 import com.timelink.services.WorkPackageCodeService;
 
 public class ProjectPlanningControllerTest {
