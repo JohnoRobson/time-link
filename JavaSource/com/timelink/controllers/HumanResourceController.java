@@ -2,9 +2,11 @@ package com.timelink.controllers;
 
 import com.timelink.ejbs.Credentials;
 import com.timelink.ejbs.Employee;
+import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Role;
 import com.timelink.enums.RoleEnum;
 import com.timelink.managers.EmployeeManager;
+import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.RoleManager;
 
 import java.io.Serializable;
@@ -22,6 +24,7 @@ import javax.inject.Named;
 public class HumanResourceController implements Serializable {
   @Inject EmployeeManager em;
   @Inject RoleManager rm;
+  @Inject LabourGradeManager lgm;
   
   private Employee editingEmployee;
   private String userId;
@@ -33,6 +36,7 @@ public class HumanResourceController implements Serializable {
   private String password;
   private String confirmPassword;
   private Date effectiveFrom;
+  private Integer labourGrade;
   
   
   public HumanResourceController(EmployeeManager empMgr, RoleManager roleMgr) {
@@ -60,6 +64,21 @@ public class HumanResourceController implements Serializable {
     this.editingEmployee = editingEmployee;
   }
   
+  /**
+   * Return the labourGrades.
+   * @return the labourGrades
+   */
+  public List<LabourGrade> getLabourGrades() {
+    return lgm.getAllLabourGrades();
+  }
+
+  /**
+   * Does nothing, here to avoid an error.
+   * @param labourGrades the labourGrades to set
+   */
+  public void setLabourGrades(List<LabourGrade> labourGrades) {
+  }
+
   /**
    * Return the userId.
    * @return the userId
@@ -125,16 +144,18 @@ public class HumanResourceController implements Serializable {
   }
 
   /**
+   * Return the vacationAccrual.
    * @return the vacationAccrual
    */
-  public int getVacationAccrual() {
+  public Integer getVacationAccrual() {
     return vacationAccrual;
   }
 
   /**
+   * Set the vacationAccrual to vacationAccrual.
    * @param vacationAccrual the vacationAccrual to set
    */
-  public void setVacationAccrual(int vacationAccrual) {
+  public void setVacationAccrual(Integer vacationAccrual) {
     this.vacationAccrual = vacationAccrual;
   }
 
@@ -203,6 +224,22 @@ public class HumanResourceController implements Serializable {
   }
 
   /**
+   * Return payGrade.
+   * @return the payGrade
+   */
+  public Integer getLabourGrade() {
+    return labourGrade;
+  }
+
+  /**
+   * Set the labourGrade to labourGrade.
+   * @param labourGrade the labourGrade to set
+   */
+  public void setLabourGrade(Integer labourGrade) {
+    this.labourGrade = labourGrade;
+  }
+
+  /**
    * Return all Employees.
    * @return List of Employees
    */
@@ -249,6 +286,7 @@ public class HumanResourceController implements Serializable {
     lastName = employee.getLastName();
     email = employee.getEmail();
     vacationAccrual = employee.getVacationRate();
+    labourGrade = employee.getLabourGrade();
     return "editemployee";
   }
   
@@ -275,6 +313,7 @@ public class HumanResourceController implements Serializable {
     effectiveFrom = null;
     password = null;
     confirmPassword = null;
+    labourGrade = null;
   }
   
   //TODO Update JavaDoc comments
@@ -291,6 +330,7 @@ public class HumanResourceController implements Serializable {
       emp.setEmail(email);
       emp.setVacationRate(vacationAccrual);
       emp.setEffectFrom(new Date(effectiveFrom.getTime()));
+      emp.setLabourGrade(labourGrade);
       
       Role role = new Role(jobTitle);
       role.setEmployee(emp);
@@ -320,7 +360,8 @@ public class HumanResourceController implements Serializable {
     emp.setFirstName(firstName);
     emp.setLastName(lastName);
     emp.setEmail(email);
-    emp.setVacationRate(vacationAccrual);
+    //emp.setVacationRate(vacationAccrual);
+    emp.setLabourGrade(labourGrade);
     
     //Role role = new Role(jobTitle);
     //role.setEmployee(emp);

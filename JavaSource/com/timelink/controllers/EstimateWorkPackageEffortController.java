@@ -98,7 +98,6 @@ public class EstimateWorkPackageEffortController implements Serializable {
     if (selectedWorkPackageCreation != null) {
       return selectedWorkPackageCreation.getWorkPackageId();
     }
-    
     return null;
   }
   
@@ -305,7 +304,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
     Date dd = weekNumberService.getDateFromWeekYear(selectedWeek, selectedYear);
     for (EstimatedWorkPackageHours ew : estimatedHours) {
       ew.setDateCreated(dd);
-      ew.setWorkPackage(selectedWorkPackageCreation);
+      ew.setWorkpackage(selectedWorkPackageCreation);
       ewm.persist(ew);
     }
     wpm.merge(selectedWorkPackageCreation);

@@ -35,7 +35,7 @@
                			<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
                 		<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" 
                 					   var="pma" itemLabel="#{pma.firstName}" itemValue="#{pma.employeeId}" />
-                </p:selectOneMenu>
+                    </p:selectOneMenu>
 	            </h:panelGrid>
 	            <p:commandButton value="Create Project" styleClass="projBtn"
 	            				 action="#{NewProjectController.createProject}"/>

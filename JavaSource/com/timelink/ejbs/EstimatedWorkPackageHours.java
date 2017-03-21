@@ -2,6 +2,7 @@ package com.timelink.ejbs;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,7 +34,7 @@ public class EstimatedWorkPackageHours implements Serializable {
   @JoinColumn(name = "ewh_wp_id",
       referencedColumnName = "wp_id")
   @ManyToOne(cascade = CascadeType.MERGE)
-  private WorkPackage workPackage;
+  private WorkPackage workpackage;
   
   @Column(name = "ewh_man_day")
   private int manDay;
@@ -75,19 +76,32 @@ public class EstimatedWorkPackageHours implements Serializable {
   }
 
   /**
-   * Returns the workPackage.
-   * @return the workPackage
+   * Returns the workpackage.
+   * @return the workpackage
    */
-  public WorkPackage getWorkPackage() {
-    return workPackage;
+  public WorkPackage getWorkpackage() {
+    return workpackage;
   }
   
   /**
-   * Sets the workPackage to workPackage.
-   * @param workPackage the workPackage to set
+   * Sets the workpackage to workpackage.
+   * @param workpackage the workpackage to set
    */
-  public void setWorkPackage(WorkPackage workPackage) {
-    this.workPackage = workPackage;
+  public void setWorkpackage(WorkPackage workpackage) {
+    this.workpackage = workpackage;
+  }
+  
+  /**
+   * Sets the workpackage to workpackage.
+   * @param workpackage the workpackage to set
+   */
+  public void setWorkPackageLineId(WorkPackage workpackage) {
+    if (workpackage != null && !workpackage.getEstimatedHours().contains(this)) {
+      List<EstimatedWorkPackageHours> wp = workpackage.getEstimatedHours();
+      wp.add(this);
+      workpackage.setEstimatedHours(wp);
+    }
+    this.workpackage = workpackage;
   }
 
   /**
