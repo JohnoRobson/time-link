@@ -4,52 +4,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-       <title></title>
-       <h:outputStylesheet library="css" name="styles.css"/>
-       <link rel="stylesheet" href="resources/css/styles.css" />
-    </h:head>
+
 	<h:body>
-	    <div id="nav" style="height:15%">
-	        <div id="navContent">
-	            <h1>TimeLink</h1>
-	            <ul id="navList">
-	                <li><a href="home.xhtml">Home</a></li>
-	                <li><a href="timesheet.xhtml">Timesheet</a></li>
-	                <li><a href="projcreation.xhtml">Create Project</a></li>
-	                <li><a href="assignemp.xhtml">Manage Project</a></li>
-	                <h:panelGroup rendered="#{Session.approver}">
-	                	<li><a href="report.xhtml">Report</a></li>
-	                </h:panelGroup>
-	                <h:panelGroup rendered="#{Session.projectManager || Session.projectManagerAssistant}">
-	                	<li><a href="projectplanning.xhtml">Enter Project Planning Information</a></li>
-	                </h:panelGroup>
-	                <li><a href="humanresources.xhtml">Human Resources</a></li>
-	                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
-	            </ul>
-	        </div>
-	    </div>
-	    <div id="content">
-	        <h1>Employees</h1>
-	        <h:form>
-	            <p:dataTable value="#{HRController.employees}" var="employee">
-	                <p:column headerText="UserId">
-	                    #{employee.userId}
-	                </p:column>
-	                <p:column headerText="First Name">
-	                    #{employee.firstName}
-	                </p:column>
-	                <p:column headerText="Last Name">
-	                    #{employee.lastName}
-	                </p:column>
-	                <p:column>
-	                    <p:commandLink value="Edit" 
-                                        action="#{HRController.edit(employee)}"/>
-	                </p:column>
-	            </p:dataTable>
-	            <p:commandButton value="New Employee" action="addemployee" />
-	        </h:form>
-	    </div>
+		<ui:composition template="resources/templates/template.xhtml">
+		    <ui:define name="content">
+		    <div class="homeContent">
+		    	<div class="pageTitle empTitle">
+		    		<h1>Employee List</h1>
+		    	</div>
+		        <div class="tsCont hrCont">
+		        <h:form>
+		            <p:dataTable value="#{HRController.employees}" var="employee">
+		                <p:column headerText="UserId" styleClass="tsHeader">
+		                    #{employee.userId}
+		                </p:column>
+		                <p:column headerText="First Name" styleClass="tsHeader">
+		                    #{employee.firstName}
+		                </p:column>
+		                <p:column headerText="Last Name" styleClass="tsHeader">
+		                    #{employee.lastName}
+		                </p:column>
+		                <p:column styleClass="tsHeader">
+                            <p:commandLink value="Edit" styleClass="editBtn" 
+                            			   action="#{HRController.edit(employee)}"/>
+		                </p:column>
+		            </p:dataTable>
+		            <div class="empBtn">
+		            	<p:commandButton value="New Employee" action="addemployee" ajax="false" />
+		        	</div>
+		        </h:form>
+		        </div>
+		    </div>
+		    </ui:define>
+		</ui:composition>
 	</h:body>
 </html>

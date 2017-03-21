@@ -3,11 +3,14 @@ package com.timelink.ejbs;
 import java.io.Serializable;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -29,8 +32,15 @@ public class Hours implements Serializable {
   @Column(name = "tsho_wp_id")
   private int workPackageId;
   
-  @Column(name = "tsl_id")
-  private int timesheetLineId;
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "tsl_id",
+      referencedColumnName = "tsl_id")
+  private TimesheetRow timesheetRow;
+  
+  @JoinColumn(name = "lg_id",
+      referencedColumnName = "lg_id")
+  @ManyToOne
+  private LabourGrade labourGrade;
   
   @Column(name = "tsho_date")
   private Date date;
@@ -106,19 +116,35 @@ public class Hours implements Serializable {
   }
 
   /**
-   * Returns the timesheetLineId.
-   * @return the timesheetLineId
+   * Returns the timesheetRow.
+   * @return the timesheetRow
    */
-  public final int getTimesheetLineId() {
-    return timesheetLineId;
+  public TimesheetRow getTimesheetRow() {
+    return timesheetRow;
   }
 
   /**
-   * Sets the timesheetLineId to timesheetLineId.
-   * @param timesheetLineId the timesheetLineId to set
+   * Sets the timesheetRow to timesheetRow.
+   * @param timesheetRow the timesheetRow to set
    */
-  public final void setTimesheetLineId(int timesheetLineId) {
-    this.timesheetLineId = timesheetLineId;
+  public void setTimesheetRow(TimesheetRow timesheetRow) {
+    this.timesheetRow = timesheetRow;
+  }
+
+  /**
+   * Returns the labourGrade.
+   * @return the labourGrade
+   */
+  public LabourGrade getLabourGrade() {
+    return labourGrade;
+  }
+
+  /**
+   * Sets the labourGrade.
+   * @param labourGrade the labourGrade to set
+   */
+  public void setLabourGrade(LabourGrade labourGrade) {
+    this.labourGrade = labourGrade;
   }
 
   /**

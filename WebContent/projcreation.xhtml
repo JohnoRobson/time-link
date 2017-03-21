@@ -9,55 +9,39 @@
 
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
-		<ui:define name="header">
-			<div id="nav" style="height:15%">
-	        	<div id="navContent">
-	           		<h1>TimeLink</h1>
-	           		<ul id="navList">
-	               		<li><a href="home.xhtml">Home</a></li>
-	               		<li><a href="timesheet.xhtml">Timesheet</a></li>
-	               		<li><a href="projcreation.xhtml">Create Project</a></li>
-	               		<li><a href="assignemp.xhtml">Manage Project</a></li>
-	               		<h:panelGroup rendered="#{Session.approver}">
-	               			<li><a href="report.xhtml">Report</a></li>
-	               		</h:panelGroup>
-	               		<h:panelGroup rendered="#{Session.projectManager || Session.projectManagerAssistant}">
-	               			<li><a href="projectplanning.xhtml">Enter Project Planning Information</a></li>
-	               		</h:panelGroup>
-	               		<li><a href="humanresources.xhtml">Human Resources</a></li>
-	               		<li>
-	               		<h:form>
-	               			<h:commandLink value="Logout" action="#{Session.endSession}"/>
-	               		</h:form></li>
-	           		</ul>
-	        	</div>
-	    	</div>
-		</ui:define>
 		<ui:define name="content">
-			<h1>Project Creation Page</h1>
+		<div class="homeContent">
+			<div class="pageTitle">
+				<h1>Create a Project</h1>
+			</div>
 	        <h:form>
-	            <p:panelGrid columns="2">
-	            <f:facet name="header">
-                    <h:outputText value="Create a Project" />
-                </f:facet>
-	            <h:outputText value="Project Name: "/>
-	            <h:inputText value="#{NewProjectController.projectName}"/>
-	            <h:outputText value="Project Description: "/>
-	            <h:inputText value="#{NewProjectController.projectDescription}"/>
-	            <h:outputText value="Customer: "/>
-	            <h:inputText value="#{NewProjectController.customer}"/>
-	            <h:outputText value="Project Manager: "/>
-	            <p:selectOneMenu value="#{NewProjectController.projectManager}">
-	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-                                <f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
-                            </p:selectOneMenu>
-	            </p:panelGrid>
-	            <br />
-	            <h:commandButton value="Create Project" action="#{NewProjectController.createProject}"/>
+	        	<div>
+	            <h:panelGrid styleClass="panel" columns="2">
+	            	<h:outputText styleClass="projLabel" value="Project Name: "/>
+	            	<p:inputText value="#{NewProjectController.projectName}"
+				     validator="#{NewProjectController.validateProjectName}" id="projectname" />
+	            	<h:outputText styleClass="projLabel" value="Project Description: "/>
+	            	<p:inputText styleClass="projInput" value="#{NewProjectController.projectDescription}"/>
+	            	<h:outputText styleClass="projLabel" value="Customer: "/>
+	            	<p:inputText styleClass="projInput" value="#{NewProjectController.customer}"/>
+	            	<h:outputText styleClass="projLabel" value="Project Manager: "/>
+	            	<p:selectOneMenu styleClass="projInput drop" value="#{NewProjectController.projectManager}">
+	            		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+                		<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" 
+                					   var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
+                	</p:selectOneMenu>
+                	<h:outputText styleClass="projLabel" value="Project Assistant" />
+                	<p:selectOneMenu styleClass="projInput drop" value="#{NewProjectController.projectManagerAssistant}">
+               			<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+                		<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" 
+                					   var="pma" itemLabel="#{pma.firstName}" itemValue="#{pma.employeeId}" />
+                    </p:selectOneMenu>
+	            </h:panelGrid>
+	            <p:commandButton value="Create Project" styleClass="projBtn"
+	            				 action="#{NewProjectController.createProject}"/>
+	            </div>
 	        </h:form>
-		</ui:define>
-		<ui:define name="footer">
-			#whatsupfooterology.
+	    </div>
 		</ui:define>
 	</ui:composition>
 	</h:body>

@@ -9,81 +9,74 @@
 
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
-		<ui:define name="header">
-		<div id="nav" style="height:15%">
-	        <div id="navContent">
-	            <h1>TimeLink</h1>
-	            <ul id="navList">
-	                <li><a href="home.xhtml">Home</a></li>
-	                <li><a href="timesheet.xhtml">Timesheet</a></li>
-	                <li><a href="projcreation.xhtml">Create Project</a></li>
-	                <li><a href="assignemp.xhtml">Manage Project</a></li>
-	                <h:panelGroup rendered="#{Session.approver}">
-	                	<li><a href="report.xhtml">Report</a></li>
-	                </h:panelGroup>
-	                <h:panelGroup rendered="#{Session.projectManager || Session.projectManagerAssistant}">
-	                	<li><a href="projectplanning.xhtml">Enter Project Planning Information</a></li>
-	                </h:panelGroup>
-	                <li><a href="humanresources.xhtml">Human Resources</a></li>
-	                <li><h:form><h:commandLink value="Logout" action="#{Session.endSession}"/></h:form></li>
-	            </ul>
-	        </div>
-	    </div>
-	    </ui:define>
 	    <ui:define name="content">
-	    <div id="content">
-	        <div id="timesheetHeader">
-	            <div id="left" class="headerPart">
-	                <p>Name:</p><p><h:outputText value="#{Session.currentEmployee.firstName} #{Session.currentEmployee.lastName}" /></p>
-	                <br />
-	                <p>Title:</p><p>PLACEHOLDER: UI Specialist</p>
-	                <br />
-	                <p>Date:</p><p><h:outputText value="#{TimesheetController.timesheet.date}" /></p>
-	            </div>
-	            <div id="right" class="headerPart">
-	                <p>UserID:</p><p><h:outputText value="#{Session.currentEmployee.employeeId}" /></p>
-	                <br />
-	                <p>Department:</p><p>PLACEHOLDER: BCIT_IS</p>
-	                <br />
-	                <p>Week:</p><p>PLACEHOLDER: 5</p>
-	            </div>
-	        </div>
-	    </div>
-	    <h:form>
-	        <p:remoteCommand name="onCellEdit" update="table" />
-	        <p:dataTable id="table" var="row" value="#{TimesheetController.timesheet.rows}" editable="#{TimesheetController.timesheet.status eq 'NOTSUBMITTED' || TimesheetController.timesheet.status eq 'REJECTED'}" editMode="cell" rowIndexVar="index"
-	        render="#{TimesheetController.timesheet != null}">
-	        	<p:column headerText="project">
-					<p:cellEditor>
-					    <f:facet name="output">
-					        <h:outputText value="#{ProjectManager.find(row.projectId) != null ? ProjectManager.find(row.projectId).projectName : '-'}" id="projID" />
-					    </f:facet>
-					    <f:facet name="input">
-	                        <p:selectOneMenu value="#{row.projectId}" style="width:100%">
-	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-                                <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
-                            </p:selectOneMenu>
-	                    </f:facet>
-					</p:cellEditor>
+	    	<div id="timesheetHead">
+	    		<div id="timesheetSubOne">
+	    			<h:panelGrid columns="2">
+	    				<h:outputLabel value="Name:" />
+	    				<h:outputText value="#{Session.currentEmployee.firstName} #{Session.currentEmployee.lastName}" />
+	    				<h:outputLabel value="Title:" />
+	    				<h:outputText value="placeholder" />
+	   					<h:outputLabel value="Date:" />
+	   					<h:outputText value="#{TimesheetController.selectedTimesheet.date}" />
+	    			</h:panelGrid>
+	    		</div>
+	    		<div id="timesheetSubTwo">
+	    			<h:panelGrid columns="2">
+	    				<h:outputLabel value="UserId:" />
+	    				<h:outputText value="#{Session.currentEmployee.employeeId}" />
+	    				<h:outputLabel value="Department:" />
+	    				<h:outputText value="placeholder" />
+	   					<h:outputLabel value="Week No:" />
+	   					<h:outputText value="PlaceHolder 5" />
+	    			</h:panelGrid>
+	    		</div>
+	    	</div>
+
+	        <h:form>
+	        <p:panel id="tscontent">
+	        <div class="tsCont">
+	        	<p:selectOneMenu styleClass="tsDrop" value="#{TimesheetController.selectedTimesheetId}">
+		            	<p:ajax event="itemSelect" update=":#{p:component('tscontent')}" />
+		            	<f:selectItem itemLabel="Select Timesheet" itemValue="" noSelectionOption="true" />
+		            	<f:selectItems value="#{TimesheetController.getTimesheets() != null ? TimesheetController.getTimesheets() : null}" 
+		            				   var="ts" itemLabel="Year: #{1900 + ts.date.getYear()} Week Number: #{TimesheetController.getWeekNumber(ts)}" 
+		            				   itemValue="#{ts.timesheetId}" />
+        			</p:selectOneMenu>
+	        <p:remoteCommand name="onCellEdit" update="tscontent" />
+	        <p:dataTable id="table" var="row" value="#{TimesheetController.selectedTimesheet.rows}" 
+	        			 editable="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
+	        			 editMode="cell" rowIndexVar="index" render="#{TimesheetController.selectedTimesheet != null}">
+	        	
+	        	<p:column styleClass="tsHeader" rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}">
+	    				<p:commandButton
+		                	value="x"
+		                	type="submit"
+		                	action="#{TimesheetController.deleteRow(row)}"
+		                	ajax="false"
+		                	styleClass="tsdelbtn">
+		        		</p:commandButton>
+	    			</p:column>
+	        	
+	        	<p:column headerText="project" styleClass="tsHeader">
+	                <p:selectOneMenu value="#{row.projectId}" style="width:100%">
+		                <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+		                <f:selectItem itemLabel="" itemValue="#{0}"/>
+		                <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().project.projectNumber}" />
+		                <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
+	                </p:selectOneMenu>
 				</p:column>
 				
-				<p:column headerText="work package">
-					<p:cellEditor>
-					    <f:facet name="output">
-					        <h:outputText value="#{WorkPackageManager.find(row.workPackageId) != null ? WorkPackageManager.find(row.workPackageId).code: '-'}" id="wpID" />
-					    </f:facet>
-					    <f:facet name="input">
-	                        <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
-	                            <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-                                <f:selectItems value="#{ProjectManager.find(row.projectId) != null ? TimesheetController.getAssignedWorkPackages(row.projectId) : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
-                            </p:selectOneMenu>
-	                    </f:facet>
-					</p:cellEditor>
+				<p:column headerText="work package" styleClass="tsHeader">
+	                <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
+		                <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+		                <f:selectItem itemLabel="" itemValue="#{0}"/>
+		                <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().workPackageId}" />
+		                <f:selectItems value="#{TimesheetController.getAssignedWorkPackages(row.projectId)}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
+	                </p:selectOneMenu>
 				</p:column>
 				
-				<p:column headerText="sat">
+				<p:column headerText="sat" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -93,14 +86,14 @@
                             
                             <h:inputText value="#{row.hours.get(0).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+                                <p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
                     
-                    </p:column>
+                </p:column>
                 
-                <p:column headerText="sun">
+                <p:column headerText="sun" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -110,13 +103,13 @@
                             
                             <h:inputText value="#{row.hours.get(1).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="mon">
+                <p:column headerText="mon" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -126,13 +119,13 @@
                             
                             <h:inputText value="#{row.hours.get(2).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="tues">
+                <p:column headerText="tues" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -142,13 +135,13 @@
                             
                             <h:inputText value="#{row.hours.get(3).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="wed">
+                <p:column headerText="wed" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -158,13 +151,13 @@
                             
                             <h:inputText value="#{row.hours.get(4).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="thurs">
+                <p:column headerText="thurs" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -174,13 +167,13 @@
                             
                             <h:inputText value="#{row.hours.get(5).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="fri">
+                <p:column headerText="fri" styleClass="tsHeader weekDays">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -190,13 +183,13 @@
                             
                             <h:inputText value="#{row.hours.get(6).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="notes">
+                <p:column headerText="notes" styleClass="tsHeader">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{row.note}" />
@@ -207,24 +200,66 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
+            
 	        </p:dataTable>
-	        	<p:commandButton action="#{TimesheetController.save()}" value="save" ajax="false" >
-	        	</p:commandButton>
-	        	<p:commandButton action="#{TimesheetController.addRow()}" value="add row" ajax="false" >
-	        	</p:commandButton>
-	        	<p:commandButton action="#{TimesheetController.addTimesheet()}" value="add timesheet" ajax="false" >
-	        	</p:commandButton>
-	        	<p:commandButton action="#{TimesheetController.submit()}" value="Submit" ajax="false" >
-	        	</p:commandButton>
-	        	<h:outputText value="STATUS: #{TimesheetController.timesheet.status}" />
+	        
+	        <p:panel id="totals">
+	        <div class="subtotals">
+	        	<h:panelGrid columns="2">
+	        		<h:outputLabel value="Total:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() : 0}" />
+	        		<h:outputLabel value="Overtime:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? (TimesheetController.selectedTimesheet.getTotalHours() > 40 ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0) : 0}" />
+	        		<h:outputLabel value="Flexhours:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0}" />
+	        	</h:panelGrid>
+	        	<h:panelGrid styleClass="status" columns="2">
+	        		<h:outputLabel value="Status:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet.status}" />
+	        	</h:panelGrid>
+	        	
+	        	
+	        	<p:panel rendered="#{TimesheetController.selectedTimesheet.status.equals('REJECTED')}">
+		    		<h:outputText value="#{TimesheetController.selectedTimesheet.rejectionReason}" />
+		    	</p:panel>
+	        </div>
+		    </p:panel>
+		        <div class="btnGrp">
+		        	<h:panelGrid columns="2">
+	        			<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
+	        							 action="#{TimesheetController.addRow()}" value="add row" ajax="false" />
+	        			<p:commandButton value="add timesheet" onclick="PF('addts').show();" />
+	        		</h:panelGrid>
+		        	<h:panelGrid columns="2" styleClass="btnGrpTwo">
+		        		<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
+	        							 action="#{TimesheetController.save()}" value="save" ajax="false" />
+	        			<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
+	        			    			 action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
+		        	</h:panelGrid>
+	        	</div>
+        	</div>
+	        </p:panel>
 	    </h:form>
-	    <p:panel rendered="#{TimesheetController.timesheet.status.equals('REJECTED')}">
-	    	<h:outputText value="PLACEHOLDER REASON FOR THE TIMESHEET BEING DECLINED" />
-	    </p:panel>
-	    </ui:define>
 	    
-	    <ui:define name="footer">
-	    	footing it up 
+	    <!-- Add Timesheet Modal -->
+	    <p:dialog
+	    	header="Create New Timesheet"
+            widgetVar="addts"
+            modal="true"
+            height="200">
+	    	<h:form>
+	            <h:panelGrid columns="2">
+	            	<h:outputText styleClass="modalText" value="Year: "/>
+	            	<p:inputText styleClass="modalText" value="#{TimesheetController.year}" required="true" />
+	            	<h:outputText styleClass="modalText" value="Week Number: "/>
+	            	<p:inputText styleClass="modalText" value="#{TimesheetController.week}" required="true" />
+	            </h:panelGrid>
+	            
+	            <p:commandButton value="Create Timesheet" styleClass="modalBtn" 
+	            				 action="#{TimesheetController.addTimesheet()}" ajax="false" />
+	        </h:form>
+	    </p:dialog>
+	    
 	    </ui:define>
 	</ui:composition>
 	</h:body>

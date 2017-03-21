@@ -1,7 +1,5 @@
 package com.timelink.ejbs;
 
-import com.timelink.roles.RoleEnum;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.timelink.enums.RoleEnum;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "employee")
@@ -33,12 +33,11 @@ public class Employee implements Serializable {
   @Column(name = "emp_id")
   private int employeeId;
   
-  @OneToOne
+  @OneToOne//(cascade = CascadeType.MERGE)
   @JoinTable(name = "ts_approver",
-      joinColumns = @JoinColumn(name = "tsa_appr_id"),
-      inverseJoinColumns = @JoinColumn(name = "tsa_emp_id"))
+      joinColumns = @JoinColumn(name = "tsa_emp_id"),
+      inverseJoinColumns = @JoinColumn(name = "tsa_appr_id"))
   private Employee timesheetApprover;
-  
   
   @OneToOne(mappedBy = "employee", cascade = {CascadeType.ALL})
   private Credentials credentials;
@@ -47,21 +46,26 @@ public class Employee implements Serializable {
       mappedBy = "employee")
   private List<Role> roles;
   
-  //  @OneToOne
-  //  @JoinColumn(name = "Supervisor",
-  //      referencedColumnName = "EmployeeId")
-  //  private Employee supervisor;
+  @OneToOne//(cascade = CascadeType.ALL)
+  @JoinTable(name = "supvemp",
+      joinColumns = @JoinColumn(name = "se_emp_id"),
+      inverseJoinColumns = @JoinColumn(name = "se_supv_id"))
+  private Employee supervisor;
   
   @Column(name = "emp_fname")
   private String firstName;
   @Column(name = "emp_lname")
   private String lastName;
   
+  /*
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "prj_emp",
       joinColumns = @JoinColumn(name = "pe_emp_id"),
       inverseJoinColumns = @JoinColumn(name = "pe_prj_id"))
-  private Set<Project> projects;
+  private Set<Project> projects; */
+  
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "employees")
+  private Set<Project> projects; 
   
   @Column(name = "emp_lg_id")
   private Integer labourGrade;
@@ -121,21 +125,21 @@ public class Employee implements Serializable {
     this.timesheetApprover = timesheetApprover;
   }
 
-  //  /**
-  //   * Returns the supervisor.
-  //   * @return the supervisor
-  //   */
-  //  public Employee getSupervisor() {
-  //    return supervisor;
-  //  }
-  //  
-  //  /**
-  //   * Sets the supervisor to supervisor.
-  //   * @param supervisor the supervisor to set
-  //   */
-  //  public void setSupervisor(Employee supervisor) {
-  //    this.supervisor = supervisor;
-  //  }
+  /**
+   * Returns the supervisor.
+   * @return the supervisor
+   */
+  public Employee getSupervisor() {
+    return supervisor;
+  }
+  
+  /**
+   * Sets the supervisor to supervisor.
+   * @param supervisor the supervisor to set
+   */
+  public void setSupervisor(Employee supervisor) {
+    this.supervisor = supervisor;
+  }
   
   public Credentials getCredentials() {
     return credentials;
@@ -242,7 +246,6 @@ public class Employee implements Serializable {
     if (projects != null) {
       return new ArrayList<Project>(projects);
     }
-
     return new ArrayList<Project>();
   }
   
@@ -366,4 +369,25 @@ public class Employee implements Serializable {
     this.vacationRate = vacationRate;
   }
   
+  /**
+   * Returns true if the entered object is the same as this object.
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    
+    if (!(obj instanceof Employee)) {
+      return false;
+    }
+    
+    Employee  emp = (Employee) obj;
+    
+    if (emp.getUserId() != getUserId()) {
+      return false;
+    }
+    
+    return true;
+  }
 }

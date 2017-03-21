@@ -1,11 +1,15 @@
 package com.timelink.ejbs;
 
+import com.timelink.enums.WorkPackageStatusEnum;
+import com.timelink.managers.HoursManager;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,11 +22,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
+  @Transient
+  @Inject HoursManager hm;
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +52,7 @@ public class WorkPackage implements Serializable {
   @JoinTable(name = "wp_emp",
       joinColumns = @JoinColumn(name = "we_wp_id"),
       inverseJoinColumns = @JoinColumn(name = "we_emp_id"))
-  private List<Employee> assignedEmployees;
+  private Set<Employee> assignedEmployees;
   
   @Column(name = "wp_code")
   private String code;
@@ -53,18 +60,26 @@ public class WorkPackage implements Serializable {
   @Column(name = "wp_descr")
   private String description;
   
+  //Indicates if the work package has been charged to
   @Column(name = "wp_charged")
-  private Boolean isCharged;
+  private boolean isCharged;
   
-  @Column(name = "wp_closed")
-  private Boolean isClosed;
+  //Indicates if the work package is closed
+  @Column(name = "wp_status")
+  private WorkPackageStatusEnum status;
   
   //TODO find out if the was the best way to do it.
   @OneToMany(fetch = FetchType.EAGER,
               mappedBy = "workPackage",
               cascade = CascadeType.ALL,
               orphanRemoval = true)
-  private Set<BudgetedHours> plannedHours;
+  private Set<BudgetedWorkPackageHours> plannedHours;
+  
+  @OneToMany(fetch = FetchType.EAGER,
+      mappedBy = "workpackage",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
+  private Set<EstimatedWorkPackageHours> estimatedHours;
   
   /**
    * Returns the code.
@@ -166,7 +181,7 @@ public class WorkPackage implements Serializable {
    * Returns the assignedEmployees.
    * @return the assignedEmployees
    */
-  public List<Employee> getAssignedEmployees() {
+  public Set<Employee> getAssignedEmployees() {
     return assignedEmployees;
   }
   
@@ -174,7 +189,7 @@ public class WorkPackage implements Serializable {
    * Sets the assignedEmployees to assibleEmployees.
    * @param assignedEmployees the assignedEmployees to set
    */
-  public void setAssignedEmployees(List<Employee> assignedEmployees) {
+  public void setAssignedEmployees(Set<Employee> assignedEmployees) {
     this.assignedEmployees = assignedEmployees;
   }
   
@@ -195,19 +210,19 @@ public class WorkPackage implements Serializable {
   }
 
   /**
-   * Returns isClosed.
-   * @return the isClosed
+   * Returns status.
+   * @return the status
    */
-  public boolean isClosed() {
-    return isClosed;
+  public WorkPackageStatusEnum getStatus() {
+    return status;
   }
 
   /**
-   * Sets the isClosed to isClosed.
-   * @param isClosed the isClosed to set
+   * Sets the status.
+   * @param status the status to set.
    */
-  public void setClosed(boolean isClosed) {
-    this.isClosed = isClosed;
+  public void setStatus(WorkPackageStatusEnum status) {
+    this.status = status;
   }
 
   /**
@@ -215,15 +230,15 @@ public class WorkPackage implements Serializable {
    * this WorkPackage.
    * @return A List of PlannedHours.
    */
-  public List<BudgetedHours> getPlannedHours() {
+  public List<BudgetedWorkPackageHours> getPlannedHours() {
     if (plannedHours != null) {
-      return new ArrayList<BudgetedHours>(plannedHours);
+      return new ArrayList<BudgetedWorkPackageHours>(plannedHours);
     }
-    return new ArrayList<BudgetedHours>();
+    return new ArrayList<BudgetedWorkPackageHours>();
   }
   
-  public void setPlannedHours(List<BudgetedHours> plannedHours) {
-    this.plannedHours = new HashSet<BudgetedHours>(plannedHours);
+  public void setPlannedHours(List<BudgetedWorkPackageHours> plannedHours) {
+    this.plannedHours = new HashSet<BudgetedWorkPackageHours>(plannedHours);
   }
   
   /**
@@ -235,7 +250,7 @@ public class WorkPackage implements Serializable {
   public int getTotalFromGrade(Integer labourGradeId) {
     int total = 0;
     
-    for (BudgetedHours hour: plannedHours) {
+    for (BudgetedWorkPackageHours hour: plannedHours) {
       if (hour.getLabourGrade().getLabourGradeId() == labourGradeId) {
         total = hour.getManDay();
         break;
@@ -251,10 +266,10 @@ public class WorkPackage implements Serializable {
    * @return The PlannedHour in this WorkPackage with the 
    *     specified Id.
    */
-  public BudgetedHours getPlannedHourFromLabourGrade(Integer labourGradeId) {
-    BudgetedHours hour = new BudgetedHours();
+  public BudgetedWorkPackageHours getPlannedHourFromLabourGrade(Integer labourGradeId) {
+    BudgetedWorkPackageHours hour = new BudgetedWorkPackageHours();
     
-    for (BudgetedHours h : plannedHours) {
+    for (BudgetedWorkPackageHours h : plannedHours) {
       if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
         hour = h;
         break;
@@ -277,7 +292,7 @@ public class WorkPackage implements Serializable {
    * @param labourGradeId The labourGradeId to be searched.
    */
   public void removePlannedHourByLabourGrade(Integer labourGradeId) {
-    for (BudgetedHours h : plannedHours) {
+    for (BudgetedWorkPackageHours h : plannedHours) {
       if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
         plannedHours.remove(h);
         h.setWorkPackageLineId(null);
@@ -293,7 +308,7 @@ public class WorkPackage implements Serializable {
   public int getTotalPlannedHours() {
     int total = 0;
     if (plannedHours != null && plannedHours.size() > 0) {
-      for (BudgetedHours hour : plannedHours) {
+      for (BudgetedWorkPackageHours hour : plannedHours) {
         total += hour.getManDay();
       }
     }
@@ -309,7 +324,7 @@ public class WorkPackage implements Serializable {
     int totalCost = 0;
     
     if (plannedHours != null  && plannedHours.size() > 0) {
-      for (BudgetedHours hour : plannedHours) {
+      for (BudgetedWorkPackageHours hour : plannedHours) {
         totalCost += (hour.getManDay() * hour.getLabourGrade().getCostRate());
       }
     }
@@ -317,4 +332,51 @@ public class WorkPackage implements Serializable {
     return totalCost;
   }
   
+  /**
+   * Returns a List of PlannedHours associated with
+   * this WorkPackage.
+   * @return A List of PlannedHours.
+   */
+  public List<EstimatedWorkPackageHours> getEstimatedHours() {
+    if (estimatedHours != null) {
+      return new ArrayList<EstimatedWorkPackageHours>(estimatedHours);
+    }
+    return new ArrayList<EstimatedWorkPackageHours>();
+  }
+  
+  /**
+   * Set the estimatedHours to estimatedHours.
+   * @param estimatedHours to set the estimatedHours to
+   */
+  public void setEstimatedHours(List<EstimatedWorkPackageHours> estimatedHours) {
+    this.estimatedHours = new HashSet<EstimatedWorkPackageHours>(estimatedHours);
+  }
+  
+  /**
+   * Returns the estimatedHour in this WorkPackage that have
+   * the specified labourGradeId.
+   * @param labourGradeId The labourGrade to be searched.
+   * @return The estimatedHour in this WorkPackage with the 
+   *     specified Id.
+   */
+  public EstimatedWorkPackageHours getEstimatedHourFromLabourGrade(Integer labourGradeId) {
+    EstimatedWorkPackageHours hour = new EstimatedWorkPackageHours();
+    
+    for (EstimatedWorkPackageHours h : estimatedHours) {
+      if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
+        hour = h;
+        break;
+      }
+    }
+    
+    if (hour.getLabourGrade() == null) {
+      LabourGrade lg = new LabourGrade();
+      lg.setLabourGradeId(labourGradeId);
+      hour.setLabourGrade(lg);
+      hour.setWorkPackageLineId(this);
+      estimatedHours.add(hour);
+    }
+    
+    return hour;
+  }
 }

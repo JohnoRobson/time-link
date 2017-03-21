@@ -1,6 +1,7 @@
 package com.timelink.ejbs;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,26 +15,29 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Budget_Hour")
-public class BudgetedHours implements Serializable {
+@Table(name = "Budget_Project_Hour")
+public class BudgetedProjectHours implements Serializable {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "bh_id")
+  @Column(name = "bph_id")
   private int budgetHoursId;
   
-  @JoinColumn(name = "bh_level",
+  @JoinColumn(name = "bph_level",
       referencedColumnName = "lg_id")
   @ManyToOne
   private LabourGrade labourGrade;
   
-  @JoinColumn(name = "bh_wp_id",
-      referencedColumnName = "wp_id")
+  @JoinColumn(name = "bph_prj_id",
+      referencedColumnName = "prj_id")
   @ManyToOne(cascade = CascadeType.MERGE)
-  private WorkPackage workPackage;
+  private Project project;
   
-  @Column(name = "bh_man_day")
+  @Column(name = "bph_man_day")
   private int manDay;
+  
+  @Column(name = "bph_date_created")
+  private Date dateCreated;
 
   /**
    * Returns the budgetHoursId.
@@ -68,22 +72,19 @@ public class BudgetedHours implements Serializable {
   }
 
   /**
-   * Returns the workPackage.
-   * @return the workPackage
+   * Returns the project.
+   * @return the project
    */
-  public WorkPackage getWorkPackage() {
-    return workPackage;
+  public Project getProject() {
+    return project;
   }
-
+  
   /**
-   * Sets he workPackage to workPackage.
-   * @param workPackage the workPackage to set
+   * Sets the project to project.
+   * @param project the project
    */
-  public void setWorkPackageLineId(WorkPackage workPackage) {
-    if (workPackage != null && !workPackage.getPlannedHours().contains(this)) {
-      workPackage.getPlannedHours().add(this);
-    }
-    this.workPackage = workPackage;
+  public void setProject(Project project) {
+    this.project = project;
   }
 
   /**
@@ -101,5 +102,23 @@ public class BudgetedHours implements Serializable {
   public void setManDay(Integer manDay) {
     this.manDay = manDay;
   }
+
+  /**
+   * Returns dateCreated.
+   * @return the dateCreated
+   */
+  public Date getDateCreated() {
+    return dateCreated;
+  }
+
+  /**
+   * Sets the dateCreated.
+   * @param dateCreated the dateCreated to set
+   */
+  public void setDateCreated(Date dateCreated) {
+    this.dateCreated = dateCreated;
+  }
+  
+  
   
 }

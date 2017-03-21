@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS `timelink_dev`;
+
 CREATE DATABASE  IF NOT EXISTS `timelink_dev` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `timelink_dev`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
@@ -18,19 +20,55 @@ USE `timelink_dev`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Budget_Hour`
+-- Table structure for table `Budget_Project_Hour`
 --
 
-DROP TABLE IF EXISTS `Budget_Hour`;
+DROP TABLE IF EXISTS `Budget_Project_Hour`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Budget_Hour` (
-  `bh_id` int(11) NOT NULL AUTO_INCREMENT,
-  `bh_level` int(11) DEFAULT NULL,
-  `bh_wp_id` int(11) DEFAULT NULL,
-  `bh_man_day` int(11) DEFAULT NULL,
-  PRIMARY KEY (`bh_id`),
-  UNIQUE KEY `ph_id_UNIQUE` (`bh_id`)
+CREATE TABLE `Budget_Project_Hour` (
+  `bph_id` int(11) NOT NULL AUTO_INCREMENT,
+  `bph_prj_id` int(11) DEFAULT NULL,
+  `bph_level` int(11) DEFAULT NULL,
+  `bph_man_day` int(11) DEFAULT NULL,
+  `bph_date_created` date DEFAULT NULL,
+  PRIMARY KEY (`bph_id`),
+  UNIQUE KEY `bph_id_UNIQUE` (`bph_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Budget_Wp_Hour`
+--
+
+DROP TABLE IF EXISTS `Budget_Wp_Hour`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Budget_Wp_Hour` (
+  `bwh_id` int(11) NOT NULL AUTO_INCREMENT,
+  `bwh_wp_id` int(11) DEFAULT NULL,
+  `bwh_level` int(11) DEFAULT NULL,
+  `bwh_man_day` int(11) DEFAULT NULL,
+  `bwh_date_created` date DEFAULT NULL,
+  PRIMARY KEY (`bwh_id`),
+  UNIQUE KEY `bwh_id_UNIQUE` (`bwh_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Estimate_Wp_Hour`
+--
+
+DROP TABLE IF EXISTS `Estimate_Wp_Hour`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Estimate_Wp_Hour` (
+  `ewh_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ewh_wp_id` int(11) DEFAULT NULL,
+  `ewh_level` int(11) DEFAULT NULL,
+  `ewh_man_day` int(11) DEFAULT NULL,
+  `ewh_date_created` date DEFAULT NULL,
+  PRIMARY KEY (`ewh_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -48,6 +86,8 @@ CREATE TABLE `Project` (
   `prj_customer` varchar(45) DEFAULT NULL,
   `prj_wp_id` int(11) DEFAULT NULL,
   `prj_manager_id` int(11) DEFAULT NULL,
+  `prj_manager_assist_id` int(11) DEFAULT NULL,
+  `prj_closed` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`prj_id`),
   UNIQUE KEY `prjh_id_UNIQUE` (`prj_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -68,7 +108,7 @@ CREATE TABLE `WorkPackage` (
   `wp_re_eng_id` int(11) DEFAULT NULL,
   `wp_descr` varchar(45) DEFAULT NULL,
   `wp_charged` tinyint(1) DEFAULT NULL,
-  `wp_closed` tinyint(1) DEFAULT NULL,
+  `wp_status` int(11) DEFAULT NULL,
   PRIMARY KEY (`wp_id`),
   UNIQUE KEY `wph_id_UNIQUE` (`wp_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
@@ -108,7 +148,7 @@ CREATE TABLE `credential` (
   PRIMARY KEY (`cre_id`),
   UNIQUE KEY `cre_emp_id_UNIQUE` (`cre_id`),
   UNIQUE KEY `cre_emp_name_UNIQUE` (`cre_emp_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +174,7 @@ CREATE TABLE `employee` (
   PRIMARY KEY (`emp_id`),
   UNIQUE KEY `emp_id_UNIQUE` (`emp_id`),
   UNIQUE KEY `emp_name_UNIQUE` (`emp_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +190,7 @@ CREATE TABLE `job_title` (
   `jt_type` int(11) DEFAULT NULL,
   PRIMARY KEY (`jt_id`),
   UNIQUE KEY `jt_id_UNIQUE` (`jt_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +208,7 @@ CREATE TABLE `labour_grade` (
   PRIMARY KEY (`lg_id`),
   UNIQUE KEY `lg_id_UNIQUE` (`lg_id`),
   UNIQUE KEY `lg_name_UNIQUE` (`lg_level`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +224,7 @@ CREATE TABLE `prj_emp` (
   `pe_emp_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`pe_id`),
   UNIQUE KEY `prjl_id_UNIQUE` (`pe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,10 +235,11 @@ DROP TABLE IF EXISTS `supvemp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `supvemp` (
-  `se_id` int(11) NOT NULL,
-  `se_supv_id` varchar(45) DEFAULT NULL,
+  `se_id` int(11) NOT NULL AUTO_INCREMENT,
+  `se_supv_id` int(11) DEFAULT NULL,
   `se_emp_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`se_id`)
+  PRIMARY KEY (`se_id`),
+  UNIQUE KEY `se_id_UNIQUE` (`se_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -215,7 +256,7 @@ CREATE TABLE `ts_approver` (
   `tsa_emp_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`tsa_id`),
   UNIQUE KEY `tsa_id_UNIQUE` (`tsa_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,7 +278,7 @@ CREATE TABLE `ts_header` (
   `tsh_rejectreason` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`tsh_id`),
   UNIQUE KEY `tsh_id_UNIQUE` (`tsh_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,12 +294,13 @@ CREATE TABLE `ts_hour` (
   `tsho_prjh_id` int(11) DEFAULT NULL,
   `tsho_wp_id` int(11) DEFAULT NULL,
   `tsl_id` int(11) DEFAULT NULL,
+  `lg_id` int(11) DEFAULT NULL,
   `tsho_date` date DEFAULT NULL,
   `tsho_hour` float DEFAULT NULL,
   `tsho_labour_cost` float DEFAULT NULL,
   PRIMARY KEY (`tsho_id`),
   UNIQUE KEY `tsho_id_UNIQUE` (`tsho_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,7 +316,7 @@ CREATE TABLE `ts_line` (
   `tsl_note` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`tsl_id`),
   UNIQUE KEY `tsl_id_UNIQUE` (`tsl_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -290,7 +332,7 @@ CREATE TABLE `wp_emp` (
   `we_emp_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`we_id`),
   UNIQUE KEY `wpl_id_UNIQUE` (`we_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -302,14 +344,18 @@ CREATE TABLE `wp_emp` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-05 16:14:59
+-- Dump completed on 2017-03-16 19:14:30
+
+
   
   USE timelink_dev;
   
-INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", 1, "a@a.com", 2, null, null, null, null, null);
-INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", 2, "tsa@tsa.com", 1, null, null, null, null, null);
-INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", 3, "pm@pm.com", 1, null, null, null, null, null);
-INSERT INTO employee VALUES (4, "re", "refname", "relname", 4, "ref@ref.com", 1, null, null, null, null, null);
+INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", null, "a@a.com", 2, null, null, 100, 100, 120);
+INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", null, "tsa@tsa.com", 1, null, null, 100, 100, 80);
+INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", null, "pm@pm.com", 1, null, null, 100, 100, 160);
+INSERT INTO employee VALUES (4, "re", "refname", "relname", null, "ref@ref.com", 1, null, null, 100, 100, 120);
+INSERT INTO employee VALUES (5, "hr", "hrfname", "hrlname", null, "hr@hr.com", 1, null, null, 72, 30, 120);
+INSERT INTO employee VALUES (6, "sup", "supfname", "suplname", null, "sup@sup.com", 1, null, null, 72, 30, 120);
 
 INSERT INTO job_title VALUES (1, 1, 0);
 INSERT INTO job_title VALUES (2, 2, 0);
@@ -317,6 +363,19 @@ INSERT INTO job_title VALUES (3, 3, 0);
 INSERT INTO job_title VALUES (4, 4, 0);
 INSERT INTO job_title VALUES (5, 3, 4);
 INSERT INTO job_title VALUES (6, 4, 5);
+INSERT INTO job_title VALUES (7, 5, 1);
+INSERT INTO job_title VALUES (8, 1, 2);
+INSERT INTO job_title VALUES (9, 1, 3);
+INSERT INTO job_title VALUES (10, 1, 4);
+INSERT INTO job_title VALUES (11, 1, 5);
+INSERT INTO job_title VALUES (12, 6, 2);
+INSERT INTO job_title VALUES (13, 6, 0);
+INSERT INTO job_title VALUES (14, 5, 0);
+
+INSERT INTO supvemp VALUES (1, 6, 1);
+INSERT INTO supvemp VALUES (2, 6, 2);
+INSERT INTO supvemp VALUES (3, 6, 3);
+INSERT INTO supvemp VALUES (4, 6, 4);
 
 INSERT INTO ts_approver VALUES (0, 2, 1);
 
@@ -324,40 +383,31 @@ INSERT INTO credential VALUES (1, 1, "Admin", "Admin");
 INSERT INTO credential VALUES (2, 2, "tsa", "tsa");
 INSERT INTO credential VALUES (3, 3, "pm", "pm");
 INSERT INTO credential VALUES (4, 4, "re", "re");
+INSERT INTO credential VALUES (5, 5, "hr", "hr");
+INSERT INTO credential VALUES (6, 6, "sup", "sup");
 
-INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3);
-INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3);
+INSERT INTO Project VALUES (1, "Cool Project 1", "A Cool Project", "Customer name for cool project 1", null, 3, 3, 0);
+INSERT INTO Project VALUES (2, "Cool Project 2", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3, 3, 0);
+INSERT INTO Project VALUES (10, "HR Codes", "HR Codes", "TimeLink", null, 2, 2, 0);
 
 INSERT INTO prj_emp VALUES (0, 1, 1);
-INSERT INTO prj_emp VALUES (0, 2, 1);
+INSERT INTO prj_emp VALUES (2, 2, 1);
 
-INSERT INTO WorkPackage VALUES (1, 1, "100000000", null, null, "Part of the cool project", 0, 0);
-INSERT INTO WorkPackage VALUES (2, 1, "200000000", null, null, "second part of the cool project", 0, 0);
-INSERT INTO WorkPackage VALUES (3, 2, "100000000", null, null, "work package for the cool project the sequel", 0, 0);
-INSERT INTO WorkPackage VALUES (4, 2, "200000000", null, null, "second work package for the sequel", 0, 0);
+INSERT INTO WorkPackage VALUES (1, 10, "Sick Day", null, 4, "A sick day", 0, 5);
+INSERT INTO WorkPackage VALUES (2, 1, "100000000", null, 4, "Part of the cool project", 0, 0);
+INSERT INTO WorkPackage VALUES (3, 1, "200000000", null, 4, "second part of the cool project", 0, 0);
+INSERT INTO WorkPackage VALUES (4, 2, "100000000", null, 4, "work package for the cool project the sequel", 0, 0);
+INSERT INTO WorkPackage VALUES (5, 2, "200000000", null, 4, "second work package for the sequel", 0, 0);
+INSERT INTO WorkPackage VALUES (6, 10, "FLEX", null, 4, "Flextime", 0, 5);
+INSERT INTO WorkPackage VALUES (7, 10, "VACA", null, 4, "Vacation", 0, 5);
 
-INSERT INTO wp_emp VALUES (0, 1, 1);
-INSERT INTO wp_emp VALUES (0, 2, 1);
-INSERT INTO wp_emp VALUES (0, 3, 1);
-INSERT INTO wp_emp VALUES (0, 4, 1);
+INSERT INTO wp_emp VALUES (2, 1, 1);
+INSERT INTO wp_emp VALUES (3, 2, 1);
+INSERT INTO wp_emp VALUES (4, 3, 1);
+INSERT INTO wp_emp VALUES (5, 4, 1);
 
-INSERT INTO ts_header VALUES(0, 1, "2017-01-30", null, 2, 0, 1, 1, null);
-
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 0, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 0, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 6, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 5, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 9, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 6, null);
-INSERT INTO ts_hour VALUES (0, 1, 1, 1, 1, null, 8, null);
-
-INSERT INTO ts_line VALUES (0, 1, "row 1 note");
-
-INSERT INTO labour_grade VALUES (1, null, "P1", 100);
-INSERT INTO labour_grade VALUES (2, null, "P2", 200);
-INSERT INTO labour_grade VALUES (3, null, "P3", 300);
-INSERT INTO labour_grade VALUES (4, null, "P4", 400);
-INSERT INTO labour_grade VALUES (5, null, "P5", 500);
-
-INSERT INTO Budget_Hour VALUES(0, 1, 1, 3);
-INSERT INTO Budget_Hour VALUES(0, 2, 1, 5);
+INSERT INTO labour_grade VALUES (1, 2017, "P1", 100);
+INSERT INTO labour_grade VALUES (2, 2017, "P2", 200);
+INSERT INTO labour_grade VALUES (3, 2017, "P3", 300);
+INSERT INTO labour_grade VALUES (4, 2017, "P4", 400);
+INSERT INTO labour_grade VALUES (5, 2017, "P5", 500);

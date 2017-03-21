@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:body>
+		<ui:composition template="resources/templates/template.xhtml">
+		    <ui:define name="content">
+		    	<h1>Add Employees to Work Package</h1>
+		    	<h:form>
+		    	    <p:selectOneMenu value="#{AssignWPController.projectId}" 
+		    	        valueChangeListener="#{AssignWPController.resetWp}" onchange="submit()">
+		    	        <f:selectItem itemLabel="" itemValue="-1"/>
+                		<f:selectItems value="#{AssignWPController.projects}"
+                		    var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectNumber}"/>
+                    </p:selectOneMenu>
+                    <p:dataTable value="#{AssignWPController.selectedProject.workPackages}" var="workpackage">
+	            	    <p:column>
+	                	    #{workpackage.code}
+	            	    </p:column>
+	            	    <p:column>
+	            	        <p:commandButton value="Select" action="#{AssignWPController.setSelectedWorkPackage(workpackage)}" 
+	            	            ajax="false" />
+	            	    </p:column>
+	        	    </p:dataTable>
+	        	    <h1>#{AssignEmployeesController.selectedProject.projectName}</h1>
+                    <p:pickList id="pickList" value="#{AssignWPController.employees}" var="employee" itemLabel="#{employee.firstName}" 
+                        itemValue="#{employee}" converter="EmployeeConverter"/>
+                    <p:commandButton value="Assign" action="assigntowp" ajax="false"/>
+	        	</h:form>
+		    </ui:define>
+	    </ui:composition>
+	</h:body>
+</html>

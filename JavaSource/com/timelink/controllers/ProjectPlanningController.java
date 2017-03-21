@@ -1,20 +1,25 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.ejbs.Employee;
+import com.timelink.ejbs.BudgetedProjectHours;
+import com.timelink.ejbs.EstimatedWorkPackageHours;
+import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
-import com.timelink.ejbs.WorkPackage;
-import com.timelink.managers.BudgetedHoursManager;
-import com.timelink.managers.EmployeeManager;
+import com.timelink.managers.BudgetedProjectHoursManager;
+import com.timelink.managers.EstimatedWorkPackageHoursManager;
+import com.timelink.managers.HoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
-import com.timelink.managers.WorkPackageManager;
-import com.timelink.roles.RoleEnum;
+import com.timelink.services.WeekNumberService;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,273 +29,202 @@ import javax.inject.Named;
 @Named("ProjectPlanningController")
 public class ProjectPlanningController implements Serializable {
   
+  @Inject Session session;
   @Inject ProjectManager pm;
-  @Inject Session ses;
   @Inject LabourGradeManager lgm;
-  @Inject EmployeeManager em;
-  @Inject WorkPackageManager wpm;
-  @Inject BudgetedHoursManager bhm;
-  private Integer responsibleEngineerId;
-  private String wpCode;
-  private String wpDescription;
-  private Project currentProject;
+  @Inject BudgetedProjectHoursManager bhm;
+  @Inject EstimatedWorkPackageHoursManager ewm;
+  @Inject WeekNumberService weekNumberService;
+  @Inject HoursManager hm;
+  
+  private HashSet<Project> projects;
   private List<LabourGrade> labourGrades;
-  private WorkPackage editingWorkPackageId;
+  private Project selectedProject;
+  private HashSet<BudgetedProjectHours> budgetedHours;
+  
+  /**
+   * Resets the state of this SessionBean.
+   */
+  @PostConstruct
+  public void reset() {
+    projects = new HashSet<Project>(
+          pm.findByProjectManager(session.getCurrentEmployee().getEmployeeId())
+        );
+    labourGrades = lgm.getAllLabourGrades();
+    budgetedHours = new HashSet<BudgetedProjectHours>();
+    
+    for (LabourGrade lg : labourGrades) {
+      BudgetedProjectHours bp = new BudgetedProjectHours();
+      bp.setLabourGrade(lg);
+      budgetedHours.add(bp);
+    }
+    selectedProject = null;
+  }
   
   public List<Project> getProjects() {
-    return pm.findByProjectManager(ses.getCurrentEmployee().getEmployeeId());
+    return new ArrayList<Project>(projects);
   }
 
   /**
-   * Returns the current project's id.
-   * @return the currentProject
+   * Returns selectedProject.
+   * @return the selectedProject
    */
-  public Integer getCurrentProjectId() {
-    if (currentProject == null) {
-      return null;
+  public Project getSelectedProject() {
+    return selectedProject;
+  }
+
+  /**
+   * Sets the selectedProject.
+   * @param selectedProject the selectedProject to set
+   */
+  public void setSelectedProject(Project selectedProject) {
+    this.selectedProject = selectedProject;
+  }
+  
+  /**
+   * returns the selectedProjectId.
+   * @return the selectedProjectId
+   */
+  public Integer getSelectedProjectId() {
+    if (selectedProject != null) {
+      return selectedProject.getProjectNumber();
     }
-    return currentProject.getProjectNumber();
+    
+    return null;
   }
-
+  
   /**
-   * Sets the current project to one with the given
-   * ID.
-   * @param currentProject the currentProject to set
+   * Sets the selectedProjectId to selectedProjectId.
+   * @param selectedProjectId the selectedProjectId to set
    */
-  public void setCurrentProjectId(Integer currentProject) {
-    if (this.currentProject != null
-        && this.currentProject.getProjectNumber() == currentProject) {
+  public void setSelectedProjectId(Integer selectedProjectId) {
+    if (selectedProjectId == null) {
       return;
     }
-    this.currentProject = pm.find(currentProject);
-  }
-  
-  public Project getCurrentProject() {
-    return currentProject;
-  }
-  
-  /**
-   * Saves the planned project.
-   * @return null to reload the page.
-   */
-  public String save() {
-    //Save all planned hours in the project
-    //Remove any planned hours that have 0 manDays.
-    for (WorkPackage wp : currentProject.getWorkPackages()) {
-      for (LabourGrade lg : getLabourGrades()) {
-        if (wp.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).getManDay() != 0) {
-          wp.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).setLabourGrade(lg);
-          wp.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).setWorkPackageLineId(wp);
-        } else {
-          wp.removePlannedHourByLabourGrade(lg.getLabourGradeId());
-        }
-      }
-    }
-    pm.merge(currentProject);
-    currentProject = pm.find(currentProject.getProjectNumber());
-    return null;
-  }
-  
-  
-  //WORKPACKAGE MODAL STUFF
-  
-  /**
-   * Returns the wpCode.
-   * @return the wpCode
-   */
-  public String getWpCode() {
-    return wpCode;
-  }
-  
-  /**
-   * Sets the wpCode to wpCode.
-   * @param wpCode the wpCode to set
-   */
-  public void setWpCode(String wpCode) {
-    this.wpCode = wpCode;
-  }
-  
-  /**
-   * Returns the wpDescription.
-   * @return the wpDescription
-   */
-  public String getWpDescription() {
-    return wpDescription;
-  }
-  
-  /**
-   * Sets the wpDescription to wpDescription.
-   * @param wpDescription the wpDescription to set
-   */
-  public void setWpDescription(String wpDescription) {
-    this.wpDescription = wpDescription;
-  }
-  
-  /**
-   * Returns the responsibleEngineer for the current project.
-   * @return the responsibleEngineer
-   */
-  public Integer getResponsibleEngineer() {
-    return responsibleEngineerId;
-  }
-  
-  /**
-   * Sets the responsibleEngineer to one with the given ID.
-   * @param responsibleEngineerId the responsibleEngineer to set
-   */
-  public void setResponsibleEngineer(Integer responsibleEngineerId) {
-    this.responsibleEngineerId = responsibleEngineerId;
-  }
-  
-  /**
-   * Returns a workpackage code that's been incremented
-   * on the same 'level' as the given code.
-   * @param code The code to increment
-   * @return An incremented WP code.
-   */
-  private String incrementSameLevel(String code) {
-    StringBuilder sb = new StringBuilder(code);
     
-    //Find the first non-zero char
-    int toBeInc = sb.indexOf("0") - 1;
-    
-    //Increment it
-    if (Character.isDigit((sb.charAt(toBeInc)))) {
-      char digit = sb.charAt(toBeInc);
-      if (digit < '9') {
-        ++digit;
-        sb.setCharAt(toBeInc, digit);
-      } else {
-        sb.setCharAt(toBeInc, 'A');
-      }
-    } else if (Character.isAlphabetic((sb.charAt(toBeInc)))) {
-      //If it is not a digit increment anyway
-      char digit = sb.charAt(toBeInc);
-      if (digit < 'Z') {
-        ++digit;
-        sb.setCharAt(toBeInc, digit);
-      } else {
-        //Can't increment past Z
-        throw new IllegalArgumentException("Cannot increment this workpackage number past " + code);
-      }
+    if (this.selectedProject != null
+        && this.selectedProject.getProjectNumber() == selectedProjectId) {
+      return;
     }
     
-    //if the char is a period, it is the first in a level
-    if (sb.charAt(toBeInc) == '.') {
-      sb.setCharAt(toBeInc, '1');
-    }
-    
-    return sb.toString();
-  }
-  
-  /**
-   * Finds the largest code on the given workpackage 'level.'
-   * @param code The code to search
-   * @return The largest wp code on the given 'level.'
-   */
-  private String findLargestCodeSameLevel(String code) {
-    String highest = code;
-    for (WorkPackage wp : currentProject.getWorkPackages()) {
-      int indexOfChk = wp.getCode().indexOf('0');
-      int indexOfCur = code.indexOf('0');
-      if (code.substring(0, indexOfChk - 1).equals(wp.getCode().substring(0, indexOfCur - 1))) {
-        if (indexOfChk == indexOfCur) {
-          if (wp.getCode().charAt(indexOfChk - 1) > highest.charAt(indexOfCur - 1)) {
-            highest = wp.getCode();
-          }
-        }
-      }
-    }
-    
-    return highest;
-  }
-  
-  private String findNextLevel(String code) {
-    StringBuilder sb = new StringBuilder(code);
-    sb.setCharAt(code.indexOf('0'), '.');
-    return sb.toString();
-  }
-  
-  private String findNewCode(String code) {
-    if (code == null) {
-      return incrementSameLevel(findLargestCodeSameLevel("100000000"));
-    } else {
-      return incrementSameLevel(findLargestCodeSameLevel(findNextLevel(code)));
+    Project pro = pm.find(selectedProjectId);
+    if (pro != null) {
+      pm.detach(pro);
+      this.selectedProject = pm.find(selectedProjectId);
+      retriveBudgetedHours();
     }
   }
   
-  /**
-   * Creates a new work package with the entered details.
-   * @return null to reload the page.
-   */
-  public String createWorkPackage() {
-    WorkPackage wp = new WorkPackage();
-    wp.setCode(findNewCode(getWpCode()));
-    wp.setDescription(getWpDescription());
-    wp.setProject(currentProject);
-    wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
-    wpm.persist(wp);
-    setCurrentProjectId(currentProject.getProjectNumber());
-    save();
-    return null;
-  }
-  
-  /**
-   * Edits the work package with Id matching editingWorkPackageId.
-   * @return null to reload the page.
-   */
-  public String editWorkPackage() {
-    //WorkPackage wp = wpm.find(editingWorkPackageId);
-    //wp.setCode(getWpCode());
-    editingWorkPackageId.setDescription(getWpDescription());
-    editingWorkPackageId.setProject(currentProject);
-    //wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
-    wpm.merge(editingWorkPackageId);
-    //setCurrentProjectId(currentProject.getProjectNumber());
-    return null;
-    
-  }
-  
-  public List<Employee> getResponsibleEngineers() {
-    return em.getAllEmployeesWithRole(RoleEnum.RESPONSIBLE_ENGINEER);
-  }
-  
-  public List<Project> getAllProjects() {
-    return pm.findAll();
-  }
-  
-  public boolean validateWorkPackage() {
-    return true;
-  }
-  
-  /**
-   * Returns a list of all labour grades in the database.
-   * @return A list of all labour grades in the database.
-   */
   public List<LabourGrade> getLabourGrades() {
-    if (labourGrades == null) {
-      labourGrades = lgm.getAllLabourGrades();
-    }
-    
     return labourGrades;
   }
-
-  /**
-   * Returns the Id of the work package to edit.
-   * @return the editingWorkPackageId
-   */
-  public WorkPackage getEditingWorkPackageId() {
-    return editingWorkPackageId;
-  }
-
-  /**
-   * Sets the Id of the work package to edit.
-   * @param editingWorkPackageId the editingWorkPackageId to set
-   */
-  public void setEditingWorkPackageId(WorkPackage editingWorkPackageId) {
-    this.editingWorkPackageId = editingWorkPackageId;
+  
+  private List<EstimatedWorkPackageHours> getEstimateByLabourGrade(int labourGradeId) {
+    if (selectedProject != null) {
+      List<EstimatedWorkPackageHours> list = ewm.find(selectedProject, labourGradeId);
+      if (list != null) {
+        return list; 
+      }
+    }
+    return new ArrayList<EstimatedWorkPackageHours>();
   }
   
+//  /**
+//   * Returns the sum of the estimates that have the labourGradeId.
+//   * @param labourGradeId The labourGradeId to be searched.
+//   * @return A sum of the estimates.
+//   */
+//  public Integer getTotalEstimate(int labourGradeId) {
+//    Integer total = 0;
+//    List<EstimatedWorkPackageHours> list = getEstimateByLabourGrade(labourGradeId);
+//    for (EstimatedWorkPackageHours ew : list) {
+//      total += ew.getManDay();
+//    }
+//    return total;
+//  }
   
+  /**
+   * Returns the sum of the estimates of the last week
+   * with the given labourGrade.
+   * @param labourGradeId The labourGradeId to be searched.
+   * @return A sum of the estimates.
+   */
+  public Integer getLastEstimate(int labourGradeId) {
+    Integer total = 0;
+    if (selectedProject != null) {
+      EstimatedWorkPackageHours last = ewm.findLatest(selectedProject, labourGradeId);
+      List<EstimatedWorkPackageHours> list = getEstimateByLabourGrade(labourGradeId);
+      for (EstimatedWorkPackageHours ew : list) {
+        if (ew.getDateCreated().equals(last.getDateCreated())) {
+          total += ew.getManDay();
+        }
+      }
+    }
+    return total;
+  }
   
+  /**
+   * Returns a BudgetedProjectHour with the given labourGradeId.
+   * @param labourGradeId The labourGradeId to be searched.
+   * @return A BudgetedProjectHour.
+   */
+  public BudgetedProjectHours getBudgetedHourByLabourGrade(int labourGradeId) {
+    if (selectedProject != null) {
+      for (BudgetedProjectHours q : budgetedHours) {
+        if (q.getLabourGrade().getLabourGradeId() == labourGradeId) {
+          return q;
+        }
+      }
+    }
+    
+    return new BudgetedProjectHours();
+  }
+  
+  /**
+   * Returns the total of the charged hours for the given labourGradeId
+   * @param labourGradeId The labourGradeId to be searched.
+   * @return The sum of the charged hours.
+   */
+  //TODO make this work off of the hour's labour grade, not the employee's
+  public Float getTotalChargedHours(int labourGradeId) {
+    Float total = 0.0f;
+    if (selectedProject != null) {
+      List<Hours> list
+          = hm.findApprovedByLabourGradeInProject(labourGradeId,
+              selectedProject.getProjectNumber());
+      for (Hours ew : list) {
+        total += ew.getHour();
+      }
+    }
+    return total;
+  }
+  
+  /**
+   * Merges all budgetedHours to the database and resets this bean.
+   * @return null, to reload the page.
+   */
+  public String saveChanges() {
+    for (BudgetedProjectHours q : budgetedHours) {
+      bhm.merge(q);
+    }
+    reset();
+    return null;
+  }
+  
+  /**
+   * Sets budgetedHours to the budgetedHours for the selectedProject that are found in the database.
+   */
+  public void retriveBudgetedHours() {
+    budgetedHours = new HashSet<BudgetedProjectHours>(bhm.find(selectedProject));
+    if (budgetedHours.size() == 0) {
+      budgetedHours = new HashSet<BudgetedProjectHours>();
+      
+      for (LabourGrade lg : labourGrades) {
+        BudgetedProjectHours bp = new BudgetedProjectHours();
+        bp.setLabourGrade(lg);
+        bp.setProject(selectedProject);
+        budgetedHours.add(bp);
+      }
+    }
+  }
 }

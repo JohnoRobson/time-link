@@ -1,13 +1,18 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Timesheet;
+import com.timelink.ejbs.WorkPackage;
+import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.TimesheetManager;
+import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.FlextimeService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -21,9 +26,11 @@ import javax.inject.Named;
 @Named("ApproverController")
 public class ApproverController implements Serializable {
   @Inject TimesheetManager tm;
+  @Inject WorkPackageManager wpm;
   @Inject Session ses;
-  private List<Timesheet> timesheets;
-  private List<Timesheet> selectedTimesheets;
+  @Inject FlextimeService flextimeService;
+  private Set<Timesheet> timesheets;
+  private Set<Timesheet> selectedTimesheets;
   private Timesheet viewingTimesheet;
 
   /**
@@ -31,7 +38,10 @@ public class ApproverController implements Serializable {
    * @return the timesheets
    */
   public List<Timesheet> getTimesheets() {
-    return timesheets;
+    if (timesheets != null) {
+      return new ArrayList<Timesheet>();
+    }
+    return new ArrayList<Timesheet>(timesheets);
   }
 
   /**
@@ -39,7 +49,7 @@ public class ApproverController implements Serializable {
    * @param timesheets the timesheets to set
    */
   public void setTimesheets(List<Timesheet> timesheets) {
-    this.timesheets = timesheets;
+    this.timesheets = new HashSet<Timesheet>(timesheets);
   }
   
   /**
@@ -64,7 +74,7 @@ public class ApproverController implements Serializable {
    */
   public List<Timesheet> getList() {
     refreshList();
-    return timesheets;
+    return new ArrayList<Timesheet>(timesheets);
   }
   
   /**
@@ -72,7 +82,10 @@ public class ApproverController implements Serializable {
    * @return the selectedTimesheets
    */
   public List<Timesheet> getSelectedTimesheets() {
-    return selectedTimesheets;
+    if (selectedTimesheets != null) {
+      return new ArrayList<Timesheet>(selectedTimesheets);
+    }
+    return new ArrayList<Timesheet>();
   }
 
   /**
@@ -80,7 +93,7 @@ public class ApproverController implements Serializable {
    * @param selectedTimesheets the selectedTimesheets to set
    */
   public void setSelectedTimesheets(List<Timesheet> selectedTimesheets) {
-    this.selectedTimesheets = selectedTimesheets;
+    this.selectedTimesheets = new HashSet<Timesheet>(selectedTimesheets);
   }
 
   /**
@@ -90,7 +103,7 @@ public class ApproverController implements Serializable {
     List<Timesheet> apprTimesheets;
     //TODO Change below to a Timesheet query
     apprTimesheets = tm.findByApprover(ses.getCurrentEmployee().getEmployeeId());
-    timesheets = new ArrayList<Timesheet>();
+    timesheets = new HashSet<Timesheet>();
     for (Timesheet t : apprTimesheets) {
       if (!t.getStatus().equals("" + TimesheetStatus.NOTSUBMITTED)) {
         timesheets.add(t);
@@ -120,7 +133,9 @@ public class ApproverController implements Serializable {
    */
   public String approve() {
     for (Timesheet t : selectedTimesheets) {
+      flextimeService.applyFlextime(t);
       t.setStatus("" + TimesheetStatus.APPROVED.ordinal());
+      chargeWorkPackages(t);
       tm.merge(t);
     }
     return null;
@@ -135,16 +150,61 @@ public class ApproverController implements Serializable {
       context.addMessage(null,
           new FacesMessage("Cannot decline more than one timesheet at a time."));
       return;
+    } else if (selectedTimesheets.size() == 0) {
+      FacesContext context = FacesContext.getCurrentInstance();
+      context.addMessage(null,
+          new FacesMessage("Must have a timesheet selected."));
+      return;
+    } else {
+      if (getSingleTimesheet().getStatus().equals(TimesheetStatus.APPROVED.name())) {
+        //If the one selected timesheet is already approved.
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null,
+            new FacesMessage("Cannot reject an already approved timesheet."));
+        return;
+      }
     }
     
     return;
   }
   
+  public boolean timesheetIsApproved() {
+    return getSingleTimesheet().getStatus().equals(TimesheetStatus.APPROVED.name());
+  }
+  
+  /**
+   * Declines a timesheet.
+   * @return null to reload the page
+   */
   public String declineSave() {
     for (Timesheet t : selectedTimesheets) {
+      flextimeService.revertFlextime(t);
       t.setStatus("" + TimesheetStatus.REJECTED.ordinal());
       tm.merge(t);
     }
     return null;
+  }
+  
+  /**
+   * Returns one timesheet.
+   * @return A single timesheet.
+   */
+  public Timesheet getSingleTimesheet() {
+    if (selectedTimesheets != null && selectedTimesheets.size() == 1) {
+      return selectedTimesheets.iterator().next();
+    } else {
+      return new Timesheet();
+    }
+  }
+  
+  /**
+   * Sets all work packages in the approved timesheet to charged.
+   * @param ts The timesheet to be approved.
+   */
+  public void chargeWorkPackages(Timesheet ts) {
+    for (WorkPackage wp : wpm.getAllInTimesheet(ts)) {
+      wp.setCharged(true);
+      wpm.merge(wp);
+    }
   }
 }
