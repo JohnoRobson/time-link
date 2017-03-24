@@ -1,46 +1,67 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
-	<body>
-		<ui:composition>
-			<div class="headLogo">
-				<h:graphicImage styleClass="logo" library="images" name="timelinklogo.png"/>
-				<div class="headText">
-					<h1>Timelink</h1>
-					<h3>Project Management System</h3>
-				</div>
-				<h:form>
-					<p:menubar styleClass="menubar">
-						<p:menuitem value="Home" url="home.xhtml" />
-						<p:menuitem value="Timesheet" url="timesheet.xhtml" />
-						<p:menuitem value="Vacation and Flextime" url="vacationflextime.xhtml" />
-						<p:menuitem value="Create Project" url="projcreation.xhtml" />
-						<p:menuitem value="Manage Project" url="assignemp.xhtml" />
-						<p:menuitem value="Report" url="report.xhtml" rendered="#{Session.approver}" />
-						<p:menuitem value="Enter Project Planning Info" url="projectplanning.xhtml" 
-									rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
-						<p:menuitem value="Manage Work Package" url="assigntowp.xhtml" />
-						<p:menuitem value="Create and Approve Work Packages" url="budgetwp.xhtml" 
-									rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
-						<p:menuitem value="Estimate WP effort" url="estimatewpeffort.xhtml" 
-									rendered="#{Session.responsibleEngineer}" />
-						<p:menuitem value="Make WP budget" url="workpackagebudgetre.xhtml" 
-									rendered="#{Session.responsibleEngineer}" />
-						<p:menuitem value="Assign Employee to Supervisor" url="assignemptosuper.xhtml" 
-									rendered="#{Session.humanResources}" />
-						<p:menuitem value="Human Resources" url="humanresources.xhtml" 
-									rendered="#{Session.humanResources}" />
-						<p:menuitem value="Assign Employee To Timesheet Approver" url="assignemptotsa.xhtml" 
-									rendered="#{Session.supervisor}" />
-						<p:menuitem value="Responsible Engineer Report" url="rereport.xhtml"/>
-						<p:menuitem value="Logout" action="#{Session.endSession}" />
-					</p:menubar>
-				</h:form>
+<body>
+	<ui:composition>
+		<div class="headLogo">
+			<h:graphicImage styleClass="logo" library="images"
+				name="timelinklogo.png" />
+			<div class="headText">
+				<h1>Timelink</h1>
+				<h3>Project Management System</h3>
 			</div>
-		</ui:composition>
-	</body>
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="10">
+					<p:outputLabel for="basic" value="Basic:" /> 
+        			<p:themeSwitcher id="basic" style="width:165px">
+						<f:selectItem itemLabel="Choose Theme" itemValue="" />
+						<f:selectItems value="#{themeSwitcherView.themes}" />
+						<p:column>
+							<h:outputText styleClass="ui-theme ui-theme-"
+								style="display-block" />
+						</p:column>
+
+						<p:column>
+
+						</p:column>
+					</p:themeSwitcher>
+				</h:panelGrid>
+				<p:menubar styleClass="menubar">
+					<p:menuitem value="Home" url="home.xhtml" />
+					<p:menuitem value="Timesheet" url="timesheet.xhtml" />
+					<p:menuitem value="Vacation and Flextime"
+						url="vacationflextime.xhtml" />
+					<p:menuitem value="Create Project" url="projcreation.xhtml" />
+					<p:menuitem value="Manage Project" url="assignemp.xhtml" />
+					<p:menuitem value="Report" url="report.xhtml"
+						rendered="#{Session.approver}" />
+					<p:menuitem value="Enter Project Planning Info"
+						url="projectplanning.xhtml"
+						rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
+					<p:menuitem value="Manage Work Package" url="assigntowp.xhtml" />
+					<p:menuitem value="Create and Approve Work Packages"
+						url="budgetwp.xhtml"
+						rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
+					<p:menuitem value="Estimate WP effort" url="estimatewpeffort.xhtml"
+						rendered="#{Session.responsibleEngineer}" />
+					<p:menuitem value="Make WP budget" url="workpackagebudgetre.xhtml"
+						rendered="#{Session.responsibleEngineer}" />
+					<p:menuitem value="Assign Employee to Supervisor"
+						url="assignemptosuper.xhtml" rendered="#{Session.humanResources}" />
+					<p:menuitem value="Human Resources" url="humanresources.xhtml"
+						rendered="#{Session.humanResources}" />
+					<p:menuitem value="Assign Employee To Timesheet Approver"
+						url="assignemptotsa.xhtml" rendered="#{Session.supervisor}" />
+					<p:menuitem value="Responsible Engineer Report"
+						url="rereport.xhtml" />
+					<p:menuitem value="Logout" action="#{Session.endSession}" />
+				</p:menubar>
+			</h:form>
+		</div>
+	</ui:composition>
+</body>
 </html>
