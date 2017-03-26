@@ -8,17 +8,15 @@ import com.timelink.services.interfaces.WorkPackageCodeServiceInterface;
 public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
   
   private static final String WP_STARTING_CODE = "1000000";
-  
-  private Project project;
+  private static final String WP_ZERO_CODE     = "0000000";
 
   @Override
   public String generateNewCode(Project project, String code) {
-    this.project = project;
     
-    if (code == null) {
-      return incrementSameLevel(findLargestCodeSameLevel(WP_STARTING_CODE));
+    if (code == null || code.length() == 0) {
+      return incrementSameLevel(findLargestCodeSameLevel(WP_STARTING_CODE, project));
     } else {
-      return incrementSameLevel(findLargestCodeSameLevel(findNextLevel(code)));
+      return incrementSameLevel(findLargestCodeSameLevel(findNextLevel(code), project));
     }
   }
   
@@ -30,6 +28,11 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
    */
   private String incrementSameLevel(String code) {
     StringBuilder sb = new StringBuilder(code);
+    
+    //If it is the first work package in a project
+    if (code.equals(WP_ZERO_CODE)) {
+      return WP_STARTING_CODE;
+    }
     
     //Find the first non-zero char
     int toBeInc = sb.indexOf("0") - 1;
@@ -66,10 +69,17 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
   /**
    * Finds the largest code on the given workpackage 'level.'
    * @param code The code to search
+   * @param project The project given
    * @return The largest wp code on the given 'level.'
    */
-  private String findLargestCodeSameLevel(String code) {
+  private String findLargestCodeSameLevel(String code, Project project) {
     String highest = code;
+    
+    //There are no work packages.
+    if (project.getWorkPackages().size() == 0) {
+      return WP_ZERO_CODE;
+    }
+    
     for (WorkPackage wp : project.getWorkPackages()) {
       int indexOfChk = wp.getCode().indexOf('0');
       int indexOfCur = code.indexOf('0');
