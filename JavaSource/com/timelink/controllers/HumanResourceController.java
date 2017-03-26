@@ -137,7 +137,7 @@ public class HumanResourceController implements Serializable {
    * Return the vacationAccrual.
    * @return the vacationAccrual
    */
-  public int getVacationAccrual() {
+  public Integer getVacationAccrual() {
     return vacationAccrual;
   }
 
@@ -145,7 +145,7 @@ public class HumanResourceController implements Serializable {
    * Set the vacationAccrual to vacationAccrual.
    * @param vacationAccrual the vacationAccrual to set
    */
-  public void setVacationAccrual(int vacationAccrual) {
+  public void setVacationAccrual(Integer vacationAccrual) {
     this.vacationAccrual = vacationAccrual;
   }
 
@@ -275,7 +275,7 @@ public class HumanResourceController implements Serializable {
     firstName = employee.getFirstName();
     lastName = employee.getLastName();
     email = employee.getEmail();
-    //vacationAccrual = employee.getVacationRate();
+    vacationAccrual = employee.getVacationRate();
     labourGrade = employee.getLabourGrade();
     return "editemployee";
   }
@@ -318,7 +318,7 @@ public class HumanResourceController implements Serializable {
       emp.setFirstName(firstName);
       emp.setLastName(lastName);
       emp.setEmail(email);
-      //emp.setVacationRate(vacationAccrual);
+      emp.setVacationRate(vacationAccrual);
       emp.setEffectFrom(new Date(effectiveFrom.getTime()));
       emp.setLabourGrade(labourGrade);
       

@@ -24,7 +24,7 @@
 	                <h:outputText styleClass="projLabel" value="Email:" />
 	                <p:inputText styleClass="projInput" value="#{HRController.email}" />
 	                <h:outputText styleClass="projLabel" value="Vacation Accrual:" />
-	                <p:inputText styleClass="projInput" value=" " />
+	                <p:inputText styleClass="projInput" value="#{HRController.vacationAccrual}" />
 	                <h:outputText styleClass="projLabel" value="Role:" />
 	                <p:selectOneMenu styleClass="addEmpDrop" value="#{HRController.jobTitle}">
 		                <f:selectItems value="#{HRController.changeRoles}" />
