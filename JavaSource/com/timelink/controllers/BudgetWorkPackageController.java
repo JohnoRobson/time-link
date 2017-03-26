@@ -75,39 +75,15 @@ public class BudgetWorkPackageController implements Serializable {
   }
   
   public List<WorkPackage> getWorkPackagesSubmittedByRE() {
-    ArrayList<WorkPackage> list = new ArrayList<WorkPackage>();
-    if (currentProject != null) {
-      for (WorkPackage wp : currentProject.getWorkPackages()) {
-        if (wp.getStatus() == WorkPackageStatusEnum.SUBMITTED_TO_PROJECT_MANAGER) {
-          list.add(wp);
-        }
-      }
-    }
-    return list;
+    return wpm.getWorkPackagesWithStatus(currentProject, WorkPackageStatusEnum.SUBMITTED_TO_PROJECT_MANAGER);
   }
   
   public List<WorkPackage> getWorkPackagesSubmittedByPM() {
-    ArrayList<WorkPackage> list = new ArrayList<WorkPackage>();
-    if (currentProject != null) {
-      for (WorkPackage wp : currentProject.getWorkPackages()) {
-        if (wp.getStatus() == WorkPackageStatusEnum.SUBMITTED_TO_RESPONSIBLE_ENGINEER) {
-          list.add(wp);
-        }
-      }
-    }
-    return list;
+    return wpm.getWorkPackagesWithStatus(currentProject, WorkPackageStatusEnum.SUBMITTED_TO_RESPONSIBLE_ENGINEER);
   }
   
   public List<WorkPackage> getApprovedWorkPackages() {
-    ArrayList<WorkPackage> list = new ArrayList<WorkPackage>();
-    if (currentProject != null) {
-      for (WorkPackage wp : currentProject.getWorkPackages()) {
-        if (wp.getStatus() == WorkPackageStatusEnum.APPROVED) {
-          list.add(wp);
-        }
-      }
-    }
-    return list;
+    return wpm.getWorkPackagesWithStatus(currentProject, WorkPackageStatusEnum.APPROVED);
   }
   
   public void approveWorkPackage() {

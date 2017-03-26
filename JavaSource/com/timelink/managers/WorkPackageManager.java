@@ -4,7 +4,9 @@ import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.enums.WorkPackageStatusEnum;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -169,5 +171,27 @@ public class WorkPackageManager {
   
   public void detach(WorkPackage wp) {
     em.detach(wp);
+  }
+  
+  /**
+   * Returns a list of WorkPackages in the given project that have been
+   * submitted by a responsible engineer.
+   * @param project
+   * @return A List of WorkPackages.
+   */
+  public List<WorkPackage> getWorkPackagesWithStatus(Project project, WorkPackageStatusEnum status) {
+    List<WorkPackage> list = new ArrayList<WorkPackage>();
+    
+    if (project == null) {
+      return list;
+    } else {
+      TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
+          + "WHERE wp.project = :project AND wp.status = :status", WorkPackage.class)
+          .setParameter("project", project)
+          .setParameter("status", status);
+      list = query.getResultList();
+    }
+    
+    return list;
   }
 }
