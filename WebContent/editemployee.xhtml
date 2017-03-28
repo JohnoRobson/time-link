@@ -29,13 +29,18 @@
 	                <p:selectOneMenu styleClass="addEmpDrop" value="#{HRController.jobTitle}">
 		                <f:selectItems value="#{HRController.changeRoles}" />
 		            </p:selectOneMenu>
+		            <h:outputText styleClass="projLabel" value="Labour Grade:"/>
+	                <p:selectOneMenu value="#{HRController.labourGrade}" style="width:100%">
+		                <f:selectItems value="#{HRController.labourGrades}" var="lg" itemValue="#{lg.labourGradeId}" 
+		                    itemLabel="#{lg.name}" />
+		            </p:selectOneMenu>
 	            </h:panelGrid>
 	            <div class="editEmpBtnGrp">
 	            	<p:commandButton value="Change Password" type="button" onclick="PF('dlg2').show();" />
-	            	<p:commandButton value="Cancel" action="#{HRController.cancel}"/>
-	           	 	<p:commandButton value="Save" action="#{HRController.save}"/>
+	            	<p:commandButton value="Cancel" action="#{HRController.cancel}" ajax="false" />
+	           	 	<p:commandButton value="Save" action="#{HRController.save}" ajax="false" />
 	        	</div>
-	        </h:form>
+	        </h:form> 
 	        
 	        <!--  dialog box for changing an employee's password. -->
 	        <p:dialog header="Change Password" 
@@ -48,7 +53,6 @@
 	                    <p:password styleClass="modalText" value="#{HRController.password}" />
 	                    <h:outputText styleClass="modalText" value="Confirm Password:" />
 	                    <p:password styleClass="modalText" value="#{HRController.confirmPassword}" />
-	                    
 	                </h:panelGrid>
 	                <p:commandButton ajax="false" styleClass="modalBtn"
 	                				 value="Save" action="#{HRController.newPassword}"/>

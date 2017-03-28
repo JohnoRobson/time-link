@@ -1,6 +1,7 @@
 package com.timelink.ejbs;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "budget_wp_hour")
+@Table(name = "Budget_Wp_Hour")
 public class BudgetedWorkPackageHours implements Serializable {
   
   @Id
@@ -35,6 +36,9 @@ public class BudgetedWorkPackageHours implements Serializable {
   
   @Column(name = "bwh_man_day")
   private int manDay;
+  
+  @Column(name = "bwh_date_created")
+  private Date dateCreated;
 
   /**
    * Returns the budgetHoursId.
@@ -104,5 +108,23 @@ public class BudgetedWorkPackageHours implements Serializable {
   public void setManDay(Integer manDay) {
     this.manDay = manDay;
   }
+
+  /**
+   * Returns the dateCreated.
+   * @return the dateCreated
+   */
+  public Date getDateCreated() {
+    return dateCreated;
+  }
+
+  /**
+   * Sets the dateCreated.
+   * @param dateCreated the dateCreated to set
+   */
+  public void setDateCreated(Date dateCreated) {
+    this.dateCreated = dateCreated;
+  }
+  
+  
   
 }

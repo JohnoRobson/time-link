@@ -6,13 +6,11 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Dependent
 @Stateless
-@Named("ProjectManager")
 public class ProjectManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   

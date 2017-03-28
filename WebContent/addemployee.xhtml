@@ -24,6 +24,8 @@
 	                <p:inputText styleClass="projInput" value="#{HRController.lastName}" />
 	                <h:outputText styleClass="projLabel" value="Email:" />
 	                <p:inputText styleClass="projInput" value="#{HRController.email}" />
+	                <h:outputText styleClass="projLabel" value="Vacation Accrual:" />
+	                <p:inputText styleClass="projInput" value="#{HRController.vacationAccrual}" />
 	                <h:outputText styleClass="projLabel" value="Job Title:" />
 	                <p:selectOneMenu styleClass="addEmpDrop" value="#{HRController.jobTitle}" style="width:100%">
 		                <f:selectItems value="#{HRController.roles}" />
@@ -37,11 +39,16 @@
 	                <p:inputText styleClass="projInput" value="#{HRController.effectiveFrom}" >
 	                    <f:convertDateTime pattern="MM/dd/yyyy" />
 	                </p:inputText>
+	                <h:outputText styleClass="projLabel" value="Labour Grade:"/>
+	                <p:selectOneMenu value="#{HRController.labourGrade}" style="width:100%">
+		                <f:selectItems value="#{HRController.labourGrades}" var="lg" itemValue="#{lg.labourGradeId}" 
+		                    itemLabel="#{lg.name}" />
+		            </p:selectOneMenu>
 	            </h:panelGrid>
 	            <div class="addEmpBtn">
-	            	<p:commandButton value="Cancel" action="#{HRController.cancel}"/>
-	            	<p:commandButton value="Save" action="#{HRController.createNewEmployee}"/>
-	        	</div>
+	                <p:commandButton value="Cancel" action="#{HRController.cancel}" ajax="false"/>
+	                <p:commandButton value="Save" action="#{HRController.createNewEmployee}" ajax="false"/>
+	            </div>
 	        </h:form>
 	    </div>
 	    </ui:define>

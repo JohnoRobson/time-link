@@ -1,6 +1,5 @@
 package com.timelink.ejbs;
 
-import com.timelink.roles.RoleEnum;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.timelink.enums.RoleEnum;
 
 @SuppressWarnings("serial")
 @Entity

@@ -1,8 +1,8 @@
 package com.timelink.managers;
 
 
-import com.timelink.TimesheetStatus;
 import com.timelink.ejbs.Hours;
+import com.timelink.enums.TimesheetStatus;
 
 import java.sql.Date;
 import java.util.List;
@@ -35,6 +35,24 @@ public class HoursManager {
         .setParameter("upId", wpId)
         .setParameter("date", date);
     return query.getSingleResult();
+  }
+  
+  /**
+   * Find all Hours that exist with the given projectId, wpId,
+   * and labourGrade.
+   * @param projectId to search by
+   * @param wpId to search by
+   * @param labourGrade to search by
+   * @return Hours that match the parameters
+   */
+  public List<Hours> find(int projectId, int wpId, int labourGrade) {
+    TypedQuery<Hours> query = em.createQuery("SELECT h FROM Hours AS h WHERE "
+        + "h.projectId = :projectId AND h.workPackageId = :wpId "
+        + "AND h.labourGrade.labourGradeId = :labourGradeId", Hours.class)
+        .setParameter("projectId", projectId)
+        .setParameter("wpId", wpId)
+        .setParameter("labourGradeId", labourGrade);
+    return query.getResultList();
   }
   
   /**

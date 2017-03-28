@@ -11,7 +11,7 @@
 	<ui:composition template="resources/templates/template.xhtml">  
 	    <ui:define name="content">
 			<div class="pageTitle">
-				<h1>Estimate weekly work package effort</h1>
+				<h1>Project Planning</h1>
 			</div>
 			<h:form>
 				<p:panel id="projectplanning">
@@ -30,10 +30,7 @@
 		    			<p:column headerText="Pay Level">
 							<h:outputText value="#{lg.name}" />
 						</p:column>
-						<p:column headerText="Total Estimate">
-							<h:outputText value="#{ProjectPlanningController.getTotalEstimate(lg.labourGradeId)}" />
-						</p:column>
-						<p:column headerText="Last Weekly Estimate">
+						<p:column headerText="Last Weekly Remaining Estimates">
 							<h:outputText value="#{ProjectPlanningController.getLastEstimate(lg.labourGradeId)}" />
 						</p:column>
 						<p:column headerText="Set Budget">
@@ -48,6 +45,9 @@
 						</p:column>
 						<p:column headerText="Charged Hours">
 							<h:outputText value="#{ProjectPlanningController.getTotalChargedHours(lg.labourGradeId)}" />
+						</p:column>
+						<p:column headerText="Remaining Budget">
+							<h:outputText value="#{ProjectPlanningController.getBudgetedHourByLabourGrade(lg.labourGradeId).manDay - ProjectPlanningController.getTotalChargedHours(lg.labourGradeId)}" />
 						</p:column>
 		    		</p:dataTable>
 		    		<p:commandButton value="Save Changes" action="#{ProjectPlanningController.saveChanges()}" ajax="false" />

@@ -34,7 +34,7 @@ public class EstimatedWorkPackageHoursManager {
     try {
       TypedQuery<EstimatedWorkPackageHours> query
           = em.createQuery("SELECT ew FROM EstimatedWorkPackageHours AS ew WHERE "
-          + "ew.workPackage.workPackageId = :wpId "
+          + "ew.workpackage.workPackageId = :wpId "
           + "AND ew.dateCreated = :date "
           + "ORDER BY ew.labourGrade.labourGradeId ASC", EstimatedWorkPackageHours.class)
           .setParameter("wpId", wp.getWorkPackageId())
@@ -50,7 +50,7 @@ public class EstimatedWorkPackageHoursManager {
   }
   
   /**
-   * Returns an EstimatedWorkPackageHours that is for the given parameters.
+   * Returns a List EstimatedWorkPackageHours that is for the given parameters.
    * @param pro The Project that the EstimatedWorkPackageHours is for.
    * @param labourGradeId The LabourGrade of the BudgetedHours.
    * @return A List of EstimatedWorkPackageHours, or null if one is not found.
@@ -61,12 +61,40 @@ public class EstimatedWorkPackageHoursManager {
           = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageHours AS ew, "
           + "Project AS proj WHERE "
           + "proj.projectNumber = :proId "
-          + "AND ew.workPackage MEMBER OF proj.workPackages "
+          + "AND ew.workpackage MEMBER OF proj.workPackages "
           + "AND ew.labourGrade.labourGradeId = :lgId", EstimatedWorkPackageHours.class)
           .setParameter("proId", pro.getProjectNumber())
           .setParameter("lgId", labourGradeId);
       if (query.getResultList().size() > 0) {
         return query.getResultList();
+      } else {
+        return null;
+      }
+    } catch (PersistenceException ex) {
+      return null;
+    }
+  }
+  
+  /**
+   * Returns the latest EstimatedWorkPackageHours that is for the given parameters.
+   * @param pro The Project that the EstimatedWorkPackageHours is for.
+   * @param labourGradeId The LabourGrade of the BudgetedHours.
+   * @return A List of EstimatedWorkPackageHours, or null if one is not found.
+   */
+  public EstimatedWorkPackageHours findLatest(Project pro, int labourGradeId) {
+    try {
+      TypedQuery<EstimatedWorkPackageHours> query
+          = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageHours AS ew, "
+          + "Project AS proj WHERE "
+          + "proj.projectNumber = :proId "
+          + "AND ew.workpackage MEMBER OF proj.workPackages "
+          + "AND ew.labourGrade.labourGradeId = :lgId "
+          + "ORDER BY ew.dateCreated DESC", EstimatedWorkPackageHours.class)
+          .setParameter("proId", pro.getProjectNumber())
+          .setParameter("lgId", labourGradeId)
+          .setMaxResults(1);
+      if (query.getResultList().size() > 0) {
+        return query.getSingleResult();
       } else {
         return null;
       }
@@ -87,7 +115,7 @@ public class EstimatedWorkPackageHoursManager {
       TypedQuery<EstimatedWorkPackageHours> query
           = em.createQuery("SELECT ew FROM EstimatedWorkPackageHours AS ew WHERE "
           + "ew.labourGrade.labourGradeId = :lgId "
-          + "AND ew.workPackage.workPackageId = :wpId "
+          + "AND ew.workpackage.workPackageId = :wpId "
           + "AND ew.date = :date "
           + "ORDER BY ew.labourGrade.labourGradeId ASC", EstimatedWorkPackageHours.class)
           .setParameter("wpId", wp.getWorkPackageId())
@@ -120,7 +148,7 @@ public class EstimatedWorkPackageHoursManager {
   public List<EstimatedWorkPackageHours> getAllWithWorkPackageUniqueDate(WorkPackage wp) {
     TypedQuery<EstimatedWorkPackageHours> query
         = em.createQuery("SELECT ew FROM EstimatedWorkPackageHours AS ew "
-        + "WHERE ew.workPackage = :wp GROUP BY ew.dateCreated "
+        + "WHERE ew.workpackage = :wp GROUP BY ew.dateCreated "
         + "ORDER BY ew.dateCreated DESC", EstimatedWorkPackageHours.class)
         .setParameter("wp", wp);
     return query.getResultList();

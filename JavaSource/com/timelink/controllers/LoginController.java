@@ -7,13 +7,11 @@ import com.timelink.managers.EmployeeManager;
 
 import java.io.Serializable;
 
-//import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @SuppressWarnings("serial")
-//@ManagedBean
 @SessionScoped
 @Named("LoginController")
 public class LoginController implements Serializable {

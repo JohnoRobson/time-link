@@ -18,14 +18,21 @@
 						<p:menuitem value="Home" url="home.xhtml" />
 						<p:menuitem value="Timesheet" url="timesheet.xhtml" />
 						<p:menuitem value="Vacation and Flextime" url="vacationflextime.xhtml" />
-						<p:menuitem value="Create Project" url="projcreation.xhtml" />
-						<p:menuitem value="Manage Project" url="assignemp.xhtml" />
-						<p:menuitem value="Report" url="report.xhtml" rendered="#{Session.approver}" />
+						<p:menuitem value="Create Project" url="projcreation.xhtml"
+									rendered="#{Session.supervisor}" />
+						<p:menuitem value="Manage Project" url="assignemp.xhtml"
+									rendered="#{Session.supervisor}" />
+						<p:menuitem value="Report" url="report.xhtml"
+									rendered="#{Session.approver}" />
 						<p:menuitem value="Enter Project Planning Info" url="projectplanning.xhtml" 
 									rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
-						<p:menuitem value="Budget Work Packages" url="budgetwp.xhtml" 
+						<p:menuitem value="Manage Work Package" url="assigntowp.xhtml"
+									rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
+						<p:menuitem value="Create and Approve Work Packages" url="budgetwp.xhtml" 
 									rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
 						<p:menuitem value="Estimate WP effort" url="estimatewpeffort.xhtml" 
+									rendered="#{Session.responsibleEngineer}" />
+						<p:menuitem value="Make WP budget" url="workpackagebudgetre.xhtml" 
 									rendered="#{Session.responsibleEngineer}" />
 						<p:menuitem value="Assign Employee to Supervisor" url="assignemptosuper.xhtml" 
 									rendered="#{Session.humanResources}" />
@@ -33,6 +40,7 @@
 									rendered="#{Session.humanResources}" />
 						<p:menuitem value="Assign Employee To Timesheet Approver" url="assignemptotsa.xhtml" 
 									rendered="#{Session.supervisor}" />
+						<p:menuitem value="Responsible Engineer Report" url="rereport.xhtml"/>
 						<p:menuitem value="Logout" action="#{Session.endSession}" />
 					</p:menubar>
 				</h:form>
