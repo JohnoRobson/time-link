@@ -10,21 +10,37 @@
 	<h:body>
 		<ui:composition template="resources/templates/template.xhtml">
 		    <ui:define name="content">
-		    	<h1>Add Employees to Projects page</h1>
+		    <div class="homeContent">
+		    	<div class="pageTitle empTitle">
+		    		<h1>Manage Project Employees</h1>
+		    	</div>
+		    <div class="tsCont assignEmpCont">
 		    	<h:form>
-	        	<p:dataTable value="#{AssignEmployeesController.projects}" var="project">
-	            	<p:column>
-	                	#{project.projectName}
-	            	</p:column>
-	            	<p:column>
-	            	    <p:commandButton value="View" action="#{AssignEmployeesController.setSelectedProject(project)}" ajax="false"/>
-	            	</p:column>
-	        	</p:dataTable>
-	        	<h1>#{AssignEmployeesController.selectedProject.projectName}</h1>
-                <p:pickList id="pickList" value="#{AssignEmployeesController.employees}" var="employee" itemLabel="#{employee.firstName}" 
-                    itemValue="#{employee}" converter="EmployeeConverter"/>
-                <p:commandButton value="Assign" action="assignemp" ajax="false"/>
+		    	<div class="widgetCont">
+		    		<div class="asgnProjTbl">
+		    			<h2 class="mngEmpProjSubHead">Projects</h2>
+		        		<p:dataTable value="#{AssignEmployeesController.projects}" var="project">
+		            		<p:column headerText="Projects" styleClass="tsHeader">
+		                		<h:outputText value="#{project.projectName}" />
+		            		</p:column>
+		            		<p:column headerText="Select" styleClass="tsHeader">
+		            	    	<p:commandLink value="View" styleClass="editBtn"  
+		            	    				   action="#{AssignEmployeesController.setSelectedProject(project)}" 
+		            	    				   ajax="false"/>
+		            		</p:column>
+		        		</p:dataTable>	
+		        	</div>
+		        	<div class="asgnEmpPick">
+		        		<h2 class="mngEmpProjSubHead">#{AssignEmployeesController.selectedProject.projectName}</h2>
+	                	<p:pickList id="pickList" value="#{AssignEmployeesController.employees}" 
+	                		        var="employee" itemLabel="#{employee.firstName}" 
+	                    		    itemValue="#{employee}" converter="EmployeeConverter"/>
+	                	<p:commandButton value="Assign" action="assignemp" ajax="false"/>
+	                </div>
+	            </div>
                 </h:form>
+            </div>
+            </div>
 		    </ui:define>
 	    </ui:composition>
 	</h:body>
