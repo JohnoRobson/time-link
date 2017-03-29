@@ -85,10 +85,10 @@ public class WorkPackageManager {
    * Returns the sick day WorkPackage.
    * @return The sick day WorkPackage.
    */
-  public WorkPackage findSickDay() {
+  public WorkPackage findByName(String name) {
     TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-        + "WHERE wp.code = :code", WorkPackage.class)
-        .setParameter("code", "Sick Day");
+        + "WHERE wp.code = :name", WorkPackage.class)
+        .setParameter("name", name);
     return query.getSingleResult();
   }
   

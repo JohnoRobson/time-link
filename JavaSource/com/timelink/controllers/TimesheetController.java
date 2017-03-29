@@ -9,6 +9,7 @@ import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.HRProjectService;
 import com.timelink.services.WeekNumberService;
 
 import java.io.Serializable;
@@ -31,6 +32,7 @@ public class TimesheetController implements Serializable {
   @Inject Session ses;
   @Inject ProjectManager pm;
   @Inject WeekNumberService weekNumberService;
+  @Inject HRProjectService hrps;
   
   //ADD TIMESHEET MODAL STUFF
   private int week;
@@ -142,6 +144,9 @@ public class TimesheetController implements Serializable {
           newList.add(wp);
         }
       }
+      newList.add(hrps.getFlextimeWorkPackage());
+      newList.add(hrps.getSickDayWorkPackage());
+      newList.add(hrps.getVacationWorkPackage());
     }
     return newList;
   }
@@ -185,8 +190,27 @@ public class TimesheetController implements Serializable {
     save();
   }
   
+  public Project getHRProject() {
+    return hrps.getHRProject();
+  }
+  
   public WorkPackage getSickWorkPackage() {
-    return wpm.findSickDay();
+    return hrps.getSickDayWorkPackage();
+  }
+  
+  public WorkPackage getVacationWorkPackage() {
+    return hrps.getVacationWorkPackage();
+  }
+  
+  public WorkPackage getFlextimeWorkPackage() {
+    return hrps.getFlextimeWorkPackage();
+  }
+  
+  public List<Project> getAssignedProjects() {
+    List<Project> list = new ArrayList<Project>();
+    list.addAll(ses.getCurrentEmployee().getProjects());
+    list.add(hrps.getHRProject());
+    return list;
   }
   
   //ADD TIMESHEET MODAL
