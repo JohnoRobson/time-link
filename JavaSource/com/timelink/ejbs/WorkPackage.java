@@ -26,7 +26,7 @@ import javax.persistence.Transient;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "WorkPackage")
+@Table(name = "workpackage")
 public class WorkPackage implements Serializable {
   @Transient
   @Inject HoursManager hm;
