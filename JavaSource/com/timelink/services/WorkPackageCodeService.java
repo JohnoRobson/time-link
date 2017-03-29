@@ -12,11 +12,10 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
 
   @Override
   public String generateNewCode(Project project, String code, String newNumber) {
-    
     if (code == null || code.length() == 0) {
-      return incrementSameLevel(findLargestCodeSameLevel(WP_STARTING_CODE, project));
+      return incrementSameLevel(findLargestCodeSameLevel(WP_STARTING_CODE, project), newNumber, project);
     } else {
-      return incrementSameLevel(findLargestCodeSameLevel(findNextLevel(code), project));
+      return incrementSameLevel(findLargestCodeSameLevel(findNextLevel(code), project), newNumber, project);
     }
   }
   
@@ -26,43 +25,28 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
    * @param code The code to increment
    * @return An incremented WP code.
    */
-  private String incrementSameLevel(String code) {
+  private String incrementSameLevel(String code, String newNumber, Project project) {
     StringBuilder sb = new StringBuilder(code);
     
     //If it is the first work package in a project
     if (code.equals(WP_ZERO_CODE)) {
-      return WP_STARTING_CODE;
+      StringBuilder q = new StringBuilder(WP_ZERO_CODE);
+      q.setCharAt(0, uppercase(newNumber));
+      checkForUnique(project, q.toString());
+      return q.toString();
     }
     
     //Find the first non-zero char
     int toBeInc = sb.indexOf("0") - 1;
     
-    //Increment it
-    if (Character.isDigit((sb.charAt(toBeInc)))) {
-      char digit = sb.charAt(toBeInc);
-      if (digit < '9') {
-        ++digit;
-        sb.setCharAt(toBeInc, digit);
-      } else {
-        sb.setCharAt(toBeInc, 'A');
-      }
-    } else if (Character.isAlphabetic((sb.charAt(toBeInc)))) {
-      //If it is not a digit increment anyway
-      char digit = sb.charAt(toBeInc);
-      if (digit < 'Z') {
-        ++digit;
-        sb.setCharAt(toBeInc, digit);
-      } else {
-        //Can't increment past Z
-        throw new IllegalArgumentException("Cannot increment this workpackage number past " + code);
-      }
+    char digit = sb.charAt(toBeInc);
+    if (digit == 'Z') {
+      //Can't increment past Z
+      throw new IllegalArgumentException("Cannot increment this workpackage number past " + code);
+    } else {
+      sb.setCharAt(toBeInc, uppercase(newNumber));
     }
-    
-    //if the char is a period, it is the first in a level
-    if (sb.charAt(toBeInc) == '.') {
-      sb.setCharAt(toBeInc, '1');
-    }
-    
+    checkForUnique(project, sb.toString());
     return sb.toString();
   }
   
@@ -99,6 +83,23 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
     StringBuilder sb = new StringBuilder(code);
     sb.setCharAt(code.indexOf('0'), '.');
     return sb.toString();
+  }
+  
+  private void checkForUnique(Project project, String code) {
+    for (WorkPackage wp : project.getWorkPackages()) {
+      if (wp.getCode().equals(code)) {
+        throw new IllegalArgumentException("Code " + code + " is already taken");
+      }
+    }
+  }
+  
+  private char uppercase(String code) {
+    char c = code.charAt(0);
+    if (Character.isDigit(c)) {
+      return c;
+    } else {
+      return Character.toUpperCase(c);
+    }
   }
 
 }
