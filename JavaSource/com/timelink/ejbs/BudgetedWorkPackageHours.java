@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Budget_Wp_Hour")
+@Table(name = "budget_wp_hour")
 public class BudgetedWorkPackageHours implements Serializable {
   
   @Id

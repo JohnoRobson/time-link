@@ -23,10 +23,10 @@ USE `timelink_dev`;
 -- Table structure for table `Budget_Project_Hour`
 --
 
-DROP TABLE IF EXISTS `Budget_Project_Hour`;
+DROP TABLE IF EXISTS `budget_project_hour`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Budget_Project_Hour` (
+CREATE TABLE `budget_project_hour` (
   `bph_id` int(11) NOT NULL AUTO_INCREMENT,
   `bph_prj_id` int(11) DEFAULT NULL,
   `bph_level` int(11) DEFAULT NULL,
@@ -41,10 +41,10 @@ CREATE TABLE `Budget_Project_Hour` (
 -- Table structure for table `Budget_Wp_Hour`
 --
 
-DROP TABLE IF EXISTS `Budget_Wp_Hour`;
+DROP TABLE IF EXISTS `budget_wp_hour`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Budget_Wp_Hour` (
+CREATE TABLE `budget_wp_hour` (
   `bwh_id` int(11) NOT NULL AUTO_INCREMENT,
   `bwh_wp_id` int(11) DEFAULT NULL,
   `bwh_level` int(11) DEFAULT NULL,
@@ -56,13 +56,13 @@ CREATE TABLE `Budget_Wp_Hour` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `Estimate_Wp_Hour`
+-- Table structure for table `estimate_wp_hour`
 --
 
-DROP TABLE IF EXISTS `Estimate_Wp_Hour`;
+DROP TABLE IF EXISTS `estimate_wp_hour`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Estimate_Wp_Hour` (
+CREATE TABLE `estimate_wp_hour` (
   `ewh_id` int(11) NOT NULL AUTO_INCREMENT,
   `ewh_wp_id` int(11) DEFAULT NULL,
   `ewh_level` int(11) DEFAULT NULL,
@@ -76,10 +76,10 @@ CREATE TABLE `Estimate_Wp_Hour` (
 -- Table structure for table `Project`
 --
 
-DROP TABLE IF EXISTS `Project`;
+DROP TABLE IF EXISTS `project`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Project` (
+CREATE TABLE `project` (
   `prj_id` int(11) NOT NULL AUTO_INCREMENT,
   `prj_name` varchar(45) DEFAULT NULL,
   `prj_descr` varchar(45) DEFAULT NULL,
@@ -97,10 +97,10 @@ CREATE TABLE `Project` (
 -- Table structure for table `WorkPackage`
 --
 
-DROP TABLE IF EXISTS `WorkPackage`;
+DROP TABLE IF EXISTS `workpackage`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `WorkPackage` (
+CREATE TABLE `workpackage` (
   `wp_id` int(11) NOT NULL AUTO_INCREMENT,
   `wp_prj_id` int(11) DEFAULT NULL,
   `wp_code` varchar(45) DEFAULT NULL,
@@ -400,7 +400,6 @@ INSERT INTO WorkPackage VALUES (4, 2, "100000000", null, 4, "work package for th
 INSERT INTO WorkPackage VALUES (5, 2, "200000000", null, 4, "second work package for the sequel", 0, 0);
 INSERT INTO WorkPackage VALUES (6, 10, "FLEX", null, 4, "Flextime", 0, 5);
 INSERT INTO WorkPackage VALUES (7, 10, "VACA", null, 4, "Vacation", 0, 5);
-
 INSERT INTO wp_emp VALUES (3, 2, 1);
 INSERT INTO wp_emp VALUES (4, 3, 1);
 INSERT INTO wp_emp VALUES (5, 4, 1);
