@@ -19,29 +19,27 @@
 				</div>
 			</div>
 			</ui:define>
-			
-			<ui:define name="content">
-			<div class="loginContent">
-				<div class="title">
-					<h1>Login</h1>
-				</div>
-				<div class="loginCtrl">
+			<ui:define name="content">	
+				<div class="logwrapper">
+					<div class="title">
+						<hr />
+						<h1>Login</h1>
+					</div>
+					<div class="loginCtrl">
 					<h:form>
-					<div>
 						<h:panelGrid styleClass="loginInput" columns="2">
 							<h:outputLabel for="username" value="Usename:" />
 							<p:inputText id="username" value="#{LoginController.username}" required="true" />
 							<h:outputLabel for="password" value="Password:" />
 							<p:password id="password" value="#{LoginController.password}" required="true" />
 						</h:panelGrid>
-					</div>
 					<div id="loginBtn">
 						<!-- LoginController.login in action method below later -->
 						<p:commandButton styleClass="logButton" value="Login" action="#{LoginController.login}" />
 					</div>	
 					</h:form>
 				</div>
-			</div>
+				</div>
 			</ui:define>
 		</ui:composition>
 	</h:body>
