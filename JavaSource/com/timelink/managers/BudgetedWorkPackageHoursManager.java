@@ -6,13 +6,14 @@ import com.timelink.ejbs.WorkPackage;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
-@Dependent
 @Stateless
+@Named
 public class BudgetedWorkPackageHoursManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   

@@ -38,6 +38,7 @@ public class BudgetWorkPackageController implements Serializable {
   private Integer responsibleEngineerId;
   private String wpCode;
   private String wpDescription;
+  private String wpNewNumber;
   private Project currentProject;
   private List<LabourGrade> labourGrades;
   private WorkPackage editingWorkPackageId;
@@ -179,7 +180,7 @@ public class BudgetWorkPackageController implements Serializable {
    */
   public String createWorkPackage() {
     WorkPackage wp = new WorkPackage();
-    wp.setCode(workPackageCodeService.generateNewCode(currentProject, getWpCode()));
+    wp.setCode(workPackageCodeService.generateNewCode(currentProject, getWpCode(), wpNewNumber));
     wp.setDescription(getWpDescription());
     wp.setProject(currentProject);
     wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
@@ -263,4 +264,11 @@ public class BudgetWorkPackageController implements Serializable {
     return null;
   }
   
+  public String getWpNewNumber() {
+    return wpNewNumber;
+  }
+  
+  public void setWpNewNumber(String wpNew) {
+    wpNewNumber = wpNew;
+  }
 }

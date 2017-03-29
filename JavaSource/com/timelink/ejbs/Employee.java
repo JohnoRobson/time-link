@@ -227,14 +227,16 @@ public class Employee implements Serializable {
    * @return True, if the employee has the specified role.
    */
   public boolean hasRole(RoleEnum roleEnum) {
-    boolean bool = false;
+    if (roleEnum == null) {
+      return false;
+    }
+    
     for (Role r : roles) {
       if (r.getRole() == roleEnum) {
-        bool = true;
-        break;
+        return true;
       }
     }
-    return bool;
+    return false;
   }
   
   /**

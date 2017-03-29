@@ -85,5 +85,12 @@ public class ProjectManager {
   public void detach(Project pro) {
     em.detach(pro);
   }
+  
+  public Project findByName(String name) {
+    return em.createQuery("SELECT p FROM Project as p "
+        + "WHERE p.projectName = :projName", Project.class)
+        .setParameter("projName", name)
+        .getSingleResult();
+  }
 
 }
