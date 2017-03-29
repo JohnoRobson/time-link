@@ -11,7 +11,7 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
   private static final String WP_ZERO_CODE     = "0000000";
 
   @Override
-  public String generateNewCode(Project project, String code) {
+  public String generateNewCode(Project project, String code, String newNumber) {
     
     if (code == null || code.length() == 0) {
       return incrementSameLevel(findLargestCodeSameLevel(WP_STARTING_CODE, project));
