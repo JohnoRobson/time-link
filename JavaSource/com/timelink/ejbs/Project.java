@@ -23,7 +23,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Project")
+@Table(name = "project")
 public class Project implements Serializable {
   
   @Id
