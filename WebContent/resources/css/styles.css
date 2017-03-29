@@ -489,6 +489,48 @@ class for other pages like the ts class from the timesheet page */
 	styles from projcreation.xhtml styles. */
 /* end of editemployee.xhtml styles */
 
+/*====================================*/
+
+/* Start of styles for assignemp.xhtml 
+   This is to assign employees to projects 
+   **Note** some styles are taken from other 
+   pages to try and minimize repeating styles. */
+
+/* assignEmpCont - is to adjust the content div */
+.assignEmpCont {
+	margin-top: 2%;
+}
+
+.widgetCont {
+	display: flex;
+	flex-flow: row wrap;	
+	
+}
+
+
+/* asgnProjTbl for the data table sizing and positioning */
+.asgnProjTbl {
+	width: 40%;
+	flex-grow:1;
+	padding: 2%;
+	/* background:blue; */
+}
+
+.asgnEmpPick {
+	width:40%;
+	flex-grow:1;
+	padding: 2%;
+	/* background:red; */
+}
+
+h2.mngEmpProjSubHead {
+	margin-bottom: 1%;
+}
+
+
+
+/* End of styles for assignemp.xhtml.*/
+
 #content {
 	width: 100%;
 }
