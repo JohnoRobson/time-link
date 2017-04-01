@@ -50,13 +50,13 @@ public class ProjectPlanningControllerTest {
 				bhm, workPackageCodeService);
     }
 	
+/*
 	@Test
 	public void testSave() {
 		testController.setSelectedProject(mock(Project.class));
 		assertEquals(null, testController.saveChanges());
 		verify(pm).merge(any());
 	}
-/*
 	@Test
 	public void testCreateWorkPackage() {
 		testController.setResponsibleEngineer(1);
