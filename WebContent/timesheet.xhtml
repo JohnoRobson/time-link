@@ -66,7 +66,6 @@
 	                <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
 		                <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 		                <f:selectItem itemLabel="" itemValue="#{0}"/>
-		                <!-- <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().workPackageId}" /> -->
 		                <f:selectItems value="#{TimesheetController.getAssignedWorkPackages(row.projectId)}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
 	                </p:selectOneMenu>
 				</p:column>

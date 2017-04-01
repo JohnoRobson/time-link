@@ -9,7 +9,9 @@ import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.FlextimeService;
 import com.timelink.services.HRProjectService;
+import com.timelink.services.VacationService;
 import com.timelink.services.WeekNumberService;
 
 import java.io.Serializable;
@@ -33,6 +35,8 @@ public class TimesheetController implements Serializable {
   @Inject ProjectManager pm;
   @Inject WeekNumberService weekNumberService;
   @Inject HRProjectService hrps;
+  @Inject FlextimeService fts;
+  @Inject VacationService vs;
   
   //ADD TIMESHEET MODAL STUFF
   private int week;
@@ -264,6 +268,8 @@ public class TimesheetController implements Serializable {
     if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
       if (selectedTimesheet.isValid()) {
         selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
+        fts.applyFlextime(selectedTimesheet);
+        vs.applyVacation(selectedTimesheet);
       } else {
         //TODO set to display an error message explaining validation failure
       }
