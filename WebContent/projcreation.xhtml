@@ -37,8 +37,9 @@
                 					   var="pma" itemLabel="#{pma.firstName}" itemValue="#{pma.employeeId}" />
                     </p:selectOneMenu>
 	            </h:panelGrid>
+	            <p:message for="projectname" />
 	            <p:commandButton value="Create Project" styleClass="projBtn"
-	            				 action="#{NewProjectController.createProject}"/>
+	            				 action="#{NewProjectController.createProject}" ajax="false" />
 	            </div>
 	        </h:form>
 	    </div>

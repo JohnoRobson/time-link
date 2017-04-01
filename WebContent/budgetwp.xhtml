@@ -127,6 +127,10 @@
 	            		<f:selectItem itemLabel="" value="#{null}" />
                     	<f:selectItems value="#{BudgetWorkPackageController.getNonChargedWorkPackages() != null ? BudgetWorkPackageController.getNonChargedWorkPackages() : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.code}" />
 					</p:selectOneMenu>
+					<h:outputText value="Work Package Number: " />
+					<h:inputText value="#{BudgetWorkPackageController.wpNewNumber}">
+						<f:validateLength minimum="1" maximum="1" />
+					</h:inputText>
 	            	<h:outputText value="Work Package Description: "/>
 	            	<h:inputText value="#{BudgetWorkPackageController.wpDescription}"/>
 	            	<h:outputText value="Responsible Engineer: "/>

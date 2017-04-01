@@ -59,7 +59,7 @@
 		                <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 		                <f:selectItem itemLabel="" itemValue="#{0}"/>
 		                <f:selectItem itemLabel="HR Codes" itemValue="#{TimesheetController.getHRCodes().projectNumber}" />
-		                <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
+		                <f:selectItems value="#{TimesheetController.getAssignedProjects() != null ? TimesheetController.getAssignedProjects() : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
 	                </p:selectOneMenu>
 				</p:column>
 				

@@ -9,8 +9,9 @@ html {
 	height: 100%;
 	width: 100%;
 	background-color: #f2f2f2;
-	font-family: Arial,sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
+    color: #363636;
 }
 
 body {
@@ -34,7 +35,8 @@ body {
  	width: 100%;
     position: relative;
     overflow: hidden;
-    
+    flex-flow: column wrap;
+    min-height: 100%;
 }
 
 /* styles for the HEADER BANNER 
@@ -48,6 +50,16 @@ body {
 	padding:0;
 	overflow:hidden;
 }
+
+.footerBanner {    
+    position: absolute;
+  	right: 0;
+  	bottom: 0;
+  	left: 0;
+  	background-color: #efefef;
+  	text-align: center;
+}
+
 /*.headLogo located on index.xhtml */
 .headLogo {
 	background: #F5F5F5;
@@ -96,8 +108,22 @@ body {
 
 /* title of page - index.xhtml */
 .title {
-	text-align:center;
+/* 	text-align:center;
+ */	margin-top: 5vh;
 	margin-bottom: 3vh;
+	font-size: 1.5em;
+}
+
+.title hr {
+	width: 15%;
+	border: 3px solid #363636;
+	color: #363636;
+}
+
+.logwrapper {
+	width: 23%;
+	margin:auto;
+	
 }
 
 /* login form controls - index.xhtml */
@@ -108,12 +134,16 @@ body {
 
 /* Login input console styles - index.xhtml */
 .loginInput {
-	border: 2px black solid;
+ 	border: 3px #363636 solid;
 	padding: 5vh;
 	border-radius: 2vh;
 	-webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	-moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
+}
+
+.loginInput label {
+	font-weight: bold;
 }
 
 /* the div that holds the login button - index.xhtml */
@@ -129,15 +159,22 @@ body {
 	background:white !important;
 	padding-left: 2vh;
 	padding-right: 2vh;
-	border: 2px black solid !important;
+	border: 2px  #363636 solid !important;
 	-webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	-moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 }
 
+.logButton:hover {
+	background:#363636 !important;
+	border: 2px while solid !important;
+	color: white !important;
+}
+
+
 /* FOOTER BAR styles here 
    footerBar located in footer.xhtml template file */
-.footerBar {
+/* .footerBar {
 	background: #F5F5F5;
 	border-radius: 0;
 	border: 0;
@@ -145,7 +182,7 @@ body {
 	margin-bottom:0;
 	padding:0;
 	overflow:hidden;
-}
+} */
 
 /*footer located in footer.xhtml */
 .footer {
@@ -192,7 +229,7 @@ body {
 /*Menubar/nav bar styles start here 
  menubar is located in header.xhtml */
 .ui-menubar,.ui-menu-child,.ui-menu {
- 	margin-left: 10vh;
+ 	margin-left: 5vh;
 	margin-top:7vh;
 	background: #F5F5F5;
 	border:none;
@@ -488,6 +525,48 @@ class for other pages like the ts class from the timesheet page */
 	styles that are above. furthermore, the page itself is getting 
 	styles from projcreation.xhtml styles. */
 /* end of editemployee.xhtml styles */
+
+/*====================================*/
+
+/* Start of styles for assignemp.xhtml 
+   This is to assign employees to projects 
+   **Note** some styles are taken from other 
+   pages to try and minimize repeating styles. */
+
+/* assignEmpCont - is to adjust the content div */
+.assignEmpCont {
+	margin-top: 2%;
+}
+
+.widgetCont {
+	display: flex;
+	flex-flow: row wrap;	
+	
+}
+
+
+/* asgnProjTbl for the data table sizing and positioning */
+.asgnProjTbl {
+	width: 40%;
+	flex-grow:1;
+	padding: 2%;
+	/* background:blue; */
+}
+
+.asgnEmpPick {
+	width:40%;
+	flex-grow:1;
+	padding: 2%;
+	/* background:red; */
+}
+
+h2.mngEmpProjSubHead {
+	margin-bottom: 1%;
+}
+
+
+
+/* End of styles for assignemp.xhtml.*/
 
 #content {
 	width: 100%;

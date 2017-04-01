@@ -94,4 +94,10 @@ public class ProjectManager {
     return query.getSingleResult();
   }
 
+public Project findByName(String name) {
+    return em.createQuery("SELECT p FROM Project as p "
+        + "WHERE p.projectName = :projName", Project.class)
+        .setParameter("projName", name)
+        .getSingleResult();
+  }
 }

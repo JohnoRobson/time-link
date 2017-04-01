@@ -9,6 +9,7 @@ import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.HRProjectService;
 import com.timelink.services.WeekNumberService;
 
 import java.io.Serializable;
@@ -31,70 +32,23 @@ public class TimesheetController implements Serializable {
   @Inject Session ses;
   @Inject ProjectManager pm;
   @Inject WeekNumberService weekNumberService;
+  @Inject HRProjectService hrps;
   
   //ADD TIMESHEET MODAL STUFF
   private int week;
   private int year;
-  
+
   public TimesheetController() {
     
   }
   
   /**
-   * Returns selectedTimesheet.  If there isn't a timesheet for the current employee
-   * one will be created.
-   * @return the selectedTimesheet
+   * Adds a row to the current selectedTimesheet.
+   * @return null, to reload the page.
    */
-  public Timesheet getSelectedTimesheet() {
-    if (selectedTimesheet == null) {
-      selectedTimesheet = null;
-    }
-    return selectedTimesheet;
-  }
-
-  /**
-   * Sets selectedTimesheet to selectedTimesheet.
-   * @param selectedTimesheet the selectedTimesheet to set
-   */
-  public void setSelectedTimesheet(Timesheet selectedTimesheet) {
-    this.selectedTimesheet = selectedTimesheet;
-  }
-  
-  //TODO make this gud
-  /**
-   * Saves the current selectedTimesheet and reloads it from the database.
-   * @return A null to reload the page.
-   */
-  public String save() {
-    if (selectedTimesheet != null) {
-      tm.merge(selectedTimesheet);
-      selectedTimesheet = tm.find(selectedTimesheet.getTimesheetId());
-    }
-    
-    //selectedTimesheet = getSelectedTimesheet();
+  public String addRow() {
+    selectedTimesheet.addRow();
     return null;
-  }
-  
-  /**
-   * Sets the current selectedTimesheet's status to submitted
-   * and saves it.  Also changes the employee's flex hours.
-   * @return A null to reload the page.
-   */
-  public String submit() {
-    if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
-      if (selectedTimesheet.isValid()) {
-        selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
-      } else {
-        //TODO set to display an error message explaining validation failure
-      }
-    }
-    save();
-    return null;
-  }
-  
-  public void refresh() {
-    selectedTimesheet = null;
-    getSelectedTimesheet();
   }
   
   //TODO make this work on a weekly, rather than a daily basis.
@@ -118,13 +72,16 @@ public class TimesheetController implements Serializable {
     return null;
   }
   
-  /**
-   * Adds a row to the current selectedTimesheet.
-   * @return null, to reload the page.
-   */
-  public String addRow() {
-    selectedTimesheet.addRow();
-    return null;
+  public void deleteRow(TimesheetRow row) {
+    selectedTimesheet.deleteRow(row);
+    save();
+  }
+
+  public List<Project> getAssignedProjects() {
+    List<Project> list = new ArrayList<Project>();
+    list.addAll(ses.getCurrentEmployee().getProjects());
+    list.add(hrps.getHRProject());
+    return list;
   }
   
   /**
@@ -136,9 +93,6 @@ public class TimesheetController implements Serializable {
    */
   public List<WorkPackage> getAssignedWorkPackages(Integer projectNumber) {
     ArrayList<WorkPackage> newList = null;
-    if (projectNumber == 10) {
-      return wpm.findHRWorkPackages();
-    } 
     Project pro = pm.find(projectNumber);
     if (pro != null) {
       List<WorkPackage> list = wpm.findAssigned(ses.getCurrentEmployee(), pro);
@@ -148,47 +102,15 @@ public class TimesheetController implements Serializable {
           newList.add(wp);
         }
       }
-    } 
+      newList.add(hrps.getFlextimeWorkPackage());
+      newList.add(hrps.getSickDayWorkPackage());
+      newList.add(hrps.getVacationWorkPackage());
+    }
     return newList;
   }
-
-  /**
-   * Return the selectedTimesheetId.
-   * @return the selectedTimesheetId
-   */
-  public Integer getSelectedTimesheetId() {
-    if (selectedTimesheet == null) {
-      return null;
-    }
-    return selectedTimesheet.getTimesheetId();
-  }
-
-  /**
-   * Set the selectedTimesheetId to selectedTimesheetId.
-   * @param selectedTimesheetId the selectedTimesheetId to set
-   */
-  public void setSelectedTimesheetId(Integer selectedTimesheetId) {
-    if (selectedTimesheetId == null) {
-      return;
-    }
-    
-    if (this.selectedTimesheet != null
-        && this.selectedTimesheet.getTimesheetId() == selectedTimesheetId) {
-      return;
-    }
-    
-    Timesheet ts = tm.find(selectedTimesheetId);
-    tm.detach(ts);
-    this.selectedTimesheet = tm.find(selectedTimesheetId);
-  }
   
-  public List<Timesheet> getTimesheets() {
-    return tm.findByEmployee(ses.getCurrentEmployee());
-  }
-  
-  public void deleteRow(TimesheetRow row) {
-    selectedTimesheet.deleteRow(row);
-    save();
+  public WorkPackage getFlextimeWorkPackage() {
+    return hrps.getFlextimeWorkPackage();
   }
   
   public Project getHRCodes() {
@@ -219,6 +141,45 @@ public class TimesheetController implements Serializable {
 //    return wpm.findVacation();
 //  }
   
+  public Project getHRProject() {
+    return hrps.getHRProject();
+  }
+
+  /**
+   * Returns selectedTimesheet.  If there isn't a timesheet for the current employee
+   * one will be created.
+   * @return the selectedTimesheet
+   */
+  public Timesheet getSelectedTimesheet() {
+    if (selectedTimesheet == null) {
+      selectedTimesheet = null;
+    }
+    return selectedTimesheet;
+  }
+
+  /**
+   * Return the selectedTimesheetId.
+   * @return the selectedTimesheetId
+   */
+  public Integer getSelectedTimesheetId() {
+    if (selectedTimesheet == null) {
+      return null;
+    }
+    return selectedTimesheet.getTimesheetId();
+  }
+  
+  public WorkPackage getSickWorkPackage() {
+    return hrps.getSickDayWorkPackage();
+  }
+
+  public List<Timesheet> getTimesheets() {
+    return tm.findByEmployee(ses.getCurrentEmployee());
+  }
+
+  public WorkPackage getVacationWorkPackage() {
+    return hrps.getVacationWorkPackage();
+  }
+  
   //ADD TIMESHEET MODAL
   /**
    * Returns week.
@@ -227,15 +188,11 @@ public class TimesheetController implements Serializable {
   public int getWeek() {
     return week;
   }
-
-  /**
-   * Sets week to week.
-   * @param week the week to set
-   */
-  public void setWeek(int week) {
-    this.week = week;
+  
+  public int getWeekNumber(Timesheet ts) {
+    return weekNumberService.getWeekNumber(ts.getDate());
   }
-
+  
   /**
    * Returns week.
    * @return the year
@@ -243,7 +200,62 @@ public class TimesheetController implements Serializable {
   public int getYear() {
     return year;
   }
+  
+  public void refresh() {
+    selectedTimesheet = null;
+    getSelectedTimesheet();
+  }
+  
+  //TODO make this gud
+  /**
+   * Saves the current selectedTimesheet and reloads it from the database.
+   * @return A null to reload the page.
+   */
+  public String save() {
+    if (selectedTimesheet != null) {
+      tm.merge(selectedTimesheet);
+      selectedTimesheet = tm.find(selectedTimesheet.getTimesheetId());
+    }
+    
+    //selectedTimesheet = getSelectedTimesheet();
+    return null;
+  }
 
+  /**
+   * Sets selectedTimesheet to selectedTimesheet.
+   * @param selectedTimesheet the selectedTimesheet to set
+   */
+  public void setSelectedTimesheet(Timesheet selectedTimesheet) {
+    this.selectedTimesheet = selectedTimesheet;
+  }
+  
+  /**
+   * Set the selectedTimesheetId to selectedTimesheetId.
+   * @param selectedTimesheetId the selectedTimesheetId to set
+   */
+  public void setSelectedTimesheetId(Integer selectedTimesheetId) {
+    if (selectedTimesheetId == null) {
+      return;
+    }
+    
+    if (this.selectedTimesheet != null
+        && this.selectedTimesheet.getTimesheetId() == selectedTimesheetId) {
+      return;
+    }
+    
+    Timesheet ts = tm.find(selectedTimesheetId);
+    tm.detach(ts);
+    this.selectedTimesheet = tm.find(selectedTimesheetId);
+  }
+  
+  /**
+   * Sets week to week.
+   * @param week the week to set
+   */
+  public void setWeek(int week) {
+    this.week = week;
+  }
+  
   /**
    * Sets week to week.
    * @param year the year to set
@@ -252,7 +264,21 @@ public class TimesheetController implements Serializable {
     this.year = year;
   }
   
-  public int getWeekNumber(Timesheet ts) {
-    return weekNumberService.getWeekNumber(ts.getDate());
+  /**
+   * Sets the current selectedTimesheet's status to submitted
+   * and saves it.  Also changes the employee's flex hours.
+   * @return A null to reload the page.
+   */
+  public String submit() {
+    if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
+      if (selectedTimesheet.isValid()) {
+        selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
+      } else {
+        //TODO set to display an error message explaining validation failure
+      }
+    }
+    save();
+    return null;
   }
+  
 }
