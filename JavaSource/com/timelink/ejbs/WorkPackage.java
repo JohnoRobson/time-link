@@ -41,8 +41,6 @@ public class WorkPackage implements Serializable {
       referencedColumnName = "prj_id")
   private Project project;
   
-  //private WorkPackage parentPackage;
-  
   @OneToOne
   @JoinColumn(name = "wp_re_eng_id",
       referencedColumnName = "emp_id")

@@ -286,7 +286,7 @@ public class HumanResourceController implements Serializable {
     lastName = employee.getLastName();
     email = employee.getEmail();
     vacationAccrual = employee.getVacationRate();
-    labourGrade = employee.getLabourGrade();
+    labourGrade = employee.getLabourGrade().getLabourGradeId();
     return "editemployee";
   }
   
@@ -330,7 +330,7 @@ public class HumanResourceController implements Serializable {
       emp.setEmail(email);
       emp.setVacationRate(vacationAccrual);
       emp.setEffectFrom(new Date(effectiveFrom.getTime()));
-      emp.setLabourGrade(labourGrade);
+      emp.setLabourGrade(lgm.find(labourGrade));
       
       Role role = new Role(jobTitle);
       role.setEmployee(emp);
@@ -360,8 +360,8 @@ public class HumanResourceController implements Serializable {
     emp.setFirstName(firstName);
     emp.setLastName(lastName);
     emp.setEmail(email);
-    //emp.setVacationRate(vacationAccrual);
-    emp.setLabourGrade(labourGrade);
+    emp.setVacationRate(vacationAccrual);
+    emp.setLabourGrade(lgm.find(labourGrade));
     
     //Role role = new Role(jobTitle);
     //role.setEmployee(emp);

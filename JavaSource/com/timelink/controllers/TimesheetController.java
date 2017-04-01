@@ -1,6 +1,7 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
+import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
@@ -69,6 +70,17 @@ public class TimesheetController implements Serializable {
     this.selectedTimesheet = selectedTimesheet;
   }
   
+  /**
+   * Save labour grade in hours.
+   */
+  public void saveHoursLabourGrade() {
+    for (TimesheetRow tr : selectedTimesheet.getRows()) {
+      for (Hours h : tr.getHours()) {
+        h.setLabourGrade(ses.getCurrentEmployee().getLabourGrade());
+      }
+    }
+  }
+  
   //TODO make this gud
   /**
    * Saves the current selectedTimesheet and reloads it from the database.
@@ -76,6 +88,7 @@ public class TimesheetController implements Serializable {
    */
   public String save() {
     if (selectedTimesheet != null) {
+      saveHoursLabourGrade();
       tm.merge(selectedTimesheet);
       selectedTimesheet = tm.find(selectedTimesheet.getTimesheetId());
     }

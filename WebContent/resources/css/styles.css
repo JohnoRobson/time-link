@@ -112,7 +112,7 @@ body {
  	margin-top: 5vh;
 	margin-bottom: 3vh;
 	font-size: 1.5em;
-	/* background: green; */
+	/* background: purple; */
 }
 
 .loginTitle {
@@ -156,8 +156,8 @@ body {
  	float:right;
  	margin-top: 3vh;
 	margin-bottom: 3vh;
-	/* background: gray; */
-}
+/* 	background: gray;
+ */}
 
 
 /*Login button itself - index.xhtml */
@@ -249,8 +249,8 @@ body {
 	margin:auto;
 	width: 50%;
 	text-align:center;
-	/* background:red; */
-}	
+/* 	background:red; 
+ */}	
 
 /*create project styles start here */
 /* create project panel projcreation.xhtml */ 
@@ -311,7 +311,7 @@ body {
 /* timesheet styles start here */
 /*This for the sub header on the timesheetpage 
   holds info for hte selected timesheet - timesheet.xhtml*/
-#timesheetHead {
+.timesheetHead {
 	display: flex;
 	flex-flow: row wrap;
 	background: #dfdfdf;
@@ -328,13 +328,13 @@ body {
 }
 
 /* sub div box that holds some sub head info */
-#timesheetSubOne {
+.timesheetSubOne {
 	margin: 1%;
 	flex-grow:1;
 }
 
 /* sub div box that holds some sub head info */
-#timesheetSubTwo {
+.timesheetSubTwo {
 	margin: 1%;
 	flex-grow:1;
 }
@@ -348,8 +348,8 @@ body {
 .tsCont {
 	width: 70%;
 	margin:auto;
-
-}
+/* 	background: yellow;
+ */}
 
 /* button for deleting a row in a timesheet */
 .tsdelbtn {
@@ -549,6 +549,13 @@ class for other pages like the ts class from the timesheet page */
    **Note** some styles are taken from other 
    pages to try and minimize repeating styles. */
 
+.assignEmpWrapper {
+	margin:auto;
+	width: 70%;
+	text-align:center;
+	/* background:red */;
+}
+
 /* assignEmpCont - is to adjust the content div */
 .assignEmpCont {
 	margin-top: 2%;
@@ -556,33 +563,68 @@ class for other pages like the ts class from the timesheet page */
 
 .widgetCont {
 	display: flex;
-	flex-flow: row wrap;	
-	
+	flex-flow: row wrap;		
 }
 
 
 /* asgnProjTbl for the data table sizing and positioning */
 .asgnProjTbl {
-	width: 40%;
-	flex-grow:1;
+	width: 51%;
+	flex-grow:2;
 	padding: 2%;
-	/* background:blue; */
+	
+	/* background:blue;  */
 }
 
 .asgnEmpPick {
 	width:40%;
 	flex-grow:1;
 	padding: 2%;
-	/* background:red; */
-}
+/*  	background:green;
+ */}
 
 h2.mngEmpProjSubHead {
-	margin-bottom: 1%;
+	text-align: left;
+	margin: 2%;
 }
 
-
+.asgnBtn {
+	float:left !Important;
+}
 
 /* End of styles for assignemp.xhtml.*/
+
+/* Styles for projectplanning.xhtml start here */
+
+.projPlanWrapper {
+	margin:auto;
+	width: 55%;
+}
+
+.projPlanHead {
+	width: 47%;
+	margin-bottom: 3%;
+}
+
+.projPlanTbl {
+	margin:auto;
+	width: 80%;
+}
+
+.projPlanBtn {
+	margin-top: 3%;
+	margin-bottom: 3%:
+	
+}
+.align {
+	text-align: right;
+}
+
+.ui-widget-content {
+	border: none !important;
+}
+
+/* styles for projectplanning.xhtml end here */
 
 #content {
 	width: 100%;
@@ -615,6 +657,11 @@ form {
 
 #approveTable {
 	border-spacing: 1%;
+}
+
+#projectplanning {
+	border: none !important;
+		
 }
 
 /*don't delete this */
