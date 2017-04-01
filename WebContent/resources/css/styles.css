@@ -311,7 +311,7 @@ body {
 /* timesheet styles start here */
 /*This for the sub header on the timesheetpage 
   holds info for hte selected timesheet - timesheet.xhtml*/
-#timesheetHead {
+.timesheetHead {
 	display: flex;
 	flex-flow: row wrap;
 	background: #dfdfdf;
@@ -328,13 +328,13 @@ body {
 }
 
 /* sub div box that holds some sub head info */
-#timesheetSubOne {
+.timesheetSubOne {
 	margin: 1%;
 	flex-grow:1;
 }
 
 /* sub div box that holds some sub head info */
-#timesheetSubTwo {
+.timesheetSubTwo {
 	margin: 1%;
 	flex-grow:1;
 }
@@ -594,6 +594,38 @@ h2.mngEmpProjSubHead {
 
 /* End of styles for assignemp.xhtml.*/
 
+/* Styles for projectplanning.xhtml start here */
+
+.projPlanWrapper {
+	margin:auto;
+	width: 55%;
+}
+
+.projPlanHead {
+	width: 47%;
+	margin-bottom: 3%;
+}
+
+.projPlanTbl {
+	margin:auto;
+	width: 80%;
+}
+
+.projPlanBtn {
+	margin-top: 3%;
+	margin-bottom: 3%:
+	
+}
+.align {
+	text-align: right;
+}
+
+.ui-widget-content {
+	border: none !important;
+}
+
+/* styles for projectplanning.xhtml end here */
+
 #content {
 	width: 100%;
 }
@@ -625,6 +657,11 @@ form {
 
 #approveTable {
 	border-spacing: 1%;
+}
+
+#projectplanning {
+	border: none !important;
+		
 }
 
 /*don't delete this */
