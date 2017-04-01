@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 @Dependent
 @Stateless
@@ -84,6 +85,13 @@ public class ProjectManager {
 
   public void detach(Project pro) {
     em.detach(pro);
+  }
+
+  public Project findHRCodes() {
+    TypedQuery<Project> query = em.createQuery("SELECT pr FROM Project AS pr "
+        + "WHERE pr.projectNumber = :code", Project.class)
+        .setParameter("code", 10);
+    return query.getSingleResult();
   }
 
 }

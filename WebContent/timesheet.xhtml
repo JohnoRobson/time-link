@@ -15,8 +15,6 @@
 	    			<h:panelGrid columns="2">
 	    				<h:outputLabel value="Name:" />
 	    				<h:outputText value="#{Session.currentEmployee.firstName} #{Session.currentEmployee.lastName}" />
-	    				<h:outputLabel value="Title:" />
-	    				<h:outputText value="placeholder" />
 	   					<h:outputLabel value="Date:" />
 	   					<h:outputText value="#{TimesheetController.selectedTimesheet.date}" />
 	    			</h:panelGrid>
@@ -25,8 +23,6 @@
 	    			<h:panelGrid columns="2">
 	    				<h:outputLabel value="UserId:" />
 	    				<h:outputText value="#{Session.currentEmployee.employeeId}" />
-	    				<h:outputLabel value="Department:" />
-	    				<h:outputText value="placeholder" />
 	   					<h:outputLabel value="Week No:" />
 	   					<h:outputText value="PlaceHolder 5" />
 	    			</h:panelGrid>
@@ -62,7 +58,7 @@
 	                <p:selectOneMenu value="#{row.projectId}" style="width:100%">
 		                <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 		                <f:selectItem itemLabel="" itemValue="#{0}"/>
-		                <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().project.projectNumber}" />
+		                <f:selectItem itemLabel="HR Codes" itemValue="#{TimesheetController.getHRCodes().projectNumber}" />
 		                <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
 	                </p:selectOneMenu>
 				</p:column>
@@ -71,7 +67,7 @@
 	                <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
 		                <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 		                <f:selectItem itemLabel="" itemValue="#{0}"/>
-		                <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().workPackageId}" />
+		                <!-- <f:selectItem itemLabel="Sick Day" itemValue="#{TimesheetController.getSickWorkPackage().workPackageId}" /> -->
 		                <f:selectItems value="#{TimesheetController.getAssignedWorkPackages(row.projectId)}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
 	                </p:selectOneMenu>
 				</p:column>
@@ -206,12 +202,12 @@
 	        <p:panel id="totals">
 	        <div class="subtotals">
 	        	<h:panelGrid columns="2">
-	        		<h:outputLabel value="Total:" />
-	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() : 0}" />
-	        		<h:outputLabel value="Overtime:" />
-	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? (TimesheetController.selectedTimesheet.getTotalHours() > 40 ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0) : 0}" />
-	        		<h:outputLabel value="Flexhours:" />
-	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0}" />
+	        		<h:outputLabel for="total" value="Total:" />
+	        		<h:outputText id="total" value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() : 0}" />
+	        		<h:outputLabel for="overtime" value="Overtime:" />
+	        		<h:inputText id="overtime" value="#{TimesheetController.selectedTimesheet.overtime}" />
+	        		<h:outputLabel for="flex" value="Flexhours:" />
+	        		<h:inputText id="flex" value="#{TimesheetController.selectedTimesheet.flextime}" />
 	        	</h:panelGrid>
 	        	<h:panelGrid styleClass="status" columns="2">
 	        		<h:outputLabel value="Status:" />

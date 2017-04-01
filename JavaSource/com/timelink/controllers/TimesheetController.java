@@ -82,9 +82,12 @@ public class TimesheetController implements Serializable {
    */
   public String submit() {
     if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
-      selectedTimesheet.calculateFlexAndOvertime();
+      if (selectedTimesheet.isValid()) {
+        selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
+      } else {
+        //TODO set to display an error message explaining validation failure
+      }
     }
-    selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
     save();
     return null;
   }
@@ -133,6 +136,9 @@ public class TimesheetController implements Serializable {
    */
   public List<WorkPackage> getAssignedWorkPackages(Integer projectNumber) {
     ArrayList<WorkPackage> newList = null;
+    if (projectNumber == 10) {
+      return wpm.findHRWorkPackages();
+    } 
     Project pro = pm.find(projectNumber);
     if (pro != null) {
       List<WorkPackage> list = wpm.findAssigned(ses.getCurrentEmployee(), pro);
@@ -142,7 +148,7 @@ public class TimesheetController implements Serializable {
           newList.add(wp);
         }
       }
-    }
+    } 
     return newList;
   }
 
@@ -185,9 +191,33 @@ public class TimesheetController implements Serializable {
     save();
   }
   
-  public WorkPackage getSickWorkPackage() {
-    return wpm.findSickDay();
+  public Project getHRCodes() {
+    return pm.findHRCodes();
   }
+  
+//  public WorkPackage getSickWorkPackage() {
+//    return wpm.findSickLeave();
+//  }
+//  
+//  public WorkPackage getStatWorkPackage() {
+//    return wpm.findStatHoliday();
+//  }
+//  
+//  public WorkPackage getLongTermDisabilityWorkPackage() {
+//    return wpm.findLongDisability();
+//  }
+//  
+//  public WorkPackage getShortTermDisabilityWorkPackage() {
+//    return wpm.findShortDisability();
+//  }
+//  
+//  public WorkPackage getFlexTimePackage() {
+//    return wpm.findFlexTime();
+//  }
+//  
+//  public WorkPackage getVacationWorkPackage() {
+//    return wpm.findVacation();
+//  }
   
   //ADD TIMESHEET MODAL
   /**
