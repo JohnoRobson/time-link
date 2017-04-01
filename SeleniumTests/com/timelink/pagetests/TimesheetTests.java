@@ -43,7 +43,7 @@ public class TimesheetTests {
 
     @After
     public void tearDown() throws Exception {
-        //driver.quit();
+        driver.quit();
     }
 
     @Test
@@ -53,7 +53,7 @@ public class TimesheetTests {
         header.goToTimesheet();
         timesheetPage = new TimesheetPage(driver);
         timesheetPage.executeCreateNewTimesheet("1995", "5");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             timesheetPage.addRow();
         }
         assertTrue(timesheetPage.getTimesheetStatus().toLowerCase().contains("notsubmitted"));

@@ -20,6 +20,6 @@ import com.timelink.ejbs.tests.WorkPackageTests;
     TimesheetTest.class,
     WorkPackageTests.class
 })
-public class AllTests {
+public class AllUnitTests {
 
 }
