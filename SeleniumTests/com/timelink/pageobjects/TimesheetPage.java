@@ -24,15 +24,17 @@ public class TimesheetPage {
     }
 
     public void setNewTimesheetYear(String year) {
+        driver.findElement(this.newTimesheetYearTextbox).clear();
         driver.findElement(this.newTimesheetYearTextbox).sendKeys(year);;
     }
 
     public void setNewTimesheetWeek(String week) {
+        driver.findElement(this.newTimesheetWeekTextbox).clear();
         driver.findElement(this.newTimesheetWeekTextbox).sendKeys(week);;
     }
 
     public void clickConfirmCreateNewTimesheet() {
-        driver.findElement(this.newTimesheetWeekTextbox).click();
+        driver.findElement(this.confirmCreateTimesheetBtn).click();
     }
     
     public void executeCreateNewTimesheet(String year, String week) {
