@@ -34,74 +34,8 @@ public class WorkPackageManager {
    */
   public WorkPackage find(int wpId) {
     return em.find(WorkPackage.class, wpId);
-  }
-  
-//  /**
-//   * Returns the sick day WorkPackage.
-//   * @return The sick day WorkPackage.
-//   */
-//  public WorkPackage findSickLeave() {
-//    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-//        + "WHERE wp.code = :code", WorkPackage.class)
-//        .setParameter("code", "SICK");
-//    return query.getSingleResult();
-//  }
-//  
-//  /**
-//   * Returns the flextime WorkPackage.
-//   * @return The flextime WorkPackage.
-//   */
-//  public WorkPackage findFlexTime() {
-//    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-//        + "WHERE wp.code = :code", WorkPackage.class)
-//        .setParameter("code", "FLEX");
-//    return query.getSingleResult();
-//  }
-//  
-//  
-//  /**
-//   * Returns the vacation WorkPackage.
-//   * @return The vacation WorkPackage.
-//   */
-//  public WorkPackage findVacation() {
-//    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-//        + "WHERE wp.code = :code", WorkPackage.class)
-//        .setParameter("code", "VACA");
-//    return query.getSingleResult();
-//  }
-//  
-//  /**
-//   * Returns the short-term disability WorkPackage.
-//   * @return The short-term disability WorkPackage.
-//   */
-//  public WorkPackage findShortDisability() {
-//    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-//        + "WHERE wp.code = :code", WorkPackage.class)
-//        .setParameter("code", "SDIS");
-//    return query.getSingleResult();
-//  }
-//  
-//  /**
-//   * Returns the long-term disability WorkPackage.
-//   * @return The long-term disability WorkPackage.
-//   */
-//  public WorkPackage findLongDisability() {
-//    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-//        + "WHERE wp.code = :code", WorkPackage.class)
-//        .setParameter("code", "LDIS");
-//    return query.getSingleResult();
-//  }
-//  
-//  /**
-//   * Returns the statutory holiday WorkPackage.
-//   * @return The statutory holiday WorkPackage.
-//   */
-//  public WorkPackage findStatHoliday() {
-//    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-//        + "WHERE wp.code = :code", WorkPackage.class)
-//        .setParameter("code", "STAT");
-//    return query.getSingleResult();
-//  }
+  } 
+
   
   /**
    * Returns all workpackages assigned to proj.
@@ -145,12 +79,12 @@ public class WorkPackageManager {
     return query.getSingleResult();
   }
   
-  public List<WorkPackage> findHRWorkPackages(){
-     TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-         + "WHERE wp.project = :code", WorkPackage.class)
-         .setParameter("code", 10);
-     return query.getResultList();
-   }
+//  public List<WorkPackage> findHRWorkPackages(){
+//     TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
+//         + "WHERE wp.project = :code", WorkPackage.class)
+//         .setParameter("code", 10);
+//     return query.getResultList();
+//   }
   
   /**
    * Returns the parent of the given work package.

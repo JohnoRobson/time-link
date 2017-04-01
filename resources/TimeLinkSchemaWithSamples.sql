@@ -403,6 +403,7 @@ INSERT INTO WorkPackage VALUES (7, 10, "VACA", null, 4, "Vacation", 0, 5);
 INSERT INTO WorkPackage VALUES (8, 10, "STAT", null, 4, "Statutory Holiday", 0, 5);
 INSERT INTO WorkPackage VALUES (9, 10, "LDIS", null, 4, "Long-term Disability", 0, 5);
 INSERT INTO WorkPackage VALUES (10, 10, "SDIS", null, 4, "Short-Term Disability", 0, 5);
+
 INSERT INTO wp_emp VALUES (3, 2, 1);
 INSERT INTO wp_emp VALUES (4, 3, 1);
 INSERT INTO wp_emp VALUES (5, 4, 1);

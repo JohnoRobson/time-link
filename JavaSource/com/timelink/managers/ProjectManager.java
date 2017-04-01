@@ -87,13 +87,6 @@ public class ProjectManager {
     em.detach(pro);
   }
 
-  public Project findHRCodes() {
-    TypedQuery<Project> query = em.createQuery("SELECT pr FROM Project AS pr "
-        + "WHERE pr.projectNumber = :code", Project.class)
-        .setParameter("code", 10);
-    return query.getSingleResult();
-  }
-
 public Project findByName(String name) {
     return em.createQuery("SELECT p FROM Project as p "
         + "WHERE p.projectName = :projName", Project.class)

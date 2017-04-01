@@ -18,8 +18,12 @@ public class HRProjectService implements HRProjectServiceInterface {
   
   final String HR_PROJECT_NAME = "10";
   final String HR_VACATION_NAME = "VACA";
-  final String HR_SICKDAY_NAME = "SICKDAY";
+  final String HR_SICKDAY_NAME = "SICK";
   final String HR_FLEXTIME_NAME = "FLEX";
+  final String HR_LONGTERMDISABILITY_NAME = "LDIS";
+  final String HR_SHORTTERMDISABILITY_NAME = "SDIS";
+  final String HR_STATHOLIDAY_NAME = "STAT";
+  
   
   @Inject
   HRProjectService(ProjectManager pm, WorkPackageManager wpm) {
@@ -65,6 +69,36 @@ public class HRProjectService implements HRProjectServiceInterface {
   @Override
   public boolean isFlextimeWorkPacakge(WorkPackage workPackage) {
     return getFlextimeWorkPackage().getWorkPackageId() == workPackage.getWorkPackageId();
+  }
+
+  @Override
+  public WorkPackage getLongTermDisabilityWorkPackage() {
+    return wpm.findByName(HR_LONGTERMDISABILITY_NAME);
+  }
+
+  @Override
+  public boolean isLongTermDisabilityWorkPackage(WorkPackage workPackage) {
+    return getLongTermDisabilityWorkPackage().getWorkPackageId() == workPackage.getWorkPackageId();
+  }
+
+  @Override
+  public WorkPackage getShortTermDisabilityWorkPackage() {
+    return wpm.findByName(HR_SHORTTERMDISABILITY_NAME);
+  }
+
+  @Override
+  public boolean isShortTermDisabilityWorkPackage(WorkPackage workPackage) {
+    return getShortTermDisabilityWorkPackage().getWorkPackageId() == workPackage.getWorkPackageId();
+  }
+
+  @Override
+  public WorkPackage getStatHolidayWorkPackage() {
+    return wpm.findByName(HR_STATHOLIDAY_NAME);
+  }
+
+  @Override
+  public boolean isStatHolidayWorkPackage(WorkPackage workPackage) {
+    return getStatHolidayWorkPackage().getWorkPackageId() == workPackage.getWorkPackageId();
   }
 
 }

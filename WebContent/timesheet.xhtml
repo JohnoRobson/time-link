@@ -58,7 +58,6 @@
 	                <p:selectOneMenu value="#{row.projectId}" style="width:100%">
 		                <p:ajax event="itemSelect" oncomplete="onCellEdit()" />
 		                <f:selectItem itemLabel="" itemValue="#{0}"/>
-		                <f:selectItem itemLabel="HR Codes" itemValue="#{TimesheetController.getHRCodes().projectNumber}" />
 		                <f:selectItems value="#{TimesheetController.getAssignedProjects() != null ? TimesheetController.getAssignedProjects() : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
 	                </p:selectOneMenu>
 				</p:column>
@@ -220,6 +219,7 @@
 		    	</p:panel>
 	        </div>
 		    </p:panel>
+		    <p:panel>
 		        <div class="btnGrp">
 		        	<h:panelGrid columns="2">
 	        			<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
@@ -233,6 +233,7 @@
 	        			    			 action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
 		        	</h:panelGrid>
 	        	</div>
+	        </p:panel>
         	</div>
 	        </p:panel>
 	    </h:form>

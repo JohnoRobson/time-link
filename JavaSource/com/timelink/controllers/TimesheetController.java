@@ -92,54 +92,45 @@ public class TimesheetController implements Serializable {
    *     that are in the given project.
    */
   public List<WorkPackage> getAssignedWorkPackages(Integer projectNumber) {
-    ArrayList<WorkPackage> newList = null;
-    Project pro = pm.find(projectNumber);
-    if (pro != null) {
-      List<WorkPackage> list = wpm.findAssigned(ses.getCurrentEmployee(), pro);
+    ArrayList<WorkPackage> newList = null; 
+    if (projectNumber == 10) {
       newList = new ArrayList<WorkPackage>();
-      for (WorkPackage wp : list) {
-        if (wpm.isLeaf(wp)) {
-          newList.add(wp);
+      newList.add(getFlextimeWorkPackage());
+      newList.add(getSickWorkPackage());
+      newList.add(getVacationWorkPackage());
+      newList.add(getLongTermDisabilityWorkPackage());
+      newList.add(getShortTermDisabilityWorkPackage());
+      newList.add(getStatHolidayWorkPackage());
+    } else {
+      Project pro = pm.find(projectNumber);
+      if (pro != null) {
+        List<WorkPackage> list = wpm.findAssigned(ses.getCurrentEmployee(), pro);
+        newList = new ArrayList<WorkPackage>();
+        for (WorkPackage wp : list) {
+          if (wpm.isLeaf(wp)) {
+            newList.add(wp);
+          }
         }
-      }
-      newList.add(hrps.getFlextimeWorkPackage());
-      newList.add(hrps.getSickDayWorkPackage());
-      newList.add(hrps.getVacationWorkPackage());
+      } 
     }
     return newList;
   }
   
+  private WorkPackage getStatHolidayWorkPackage() {
+    return hrps.getStatHolidayWorkPackage();
+  }
+
+  private WorkPackage getShortTermDisabilityWorkPackage() {
+    return hrps.getShortTermDisabilityWorkPackage();
+  }
+
+  private WorkPackage getLongTermDisabilityWorkPackage() {
+    return hrps.getLongTermDisabilityWorkPackage();
+  }
+
   public WorkPackage getFlextimeWorkPackage() {
     return hrps.getFlextimeWorkPackage();
   }
-  
-  public Project getHRCodes() {
-    return pm.findHRCodes();
-  }
-  
-//  public WorkPackage getSickWorkPackage() {
-//    return wpm.findSickLeave();
-//  }
-//  
-//  public WorkPackage getStatWorkPackage() {
-//    return wpm.findStatHoliday();
-//  }
-//  
-//  public WorkPackage getLongTermDisabilityWorkPackage() {
-//    return wpm.findLongDisability();
-//  }
-//  
-//  public WorkPackage getShortTermDisabilityWorkPackage() {
-//    return wpm.findShortDisability();
-//  }
-//  
-//  public WorkPackage getFlexTimePackage() {
-//    return wpm.findFlexTime();
-//  }
-//  
-//  public WorkPackage getVacationWorkPackage() {
-//    return wpm.findVacation();
-//  }
   
   public Project getHRProject() {
     return hrps.getHRProject();

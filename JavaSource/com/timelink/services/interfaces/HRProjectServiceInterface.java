@@ -21,4 +21,16 @@ public interface HRProjectServiceInterface extends Serializable {
   WorkPackage getFlextimeWorkPackage();
   
   boolean isFlextimeWorkPacakge(WorkPackage workPackage);
+  
+  WorkPackage getLongTermDisabilityWorkPackage();
+  
+  boolean isLongTermDisabilityWorkPackage(WorkPackage workPackage);
+  
+  WorkPackage getShortTermDisabilityWorkPackage();
+  
+  boolean isShortTermDisabilityWorkPackage(WorkPackage workPackage);
+  
+  WorkPackage getStatHolidayWorkPackage();
+  
+  boolean isStatHolidayWorkPackage(WorkPackage workPackage);
 }
