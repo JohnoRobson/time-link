@@ -16,7 +16,6 @@ import javax.persistence.TypedQuery;
 @Dependent
 @Stateless
 public class EmployeeManager {
-  
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   /**
