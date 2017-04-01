@@ -7,21 +7,20 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.timelink.pageobjects.HeaderSection;
-import com.timelink.pageobjects.HomePage;
 import com.timelink.pageobjects.LoginPage;
+import com.timelink.pageobjects.TimesheetPage;
 
-public class LoginPageTests {
-    
+public class TimesheetTests {
+
     LoginPage loginPage;
-    HomePage homePage;
     HeaderSection header;
+    TimesheetPage timesheetPage;
+
     WebDriver driver;
 
     @Before
@@ -48,26 +47,13 @@ public class LoginPageTests {
     }
 
     @Test
-    public void login_validPageTitle() {
-        assertEquals("Login", loginPage.getLoginTitle());
-    }
-
-    @Test
-    public void login_validCredentials_correctWelcomeMessage() {
+    public void createTimesheet() {
         loginPage.executeLogin("pm", "pm");
-
-        homePage = new HomePage(driver);
-        assertTrue(homePage.getTitle().toLowerCase().contains("pmfname"));
-    }
-
-    @Test
-    public void logout_validHomePageTitle() {
-        loginPage.executeLogin("pm", "pm");
-        homePage = new HomePage(driver);
         header = new HeaderSection(driver);
-        header.executeLogout();
-        assertEquals("Login", loginPage.getLoginTitle());
+        header.goToTimesheet();
+        timesheetPage = new TimesheetPage(driver);
+        timesheetPage.executeCreateNewTimesheet("1995", "5");
+        assertTrue(timesheetPage.getTimesheetStatus().toLowerCase().contains("notsubmitted"));
     }
-
 
 }

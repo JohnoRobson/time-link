@@ -16,8 +16,8 @@
 				<h:form>
 					<p:menubar styleClass="menubar">
 						<p:menuitem value="Home" url="home.xhtml" />
-						<p:submenu label="Timesheet" >
-							<p:menuitem value="Timesheet" url="timesheet.xhtml" />
+						<p:submenu styleClass="s-timesheetMenu" label="Timesheet" >
+							<p:menuitem styleClass="s-timesheet" value="Timesheet" url="timesheet.xhtml" />
 							<p:menuitem value="Vacation and Flextime" url="vacationflextime.xhtml" />
 						</p:submenu>
 						<p:submenu label="Project" rendered="#{Session.projectManager || Session.projectManagerAssistant || Session.supervisor || Session.approver}" >
@@ -51,7 +51,7 @@
 										rendered="#{Session.supervisor}" />
 							<p:menuitem value="Responsible Engineer Report" url="rereport.xhtml"/>
 						</p:submenu>
-						<p:menuitem value="Logout" action="#{Session.endSession}" />
+						<p:menuitem value="Logout" styleClass="s-logoutButton" action="#{Session.endSession}" />
 					</p:menubar>
 				</h:form>
 			</div>
