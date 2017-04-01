@@ -225,7 +225,7 @@
 		        <div class="btnGrp">
 		        	<h:panelGrid columns="2">
 	        			<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
-	        							 action="#{TimesheetController.addRow()}" value="add row" ajax="false" />
+	        							 action="#{TimesheetController.addRow()}" styleClass="s-addRowBtn" value="add row" ajax="false" />
 	        			<p:commandButton styleClass="s-createTimesheetBtn" value="add timesheet" onclick="PF('addts').show();" />
 	        		</h:panelGrid>
 		        	<h:panelGrid columns="2" styleClass="btnGrpTwo">

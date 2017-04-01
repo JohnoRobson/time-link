@@ -12,11 +12,17 @@ public class TimesheetPage {
     By newTimesheetWeekTextbox = By.className("s-createTimesheetWeekText");
     By confirmCreateTimesheetBtn = By.className("s-confirmCreateTimesheetBtn");
 
+    By addRowBtn = By.className("s-addRowBtn");
+
     By timesheetStatus = By.className("s-timesheetStatus");
     
 
     public TimesheetPage(WebDriver webDriver) {
         this.driver = webDriver;
+    }
+
+    public void addRow() {
+        driver.findElement(this.addRowBtn).click();
     }
     
     public void createTimesheet() {
