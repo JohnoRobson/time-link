@@ -23,7 +23,7 @@
 				<div class="logwrapper">
 					<div class="title">
 						<hr />
-						<h1 class="s-titleText" >Login</h1>
+						<h1 class="s-titleText loginTitle" >Login</h1>
 					</div>
 					<div class="loginCtrl">
 					<h:form>
@@ -33,7 +33,7 @@
 							<h:outputLabel for="password" value="Password:" />
 							<p:password styleClass="s-password" id="password" value="#{LoginController.password}" required="true" />
 						</h:panelGrid>
-					<div id="loginBtn">
+					<div class="loginBtn">
 						<!-- LoginController.login in action method below later -->
 						<p:commandButton styleClass="s-btnLogin logButton" value="Login" action="#{LoginController.login}" />
 					</div>	
