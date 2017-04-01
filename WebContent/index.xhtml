@@ -23,19 +23,19 @@
 				<div class="logwrapper">
 					<div class="title">
 						<hr />
-						<h1>Login</h1>
+						<h1 class="s-titleText" >Login</h1>
 					</div>
 					<div class="loginCtrl">
 					<h:form>
 						<h:panelGrid styleClass="loginInput" columns="2">
 							<h:outputLabel for="username" value="Usename:" />
-							<p:inputText id="username" value="#{LoginController.username}" required="true" />
+							<p:inputText styleClass="s-username" id="username" value="#{LoginController.username}" required="true" />
 							<h:outputLabel for="password" value="Password:" />
-							<p:password id="password" value="#{LoginController.password}" required="true" />
+							<p:password styleClass="s-password" id="password" value="#{LoginController.password}" required="true" />
 						</h:panelGrid>
 					<div id="loginBtn">
 						<!-- LoginController.login in action method below later -->
-						<p:commandButton styleClass="logButton" value="Login" action="#{LoginController.login}" />
+						<p:commandButton styleClass="s-btnLogin logButton" value="Login" action="#{LoginController.login}" />
 					</div>	
 					</h:form>
 				</div>
