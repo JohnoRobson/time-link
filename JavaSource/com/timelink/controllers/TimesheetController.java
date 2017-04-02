@@ -6,6 +6,7 @@ import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.enums.TimesheetStatus;
+import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
@@ -33,10 +34,11 @@ public class TimesheetController implements Serializable {
   @Inject WorkPackageManager wpm;
   @Inject Session ses;
   @Inject ProjectManager pm;
+  @Inject EmployeeManager em;
   @Inject WeekNumberService weekNumberService;
   @Inject HRProjectService hrps;
-  @Inject FlextimeService fts;
-  @Inject VacationService vs;
+  @Inject transient FlextimeService fts;
+  @Inject transient VacationService vs;
   
   //ADD TIMESHEET MODAL STUFF
   private int week;
@@ -268,8 +270,15 @@ public class TimesheetController implements Serializable {
     if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
       if (selectedTimesheet.isValid()) {
         selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
-        fts.applyFlextime(selectedTimesheet);
-        vs.applyVacation(selectedTimesheet);
+        for (TimesheetRow tsr : selectedTimesheet.getRows()) {
+          if (hrps.isFlextimeWorkPacakge(wpm.find(tsr.getWorkPackageId()))) {
+            fts.claimFlextime(selectedTimesheet, tsr.getHours());
+          } else if (hrps.isFlextimeWorkPacakge(wpm.find(tsr.getWorkPackageId()))) {
+            vs.claimVacation(selectedTimesheet, tsr.getHours());
+          }
+        }
+        fts.addFlextime(selectedTimesheet);
+        em.merge(selectedTimesheet.getEmployee());
       } else {
         //TODO set to display an error message explaining validation failure
       }
