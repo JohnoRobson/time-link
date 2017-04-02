@@ -8,6 +8,50 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jstl/core">
 
-	<ui:composition template="">
+	<ui:composition template="resources/templates/template.xhtml">
+	<ui:define name="content">
+	<h3>Custom Content</h3>
+    <p:dataTable id="dataTable" var="adlst" value="#{AdminMessageController.adList}"
+                 paginator="true" rows="10" rendered="#{not AdminMessageController.read}">
+        <f:facet name="header">
+            Messages
+        </f:facet>
+ 
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Name" />
+            </f:facet>
+            <h:outputText value="#{adlst.userName}" />
+        </p:column>
+ 
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Email" />
+            </f:facet>
+            <h:outputText value="#{adlst.userEmail}" />
+        </p:column>
+ 
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Title" />
+            </f:facet>
+            <h:outputText value="#{adlst.title}" />
+        </p:column>
+ 
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Contents" />
+            </f:facet>
+            <h:outputText value="#{adlst.contents}" />
+        </p:column>
+    </p:dataTable>
+ 
+    <p:blockUI block="dataTable" trigger="dataTable">
+        LOADING<br />
+        <p:graphicImage name="demo/images/ajaxloadingbar.gif"/>
+    </p:blockUI>
+	
+	</ui:define>
 	</ui:composition>
+	
 </html>
