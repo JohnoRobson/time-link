@@ -18,45 +18,45 @@ import javax.persistence.TemporalType;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "estimate_wp_hour")
-public class EstimatedWorkPackageHours implements Serializable {
+@Table(name = "estimate_wp_work_day")
+public class EstimatedWorkPackageWorkDays implements Serializable {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ewh_id")
-  private int estimatedHoursId;
+  @Column(name = "ewd_id")
+  private int estimatedWorkPackageHoursId;
   
-  @JoinColumn(name = "ewh_level",
+  @JoinColumn(name = "ewd_level",
       referencedColumnName = "lg_id")
   @ManyToOne
   private LabourGrade labourGrade;
   
-  @JoinColumn(name = "ewh_wp_id",
+  @JoinColumn(name = "ewd_wp_id",
       referencedColumnName = "wp_id")
   @ManyToOne(cascade = CascadeType.MERGE)
   private WorkPackage workpackage;
   
-  @Column(name = "ewh_man_day")
+  @Column(name = "ewd_man_day")
   private int manDay;
   
-  @Column(name = "ewh_date_created")
+  @Column(name = "ewd_date_created")
   @Temporal(TemporalType.DATE)
   private Date dateCreated;
 
   /**
-   * Returns the estimatedHoursId.
-   * @return the estimatedHoursId
+   * Returns the estimatedWorkPackageHoursId.
+   * @return the estimatedWorkPackageHoursId
    */
-  public int getEstimatedHoursId() {
-    return estimatedHoursId;
+  public int getEstimatedWorkPackageHoursId() {
+    return estimatedWorkPackageHoursId;
   }
 
   /**
-   * Sets the estimatedHoursId.
-   * @param estimatedHoursId the estimatedHoursId to set
+   * Sets the estimatedWorkPackageHoursId.
+   * @param estimatedWorkPackageHoursId the estimatedWorkPackageHoursId to set
    */
-  public void setEstimatedHoursId(int estimatedHoursId) {
-    this.estimatedHoursId = estimatedHoursId;
+  public void setEstimatedWorkPackageHoursId(int estimatedWorkPackageHoursId) {
+    this.estimatedWorkPackageHoursId = estimatedWorkPackageHoursId;
   }
 
   /**
@@ -97,7 +97,7 @@ public class EstimatedWorkPackageHours implements Serializable {
    */
   public void setWorkPackageLineId(WorkPackage workpackage) {
     if (workpackage != null && !workpackage.getEstimatedHours().contains(this)) {
-      List<EstimatedWorkPackageHours> wp = workpackage.getEstimatedHours();
+      List<EstimatedWorkPackageWorkDays> wp = workpackage.getEstimatedHours();
       wp.add(this);
       workpackage.setEstimatedHours(wp);
     }
@@ -145,13 +145,13 @@ public class EstimatedWorkPackageHours implements Serializable {
       return false;
     }
     
-    if (!(obj instanceof EstimatedWorkPackageHours)) {
+    if (!(obj instanceof EstimatedWorkPackageWorkDays)) {
       return false;
     }
     
-    EstimatedWorkPackageHours  emp = (EstimatedWorkPackageHours) obj;
+    EstimatedWorkPackageWorkDays  emp = (EstimatedWorkPackageWorkDays) obj;
     
-    if (emp.getEstimatedHoursId() != getEstimatedHoursId()) {
+    if (emp.getEstimatedWorkPackageHoursId() != getEstimatedWorkPackageHoursId()) {
       return false;
     }
     
