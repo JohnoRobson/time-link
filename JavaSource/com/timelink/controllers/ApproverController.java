@@ -33,6 +33,20 @@ public class ApproverController implements Serializable {
   private Set<Timesheet> selectedTimesheets;
   private Timesheet viewingTimesheet;
 
+  public ApproverController() {
+	  
+  }
+  
+  /**
+   * Convenience ctor.
+   * For Testing purposes.
+   * */
+  public ApproverController(TimesheetManager tm, WorkPackageManager wpm, Session ses, FlextimeService fts) {
+	  this.tm = tm;
+	  this.ses = ses;
+	  this.flextimeService = fts;
+	  this.wpm = wpm;
+  }
   /**
    * Returns the timesheets.
    * @return the timesheets

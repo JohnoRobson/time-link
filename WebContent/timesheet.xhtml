@@ -10,8 +10,8 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
 	    <ui:define name="content">
-	    	<div class="timesheetHead">
-	    		<div class="timesheetSubOne">
+	    	<div id="timesheetHead">
+	    		<div id="timesheetSubOne">
 	    			<h:panelGrid columns="2">
 	    				<h:outputLabel value="Name:" />
 	    				<h:outputText value="#{Session.currentEmployee.firstName} #{Session.currentEmployee.lastName}" />
@@ -21,7 +21,7 @@
 	   					<h:outputText value="#{TimesheetController.selectedTimesheet.date}" />
 	    			</h:panelGrid>
 	    		</div>
-	    		<div class="timesheetSubTwo">
+	    		<div id="timesheetSubTwo">
 	    			<h:panelGrid columns="2">
 	    				<h:outputLabel value="UserId:" />
 	    				<h:outputText value="#{Session.currentEmployee.employeeId}" />
@@ -50,11 +50,11 @@
 	        	
 	        	<p:column styleClass="tsHeader" rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}">
 	    				<p:commandButton
-		                	value="x"
-		                	type="submit"
+		                	title="Delete"
+		                	type="button"
+		                	icon="ui-icon-trash"
 		                	action="#{TimesheetController.deleteRow(row)}"
-		                	ajax="false"
-		                	styleClass="tsdelbtn">
+		                	ajax="false">
 		        		</p:commandButton>
 	    			</p:column>
 	        	
@@ -213,7 +213,7 @@
 	        	</h:panelGrid>
 	        	<h:panelGrid styleClass="status" columns="2">
 	        		<h:outputLabel value="Status:" />
-	        		<h:outputText value="#{TimesheetController.selectedTimesheet.status}" />
+	        		<h:outputText styleClass="s-timesheetStatus" value="#{TimesheetController.selectedTimesheet.status}" />
 	        	</h:panelGrid>
 	        	
 	        	
@@ -225,11 +225,11 @@
 		        <div class="btnGrp">
 		        	<h:panelGrid columns="2">
 	        			<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
-	        							 action="#{TimesheetController.addRow()}" value="add row" ajax="false" />
-	        			<p:commandButton value="add timesheet" onclick="PF('addts').show();" />
+	        							action="#{TimesheetController.addRow()}" styleClass="s-addRowBtn" value="add row" ajax="false" />
 	        			<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'APPROVED'}" 
 	        							 action="#{TimesheetController.setAsDefault()}" value="set as default" ajax="false" />
 	        			<p:commandButton action="#{TimesheetController.clearDefault()}" value="clear default timesheet" ajax="false" />
+	        			<p:commandButton styleClass="s-createTimesheetBtn" value="add timesheet" onclick="PF('addts').show();" />
 	        		</h:panelGrid>
 		        	<h:panelGrid columns="2" styleClass="btnGrpTwo">
 		        		<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
@@ -251,12 +251,12 @@
 	    	<h:form>
 	            <h:panelGrid columns="2">
 	            	<h:outputText styleClass="modalText" value="Year: "/>
-	            	<p:inputText styleClass="modalText" value="#{TimesheetController.year}" required="true" />
+	            	<p:inputText styleClass="s-createTimesheetYearText modalText" value="#{TimesheetController.year}" required="true" />
 	            	<h:outputText styleClass="modalText" value="Week Number: "/>
-	            	<p:inputText styleClass="modalText" value="#{TimesheetController.week}" required="true" />
+	            	<p:inputText styleClass="s-createTimesheetWeekText modalText" value="#{TimesheetController.week}" required="true" />
 	            </h:panelGrid>
 	            
-	            <p:commandButton value="Create Timesheet" styleClass="modalBtn" 
+	            <p:commandButton value="Create Timesheet" styleClass="s-confirmCreateTimesheetBtn modalBtn" 
 	            				 action="#{TimesheetController.addTimesheet()}" ajax="false" />
 	        </h:form>
 	    </p:dialog>

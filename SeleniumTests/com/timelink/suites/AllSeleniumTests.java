@@ -10,16 +10,14 @@ import com.timelink.ejbs.tests.ProjectTest;
 import com.timelink.ejbs.tests.TimesheetRowTest;
 import com.timelink.ejbs.tests.TimesheetTest;
 import com.timelink.ejbs.tests.WorkPackageTests;
+import com.timelink.pagetests.LoginPageTests;
+import com.timelink.pagetests.TimesheetTests;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-    BudgetedHoursTests.class,
-    EmployeeTest.class,
-    ProjectTest.class,
-    TimesheetRowTest.class,
-    TimesheetTest.class,
-    WorkPackageTests.class
+    LoginPageTests.class,
+    TimesheetTests.class,
 })
-public class AllTests {
+public class AllSeleniumTests {
 
 }

@@ -11,7 +11,9 @@ import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.HoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
+import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.WeekNumberService;
+import com.timelink.services.WorkPackageCodeService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,7 +36,9 @@ public class ProjectPlanningController implements Serializable {
   @Inject LabourGradeManager lgm;
   @Inject BudgetedProjectWorkDaysManager bhm;
   @Inject EstimatedWorkPackageWorkDaysManager ewm;
+  @Inject WorkPackageCodeService workPackageCodeService;
   @Inject WeekNumberService weekNumberService;
+  @Inject WorkPackageManager wpm;
   @Inject HoursManager hm;
   
   private HashSet<Project> projects;
@@ -59,6 +63,24 @@ public class ProjectPlanningController implements Serializable {
       budgetedHours.add(bp);
     }
     selectedProject = null;
+  }
+  
+  
+  public ProjectPlanningController() {
+	  
+  }
+  
+  public ProjectPlanningController(ProjectManager pm, 
+		  Session ses, LabourGradeManager lgm, 
+		  EstimatedWorkPackageWorkDaysManager ewm, WorkPackageManager wpm,
+		  BudgetedProjectWorkDaysManager bhm, WorkPackageCodeService workPackageCodeService) {
+	  this.pm = pm;
+	  this.session = ses;
+	  this.lgm = lgm;
+	  this.ewm = ewm;
+	  this.wpm = wpm;
+	  this.bhm = bhm;
+	  this.workPackageCodeService = workPackageCodeService;
   }
   
   public List<Project> getProjects() {
