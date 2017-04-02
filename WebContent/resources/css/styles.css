@@ -9,8 +9,9 @@ html {
 	height: 100%;
 	width: 100%;
 	background-color: #f2f2f2;
-	font-family: Arial,sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
+    color: #363636;
 }
 
 body {
@@ -34,7 +35,8 @@ body {
  	width: 100%;
     position: relative;
     overflow: hidden;
-    
+    flex-flow: column wrap;
+    min-height: 100%;
 }
 
 /* styles for the HEADER BANNER 
@@ -48,6 +50,16 @@ body {
 	padding:0;
 	overflow:hidden;
 }
+
+.footerBanner {    
+    position: relative;
+  	right: 0;
+  	bottom: 0;
+  	left: 0;
+  	background-color: #efefef;
+  	text-align: center;
+}
+
 /*.headLogo located on index.xhtml */
 .headLogo {
 	background: #F5F5F5;
@@ -97,7 +109,26 @@ body {
 /* title of page - index.xhtml */
 .title {
 	text-align:center;
+ 	margin-top: 5vh;
 	margin-bottom: 3vh;
+	font-size: 1.5em;
+	/* background: purple; */
+}
+
+.loginTitle {
+	text-align:left;
+}
+
+.title hr {
+	width: 15%;
+	border: 3px solid #363636;
+	color: #363636;
+}
+
+.logwrapper {
+	width: 23%;
+	margin:auto;
+	
 }
 
 /* login form controls - index.xhtml */
@@ -108,7 +139,7 @@ body {
 
 /* Login input console styles - index.xhtml */
 .loginInput {
-	border: 2px black solid;
+ 	border: 3px #363636 solid;
 	padding: 5vh;
 	border-radius: 2vh;
 	-webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
@@ -116,12 +147,17 @@ body {
 	box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 }
 
-/* the div that holds the login button - index.xhtml */
-#loginBtn {
-	float:right;
-	margin-top: 3vh;
-	margin-bottom: 3vh;
+.loginInput label {
+	font-weight: bold;
 }
+
+/* the div that holds the login button - index.xhtml */
+.loginBtn {
+ 	float:right;
+ 	margin-top: 3vh;
+	margin-bottom: 3vh;
+/* 	background: gray;
+ */}
 
 
 /*Login button itself - index.xhtml */
@@ -129,15 +165,22 @@ body {
 	background:white !important;
 	padding-left: 2vh;
 	padding-right: 2vh;
-	border: 2px black solid !important;
+	border: 2px  #363636 solid !important;
 	-webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	-moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 }
 
+.logButton:hover {
+	background:#363636 !important;
+	border: 2px while solid !important;
+	color: white !important;
+}
+
+
 /* FOOTER BAR styles here 
    footerBar located in footer.xhtml template file */
-.footerBar {
+/* .footerBar {
 	background: #F5F5F5;
 	border-radius: 0;
 	border: 0;
@@ -145,7 +188,7 @@ body {
 	margin-bottom:0;
 	padding:0;
 	overflow:hidden;
-}
+} */
 
 /*footer located in footer.xhtml */
 .footer {
@@ -192,7 +235,7 @@ body {
 /*Menubar/nav bar styles start here 
  menubar is located in header.xhtml */
 .ui-menubar,.ui-menu-child,.ui-menu {
- 	margin-left: 10vh;
+ 	margin-left: 5vh;
 	margin-top:7vh;
 	background: #F5F5F5;
 	border:none;
@@ -204,17 +247,27 @@ body {
 	located - home.xhtml */
 .homeContent {
 	margin:auto;
+	width: 50%;
 	text-align:center;
-}	
+/* 	background:red; 
+ */}	
 
 /*create project styles start here */
 /* create project panel projcreation.xhtml */ 
+
+.projCtrl {
+	margin:auto;
+	width: 50%;
+	/* background:blue; */
+}
+
 .panel {
 	margin-left:auto;
 	margin-right: auto;
 	margin-top: 2%;
+	width: 100%;
 	background: #dfdfdf;
-	padding: 2% 2% 2% 2%;
+	padding: 5% 5% 5% 5%;
 	border-radius: 10px;
 	border: 2px solid #4f4f4f;
 	-webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
@@ -258,7 +311,7 @@ body {
 /* timesheet styles start here */
 /*This for the sub header on the timesheetpage 
   holds info for hte selected timesheet - timesheet.xhtml*/
-#timesheetHead {
+.timesheetHead {
 	display: flex;
 	flex-flow: row wrap;
 	background: #dfdfdf;
@@ -275,13 +328,13 @@ body {
 }
 
 /* sub div box that holds some sub head info */
-#timesheetSubOne {
+.timesheetSubOne {
 	margin: 1%;
 	flex-grow:1;
 }
 
 /* sub div box that holds some sub head info */
-#timesheetSubTwo {
+.timesheetSubTwo {
 	margin: 1%;
 	flex-grow:1;
 }
@@ -295,8 +348,8 @@ body {
 .tsCont {
 	width: 70%;
 	margin:auto;
-
-}
+/* 	background: yellow;
+ */}
 
 /* button for deleting a row in a timesheet */
 .tsdelbtn {
@@ -496,6 +549,13 @@ class for other pages like the ts class from the timesheet page */
    **Note** some styles are taken from other 
    pages to try and minimize repeating styles. */
 
+.assignEmpWrapper {
+	margin:auto;
+	width: 70%;
+	text-align:center;
+	/* background:red */;
+}
+
 /* assignEmpCont - is to adjust the content div */
 .assignEmpCont {
 	margin-top: 2%;
@@ -503,33 +563,68 @@ class for other pages like the ts class from the timesheet page */
 
 .widgetCont {
 	display: flex;
-	flex-flow: row wrap;	
-	
+	flex-flow: row wrap;		
 }
 
 
 /* asgnProjTbl for the data table sizing and positioning */
 .asgnProjTbl {
-	width: 40%;
-	flex-grow:1;
+	width: 51%;
+	flex-grow:2;
 	padding: 2%;
-	/* background:blue; */
+	
+	/* background:blue;  */
 }
 
 .asgnEmpPick {
 	width:40%;
 	flex-grow:1;
 	padding: 2%;
-	/* background:red; */
-}
+/*  	background:green;
+ */}
 
 h2.mngEmpProjSubHead {
-	margin-bottom: 1%;
+	text-align: left;
+	margin: 2%;
 }
 
-
+.asgnBtn {
+	float:left !Important;
+}
 
 /* End of styles for assignemp.xhtml.*/
+
+/* Styles for projectplanning.xhtml start here */
+
+.projPlanWrapper {
+	margin:auto;
+	width: 55%;
+}
+
+.projPlanHead {
+	width: 47%;
+	margin-bottom: 3%;
+}
+
+.projPlanTbl {
+	margin:auto;
+	width: 80%;
+}
+
+.projPlanBtn {
+	margin-top: 3%;
+	margin-bottom: 3%:
+	
+}
+.align {
+	text-align: right;
+}
+
+.ui-widget-content {
+	border: none !important;
+}
+
+/* styles for projectplanning.xhtml end here */
 
 #content {
 	width: 100%;
@@ -562,6 +657,11 @@ form {
 
 #approveTable {
 	border-spacing: 1%;
+}
+
+#projectplanning {
+	border: none !important;
+		
 }
 
 /*don't delete this */

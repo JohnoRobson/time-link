@@ -1,6 +1,7 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
+import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
@@ -9,6 +10,7 @@ import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.HRProjectService;
 import com.timelink.services.WeekNumberService;
 
 import java.io.Serializable;
@@ -31,6 +33,7 @@ public class TimesheetController implements Serializable {
   @Inject Session ses;
   @Inject ProjectManager pm;
   @Inject WeekNumberService weekNumberService;
+  @Inject HRProjectService hrps;
   
   //ADD TIMESHEET MODAL STUFF
   private int week;
@@ -60,6 +63,17 @@ public class TimesheetController implements Serializable {
     this.selectedTimesheet = selectedTimesheet;
   }
   
+  /**
+   * Save labour grade in hours.
+   */
+  public void saveHoursLabourGrade() {
+    for (TimesheetRow tr : selectedTimesheet.getRows()) {
+      for (Hours h : tr.getHours()) {
+        h.setLabourGrade(ses.getCurrentEmployee().getLabourGrade());
+      }
+    }
+  }
+  
   //TODO make this gud
   /**
    * Saves the current selectedTimesheet and reloads it from the database.
@@ -67,6 +81,7 @@ public class TimesheetController implements Serializable {
    */
   public String save() {
     if (selectedTimesheet != null) {
+      saveHoursLabourGrade();
       tm.merge(selectedTimesheet);
       selectedTimesheet = tm.find(selectedTimesheet.getTimesheetId());
     }
@@ -142,6 +157,9 @@ public class TimesheetController implements Serializable {
           newList.add(wp);
         }
       }
+      newList.add(hrps.getFlextimeWorkPackage());
+      newList.add(hrps.getSickDayWorkPackage());
+      newList.add(hrps.getVacationWorkPackage());
     }
     return newList;
   }
@@ -185,8 +203,27 @@ public class TimesheetController implements Serializable {
     save();
   }
   
+  public Project getHRProject() {
+    return hrps.getHRProject();
+  }
+  
   public WorkPackage getSickWorkPackage() {
-    return wpm.findSickDay();
+    return hrps.getSickDayWorkPackage();
+  }
+  
+  public WorkPackage getVacationWorkPackage() {
+    return hrps.getVacationWorkPackage();
+  }
+  
+  public WorkPackage getFlextimeWorkPackage() {
+    return hrps.getFlextimeWorkPackage();
+  }
+  
+  public List<Project> getAssignedProjects() {
+    List<Project> list = new ArrayList<Project>();
+    list.addAll(ses.getCurrentEmployee().getProjects());
+    list.add(hrps.getHRProject());
+    return list;
   }
   
   //ADD TIMESHEET MODAL

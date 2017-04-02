@@ -4,15 +4,18 @@ package com.timelink.managers;
 import com.timelink.ejbs.BudgetedWorkPackageHours;
 import com.timelink.ejbs.WorkPackage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.Stateless;
-import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
-@Dependent
 @Stateless
+@Named
 public class BudgetedWorkPackageHoursManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
@@ -42,7 +45,6 @@ public class BudgetedWorkPackageHoursManager {
     } catch (PersistenceException ex) {
       return null;
     }
-    
   }
   
   /**

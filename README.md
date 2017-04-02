@@ -13,3 +13,6 @@ There is a sql script in the /resources folder that is the same as the one on th
 
 
 UI - the UI has been templated. so if you make new xhtml pages, make sure that you are using the templates. See index.xhtml for example.
+
+# protip:
+If you are having any issues with the project, try cleaning the project and the server.

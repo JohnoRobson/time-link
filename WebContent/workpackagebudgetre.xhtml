@@ -41,9 +41,11 @@
                 			<br />
                 			<h:outputText value="Rate: #{lg.costRate}" />
             			</f:facet>
-						<h:inputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}">
+						<h:inputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}"> <!-- validator="#{BudgetWorkPackageREController.validateDays}" id="wphours"> -->
 							<p:ajax event="change" oncomplete="onCellEdit()" />
+   							<!-- <f:attribute name="remainingDays" value="#{BudgetWorkPackageREController.getDaysRemaining(row, lg.labourGradeId)}" /> -->
 						</h:inputText>
+						<h:outputText value="Remaining days: #{BudgetWorkPackageREController.getDaysRemaining(row, lg.labourGradeId)}" />
 					</p:columns>
 					<p:column headerText="Total Hours">
 						<h:outputText value="#{row.getTotalPlannedHours()}" />
