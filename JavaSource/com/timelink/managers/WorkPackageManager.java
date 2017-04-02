@@ -5,12 +5,14 @@ import com.timelink.ejbs.Project;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.enums.WorkPackageStatusEnum;
+import com.timelink.services.WorkPackageCodeService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -20,6 +22,7 @@ import javax.persistence.TypedQuery;
 public class WorkPackageManager {
   
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
+  @Inject WorkPackageCodeService codeService;
   
   /**
    * Returns a WorkPackage from the database with id wpId.
@@ -111,12 +114,13 @@ public class WorkPackageManager {
     if (index == -1) {
       sb.setCharAt(sb.length(), '0');
     } else {
-      sb.setCharAt(index, '0');
+      sb.setCharAt(index - 1, '0');
     }
     
     TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-        + "WHERE wp.code = :code", WorkPackage.class)
-        .setParameter("code", sb.toString());
+        + "WHERE wp.code = :code AND wp.project = :project", WorkPackage.class)
+        .setParameter("code", sb.toString())
+        .setParameter("project", wp.getProject());
     return query.getSingleResult();
   }
   
@@ -174,12 +178,13 @@ public class WorkPackageManager {
   }
   
   /**
-   * Returns a list of WorkPackages in the given project that have been
-   * submitted by a responsible engineer.
-   * @param project
+   * Returns a list of WorkPackages with the given status in the given project.
+   * @param project The project to be searched.
+   * @param status the status to be searched for.
    * @return A List of WorkPackages.
    */
-  public List<WorkPackage> getWorkPackagesWithStatus(Project project, WorkPackageStatusEnum status) {
+  public List<WorkPackage> getWorkPackagesWithStatus(Project project,
+      WorkPackageStatusEnum status) {
     List<WorkPackage> list = new ArrayList<WorkPackage>();
     
     if (project == null) {
@@ -189,6 +194,53 @@ public class WorkPackageManager {
           + "WHERE wp.project = :project AND wp.status = :status", WorkPackage.class)
           .setParameter("project", project)
           .setParameter("status", status);
+      list = query.getResultList();
+    }
+    
+    return list;
+  }
+  
+  /**
+   * Returns all child Work Package for the given WorkPackage.
+   * @param wp The given Work Package.
+   * @return A List of Work Packages.
+   */
+  public List<WorkPackage> getChildWorkPackages(WorkPackage wp) {
+    List<WorkPackage> list = new ArrayList<WorkPackage>();
+    
+    if (wp == null) {
+      return list;
+    } else {
+      String code = codeService.generateChildWildcardCode(wp);
+      
+      TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
+          + "WHERE wp.code LIKE :code AND wp.project = :project AND wp != :wp", WorkPackage.class)
+          .setParameter("code", code)
+          .setParameter("project", wp.getProject())
+          .setParameter("wp", wp);
+      list = query.getResultList();
+    }
+    
+    return list;
+  }
+  
+  /**
+   * Returns all top-level work packages in the given project.
+   * @param project the given projecct.
+   * @return A List of Work Packages.
+   */
+  public List<WorkPackage> getTopLevelWorkPackages(Project project) {
+    List<WorkPackage> list = new ArrayList<WorkPackage>();
+    
+    if (project == null) {
+      return list;
+    } else {
+      String code = codeService.generateTopLevelWildcardCode();
+      
+      TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
+          + "WHERE wp.code LIKE :code AND wp.project = :project", WorkPackage.class)
+          .setParameter("code", code)
+          .setParameter("project", project);
       list = query.getResultList();
     }
     
