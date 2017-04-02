@@ -42,7 +42,7 @@
 							<p:menuitem value="Make WP Budget" url="workpackagebudgetre.xhtml" 
 										rendered="#{Session.responsibleEngineer}" />
 						</p:submenu>
-						<p:submenu label="Manage" rendered="#{Session.humanResources || Session.supervisor}" >
+						<p:submenu label="Manage" rendered="#{Session.humanResources || Session.supervisor || Session.responsibleEngineer}" >
 							<p:menuitem value="Assign Employee to Supervisor" url="assignemptosuper.xhtml" 
 										rendered="#{Session.humanResources}" />
 							<p:menuitem value="Human Resources" url="humanresources.xhtml" 

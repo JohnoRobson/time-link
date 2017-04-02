@@ -352,13 +352,7 @@ body {
  */}
 
 /* button for deleting a row in a timesheet */
-.tsdelbtn {
-	margin-left: 15%;
-	background: white !important;
-	border: 2px solid #4f4f4f !important;
-	padding: 0%;
-	
-}
+
 /* the curve on the timesheet table */
 /* note - this affects all data tables in the site */
 .ui-datatable-tablewrapper {

@@ -50,11 +50,11 @@
 	        	
 	        	<p:column styleClass="tsHeader" rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}">
 	    				<p:commandButton
-		                	value="x"
-		                	type="submit"
+		                	title="Delete"
+		                	type="button"
+		                	icon="ui-icon-trash"
 		                	action="#{TimesheetController.deleteRow(row)}"
-		                	ajax="false"
-		                	styleClass="tsdelbtn">
+		                	ajax="false">
 		        		</p:commandButton>
 	    			</p:column>
 	        	
