@@ -655,6 +655,33 @@ h2.mngEmpProjSubHead {
 
 /* styles for assigntowp.xhtml end here */
 
+/* styles for workpackagebudgetre.xhtml start here
+   these styles are for estimating the work package budget */
+   
+.estWpWrapper {
+	margin: auto;
+	width: 70%;
+}
+
+.budgetWrap {
+	width: 85%;
+	margin: auto;
+	margin-bottom: 7%;
+	margin-top: 5%;
+}
+
+.estWpSubHead {
+	text-align: left;
+	margin-bottom: 2%;
+}
+
+.wpbdreBtn {
+	text-align:center;
+	
+}
+
+/* end of workpackagebudgetre.xhtml */
+
 #content {
 	width: 100%;
 }
