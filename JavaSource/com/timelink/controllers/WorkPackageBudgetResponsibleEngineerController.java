@@ -1,13 +1,13 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.ejbs.BudgetedProjectHours;
-import com.timelink.ejbs.BudgetedWorkPackageHours;
+import com.timelink.ejbs.BudgetedProjectWorkDays;
+import com.timelink.ejbs.BudgetedWorkPackageWorkDays;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.enums.WorkPackageStatusEnum;
-import com.timelink.managers.BudgetedProjectHoursManager;
-import com.timelink.managers.BudgetedWorkPackageHoursManager;
+import com.timelink.managers.BudgetedProjectWorkDaysManager;
+import com.timelink.managers.BudgetedWorkPackageWorkDaysManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.WorkPackageManager;
 
@@ -33,8 +33,8 @@ public class WorkPackageBudgetResponsibleEngineerController implements Serializa
   @Inject Session session;
   @Inject WorkPackageManager wpm;
   @Inject LabourGradeManager lgm;
-  @Inject BudgetedWorkPackageHoursManager bwphm;
-  @Inject BudgetedProjectHoursManager bphm;
+  @Inject BudgetedWorkPackageWorkDaysManager bwphm;
+  @Inject BudgetedProjectWorkDaysManager bphm;
   
   private List<LabourGrade> labourGrades;
   private List<WorkPackage> workPackageList;
@@ -135,9 +135,9 @@ public class WorkPackageBudgetResponsibleEngineerController implements Serializa
     float parentCosts  = 0;
     
     if (parent == null) {
-      List<BudgetedProjectHours> hrs = bphm.find(wp.getProject());
+      List<BudgetedProjectWorkDays> hrs = bphm.find(wp.getProject());
       
-      for (BudgetedProjectHours bh : hrs) {
+      for (BudgetedProjectWorkDays bh : hrs) {
         if (bh.getLabourGrade().getLabourGradeId() == labourGradeId) {
           parentBudget += bh.getManDay();
         }
@@ -146,7 +146,7 @@ public class WorkPackageBudgetResponsibleEngineerController implements Serializa
       List<WorkPackage> children = wpm.getTopLevelWorkPackages(wp.getProject());
       
       for (WorkPackage ww : children) {
-        for (BudgetedWorkPackageHours bh : ww.getPlannedHours()) {
+        for (BudgetedWorkPackageWorkDays bh : ww.getPlannedHours()) {
           if (bh.getLabourGrade().getLabourGradeId() == labourGradeId) {
             parentCosts += bh.getManDay();
           }
@@ -156,7 +156,7 @@ public class WorkPackageBudgetResponsibleEngineerController implements Serializa
       return "" + (parentBudget - parentCosts);
     }
     
-    for (BudgetedWorkPackageHours bh : parent.getPlannedHours()) {
+    for (BudgetedWorkPackageWorkDays bh : parent.getPlannedHours()) {
       if (bh.getLabourGrade().getLabourGradeId() == labourGradeId) {
         parentBudget += bh.getManDay();
       }
@@ -165,7 +165,7 @@ public class WorkPackageBudgetResponsibleEngineerController implements Serializa
     List<WorkPackage> children = wpm.getChildWorkPackages(parent);
     
     for (WorkPackage ww : children) {
-      for (BudgetedWorkPackageHours bh : ww.getPlannedHours()) {
+      for (BudgetedWorkPackageWorkDays bh : ww.getPlannedHours()) {
         if (bh.getLabourGrade().getLabourGradeId() == labourGradeId) {
           parentCosts += bh.getManDay();
         }

@@ -1,13 +1,13 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.ejbs.BudgetedProjectHours;
-import com.timelink.ejbs.EstimatedWorkPackageHours;
+import com.timelink.ejbs.BudgetedProjectWorkDays;
+import com.timelink.ejbs.EstimatedWorkPackageWorkDays;
 import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
-import com.timelink.managers.BudgetedProjectHoursManager;
-import com.timelink.managers.EstimatedWorkPackageHoursManager;
+import com.timelink.managers.BudgetedProjectWorkDaysManager;
+import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.HoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
@@ -34,8 +34,8 @@ public class ProjectPlanningController implements Serializable {
   @Inject Session session;
   @Inject ProjectManager pm;
   @Inject LabourGradeManager lgm;
-  @Inject BudgetedProjectHoursManager bhm;
-  @Inject EstimatedWorkPackageHoursManager ewm;
+  @Inject BudgetedProjectWorkDaysManager bhm;
+  @Inject EstimatedWorkPackageWorkDaysManager ewm;
   @Inject WorkPackageCodeService workPackageCodeService;
   @Inject WeekNumberService weekNumberService;
   @Inject WorkPackageManager wpm;
@@ -44,7 +44,7 @@ public class ProjectPlanningController implements Serializable {
   private HashSet<Project> projects;
   private List<LabourGrade> labourGrades;
   private Project selectedProject;
-  private HashSet<BudgetedProjectHours> budgetedHours;
+  private HashSet<BudgetedProjectWorkDays> budgetedHours;
   
   /**
    * Resets the state of this SessionBean.
@@ -55,10 +55,10 @@ public class ProjectPlanningController implements Serializable {
           pm.findByProjectManager(session.getCurrentEmployee().getEmployeeId())
         );
     labourGrades = lgm.getAllLabourGrades();
-    budgetedHours = new HashSet<BudgetedProjectHours>();
+    budgetedHours = new HashSet<BudgetedProjectWorkDays>();
     
     for (LabourGrade lg : labourGrades) {
-      BudgetedProjectHours bp = new BudgetedProjectHours();
+      BudgetedProjectWorkDays bp = new BudgetedProjectWorkDays();
       bp.setLabourGrade(lg);
       budgetedHours.add(bp);
     }
@@ -72,8 +72,8 @@ public class ProjectPlanningController implements Serializable {
   
   public ProjectPlanningController(ProjectManager pm, 
 		  Session ses, LabourGradeManager lgm, 
-		  EstimatedWorkPackageHoursManager ewm, WorkPackageManager wpm,
-		  BudgetedProjectHoursManager bhm, WorkPackageCodeService workPackageCodeService) {
+		  EstimatedWorkPackageWorkDaysManager ewm, WorkPackageManager wpm,
+		  BudgetedProjectWorkDaysManager bhm, WorkPackageCodeService workPackageCodeService) {
 	  this.pm = pm;
 	  this.session = ses;
 	  this.lgm = lgm;
@@ -141,14 +141,14 @@ public class ProjectPlanningController implements Serializable {
     return labourGrades;
   }
   
-  private List<EstimatedWorkPackageHours> getEstimateByLabourGrade(int labourGradeId) {
+  private List<EstimatedWorkPackageWorkDays> getEstimateByLabourGrade(int labourGradeId) {
     if (selectedProject != null) {
-      List<EstimatedWorkPackageHours> list = ewm.find(selectedProject, labourGradeId);
+      List<EstimatedWorkPackageWorkDays> list = ewm.find(selectedProject, labourGradeId);
       if (list != null) {
         return list; 
       }
     }
-    return new ArrayList<EstimatedWorkPackageHours>();
+    return new ArrayList<EstimatedWorkPackageWorkDays>();
   }
   
 //  /**
@@ -174,9 +174,9 @@ public class ProjectPlanningController implements Serializable {
   public Integer getLastEstimate(int labourGradeId) {
     Integer total = 0;
     if (selectedProject != null) {
-      EstimatedWorkPackageHours last = ewm.findLatest(selectedProject, labourGradeId);
-      List<EstimatedWorkPackageHours> list = getEstimateByLabourGrade(labourGradeId);
-      for (EstimatedWorkPackageHours ew : list) {
+      EstimatedWorkPackageWorkDays last = ewm.findLatest(selectedProject, labourGradeId);
+      List<EstimatedWorkPackageWorkDays> list = getEstimateByLabourGrade(labourGradeId);
+      for (EstimatedWorkPackageWorkDays ew : list) {
         if (ew.getDateCreated().equals(last.getDateCreated())) {
           total += ew.getManDay();
         }
@@ -190,16 +190,16 @@ public class ProjectPlanningController implements Serializable {
    * @param labourGradeId The labourGradeId to be searched.
    * @return A BudgetedProjectHour.
    */
-  public BudgetedProjectHours getBudgetedHourByLabourGrade(int labourGradeId) {
+  public BudgetedProjectWorkDays getBudgetedHourByLabourGrade(int labourGradeId) {
     if (selectedProject != null) {
-      for (BudgetedProjectHours q : budgetedHours) {
+      for (BudgetedProjectWorkDays q : budgetedHours) {
         if (q.getLabourGrade().getLabourGradeId() == labourGradeId) {
           return q;
         }
       }
     }
     
-    return new BudgetedProjectHours();
+    return new BudgetedProjectWorkDays();
   }
   
   /**
@@ -226,7 +226,7 @@ public class ProjectPlanningController implements Serializable {
    * @return null, to reload the page.
    */
   public String saveChanges() {
-    for (BudgetedProjectHours q : budgetedHours) {
+    for (BudgetedProjectWorkDays q : budgetedHours) {
       bhm.merge(q);
     }
     reset();
@@ -237,12 +237,12 @@ public class ProjectPlanningController implements Serializable {
    * Sets budgetedHours to the budgetedHours for the selectedProject that are found in the database.
    */
   public void retriveBudgetedHours() {
-    budgetedHours = new HashSet<BudgetedProjectHours>(bhm.find(selectedProject));
+    budgetedHours = new HashSet<BudgetedProjectWorkDays>(bhm.find(selectedProject));
     if (budgetedHours.size() == 0) {
-      budgetedHours = new HashSet<BudgetedProjectHours>();
+      budgetedHours = new HashSet<BudgetedProjectWorkDays>();
       
       for (LabourGrade lg : labourGrades) {
-        BudgetedProjectHours bp = new BudgetedProjectHours();
+        BudgetedProjectWorkDays bp = new BudgetedProjectWorkDays();
         bp.setLabourGrade(lg);
         bp.setProject(selectedProject);
         budgetedHours.add(bp);

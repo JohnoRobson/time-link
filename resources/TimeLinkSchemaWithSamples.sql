@@ -20,55 +20,56 @@ USE `timelink_dev`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Budget_Project_Hour`
+-- Table structure for table `budget_project_work_day`
 --
 
-DROP TABLE IF EXISTS `budget_project_hour`;
+DROP TABLE IF EXISTS `budget_project_work_day`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `budget_project_hour` (
-  `bph_id` int(11) NOT NULL AUTO_INCREMENT,
-  `bph_prj_id` int(11) DEFAULT NULL,
-  `bph_level` int(11) DEFAULT NULL,
-  `bph_man_day` int(11) DEFAULT NULL,
-  `bph_date_created` date DEFAULT NULL,
-  PRIMARY KEY (`bph_id`),
-  UNIQUE KEY `bph_id_UNIQUE` (`bph_id`)
+CREATE TABLE `budget_project_work_day` (
+  `bpd_id` int(11) NOT NULL AUTO_INCREMENT,
+  `bpd_prj_id` int(11) DEFAULT NULL,
+  `bpd_level` int(11) DEFAULT NULL,
+  `bpd_man_day` int(11) DEFAULT NULL,
+  `bpd_date_created` date DEFAULT NULL,
+  PRIMARY KEY (`bpd_id`),
+  UNIQUE KEY `bpd_id_UNIQUE` (`bpd_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `Budget_Wp_Hour`
+-- Table structure for table `budget_wp_work_day`
 --
 
-DROP TABLE IF EXISTS `budget_wp_hour`;
+DROP TABLE IF EXISTS `budget_wp_work_day`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `budget_wp_hour` (
-  `bwh_id` int(11) NOT NULL AUTO_INCREMENT,
-  `bwh_wp_id` int(11) DEFAULT NULL,
-  `bwh_level` int(11) DEFAULT NULL,
-  `bwh_man_day` int(11) DEFAULT NULL,
-  `bwh_date_created` date DEFAULT NULL,
-  PRIMARY KEY (`bwh_id`),
-  UNIQUE KEY `bwh_id_UNIQUE` (`bwh_id`)
+CREATE TABLE `budget_wp_work_day` (
+  `bwd_id` int(11) NOT NULL AUTO_INCREMENT,
+  `bwd_wp_id` int(11) DEFAULT NULL,
+  `bwd_level` int(11) DEFAULT NULL,
+  `bwd_man_day` int(11) DEFAULT NULL,
+  `bwd_date_created` date DEFAULT NULL,
+  PRIMARY KEY (`bwd_id`),
+  UNIQUE KEY `bwd_id_UNIQUE` (`bwd_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `estimate_wp_hour`
+-- Table structure for table `estimate_wp_work_day`
 --
 
-DROP TABLE IF EXISTS `estimate_wp_hour`;
+DROP TABLE IF EXISTS `estimate_wp_work_day`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `estimate_wp_hour` (
-  `ewh_id` int(11) NOT NULL AUTO_INCREMENT,
-  `ewh_wp_id` int(11) DEFAULT NULL,
-  `ewh_level` int(11) DEFAULT NULL,
-  `ewh_man_day` int(11) DEFAULT NULL,
-  `ewh_date_created` date DEFAULT NULL,
-  PRIMARY KEY (`ewh_id`)
+CREATE TABLE `estimate_wp_work_day` (
+  `ewd_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ewd_wp_id` int(11) DEFAULT NULL,
+  `ewd_level` int(11) DEFAULT NULL,
+  `ewd_man_day` int(11) DEFAULT NULL,
+  `ewd_date_created` date DEFAULT NULL,
+  PRIMARY KEY (`ewd_id`),
+  UNIQUE KEY `ewd_id_UNIQUE` (`ewd_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -171,6 +172,7 @@ CREATE TABLE `employee` (
   `emp_flex_time` int(11) DEFAULT NULL,
   `emp_vacation_time` int(11) DEFAULT NULL,
   `emp_vacation_rate` int(11) DEFAULT NULL,
+  `emp_default_tsh_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`emp_id`),
   UNIQUE KEY `emp_id_UNIQUE` (`emp_id`),
   UNIQUE KEY `emp_name_UNIQUE` (`emp_user_id`)
@@ -350,12 +352,12 @@ CREATE TABLE `wp_emp` (
   
   USE timelink_dev;
   
-INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", null, "a@a.com", 2, null, null, 100, 100, 120);
-INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", null, "tsa@tsa.com", 1, null, null, 100, 100, 80);
-INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", null, "pm@pm.com", 1, null, null, 100, 100, 160);
-INSERT INTO employee VALUES (4, "re", "refname", "relname", null, "ref@ref.com", 1, null, null, 100, 100, 120);
-INSERT INTO employee VALUES (5, "hr", "hrfname", "hrlname", null, "hr@hr.com", 1, null, null, 72, 30, 120);
-INSERT INTO employee VALUES (6, "sup", "supfname", "suplname", null, "sup@sup.com", 1, null, null, 72, 30, 120);
+INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", null, "a@a.com", 2, null, null, 100, 100, 120, null);
+INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", null, "tsa@tsa.com", 1, null, null, 100, 100, 80, null);
+INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", null, "pm@pm.com", 1, null, null, 100, 100, 160, null);
+INSERT INTO employee VALUES (4, "re", "refname", "relname", null, "ref@ref.com", 1, null, null, 100, 100, 120, null);
+INSERT INTO employee VALUES (5, "hr", "hrfname", "hrlname", null, "hr@hr.com", 1, null, null, 72, 30, 120, null);
+INSERT INTO employee VALUES (6, "sup", "supfname", "suplname", null, "sup@sup.com", 1, null, null, 72, 30, 120, null);
 
 INSERT INTO job_title VALUES (1, 1, 0);
 INSERT INTO job_title VALUES (2, 2, 0);

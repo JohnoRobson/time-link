@@ -16,44 +16,44 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "budget_wp_hour")
-public class BudgetedWorkPackageHours implements Serializable {
+@Table(name = "budget_wp_work_day")
+public class BudgetedWorkPackageWorkDays implements Serializable {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "bwh_id")
-  private int budgetHoursId;
+  @Column(name = "bwd_id")
+  private int budgetedWorkPackageHoursId;
   
-  @JoinColumn(name = "bwh_level",
+  @JoinColumn(name = "bwd_level",
       referencedColumnName = "lg_id")
   @ManyToOne
   private LabourGrade labourGrade;
   
-  @JoinColumn(name = "bwh_wp_id",
+  @JoinColumn(name = "bwd_wp_id",
       referencedColumnName = "wp_id")
   @ManyToOne(cascade = CascadeType.MERGE)
   private WorkPackage workPackage;
   
-  @Column(name = "bwh_man_day")
+  @Column(name = "bwd_man_day")
   private int manDay;
   
-  @Column(name = "bwh_date_created")
+  @Column(name = "bwd_date_created")
   private Date dateCreated;
 
   /**
-   * Returns the budgetHoursId.
-   * @return the budgetHoursId
+   * Returns the budgetedWorkPackageHoursId.
+   * @return the budgetedWorkPackageHoursId
    */
-  public int getBudgetedHoursId() {
-    return budgetHoursId;
+  public int getBudgetedWorkPackageHoursId() {
+    return budgetedWorkPackageHoursId;
   }
 
   /**
-   * Sets the budgetHoursId.
-   * @param budgetHoursId the budgetHoursId to set
+   * Sets the budgetedWorkPackageHoursId.
+   * @param budgetedWorkPackageHoursId the budgetedWorkPackageHoursId to set
    */
-  public void setPlannedHoursId(int budgetHoursId) {
-    this.budgetHoursId = budgetHoursId;
+  public void setBudgetedWorkPackageHoursId(int budgetedWorkPackageHoursId) {
+    this.budgetedWorkPackageHoursId = budgetedWorkPackageHoursId;
   }
 
   /**
@@ -86,7 +86,7 @@ public class BudgetedWorkPackageHours implements Serializable {
    */
   public void setWorkPackageLineId(WorkPackage workPackage) {
     if (workPackage != null && !workPackage.getPlannedHours().contains(this)) {
-      List<BudgetedWorkPackageHours> wp = workPackage.getPlannedHours();
+      List<BudgetedWorkPackageWorkDays> wp = workPackage.getPlannedHours();
       wp.add(this);
       workPackage.setPlannedHours(wp);
     }
@@ -124,7 +124,4 @@ public class BudgetedWorkPackageHours implements Serializable {
   public void setDateCreated(Date dateCreated) {
     this.dateCreated = dateCreated;
   }
-  
-  
-  
 }

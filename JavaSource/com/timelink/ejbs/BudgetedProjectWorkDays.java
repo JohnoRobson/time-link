@@ -15,44 +15,44 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "budget_project_hour")
-public class BudgetedProjectHours implements Serializable {
+@Table(name = "budget_project_work_day")
+public class BudgetedProjectWorkDays implements Serializable {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "bph_id")
-  private int budgetHoursId;
+  @Column(name = "bpd_id")
+  private int budgetedProjectHoursId;
   
-  @JoinColumn(name = "bph_level",
+  @JoinColumn(name = "bpd_level",
       referencedColumnName = "lg_id")
   @ManyToOne
   private LabourGrade labourGrade;
   
-  @JoinColumn(name = "bph_prj_id",
+  @JoinColumn(name = "bpd_prj_id",
       referencedColumnName = "prj_id")
   @ManyToOne(cascade = CascadeType.MERGE)
   private Project project;
   
-  @Column(name = "bph_man_day")
+  @Column(name = "bpd_man_day")
   private int manDay;
   
-  @Column(name = "bph_date_created")
+  @Column(name = "bpd_date_created")
   private Date dateCreated;
 
   /**
-   * Returns the budgetHoursId.
-   * @return the budgetHoursId
+   * Returns the budgetedProjectHoursId.
+   * @return the budgetedProjectHoursId
    */
-  public int getBudgetedHoursId() {
-    return budgetHoursId;
+  public int getBudgetedProjectHoursId() {
+    return budgetedProjectHoursId;
   }
 
   /**
-   * Sets the budgetHoursId.
-   * @param budgetHoursId the budgetHoursId to set
+   * Sets the budgetedProjectHoursId.
+   * @param budgetedProjectHoursId the budgetedProjectHoursId to set
    */
-  public void setPlannedHoursId(int budgetHoursId) {
-    this.budgetHoursId = budgetHoursId;
+  public void setBudgetedProjectHoursId(int budgetedProjectHoursId) {
+    this.budgetedProjectHoursId = budgetedProjectHoursId;
   }
 
   /**
@@ -118,7 +118,4 @@ public class BudgetedProjectHours implements Serializable {
   public void setDateCreated(Date dateCreated) {
     this.dateCreated = dateCreated;
   }
-  
-  
-  
 }
