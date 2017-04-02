@@ -45,7 +45,7 @@
 							<p:ajax event="change" oncomplete="onCellEdit()" />
    							<!-- <f:attribute name="remainingDays" value="#{BudgetWorkPackageREController.getDaysRemaining(row, lg.labourGradeId)}" /> -->
 						</h:inputText>
-<!--that line i took out goes here dude.  -->
+						<h:outputText value="Remaining days: #{BudgetWorkPackageREController.getDaysRemaining(row, lg.labourGradeId)}" />
 					</p:columns>
 					<p:column styleClass="tsHeader" headerText="Total Hrs">
 						<h:outputText value="#{row.getTotalPlannedHours()}" />
