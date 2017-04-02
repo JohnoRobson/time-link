@@ -10,13 +10,16 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">  
 	    <ui:define name="content">
-			<div class="pageTitle">
-				<h1>Project Planning</h1>
+	    <div class="projPlanWrapper">
+			<div class="title">
+				<hr />
+				<h1 class="loginTitle">Project Planning</h1>
 			</div>
 			<h:form>
-				<p:panel id="projectplanning">
-					<h:panelGrid styleClass="panel" columns="2">
-						<h:outputText value="Select project to view" />
+				<p:panel id="projectplanning" styleClass="projPanel">
+				<div class="timesheetHead projPlanHead">
+					<h:panelGrid columns="2">
+						<h:outputText value="Select project to view: " />
 						<p:selectOneMenu value="#{ProjectPlanningController.selectedProjectId}">
 			            	<p:ajax event="itemSelect" update="projectplanning" />
 			            	<f:selectItem noSelectOption="true" itemDisabled="true" itemLabel="Select a project" />
@@ -25,15 +28,18 @@
 			            				   itemValue="#{pro.projectNumber}" />
 		        		</p:selectOneMenu>
 					</h:panelGrid>
+				</div>
 					<p:remoteCommand name="onCellEdit" update="table" />
-					<p:dataTable id="table" var="lg" value="#{ProjectPlanningController.getLabourGrades()}" editable="#{true}" editMode="cell" render="#{ProjectPlanningController.selectedProjectId != null}">
-		    			<p:column headerText="Pay Level">
+					<p:dataTable id="table" var="lg" value="#{ProjectPlanningController.getLabourGrades()}"
+					             editable="#{true}" editMode="cell" render="#{ProjectPlanningController.selectedProjectId != null}"
+					             styleClass="projPlanTbl">
+		    			<p:column styleClass="tsHeader"  headerText="Pay Level">
 							<h:outputText value="#{lg.name}" />
 						</p:column>
-						<p:column headerText="Last Weekly Remaining Estimates">
+						<p:column styleClass="tsHeader" headerText="Last Estimates">
 							<h:outputText value="#{ProjectPlanningController.getLastEstimate(lg.labourGradeId)}" />
 						</p:column>
-						<p:column headerText="Set Budget">
+						<p:column styleClass="tsHeader"  headerText="Set Budget">
 							<p:cellEditor>
 		                        <f:facet name="output">
 		                            <h:outputText value="#{ProjectPlanningController.getBudgetedHourByLabourGrade(lg.labourGradeId).manDay}" />
@@ -43,16 +49,19 @@
 		                        </f:facet>
 		                    </p:cellEditor>
 						</p:column>
-						<p:column headerText="Charged Hours">
+						<p:column styleClass="tsHeader"  headerText="Charged Hours">
 							<h:outputText value="#{ProjectPlanningController.getTotalChargedHours(lg.labourGradeId)}" />
 						</p:column>
-						<p:column headerText="Remaining Budget">
+						<p:column styleClass="tsHeader"  headerText="Remaining Budget">
 							<h:outputText value="#{ProjectPlanningController.getBudgetedHourByLabourGrade(lg.labourGradeId).manDay - ProjectPlanningController.getTotalChargedHours(lg.labourGradeId)}" />
 						</p:column>
 		    		</p:dataTable>
-		    		<p:commandButton value="Save Changes" action="#{ProjectPlanningController.saveChanges()}" ajax="false" />
+		    		<div class="align">
+		    			<p:commandButton value="Save Changes" styleClass="logButton projPlanBtn" action="#{ProjectPlanningController.saveChanges()}" ajax="false" />
+					</div>
 				</p:panel>
 			</h:form>
+	    </div>
 	    </ui:define>
 	</ui:composition>
 	</h:body>

@@ -52,7 +52,7 @@ body {
 }
 
 .footerBanner {    
-    position: absolute;
+    position: relative;
   	right: 0;
   	bottom: 0;
   	left: 0;
@@ -108,10 +108,15 @@ body {
 
 /* title of page - index.xhtml */
 .title {
-/* 	text-align:center;
- */	margin-top: 5vh;
+	text-align:center;
+ 	margin-top: 5vh;
 	margin-bottom: 3vh;
 	font-size: 1.5em;
+	/* background: purple; */
+}
+
+.loginTitle {
+	text-align:left;
 }
 
 .title hr {
@@ -147,11 +152,12 @@ body {
 }
 
 /* the div that holds the login button - index.xhtml */
-#loginBtn {
-	float:right;
-	margin-top: 3vh;
+.loginBtn {
+ 	float:right;
+ 	margin-top: 3vh;
 	margin-bottom: 3vh;
-}
+/* 	background: gray;
+ */}
 
 
 /*Login button itself - index.xhtml */
@@ -241,17 +247,27 @@ body {
 	located - home.xhtml */
 .homeContent {
 	margin:auto;
+	width: 50%;
 	text-align:center;
-}	
+/* 	background:red; 
+ */}	
 
 /*create project styles start here */
 /* create project panel projcreation.xhtml */ 
+
+.projCtrl {
+	margin:auto;
+	width: 50%;
+	/* background:blue; */
+}
+
 .panel {
 	margin-left:auto;
 	margin-right: auto;
 	margin-top: 2%;
+	width: 100%;
 	background: #dfdfdf;
-	padding: 2% 2% 2% 2%;
+	padding: 5% 5% 5% 5%;
 	border-radius: 10px;
 	border: 2px solid #4f4f4f;
 	-webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
@@ -304,7 +320,7 @@ body {
 	padding: 1% 2% 1% 2%;
 	margin:auto;
 	margin-bottom: 2%;
-	margin-top: 1%;
+	margin-top: 2%;
 	border: 2px solid #4f4f4f;
 	-webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	-moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
@@ -332,17 +348,11 @@ body {
 .tsCont {
 	width: 70%;
 	margin:auto;
-
-}
+/* 	background: yellow;
+ */}
 
 /* button for deleting a row in a timesheet */
-.tsdelbtn {
-	margin-left: 15%;
-	background: white !important;
-	border: 2px solid #4f4f4f !important;
-	padding: 0%;
-	
-}
+
 /* the curve on the timesheet table */
 /* note - this affects all data tables in the site */
 .ui-datatable-tablewrapper {
@@ -533,6 +543,14 @@ class for other pages like the ts class from the timesheet page */
    **Note** some styles are taken from other 
    pages to try and minimize repeating styles. */
 
+.assignEmpWrapper {
+	margin:auto;
+	width: 70%;
+	text-align:center;
+	/* background:red */;
+}
+
+
 /* assignEmpCont - is to adjust the content div */
 .assignEmpCont {
 	margin-top: 2%;
@@ -540,37 +558,128 @@ class for other pages like the ts class from the timesheet page */
 
 .widgetCont {
 	display: flex;
-	flex-flow: row wrap;	
-	
+	flex-flow: row wrap;		
 }
 
 
 /* asgnProjTbl for the data table sizing and positioning */
 .asgnProjTbl {
-	width: 40%;
-	flex-grow:1;
+	width: 51%;
+	flex-grow:2;
 	padding: 2%;
-	/* background:blue; */
+	
+	/* background:blue;  */
 }
 
 .asgnEmpPick {
 	width:40%;
 	flex-grow:1;
 	padding: 2%;
-	/* background:red; */
-}
+/*  	background:green;
+ */}
 
 h2.mngEmpProjSubHead {
-	margin-bottom: 1%;
+	text-align: left;
+	margin: 2%;
 }
 
-
+.asgnBtn {
+	float:left !Important;
+}
 
 /* End of styles for assignemp.xhtml.*/
+
+/* Styles for projectplanning.xhtml start here */
+
+.projPlanWrapper {
+	margin:auto;
+	width: 55%;
+}
+
+.projPlanHead {
+	width: 47%;
+	margin-bottom: 3%;
+}
+
+.projPlanTbl {
+	margin:auto;
+	width: 80%;
+}
+
+.projPlanBtn {
+	margin-top: 3%;
+	margin-right: 10%;
+	
+}
+.align {
+	text-align: right;
+}
+
+..ui-widget-content {
+	border: none !important;
+	margin-bottom: 5%;
+}
+
+.projPanel {
+	border: none !important;
+}
+
+/* styles for projectplanning.xhtml end here */
+
+/* styles for assign employees to wp start here 
+   assigntowp.xhtml */
+  
+.asgnWPEmp {
+	margin:auto;
+	width: 70%;
+	text-align:center;
+	/* background:red */;
+}
+
+.asgnEmpWpCont {
+	margin:auto;
+	width: 90%;
+	
+}
+
+.asgnEmpDropDwn {
+	text-align: left;
+	margin-left: 3%;
+}
+
+/* styles for assigntowp.xhtml end here */
+
+/* styles for workpackagebudgetre.xhtml start here
+   these styles are for estimating the work package budget */
+   
+.estWpWrapper {
+	margin: auto;
+	width: 70%;
+}
+
+.budgetWrap {
+	width: 85%;
+	margin: auto;
+	margin-bottom: 7%;
+	margin-top: 5%;
+}
+
+.estWpSubHead {
+	text-align: left;
+	margin-bottom: 2%;
+}
+
+.wpbdreBtn {
+	text-align:center;
+	
+}
+
+/* end of workpackagebudgetre.xhtml */
 
 #content {
 	width: 100%;
 }
+
 
 #content h1 {
 	width: 20%;
@@ -599,6 +708,11 @@ form {
 
 #approveTable {
 	border-spacing: 1%;
+}
+
+#projectplanning {
+	border: none !important;
+		
 }
 
 /*don't delete this */

@@ -10,11 +10,12 @@
 	<h:body>
 		<ui:composition template="resources/templates/template.xhtml">
 		    <ui:define name="content">
-		    <div class="homeContent">
-		    	<div class="pageTitle empTitle">
-		    		<h1>Add Employees to Projects page</h1>
+		    <div class="assignEmpWrapper">
+		    	<div class="title">
+		    		<hr />
+		    		<h1 class="loginTitle">Assign Employees To Project</h1>
 		    	</div>
-		    <div class="tsCont assignEmpCont">
+		    <div class="tsCont">
 		    	<h:form>
 		    	<div class="widgetCont">
 		    		<div class="asgnProjTbl">
@@ -35,7 +36,10 @@
 	                	<p:pickList id="pickList" value="#{AssignEmployeesController.employees}" 
 	                		        var="employee" itemLabel="#{employee.firstName}" 
 	                    		    itemValue="#{employee}" converter="EmployeeConverter"/>
-	                	<p:commandButton value="Assign" action="assignemp" ajax="false"/>
+	                	<div class="loginBtn asgnBtn">
+	                		<p:commandButton value="Assign" styleClass="logButton" 
+	                						 action="assignemp" ajax="false"/>
+	                	</div>
 	                </div>
 	            </div>
                 </h:form>

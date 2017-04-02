@@ -1,14 +1,14 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.ejbs.BudgetedWorkPackageHours;
-import com.timelink.ejbs.EstimatedWorkPackageHours;
+import com.timelink.ejbs.BudgetedWorkPackageWorkDays;
+import com.timelink.ejbs.EstimatedWorkPackageWorkDays;
 import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
-import com.timelink.managers.BudgetedWorkPackageHoursManager;
-import com.timelink.managers.EstimatedWorkPackageHoursManager;
+import com.timelink.managers.BudgetedWorkPackageWorkDaysManager;
+import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.HoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.WorkPackageManager;
@@ -27,8 +27,8 @@ import javax.inject.Named;
 public class LabourReportController implements Serializable {
   @Inject Session ses;
   @Inject WorkPackageManager wpm;
-  @Inject BudgetedWorkPackageHoursManager bwm;
-  @Inject EstimatedWorkPackageHoursManager ewm;
+  @Inject BudgetedWorkPackageWorkDaysManager bwm;
+  @Inject EstimatedWorkPackageWorkDaysManager ewm;
   @Inject LabourGradeManager lgm;
   @Inject HoursManager hm;
   
@@ -126,9 +126,9 @@ public class LabourReportController implements Serializable {
    */
   public Date getDate() {
     if (selectedWorkPackage != null) {
-      List<EstimatedWorkPackageHours> el = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
+      List<EstimatedWorkPackageWorkDays> el = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
       Date mostRecent = new Date(0);
-      for (EstimatedWorkPackageHours eh : el) {
+      for (EstimatedWorkPackageWorkDays eh : el) {
         if (eh.getDateCreated().after(mostRecent)) {
           mostRecent = eh.getDateCreated();
         }
@@ -143,7 +143,7 @@ public class LabourReportController implements Serializable {
    * @param labourGradeId The labourGradeId to be searched
    * @return A BudgetedWorkPackageHours
    */
-  public BudgetedWorkPackageHours getBudgetedHourByLabourGrade(int labourGradeId) {
+  public BudgetedWorkPackageWorkDays getBudgetedHourByLabourGrade(int labourGradeId) {
     if (selectedWorkPackage != null) {
       //return bwm.find(selectedWorkPackage, labourGradeId);
     }

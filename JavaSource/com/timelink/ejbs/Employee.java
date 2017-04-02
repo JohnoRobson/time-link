@@ -1,5 +1,7 @@
 package com.timelink.ejbs;
 
+import com.timelink.enums.RoleEnum;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,11 +19,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.timelink.enums.RoleEnum;
 
 @SuppressWarnings("serial")
 @Entity
@@ -57,18 +58,13 @@ public class Employee implements Serializable {
   @Column(name = "emp_lname")
   private String lastName;
   
-  /*
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "prj_emp",
-      joinColumns = @JoinColumn(name = "pe_emp_id"),
-      inverseJoinColumns = @JoinColumn(name = "pe_prj_id"))
-  private Set<Project> projects; */
-  
   @ManyToMany(fetch = FetchType.EAGER, mappedBy = "employees")
   private Set<Project> projects; 
   
-  @Column(name = "emp_lg_id")
-  private Integer labourGrade;
+  @JoinColumn(name = "emp_lg_id",
+      referencedColumnName = "lg_id")
+  @ManyToOne
+  private LabourGrade labourGrade;
   
   @Column(name = "emp_user_id")
   private String userId;
@@ -90,6 +86,11 @@ public class Employee implements Serializable {
   
   @Column(name = "emp_vacation_rate")
   private Integer vacationRate;
+  
+  @JoinColumn(name = "emp_default_tsh_id",
+      referencedColumnName = "tsh_id")
+  @ManyToOne
+  private Timesheet defaultTimesheet;
   
   //private String status;
   
@@ -185,7 +186,7 @@ public class Employee implements Serializable {
    * Returns the labourGrade.
    * @return the labourGrade
    */
-  public Integer getLabourGrade() {
+  public LabourGrade getLabourGrade() {
     return labourGrade;
   }
   
@@ -193,7 +194,7 @@ public class Employee implements Serializable {
    * Sets labourGrade to labourGrade.
    * @param labourGrade the labourGrade to set
    */
-  public void setLabourGrade(Integer labourGrade) {
+  public void setLabourGrade(LabourGrade labourGrade) {
     this.labourGrade = labourGrade;
   }
   
@@ -221,6 +222,22 @@ public class Employee implements Serializable {
     return roles;
   }
   
+  /**
+   * Returns the defaultTimesheet.
+   * @return the defaultTimesheet
+   */
+  public Timesheet getDefaultTimesheet() {
+    return defaultTimesheet;
+  }
+
+  /**
+   * Sets the defaultTimesheet.
+   * @param defaultTimesheet the defaultTimesheet to set
+   */
+  public void setDefaultTimesheet(Timesheet defaultTimesheet) {
+    this.defaultTimesheet = defaultTimesheet;
+  }
+
   /**
    * Returns true if the employee has the specified role.
    * @param roleEnum the role to be checked.

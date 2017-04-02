@@ -11,6 +11,9 @@ public class WeekNumberService implements WeekNumberServiceInterface {
 
   @Override
   public Date getDateFromWeekYear(int week, int year) {
+    if (week <= 0 || week > 52 || year < 1970) {
+        throw new IllegalArgumentException();
+    }
     Calendar calendar = Calendar.getInstance();
     calendar.clear();
     calendar.set(Calendar.WEEK_OF_YEAR, week);

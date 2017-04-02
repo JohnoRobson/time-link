@@ -9,13 +9,16 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
   
   private static final String WP_STARTING_CODE = "1000000";
   private static final String WP_ZERO_CODE     = "0000000";
+  private static final String WP_TOP_WILDCARD  = "_000000";
 
   @Override
   public String generateNewCode(Project project, String code, String newNumber) {
     if (code == null || code.length() == 0) {
-      return incrementSameLevel(findLargestCodeSameLevel(WP_STARTING_CODE, project), newNumber, project);
+      return incrementSameLevel(findLargestCodeSameLevel(WP_STARTING_CODE, project),
+          newNumber, project);
     } else {
-      return incrementSameLevel(findLargestCodeSameLevel(findNextLevel(code), project), newNumber, project);
+      return incrementSameLevel(findLargestCodeSameLevel(findNextLevel(code), project),
+          newNumber, project);
     }
   }
   
@@ -30,22 +33,16 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
     
     //If it is the first work package in a project
     if (code.equals(WP_ZERO_CODE)) {
-      StringBuilder q = new StringBuilder(WP_ZERO_CODE);
-      q.setCharAt(0, uppercase(newNumber));
-      checkForUnique(project, q.toString());
-      return q.toString();
+      StringBuilder qq = new StringBuilder(WP_ZERO_CODE);
+      qq.setCharAt(0, uppercase(newNumber));
+      checkForUnique(project, qq.toString());
+      return qq.toString();
     }
     
     //Find the first non-zero char
     int toBeInc = sb.indexOf("0") - 1;
     
-    char digit = sb.charAt(toBeInc);
-    if (digit == 'Z') {
-      //Can't increment past Z
-      throw new IllegalArgumentException("Cannot increment this workpackage number past " + code);
-    } else {
-      sb.setCharAt(toBeInc, uppercase(newNumber));
-    }
+    sb.setCharAt(toBeInc, uppercase(newNumber));
     checkForUnique(project, sb.toString());
     return sb.toString();
   }
@@ -94,12 +91,26 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
   }
   
   private char uppercase(String code) {
-    char c = code.charAt(0);
-    if (Character.isDigit(c)) {
-      return c;
+    char ch = code.charAt(0);
+    if (Character.isDigit(ch)) {
+      return ch;
     } else {
-      return Character.toUpperCase(c);
+      return Character.toUpperCase(ch);
     }
+  }
+
+  @Override
+  public String generateChildWildcardCode(WorkPackage wp) {
+    String code = wp.getCode();
+    StringBuilder sb = new StringBuilder(wp.getCode());
+    
+    sb.setCharAt(code.indexOf('0'), '_');
+    return sb.toString();
+  }
+
+  @Override
+  public String generateTopLevelWildcardCode() {
+    return WP_TOP_WILDCARD;
   }
 
 }

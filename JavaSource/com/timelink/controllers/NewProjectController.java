@@ -32,6 +32,15 @@ public class NewProjectController implements Serializable {
   private Integer projectManager;
   private Integer projectManagerAssistant;
   
+  public NewProjectController(){}
+  
+  public NewProjectController(ProjectManager pm, EmployeeManager em, RoleManager rm) {
+	  this.pm = pm;
+	  this.em = em;
+	  this.rm = rm;
+  }
+  
+  
   /**
    * Returns the projectName.
    * @return the projectName
