@@ -10,36 +10,36 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">  
 	    <ui:define name="content">
-	    	<div id="main">
-	    	<h1>Create work package budget</h1>
+	    <div class="estWpWrapper">
+	    	<div class="title">
+	    		<hr />
+	    		<h1 class="loginTitle">Estimate WP Budget</h1>
+	    	</div>
 	    	<h:form>
-        		<h2>Not Submitted Work Packages</h2>
-        		<p:remoteCommand name="onCellEdit" update="matrix" />
+        		<div class="budgetWrap">
+        			<h2 class="estWpSubHead">Unsubmitted Work Packages</h2>
+        			<p:remoteCommand name="onCellEdit" update="matrix" />
 	    		<p:dataTable id="matrix" var="row" value="#{BudgetWorkPackageREController.getWorkPackageList()}" editable="#{true}" editMode="cell" rowIndexVar="index">
-	    			<p:column>
-	    				<p:commandButton
+	    			<p:column styleClass="tsHeader wpbdreBtn" headerText="Submit">
+	    				<p:commandLink
 		                	value="Submit"
+		                	styleClass="editBtn"
 		                	type="submit"
 		                	action="#{BudgetWorkPackageREController.submitWorkPackage()}"
 		                	ajax="false"
 		                	>
 		                <f:setPropertyActionListener value="#{row}" target="#{BudgetWorkPackageREController.editingWorkPackage}" />
-		        		</p:commandButton>
+		        		</p:commandLink>
 	    			</p:column>
-	    			<p:column headerText="Project">
+	    			<p:column styleClass="tsHeader" headerText="Project">
 						<h:outputText value="#{row.project.projectName}" />
 					</p:column>
-	    			<p:column headerText="Work Package">
+	    			<p:column styleClass="tsHeader" headerText="Work Package">
 						<h:outputText value="#{row.code}" />
 					</p:column>
-					<p:column headerText="Work Package Description">
-						<h:outputText value="#{row.description}" />
-					</p:column>
-					<p:columns value="#{BudgetWorkPackageREController.getLabourGrades()}" var="lg">
+					<p:columns styleClass="tsHeader" value="#{BudgetWorkPackageREController.getLabourGrades()}" var="lg">
 						<f:facet name="header">
-                			<h:outputText value="#{lg.name}" />
-                			<br />
-                			<h:outputText value="Rate: #{lg.costRate}" />
+                			<h:outputText value="#{lg.name}" />             			
             			</f:facet>
 						<h:inputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}"> <!-- validator="#{BudgetWorkPackageREController.validateDays}" id="wphours"> -->
 							<p:ajax event="change" oncomplete="onCellEdit()" />
@@ -47,15 +47,16 @@
 						</h:inputText>
 						<h:outputText value="Remaining days: #{BudgetWorkPackageREController.getDaysRemaining(row, lg.labourGradeId)}" />
 					</p:columns>
-					<p:column headerText="Total Hours">
+					<p:column styleClass="tsHeader" headerText="Total Hrs">
 						<h:outputText value="#{row.getTotalPlannedHours()}" />
 					</p:column>
-					<p:column headerText="Total Costs">
+					<p:column styleClass="tsHeader" headerText="Total Cost">
 						<h:outputText value="#{row.getTotalPlannedCosts()}" />
 					</p:column>
 	    		</p:dataTable>
+	    		</div>
 	    	</h:form>
-	    	</div>
+	    </div>
 	    </ui:define>
 	</ui:composition>
 	</h:body>
