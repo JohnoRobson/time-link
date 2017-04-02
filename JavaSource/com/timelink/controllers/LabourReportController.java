@@ -8,7 +8,7 @@ import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.BudgetedWorkPackageWorkDaysManager;
-import com.timelink.managers.EstimatedWorkPackageHoursManager;
+import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.HoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.WorkPackageManager;
@@ -28,7 +28,7 @@ public class LabourReportController implements Serializable {
   @Inject Session ses;
   @Inject WorkPackageManager wpm;
   @Inject BudgetedWorkPackageWorkDaysManager bwm;
-  @Inject EstimatedWorkPackageHoursManager ewm;
+  @Inject EstimatedWorkPackageWorkDaysManager ewm;
   @Inject LabourGradeManager lgm;
   @Inject HoursManager hm;
   

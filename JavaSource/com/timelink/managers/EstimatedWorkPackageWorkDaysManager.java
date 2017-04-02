@@ -17,7 +17,7 @@ import javax.persistence.TypedQuery;
 
 @Dependent
 @Stateless
-public class EstimatedWorkPackageHoursManager {
+public class EstimatedWorkPackageWorkDaysManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   public EstimatedWorkPackageWorkDays find(int id) {
@@ -149,7 +149,7 @@ public class EstimatedWorkPackageHoursManager {
   public List<EstimatedWorkPackageWorkDays> getAllWithWorkPackageUniqueDate(WorkPackage wp) {
     TypedQuery<EstimatedWorkPackageWorkDays> query
         = em.createQuery("SELECT ew FROM EstimatedWorkPackageWorkDays AS ew "
-        + "WHERE ew.workpackage = :wp GROUP BY ew.dateCreated "
+        + "WHERE ew.workpackage = :wp GROUP BY ew.dateCreated, ew.estimatedWorkPackageHoursId "
         + "ORDER BY ew.dateCreated DESC", EstimatedWorkPackageWorkDays.class)
         .setParameter("wp", wp);
     return query.getResultList();

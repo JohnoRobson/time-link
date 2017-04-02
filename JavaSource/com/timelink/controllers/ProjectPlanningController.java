@@ -7,7 +7,7 @@ import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.managers.BudgetedProjectWorkDaysManager;
-import com.timelink.managers.EstimatedWorkPackageHoursManager;
+import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.HoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
@@ -33,7 +33,7 @@ public class ProjectPlanningController implements Serializable {
   @Inject ProjectManager pm;
   @Inject LabourGradeManager lgm;
   @Inject BudgetedProjectWorkDaysManager bhm;
-  @Inject EstimatedWorkPackageHoursManager ewm;
+  @Inject EstimatedWorkPackageWorkDaysManager ewm;
   @Inject WeekNumberService weekNumberService;
   @Inject HoursManager hm;
   

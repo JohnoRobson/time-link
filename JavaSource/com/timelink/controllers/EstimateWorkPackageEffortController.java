@@ -4,7 +4,7 @@ import com.timelink.Session;
 import com.timelink.ejbs.EstimatedWorkPackageWorkDays;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.WorkPackage;
-import com.timelink.managers.EstimatedWorkPackageHoursManager;
+import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.WeekNumberService;
@@ -28,7 +28,7 @@ import javax.inject.Named;
 public class EstimateWorkPackageEffortController implements Serializable {
   @Inject Session session;
   @Inject WorkPackageManager wpm;
-  @Inject EstimatedWorkPackageHoursManager ewm;
+  @Inject EstimatedWorkPackageWorkDaysManager ewm;
   @Inject WeekNumberService weekNumberService;
   @Inject LabourGradeManager lgm;
   
