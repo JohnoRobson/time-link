@@ -11,11 +11,12 @@
 	<ui:composition template="resources/templates/template.xhtml">
 		<ui:define name="content">
 		<div class="homeContent">
-			<div class="pageTitle">
-				<h1>Create a Project</h1>
+			<div class="title">
+				<hr />
+				<h1 class="loginTitle">Create a Project</h1>
 			</div>
+			<div class="projCtrl">
 	        <h:form>
-	        	<div>
 	            <h:panelGrid styleClass="panel" columns="2">
 	            	<h:outputText styleClass="projLabel" value="Project Name: "/>
 	            	<p:inputText value="#{NewProjectController.projectName}"
@@ -37,11 +38,12 @@
                 					   var="pma" itemLabel="#{pma.firstName}" itemValue="#{pma.employeeId}" />
                     </p:selectOneMenu>
 	            </h:panelGrid>
-	            <p:message for="projectname" />
-	            <p:commandButton value="Create Project" styleClass="projBtn"
-	            				 action="#{NewProjectController.createProject}" ajax="false" />
+	            <div class="loginBtn">
+	            	<p:commandButton value="Create Project" styleClass="logButton"
+	            				 action="#{NewProjectController.createProject}" ajax="false"/>
 	            </div>
 	        </h:form>
+	      </div>
 	    </div>
 		</ui:define>
 	</ui:composition>

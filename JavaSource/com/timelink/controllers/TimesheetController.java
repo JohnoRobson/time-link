@@ -1,6 +1,7 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
+import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;

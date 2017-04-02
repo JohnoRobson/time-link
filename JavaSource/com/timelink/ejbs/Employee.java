@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -57,18 +58,13 @@ public class Employee implements Serializable {
   @Column(name = "emp_lname")
   private String lastName;
   
-  /*
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "prj_emp",
-      joinColumns = @JoinColumn(name = "pe_emp_id"),
-      inverseJoinColumns = @JoinColumn(name = "pe_prj_id"))
-  private Set<Project> projects; */
-  
   @ManyToMany(fetch = FetchType.EAGER, mappedBy = "employees")
   private Set<Project> projects; 
   
-  @Column(name = "emp_lg_id")
-  private Integer labourGrade;
+  @JoinColumn(name = "emp_lg_id",
+      referencedColumnName = "lg_id")
+  @ManyToOne
+  private LabourGrade labourGrade;
   
   @Column(name = "emp_user_id")
   private String userId;
@@ -185,7 +181,7 @@ public class Employee implements Serializable {
    * Returns the labourGrade.
    * @return the labourGrade
    */
-  public Integer getLabourGrade() {
+  public LabourGrade getLabourGrade() {
     return labourGrade;
   }
   
@@ -193,7 +189,7 @@ public class Employee implements Serializable {
    * Sets labourGrade to labourGrade.
    * @param labourGrade the labourGrade to set
    */
-  public void setLabourGrade(Integer labourGrade) {
+  public void setLabourGrade(LabourGrade labourGrade) {
     this.labourGrade = labourGrade;
   }
   

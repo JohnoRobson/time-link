@@ -10,8 +10,8 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
 	    <ui:define name="content">
-	    	<div id="timesheetHead">
-	    		<div id="timesheetSubOne">
+	    	<div class="timesheetHead">
+	    		<div class="timesheetSubOne">
 	    			<h:panelGrid columns="2">
 	    				<h:outputLabel value="Name:" />
 	    				<h:outputText value="#{Session.currentEmployee.firstName} #{Session.currentEmployee.lastName}" />
@@ -19,7 +19,7 @@
 	   					<h:outputText value="#{TimesheetController.selectedTimesheet.date}" />
 	    			</h:panelGrid>
 	    		</div>
-	    		<div id="timesheetSubTwo">
+	    		<div class="timesheetSubTwo">
 	    			<h:panelGrid columns="2">
 	    				<h:outputLabel value="UserId:" />
 	    				<h:outputText value="#{Session.currentEmployee.employeeId}" />
