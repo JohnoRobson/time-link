@@ -200,6 +200,15 @@ public class NewProjectController implements Serializable {
       throw new IllegalArgumentException("value not a String");
     }
     
+    String s = (String) value;
+    
+    for (char c : s.toCharArray()) {
+      if (!Character.isDigit(c)) {
+        throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+            "Project name must be numeric", "Project name must be numeric"));
+      }
+    }
+    
     if (!pm.projectNameIsUnique((String) value)) {
       throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
           "Project name must be unique", "Project name must be unique"));

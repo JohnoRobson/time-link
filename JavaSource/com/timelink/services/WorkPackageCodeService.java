@@ -8,17 +8,17 @@ import com.timelink.services.interfaces.WorkPackageCodeServiceInterface;
 public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
   
   private static final String WP_STARTING_CODE = "1000000";
-  
-  private Project project;
+  private static final String WP_ZERO_CODE     = "0000000";
+  private static final String WP_TOP_WILDCARD  = "_000000";
 
   @Override
-  public String generateNewCode(Project project, String code) {
-    this.project = project;
-    
-    if (code == null) {
-      return incrementSameLevel(findLargestCodeSameLevel(WP_STARTING_CODE));
+  public String generateNewCode(Project project, String code, String newNumber) {
+    if (code == null || code.length() == 0) {
+      return incrementSameLevel(findLargestCodeSameLevel(WP_STARTING_CODE, project),
+          newNumber, project);
     } else {
-      return incrementSameLevel(findLargestCodeSameLevel(findNextLevel(code)));
+      return incrementSameLevel(findLargestCodeSameLevel(findNextLevel(code), project),
+          newNumber, project);
     }
   }
   
@@ -28,48 +28,39 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
    * @param code The code to increment
    * @return An incremented WP code.
    */
-  private String incrementSameLevel(String code) {
+  private String incrementSameLevel(String code, String newNumber, Project project) {
     StringBuilder sb = new StringBuilder(code);
+    
+    //If it is the first work package in a project
+    if (code.equals(WP_ZERO_CODE)) {
+      StringBuilder qq = new StringBuilder(WP_ZERO_CODE);
+      qq.setCharAt(0, uppercase(newNumber));
+      checkForUnique(project, qq.toString());
+      return qq.toString();
+    }
     
     //Find the first non-zero char
     int toBeInc = sb.indexOf("0") - 1;
     
-    //Increment it
-    if (Character.isDigit((sb.charAt(toBeInc)))) {
-      char digit = sb.charAt(toBeInc);
-      if (digit < '9') {
-        ++digit;
-        sb.setCharAt(toBeInc, digit);
-      } else {
-        sb.setCharAt(toBeInc, 'A');
-      }
-    } else if (Character.isAlphabetic((sb.charAt(toBeInc)))) {
-      //If it is not a digit increment anyway
-      char digit = sb.charAt(toBeInc);
-      if (digit < 'Z') {
-        ++digit;
-        sb.setCharAt(toBeInc, digit);
-      } else {
-        //Can't increment past Z
-        throw new IllegalArgumentException("Cannot increment this workpackage number past " + code);
-      }
-    }
-    
-    //if the char is a period, it is the first in a level
-    if (sb.charAt(toBeInc) == '.') {
-      sb.setCharAt(toBeInc, '1');
-    }
-    
+    sb.setCharAt(toBeInc, uppercase(newNumber));
+    checkForUnique(project, sb.toString());
     return sb.toString();
   }
   
   /**
    * Finds the largest code on the given workpackage 'level.'
    * @param code The code to search
+   * @param project The project given
    * @return The largest wp code on the given 'level.'
    */
-  private String findLargestCodeSameLevel(String code) {
+  private String findLargestCodeSameLevel(String code, Project project) {
     String highest = code;
+    
+    //There are no work packages.
+    if (project.getWorkPackages().size() == 0) {
+      return WP_ZERO_CODE;
+    }
+    
     for (WorkPackage wp : project.getWorkPackages()) {
       int indexOfChk = wp.getCode().indexOf('0');
       int indexOfCur = code.indexOf('0');
@@ -89,6 +80,37 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
     StringBuilder sb = new StringBuilder(code);
     sb.setCharAt(code.indexOf('0'), '.');
     return sb.toString();
+  }
+  
+  private void checkForUnique(Project project, String code) {
+    for (WorkPackage wp : project.getWorkPackages()) {
+      if (wp.getCode().equals(code)) {
+        throw new IllegalArgumentException("Code " + code + " is already taken");
+      }
+    }
+  }
+  
+  private char uppercase(String code) {
+    char ch = code.charAt(0);
+    if (Character.isDigit(ch)) {
+      return ch;
+    } else {
+      return Character.toUpperCase(ch);
+    }
+  }
+
+  @Override
+  public String generateChildWildcardCode(WorkPackage wp) {
+    String code = wp.getCode();
+    StringBuilder sb = new StringBuilder(wp.getCode());
+    
+    sb.setCharAt(code.indexOf('0'), '_');
+    return sb.toString();
+  }
+
+  @Override
+  public String generateTopLevelWildcardCode() {
+    return WP_TOP_WILDCARD;
   }
 
 }

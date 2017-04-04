@@ -19,6 +19,7 @@ import javax.inject.Named;
 @SessionScoped
 @Named("AssignEmployeesController")
 public class AssignEmployeesController implements Serializable {
+    
   @Inject ProjectManager pm;
   @Inject EmployeeManager em;
   

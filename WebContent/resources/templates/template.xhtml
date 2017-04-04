@@ -12,32 +12,25 @@
     <h:body>
     <!-- Keep CSS declaration here please this is to load our style sheet after prime faces sheet -->
     	<h:outputStylesheet library="css" name="styles.css"/>
-    	<p:layout fullPage="true">
-   	 	<!-- header template place holder -->
-   	 	<p:layoutUnit class="head" position="north" size="180">
+		<div class="container">
 	    	<div class="header">
 	    		<ui:insert name="header">
 	    			<ui:include src="header.xhtml" />
 	    		</ui:insert>
 	    	</div>
-    	</p:layoutUnit>
-    	<!--  content template place holder  -->
-    	<p:layoutUnit class="mainContent" position="center" size="500" resizable="true">
+
 	    	<div class="content">
 	    		<ui:insert name="content">
 	    			<ui:include src="content.xhtml" />
 	    		</ui:insert>
 	    	</div>
-    	</p:layoutUnit>
-    	<!-- footer template place holder -->
-    	<p:layoutUnit class="footerBar" position="south" size="100">
+
 	    	<div class="footerBanner">
 	    		<ui:insert name="footer">
 	    			<ui:include src="footer.xhtml" />
 	    		</ui:insert>
 	    	</div>
-    	</p:layoutUnit>
-    	</p:layout>
+		</div>
     </h:body>
 </html>
 

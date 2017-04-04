@@ -7,7 +7,7 @@ import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.enums.RoleEnum;
 import com.timelink.enums.WorkPackageStatusEnum;
-import com.timelink.managers.BudgetedWorkPackageHoursManager;
+import com.timelink.managers.BudgetedWorkPackageWorkDaysManager;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
@@ -33,11 +33,12 @@ public class BudgetWorkPackageController implements Serializable {
   @Inject LabourGradeManager lgm;
   @Inject EmployeeManager em;
   @Inject WorkPackageManager wpm;
-  @Inject BudgetedWorkPackageHoursManager bhm;
+  @Inject BudgetedWorkPackageWorkDaysManager bhm;
   @Inject WorkPackageCodeService workPackageCodeService;
   private Integer responsibleEngineerId;
   private String wpCode;
   private String wpDescription;
+  private String wpNewNumber;
   private Project currentProject;
   private List<LabourGrade> labourGrades;
   private WorkPackage editingWorkPackageId;
@@ -75,39 +76,15 @@ public class BudgetWorkPackageController implements Serializable {
   }
   
   public List<WorkPackage> getWorkPackagesSubmittedByRE() {
-    ArrayList<WorkPackage> list = new ArrayList<WorkPackage>();
-    if (currentProject != null) {
-      for (WorkPackage wp : currentProject.getWorkPackages()) {
-        if (wp.getStatus() == WorkPackageStatusEnum.SUBMITTED_TO_PROJECT_MANAGER) {
-          list.add(wp);
-        }
-      }
-    }
-    return list;
+    return wpm.getWorkPackagesWithStatus(currentProject, WorkPackageStatusEnum.SUBMITTED_TO_PROJECT_MANAGER);
   }
   
   public List<WorkPackage> getWorkPackagesSubmittedByPM() {
-    ArrayList<WorkPackage> list = new ArrayList<WorkPackage>();
-    if (currentProject != null) {
-      for (WorkPackage wp : currentProject.getWorkPackages()) {
-        if (wp.getStatus() == WorkPackageStatusEnum.SUBMITTED_TO_RESPONSIBLE_ENGINEER) {
-          list.add(wp);
-        }
-      }
-    }
-    return list;
+    return wpm.getWorkPackagesWithStatus(currentProject, WorkPackageStatusEnum.SUBMITTED_TO_RESPONSIBLE_ENGINEER);
   }
   
   public List<WorkPackage> getApprovedWorkPackages() {
-    ArrayList<WorkPackage> list = new ArrayList<WorkPackage>();
-    if (currentProject != null) {
-      for (WorkPackage wp : currentProject.getWorkPackages()) {
-        if (wp.getStatus() == WorkPackageStatusEnum.APPROVED) {
-          list.add(wp);
-        }
-      }
-    }
-    return list;
+    return wpm.getWorkPackagesWithStatus(currentProject, WorkPackageStatusEnum.APPROVED);
   }
   
   public void approveWorkPackage() {
@@ -203,7 +180,7 @@ public class BudgetWorkPackageController implements Serializable {
    */
   public String createWorkPackage() {
     WorkPackage wp = new WorkPackage();
-    wp.setCode(workPackageCodeService.generateNewCode(currentProject, getWpCode()));
+    wp.setCode(workPackageCodeService.generateNewCode(currentProject, getWpCode(), wpNewNumber));
     wp.setDescription(getWpDescription());
     wp.setProject(currentProject);
     wp.setResponsibleEngineer(em.find(getResponsibleEngineer()));
@@ -287,4 +264,11 @@ public class BudgetWorkPackageController implements Serializable {
     return null;
   }
   
+  public String getWpNewNumber() {
+    return wpNewNumber;
+  }
+  
+  public void setWpNewNumber(String wpNew) {
+    wpNewNumber = wpNew;
+  }
 }

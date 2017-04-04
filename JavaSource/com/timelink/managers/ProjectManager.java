@@ -85,5 +85,17 @@ public class ProjectManager {
   public void detach(Project pro) {
     em.detach(pro);
   }
+  
+  /**
+   * Returns a project with the given name.
+   * @param name The name to be searched.
+   * @return A project with the matching name.
+   */
+  public Project findByName(String name) {
+    return em.createQuery("SELECT p FROM Project as p "
+        + "WHERE p.projectName = :projName", Project.class)
+        .setParameter("projName", name)
+        .getSingleResult();
+  }
 
 }

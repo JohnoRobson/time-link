@@ -26,7 +26,7 @@ import javax.persistence.Transient;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "WorkPackage")
+@Table(name = "workpackage")
 public class WorkPackage implements Serializable {
   @Transient
   @Inject HoursManager hm;
@@ -40,8 +40,6 @@ public class WorkPackage implements Serializable {
   @JoinColumn(name = "wp_prj_id",
       referencedColumnName = "prj_id")
   private Project project;
-  
-  //private WorkPackage parentPackage;
   
   @OneToOne
   @JoinColumn(name = "wp_re_eng_id",
@@ -73,13 +71,13 @@ public class WorkPackage implements Serializable {
               mappedBy = "workPackage",
               cascade = CascadeType.ALL,
               orphanRemoval = true)
-  private Set<BudgetedWorkPackageHours> plannedHours;
+  private Set<BudgetedWorkPackageWorkDays> plannedHours;
   
   @OneToMany(fetch = FetchType.EAGER,
       mappedBy = "workpackage",
       cascade = CascadeType.ALL,
       orphanRemoval = true)
-  private Set<EstimatedWorkPackageHours> estimatedHours;
+  private Set<EstimatedWorkPackageWorkDays> estimatedHours;
   
   /**
    * Returns the code.
@@ -230,15 +228,20 @@ public class WorkPackage implements Serializable {
    * this WorkPackage.
    * @return A List of PlannedHours.
    */
-  public List<BudgetedWorkPackageHours> getPlannedHours() {
+  public List<BudgetedWorkPackageWorkDays> getPlannedHours() {
     if (plannedHours != null) {
-      return new ArrayList<BudgetedWorkPackageHours>(plannedHours);
+      return new ArrayList<BudgetedWorkPackageWorkDays>(plannedHours);
     }
-    return new ArrayList<BudgetedWorkPackageHours>();
+    return new ArrayList<BudgetedWorkPackageWorkDays>();
   }
   
-  public void setPlannedHours(List<BudgetedWorkPackageHours> plannedHours) {
-    this.plannedHours = new HashSet<BudgetedWorkPackageHours>(plannedHours);
+  public void setPlannedHours(List<BudgetedWorkPackageWorkDays> plannedHours) {
+    if (plannedHours != null) {
+        this.plannedHours = new HashSet<BudgetedWorkPackageWorkDays>(plannedHours);
+    } else {
+        this.plannedHours = new HashSet<BudgetedWorkPackageWorkDays>();
+    }
+    
   }
   
   /**
@@ -250,7 +253,7 @@ public class WorkPackage implements Serializable {
   public int getTotalFromGrade(Integer labourGradeId) {
     int total = 0;
     
-    for (BudgetedWorkPackageHours hour: plannedHours) {
+    for (BudgetedWorkPackageWorkDays hour: plannedHours) {
       if (hour.getLabourGrade().getLabourGradeId() == labourGradeId) {
         total = hour.getManDay();
         break;
@@ -266,10 +269,10 @@ public class WorkPackage implements Serializable {
    * @return The PlannedHour in this WorkPackage with the 
    *     specified Id.
    */
-  public BudgetedWorkPackageHours getPlannedHourFromLabourGrade(Integer labourGradeId) {
-    BudgetedWorkPackageHours hour = new BudgetedWorkPackageHours();
+  public BudgetedWorkPackageWorkDays getPlannedHourFromLabourGrade(Integer labourGradeId) {
+    BudgetedWorkPackageWorkDays hour = new BudgetedWorkPackageWorkDays();
     
-    for (BudgetedWorkPackageHours h : plannedHours) {
+    for (BudgetedWorkPackageWorkDays h : plannedHours) {
       if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
         hour = h;
         break;
@@ -287,12 +290,13 @@ public class WorkPackage implements Serializable {
     return hour;
   }
   
+  
   /**
    * Removes the plannedHour with the specified labourGradeId.
    * @param labourGradeId The labourGradeId to be searched.
    */
   public void removePlannedHourByLabourGrade(Integer labourGradeId) {
-    for (BudgetedWorkPackageHours h : plannedHours) {
+    for (BudgetedWorkPackageWorkDays h : plannedHours) {
       if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
         plannedHours.remove(h);
         h.setWorkPackageLineId(null);
@@ -308,7 +312,7 @@ public class WorkPackage implements Serializable {
   public int getTotalPlannedHours() {
     int total = 0;
     if (plannedHours != null && plannedHours.size() > 0) {
-      for (BudgetedWorkPackageHours hour : plannedHours) {
+      for (BudgetedWorkPackageWorkDays hour : plannedHours) {
         total += hour.getManDay();
       }
     }
@@ -324,7 +328,7 @@ public class WorkPackage implements Serializable {
     int totalCost = 0;
     
     if (plannedHours != null  && plannedHours.size() > 0) {
-      for (BudgetedWorkPackageHours hour : plannedHours) {
+      for (BudgetedWorkPackageWorkDays hour : plannedHours) {
         totalCost += (hour.getManDay() * hour.getLabourGrade().getCostRate());
       }
     }
@@ -337,19 +341,19 @@ public class WorkPackage implements Serializable {
    * this WorkPackage.
    * @return A List of PlannedHours.
    */
-  public List<EstimatedWorkPackageHours> getEstimatedHours() {
+  public List<EstimatedWorkPackageWorkDays> getEstimatedHours() {
     if (estimatedHours != null) {
-      return new ArrayList<EstimatedWorkPackageHours>(estimatedHours);
+      return new ArrayList<EstimatedWorkPackageWorkDays>(estimatedHours);
     }
-    return new ArrayList<EstimatedWorkPackageHours>();
+    return new ArrayList<EstimatedWorkPackageWorkDays>();
   }
   
   /**
    * Set the estimatedHours to estimatedHours.
    * @param estimatedHours to set the estimatedHours to
    */
-  public void setEstimatedHours(List<EstimatedWorkPackageHours> estimatedHours) {
-    this.estimatedHours = new HashSet<EstimatedWorkPackageHours>(estimatedHours);
+  public void setEstimatedHours(List<EstimatedWorkPackageWorkDays> estimatedHours) {
+    this.estimatedHours = new HashSet<EstimatedWorkPackageWorkDays>(estimatedHours);
   }
   
   /**
@@ -359,10 +363,10 @@ public class WorkPackage implements Serializable {
    * @return The estimatedHour in this WorkPackage with the 
    *     specified Id.
    */
-  public EstimatedWorkPackageHours getEstimatedHourFromLabourGrade(Integer labourGradeId) {
-    EstimatedWorkPackageHours hour = new EstimatedWorkPackageHours();
+  public EstimatedWorkPackageWorkDays getEstimatedHourFromLabourGrade(Integer labourGradeId) {
+    EstimatedWorkPackageWorkDays hour = new EstimatedWorkPackageWorkDays();
     
-    for (EstimatedWorkPackageHours h : estimatedHours) {
+    for (EstimatedWorkPackageWorkDays h : estimatedHours) {
       if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
         hour = h;
         break;

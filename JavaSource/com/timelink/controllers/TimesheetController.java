@@ -1,14 +1,18 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
+import com.timelink.ejbs.Employee;
+import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.enums.TimesheetStatus;
+import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.HRProjectService;
 import com.timelink.services.WeekNumberService;
 
 import java.io.Serializable;
@@ -31,6 +35,8 @@ public class TimesheetController implements Serializable {
   @Inject Session ses;
   @Inject ProjectManager pm;
   @Inject WeekNumberService weekNumberService;
+  @Inject HRProjectService hrps;
+  @Inject EmployeeManager em;
   
   //ADD TIMESHEET MODAL STUFF
   private int week;
@@ -67,6 +73,17 @@ public class TimesheetController implements Serializable {
     this.selectedTimesheet = selectedTimesheet;
   }
   
+  /**
+   * Save labour grade in hours.
+   */
+  public void saveHoursLabourGrade() {
+    for (TimesheetRow tr : selectedTimesheet.getRows()) {
+      for (Hours h : tr.getHours()) {
+        h.setLabourGrade(ses.getCurrentEmployee().getLabourGrade());
+      }
+    }
+  }
+  
   //TODO make this gud
   /**
    * Saves the current selectedTimesheet and reloads it from the database.
@@ -74,6 +91,7 @@ public class TimesheetController implements Serializable {
    */
   public String save() {
     if (selectedTimesheet != null) {
+      saveHoursLabourGrade();
       tm.merge(selectedTimesheet);
       selectedTimesheet = tm.find(selectedTimesheet.getTimesheetId());
     }
@@ -113,13 +131,55 @@ public class TimesheetController implements Serializable {
         .equals(new Date(Calendar.getInstance().getTime().getTime()).toString())) {
       return null;
     }
+    
     save();
     selectedTimesheet = new Timesheet(ses.getCurrentEmployee());
     selectedTimesheet.setDate(weekNumberService.getDateFromWeekYear(week, year));
-    tm.persist(selectedTimesheet);
+    
+    if (ses.getCurrentEmployee().getDefaultTimesheet() != null) {
+      Timesheet def = ses.getCurrentEmployee().getDefaultTimesheet();
+      selectedTimesheet.setFlextime(def.getFlextime());
+      selectedTimesheet.setOvertime(def.getOvertime());
+      
+      tm.persist(selectedTimesheet);
+      selectedTimesheet = tm.findLatest(ses.getCurrentEmployee());
+      
+      List<TimesheetRow> list = def.getRows();
+      
+      for (TimesheetRow row : list) {
+        selectedTimesheet.addRow();
+        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        .setNote(row.getNote());
+        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        .setProjectId(row.getProjectId());
+        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        .setWorkPackageId(row.getWorkPackageId());
+        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        .setTimesheet(selectedTimesheet);
+        
+        List<Hours> hoursList = row.getHours();
+        List<Hours> tempList = new ArrayList<Hours>();
+        
+        for (Hours h : hoursList) {
+          Hours tempHour = new Hours();
+          //tempHour.setLabourCost(h.getLabourCost());
+          tempHour.setHour(h.getHour());
+          tempHour.setLabourGrade(h.getLabourGrade());
+          tempHour.setProjectId(h.getProjectId());
+          tempHour.setWorkPackageId(h.getWorkPackageId());
+          tempList.add(tempHour);
+        }
+        
+        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1).setHours(tempList);
+      }
+      //selectedTimesheet.setRows(list);
+    }
+    
+    tm.merge(selectedTimesheet);
     //Update the selectedTimesheet PK so that it can be added to it's rows and hours.
     selectedTimesheet = tm.findLatest(ses.getCurrentEmployee());
     return null;
+    
   }
   
   /**
@@ -149,6 +209,9 @@ public class TimesheetController implements Serializable {
           newList.add(wp);
         }
       }
+      newList.add(hrps.getFlextimeWorkPackage());
+      newList.add(hrps.getSickDayWorkPackage());
+      newList.add(hrps.getVacationWorkPackage());
     }
     return newList;
   }
@@ -192,8 +255,41 @@ public class TimesheetController implements Serializable {
     save();
   }
   
+  public Project getHRProject() {
+    return hrps.getHRProject();
+  }
+  
   public WorkPackage getSickWorkPackage() {
-    return wpm.findSickDay();
+    return hrps.getSickDayWorkPackage();
+  }
+  
+  public WorkPackage getVacationWorkPackage() {
+    return hrps.getVacationWorkPackage();
+  }
+  
+  public WorkPackage getFlextimeWorkPackage() {
+    return hrps.getFlextimeWorkPackage();
+  }
+  
+  public List<Project> getAssignedProjects() {
+    List<Project> list = new ArrayList<Project>();
+    list.addAll(ses.getCurrentEmployee().getProjects());
+    list.add(hrps.getHRProject());
+    return list;
+  }
+  
+  public void setAsDefault() {
+    Employee temp = em.find(ses.getCurrentEmployee().getEmployeeId());
+    temp.setDefaultTimesheet(selectedTimesheet);
+    em.merge(temp);
+    ses.setCurrentEmployee(em.find(temp.getEmployeeId()));
+  }
+  
+  public void clearDefault() {
+    Employee temp = em.find(ses.getCurrentEmployee().getEmployeeId());
+    temp.setDefaultTimesheet(null);
+    em.merge(temp);
+    ses.setCurrentEmployee(em.find(temp.getEmployeeId()));
   }
   
   //ADD TIMESHEET MODAL
@@ -232,4 +328,5 @@ public class TimesheetController implements Serializable {
   public int getWeekNumber(Timesheet ts) {
     return weekNumberService.getWeekNumber(ts.getDate());
   }
+  
 }
