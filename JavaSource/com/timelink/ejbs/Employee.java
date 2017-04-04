@@ -86,6 +86,11 @@ public class Employee implements Serializable {
   @Column(name = "emp_vacation_rate")
   private Integer vacationRate;
   
+  @JoinColumn(name = "emp_default_tsh_id",
+      referencedColumnName = "tsh_id")
+  @ManyToOne
+  private Timesheet defaultTimesheet;
+  
   //private String status;
   
   /**
@@ -216,6 +221,22 @@ public class Employee implements Serializable {
     return roles;
   }
   
+  /**
+   * Returns the defaultTimesheet.
+   * @return the defaultTimesheet
+   */
+  public Timesheet getDefaultTimesheet() {
+    return defaultTimesheet;
+  }
+
+  /**
+   * Sets the defaultTimesheet.
+   * @param defaultTimesheet the defaultTimesheet to set
+   */
+  public void setDefaultTimesheet(Timesheet defaultTimesheet) {
+    this.defaultTimesheet = defaultTimesheet;
+  }
+
   /**
    * Returns true if the employee has the specified role.
    * @param roleEnum the role to be checked.
