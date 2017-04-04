@@ -1,10 +1,10 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.ejbs.EstimatedWorkPackageHours;
+import com.timelink.ejbs.EstimatedWorkPackageWorkDays;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.WorkPackage;
-import com.timelink.managers.EstimatedWorkPackageHoursManager;
+import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.WeekNumberService;
@@ -28,7 +28,7 @@ import javax.inject.Named;
 public class EstimateWorkPackageEffortController implements Serializable {
   @Inject Session session;
   @Inject WorkPackageManager wpm;
-  @Inject EstimatedWorkPackageHoursManager ewm;
+  @Inject EstimatedWorkPackageWorkDaysManager ewm;
   @Inject WeekNumberService weekNumberService;
   @Inject LabourGradeManager lgm;
   
@@ -39,7 +39,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
   
   private WorkPackage selectedWorkPackage;
   private WorkPackage selectedWorkPackageCreation;
-  private HashSet<EstimatedWorkPackageHours> estimatedHours;
+  private HashSet<EstimatedWorkPackageWorkDays> estimatedHours;
   
   /**
    * returns the selectedWorkPackage.
@@ -126,7 +126,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
    * Returns the estimatedHours.
    * @return the estimatedHours
    */
-  public HashSet<EstimatedWorkPackageHours> getEstimatedHours() {
+  public HashSet<EstimatedWorkPackageWorkDays> getEstimatedHours() {
     return estimatedHours;
   }
   
@@ -134,7 +134,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
    * Sets the estimatedHours to estimatedHours.
    * @param estimatedHours the estimatedHours to set
    */
-  public void setEstimatedHours(HashSet<EstimatedWorkPackageHours> estimatedHours) {
+  public void setEstimatedHours(HashSet<EstimatedWorkPackageWorkDays> estimatedHours) {
     this.estimatedHours = estimatedHours;
   }
   
@@ -210,11 +210,11 @@ public class EstimateWorkPackageEffortController implements Serializable {
    * Returns all EstimatedWorkPackageHours associated with the selectedWorkPackage.
    * @return A List of EstimatedWorkPackageHours.
    */
-  public List<EstimatedWorkPackageHours> getOnePerWeek() {
+  public List<EstimatedWorkPackageWorkDays> getOnePerWeek() {
     if (selectedWorkPackage == null) {
       return null;
     }
-    List<EstimatedWorkPackageHours> list = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
+    List<EstimatedWorkPackageWorkDays> list = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
     
     return list;
   }
@@ -225,7 +225,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
    * @param ew the EstimatedWorkPackageHours the be checked.
    * @return A String.
    */
-  public String getWeekYear(EstimatedWorkPackageHours ew) {
+  public String getWeekYear(EstimatedWorkPackageWorkDays ew) {
     Calendar cal = Calendar.getInstance();
     cal.setTime(ew.getDateCreated());
     return ("Week: " + weekNumberService.getWeekNumber(ew.getDateCreated())
@@ -250,9 +250,9 @@ public class EstimateWorkPackageEffortController implements Serializable {
   @PostConstruct
   public void reset() {
     labourGrades = lgm.getAllLabourGrades();
-    estimatedHours = new HashSet<EstimatedWorkPackageHours>();
+    estimatedHours = new HashSet<EstimatedWorkPackageWorkDays>();
     for (LabourGrade lg : labourGrades) {
-      EstimatedWorkPackageHours ew = new EstimatedWorkPackageHours();
+      EstimatedWorkPackageWorkDays ew = new EstimatedWorkPackageWorkDays();
       ew.setLabourGrade(lg);
       estimatedHours.add(ew);
     }
@@ -268,9 +268,9 @@ public class EstimateWorkPackageEffortController implements Serializable {
    * @param lgId The labourGrade's ID to be searched.
    * @return An EstimatedWorkPackageHours.
    */
-  public EstimatedWorkPackageHours getEstimateFromLabourGrade(int lgId) {
+  public EstimatedWorkPackageWorkDays getEstimateFromLabourGrade(int lgId) {
     if (estimatedHours != null) {
-      for (EstimatedWorkPackageHours ew : estimatedHours) {
+      for (EstimatedWorkPackageWorkDays ew : estimatedHours) {
         if (ew.getLabourGrade().getLabourGradeId() == lgId) {
           return ew;
         }
@@ -285,8 +285,8 @@ public class EstimateWorkPackageEffortController implements Serializable {
    * @param lgId The labourGradeId to be used.
    * @return A new EstimatedWorkPackageHours.
    */
-  public EstimatedWorkPackageHours getNewEstimateWorkPackageFromLabourGrade(int lgId) {
-    EstimatedWorkPackageHours ew = new EstimatedWorkPackageHours();
+  public EstimatedWorkPackageWorkDays getNewEstimateWorkPackageFromLabourGrade(int lgId) {
+    EstimatedWorkPackageWorkDays ew = new EstimatedWorkPackageWorkDays();
     
     LabourGrade lg = new LabourGrade();
     lg = lgm.find(lgId);
@@ -302,7 +302,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
    */
   public String createEstimate() {
     Date dd = weekNumberService.getDateFromWeekYear(selectedWeek, selectedYear);
-    for (EstimatedWorkPackageHours ew : estimatedHours) {
+    for (EstimatedWorkPackageWorkDays ew : estimatedHours) {
       ew.setDateCreated(dd);
       ew.setWorkpackage(selectedWorkPackageCreation);
       ewm.persist(ew);
@@ -319,7 +319,7 @@ public class EstimateWorkPackageEffortController implements Serializable {
    * the selectedWorkPackage and selectedDate.
    * @return A List of EstimatedWorkPackageHours.
    */
-  public List<EstimatedWorkPackageHours> viewEstimate() {
+  public List<EstimatedWorkPackageWorkDays> viewEstimate() {
     if (selectedWorkPackage != null && selectedDate != null) {
       SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
       Calendar cal = Calendar.getInstance();

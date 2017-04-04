@@ -38,6 +38,16 @@ public class HumanResourceController implements Serializable {
   private Date effectiveFrom;
   private Integer labourGrade;
   
+  
+  public HumanResourceController(EmployeeManager empMgr, RoleManager roleMgr) {
+	  this.em = empMgr;
+	  this.rm = roleMgr;
+  }
+  
+  public HumanResourceController() {
+	  
+  }
+  
   /**
    * Return the editingEmployee.
    * @return the editingEmployee

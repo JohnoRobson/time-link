@@ -1,5 +1,7 @@
 package com.timelink.ejbs;
 
+import com.timelink.enums.RoleEnum;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,13 +24,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.timelink.enums.RoleEnum;
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "employee")
 public class Employee implements Serializable {
-  
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "emp_id")
@@ -86,6 +85,11 @@ public class Employee implements Serializable {
   
   @Column(name = "emp_vacation_rate")
   private Float vacationRate;
+  
+  @JoinColumn(name = "emp_default_tsh_id",
+      referencedColumnName = "tsh_id")
+  @ManyToOne
+  private Timesheet defaultTimesheet;
   
   //private String status;
   
@@ -217,6 +221,22 @@ public class Employee implements Serializable {
     return roles;
   }
   
+  /**
+   * Returns the defaultTimesheet.
+   * @return the defaultTimesheet
+   */
+  public Timesheet getDefaultTimesheet() {
+    return defaultTimesheet;
+  }
+
+  /**
+   * Sets the defaultTimesheet.
+   * @param defaultTimesheet the defaultTimesheet to set
+   */
+  public void setDefaultTimesheet(Timesheet defaultTimesheet) {
+    this.defaultTimesheet = defaultTimesheet;
+  }
+
   /**
    * Returns true if the employee has the specified role.
    * @param roleEnum the role to be checked.

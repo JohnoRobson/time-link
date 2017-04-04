@@ -162,7 +162,11 @@ body {
 
 /*Login button itself - index.xhtml */
 .logButton {
-	background:white !important;
+	background: #363636 !important; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#363636, #4A4A4A) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#363636, #4A4A4A) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#363636, #4A4A4A) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#363636, #4A4A4A) !important; /* Standard syntax */
 	padding-left: 2vh;
 	padding-right: 2vh;
 	border: 2px  #363636 solid !important;
@@ -311,7 +315,7 @@ body {
 /* timesheet styles start here */
 /*This for the sub header on the timesheetpage 
   holds info for hte selected timesheet - timesheet.xhtml*/
-.timesheetHead {
+#timesheetHead {
 	display: flex;
 	flex-flow: row wrap;
 	background: #dfdfdf;
@@ -320,7 +324,7 @@ body {
 	padding: 1% 2% 1% 2%;
 	margin:auto;
 	margin-bottom: 2%;
-	margin-top: 1%;
+	margin-top: 2%;
 	border: 2px solid #4f4f4f;
 	-webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	-moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
@@ -328,13 +332,13 @@ body {
 }
 
 /* sub div box that holds some sub head info */
-.timesheetSubOne {
+#timesheetSubOne {
 	margin: 1%;
 	flex-grow:1;
 }
 
 /* sub div box that holds some sub head info */
-.timesheetSubTwo {
+#timesheetSubTwo {
 	margin: 1%;
 	flex-grow:1;
 }
@@ -352,13 +356,7 @@ body {
  */}
 
 /* button for deleting a row in a timesheet */
-.tsdelbtn {
-	margin-left: 15%;
-	background: white !important;
-	border: 2px solid #4f4f4f !important;
-	padding: 0%;
-	
-}
+
 /* the curve on the timesheet table */
 /* note - this affects all data tables in the site */
 .ui-datatable-tablewrapper {
@@ -399,7 +397,11 @@ body {
 
 /* sub group of buttons at bottom of timesheet.xhtml */
 .btnGrp button {
-	background: #dfdfdf !important;
+	background: #363636 !important; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#363636, #4A4A4A) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#363636, #4A4A4A) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#363636, #4A4A4A) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#363636, #4A4A4A) !important; /* Standard syntax */
 	border: 2px solid #4f4f4f !important;
 	padding: 0 2% 0 2%;
 }
@@ -556,6 +558,7 @@ class for other pages like the ts class from the timesheet page */
 	/* background:red */;
 }
 
+
 /* assignEmpCont - is to adjust the content div */
 .assignEmpCont {
 	margin-top: 2%;
@@ -613,22 +616,78 @@ h2.mngEmpProjSubHead {
 
 .projPlanBtn {
 	margin-top: 3%;
-	margin-bottom: 3%:
+	margin-right: 10%;
 	
 }
 .align {
 	text-align: right;
 }
 
-.ui-widget-content {
+..ui-widget-content {
+	border: none !important;
+	margin-bottom: 5%;
+}
+
+.projPanel {
 	border: none !important;
 }
 
 /* styles for projectplanning.xhtml end here */
 
+/* styles for assign employees to wp start here 
+   assigntowp.xhtml */
+  
+.asgnWPEmp {
+	margin:auto;
+	width: 70%;
+	text-align:center;
+	/* background:red */;
+}
+
+.asgnEmpWpCont {
+	margin:auto;
+	width: 90%;
+	
+}
+
+.asgnEmpDropDwn {
+	text-align: left;
+	margin-left: 3%;
+}
+
+/* styles for assigntowp.xhtml end here */
+
+/* styles for workpackagebudgetre.xhtml start here
+   these styles are for estimating the work package budget */
+   
+.estWpWrapper {
+	margin: auto;
+	width: 70%;
+}
+
+.budgetWrap {
+	width: 85%;
+	margin: auto;
+	margin-bottom: 7%;
+	margin-top: 5%;
+}
+
+.estWpSubHead {
+	text-align: left;
+	margin-bottom: 2%;
+}
+
+.wpbdreBtn {
+	text-align:center;
+	
+}
+
+/* end of workpackagebudgetre.xhtml */
+
 #content {
 	width: 100%;
 }
+
 
 #content h1 {
 	width: 20%;

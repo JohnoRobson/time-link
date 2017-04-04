@@ -25,6 +25,12 @@ public class AssignEmployeesController implements Serializable {
   
   private Project selectedProject;
   
+  public AssignEmployeesController() {}
+  
+  public AssignEmployeesController (ProjectManager pm) {
+	  this.pm = pm;
+  }
+  
   /**
    * Return the selectedProject.
    * @return selectedProject

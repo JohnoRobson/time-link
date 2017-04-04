@@ -1,6 +1,7 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
+import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.Timesheet;
@@ -49,36 +50,6 @@ public class TimesheetController implements Serializable {
     
   }
   
-  /**
-   * Adds a row to the current selectedTimesheet.
-   * @return null, to reload the page.
-   */
-  public String addRow() {
-    selectedTimesheet.addRow();
-    return null;
-  }
-  
-  //TODO make this work on a weekly, rather than a daily basis.
-  /**
-   * Adds a new timesheet for the logged in user.
-   * If there is already a timesheet that matches the current day,
-   * one will not be created.
-   * @return Null, so that the page can be reloaded.
-   */
-  public String addTimesheet() {
-    if (selectedTimesheet != null && selectedTimesheet.getDate().toString()
-        .equals(new Date(Calendar.getInstance().getTime().getTime()).toString())) {
-      return null;
-    }
-    save();
-    selectedTimesheet = new Timesheet(ses.getCurrentEmployee());
-    selectedTimesheet.setDate(weekNumberService.getDateFromWeekYear(week, year));
-    tm.persist(selectedTimesheet);
-    //Update the selectedTimesheet PK so that it can be added to it's rows and hours.
-    selectedTimesheet = tm.findLatest(ses.getCurrentEmployee());
-    return null;
-  }
-  
   public void deleteRow(TimesheetRow row) {
     selectedTimesheet.deleteRow(row);
     save();
@@ -89,6 +60,78 @@ public class TimesheetController implements Serializable {
     list.addAll(ses.getCurrentEmployee().getProjects());
     list.add(hrps.getHRProject());
     return list;
+  }
+  
+  /**
+
+   * Adds a new timesheet for the logged in user.
+   * If there is already a timesheet that matches the current day,
+   * one will not be created.
+   * @return Null, so that the page can be reloaded.
+   */
+  public String addTimesheet() {
+    if (selectedTimesheet != null && selectedTimesheet.getDate().toString()
+        .equals(new Date(Calendar.getInstance().getTime().getTime()).toString())) {
+      return null;
+    }
+    
+    save();
+    selectedTimesheet = new Timesheet(ses.getCurrentEmployee());
+    selectedTimesheet.setDate(weekNumberService.getDateFromWeekYear(week, year));
+    
+    if (ses.getCurrentEmployee().getDefaultTimesheet() != null) {
+      Timesheet def = ses.getCurrentEmployee().getDefaultTimesheet();
+      selectedTimesheet.setFlextime(def.getFlextime());
+      selectedTimesheet.setOvertime(def.getOvertime());
+      
+      tm.persist(selectedTimesheet);
+      selectedTimesheet = tm.findLatest(ses.getCurrentEmployee());
+      
+      List<TimesheetRow> list = def.getRows();
+      
+      for (TimesheetRow row : list) {
+        selectedTimesheet.addRow();
+        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        .setNote(row.getNote());
+        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        .setProjectId(row.getProjectId());
+        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        .setWorkPackageId(row.getWorkPackageId());
+        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        .setTimesheet(selectedTimesheet);
+        
+        List<Hours> hoursList = row.getHours();
+        List<Hours> tempList = new ArrayList<Hours>();
+        
+        for (Hours h : hoursList) {
+          Hours tempHour = new Hours();
+          //tempHour.setLabourCost(h.getLabourCost());
+          tempHour.setHour(h.getHour());
+          tempHour.setLabourGrade(h.getLabourGrade());
+          tempHour.setProjectId(h.getProjectId());
+          tempHour.setWorkPackageId(h.getWorkPackageId());
+          tempList.add(tempHour);
+        }
+        
+        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1).setHours(tempList);
+      }
+      //selectedTimesheet.setRows(list);
+    }
+    
+    tm.merge(selectedTimesheet);
+    //Update the selectedTimesheet PK so that it can be added to it's rows and hours.
+    selectedTimesheet = tm.findLatest(ses.getCurrentEmployee());
+    return null;
+    
+  }
+  
+  /**
+   * Adds a row to the current selectedTimesheet.
+   * @return null, to reload the page.
+   */
+  public String addRow() {
+    selectedTimesheet.addRow();
+    return null;
   }
   
   /**
@@ -254,6 +297,20 @@ public class TimesheetController implements Serializable {
     this.week = week;
   }
   
+  public void setAsDefault() {
+    Employee temp = em.find(ses.getCurrentEmployee().getEmployeeId());
+    temp.setDefaultTimesheet(selectedTimesheet);
+    em.merge(temp);
+    ses.setCurrentEmployee(em.find(temp.getEmployeeId()));
+  }
+  
+  public void clearDefault() {
+    Employee temp = em.find(ses.getCurrentEmployee().getEmployeeId());
+    temp.setDefaultTimesheet(null);
+    em.merge(temp);
+    ses.setCurrentEmployee(em.find(temp.getEmployeeId()));
+  }
+  
   /**
    * Sets week to week.
    * @param year the year to set
@@ -281,5 +338,4 @@ public class TimesheetController implements Serializable {
     }
     return null;
   }
-  
 }

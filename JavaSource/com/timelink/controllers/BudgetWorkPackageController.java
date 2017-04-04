@@ -7,7 +7,7 @@ import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.enums.RoleEnum;
 import com.timelink.enums.WorkPackageStatusEnum;
-import com.timelink.managers.BudgetedWorkPackageHoursManager;
+import com.timelink.managers.BudgetedWorkPackageWorkDaysManager;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
@@ -33,7 +33,7 @@ public class BudgetWorkPackageController implements Serializable {
   @Inject LabourGradeManager lgm;
   @Inject EmployeeManager em;
   @Inject WorkPackageManager wpm;
-  @Inject BudgetedWorkPackageHoursManager bhm;
+  @Inject BudgetedWorkPackageWorkDaysManager bhm;
   @Inject WorkPackageCodeService workPackageCodeService;
   private Integer responsibleEngineerId;
   private String wpCode;

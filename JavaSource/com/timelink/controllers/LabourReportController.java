@@ -1,14 +1,14 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.ejbs.BudgetedWorkPackageHours;
-import com.timelink.ejbs.EstimatedWorkPackageHours;
+import com.timelink.ejbs.BudgetedWorkPackageWorkDays;
+import com.timelink.ejbs.EstimatedWorkPackageWorkDays;
 import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
-import com.timelink.managers.BudgetedWorkPackageHoursManager;
-import com.timelink.managers.EstimatedWorkPackageHoursManager;
+import com.timelink.managers.BudgetedWorkPackageWorkDaysManager;
+import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.HoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.WorkPackageManager;
@@ -27,15 +27,15 @@ import javax.inject.Named;
 public class LabourReportController implements Serializable {
   @Inject Session ses;
   @Inject WorkPackageManager wpm;
-  @Inject BudgetedWorkPackageHoursManager bwm;
-  @Inject EstimatedWorkPackageHoursManager ewm;
+  @Inject BudgetedWorkPackageWorkDaysManager bwm;
+  @Inject EstimatedWorkPackageWorkDaysManager ewm;
   @Inject LabourGradeManager lgm;
   @Inject HoursManager hm;
   
   private Project selectedProject;
   private WorkPackage selectedWorkPackage;
   private int projectId;
-  private int workPackageId;
+  private Integer workPackageId;
   
   /**
    * Report the selectedProject.
@@ -89,7 +89,7 @@ public class LabourReportController implements Serializable {
    * Returns the workPackageId.
    * @return the workPackageId
    */
-  public int getWorkPackageId() {
+  public Integer getWorkPackageId() {
     return workPackageId;
   }
 
@@ -97,10 +97,12 @@ public class LabourReportController implements Serializable {
    * Sets the workPackageId to workPackageId.
    * @param workPackageId the workPackageId to set
    */
-  public void setWorkPackageId(int workPackageId) {
-    this.workPackageId = workPackageId;
-    selectedWorkPackage = wpm.find(workPackageId);
-    this.selectedProject = selectedWorkPackage.getProject();
+  public void setWorkPackageId(Integer workPackageId) {
+    if (workPackageId != null) {
+      this.workPackageId = workPackageId;
+      selectedWorkPackage = wpm.find(workPackageId);
+      this.selectedProject = selectedWorkPackage.getProject();
+    }
   }
 
   /**
@@ -126,9 +128,10 @@ public class LabourReportController implements Serializable {
    */
   public Date getDate() {
     if (selectedWorkPackage != null) {
-      List<EstimatedWorkPackageHours> el = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
-      Date mostRecent = new Date(0);
-      for (EstimatedWorkPackageHours eh : el) {
+      List<EstimatedWorkPackageWorkDays> el = 
+          ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
+      Date mostRecent = new Date();
+      for (EstimatedWorkPackageWorkDays eh : el) {
         if (eh.getDateCreated().after(mostRecent)) {
           mostRecent = eh.getDateCreated();
         }
@@ -143,7 +146,7 @@ public class LabourReportController implements Serializable {
    * @param labourGradeId The labourGradeId to be searched
    * @return A BudgetedWorkPackageHours
    */
-  public BudgetedWorkPackageHours getBudgetedHourByLabourGrade(int labourGradeId) {
+  public BudgetedWorkPackageWorkDays getBudgetedHourByLabourGrade(int labourGradeId) {
     if (selectedWorkPackage != null) {
       //return bwm.find(selectedWorkPackage, labourGradeId);
     }
@@ -160,7 +163,7 @@ public class LabourReportController implements Serializable {
     if (selectedWorkPackage != null) {
       float total = 0;
       List<Hours> result = hm.find(selectedWorkPackage.getProject().getProjectNumber(),
-          workPackageId, labourGradeId);
+          selectedWorkPackage.getWorkPackageId(), labourGradeId);
       for (Hours h : result) {
         total += h.getHour();
       }
