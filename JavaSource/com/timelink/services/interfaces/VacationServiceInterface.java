@@ -8,7 +8,7 @@ import com.timelink.ejbs.Timesheet;
 
 public interface VacationServiceInterface extends Serializable {
 
-  public void claimVacation(Timesheet timesheet, List<Hours> hours);
+  public void claimVacation(Timesheet timesheet);
   
   public void revertVacation(Timesheet timesheet);
 }

@@ -168,9 +168,9 @@ CREATE TABLE `employee` (
   `emp_lg_id` int(11) DEFAULT NULL,
   `emp_effect_from` date DEFAULT NULL,
   `emp_effect_to` date DEFAULT NULL,
-  `emp_flex_time` int(11) DEFAULT NULL,
-  `emp_vacation_time` int(11) DEFAULT NULL,
-  `emp_vacation_rate` int(11) DEFAULT NULL,
+  `emp_flex_time` float DEFAULT NULL,
+  `emp_vacation_time` float DEFAULT NULL,
+  `emp_vacation_rate` float DEFAULT NULL,
   PRIMARY KEY (`emp_id`),
   UNIQUE KEY `emp_id_UNIQUE` (`emp_id`),
   UNIQUE KEY `emp_name_UNIQUE` (`emp_user_id`)

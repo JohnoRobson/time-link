@@ -67,7 +67,7 @@ public class HRProjectService implements HRProjectServiceInterface {
   }
 
   @Override
-  public boolean isFlextimeWorkPacakge(WorkPackage workPackage) {
+  public boolean isFlextimeWorkPackage(WorkPackage workPackage) {
     return getFlextimeWorkPackage().getWorkPackageId() == workPackage.getWorkPackageId();
   }
 

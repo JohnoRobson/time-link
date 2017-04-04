@@ -38,8 +38,8 @@ public class TimesheetController implements Serializable {
   @Inject EmployeeManager em;
   @Inject WeekNumberService weekNumberService;
   @Inject HRProjectService hrps;
-  @Inject transient FlextimeService fts;
-  @Inject transient VacationService vs;
+  @Inject FlextimeService fts;
+  @Inject VacationService vs;
   
   //ADD TIMESHEET MODAL STUFF
   private int week;
@@ -271,15 +271,9 @@ public class TimesheetController implements Serializable {
     if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
       if (selectedTimesheet.isValid()) {
         selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
-        for (TimesheetRow tsr : selectedTimesheet.getRows()) {
-          if (hrps.isFlextimeWorkPacakge(wpm.find(tsr.getWorkPackageId()))) {
-            fts.claimFlextime(selectedTimesheet, tsr.getHours());
-          } else if (hrps.isFlextimeWorkPacakge(wpm.find(tsr.getWorkPackageId()))) {
-            vs.claimVacation(selectedTimesheet, tsr.getHours());
-          }
-        }
-        fts.addFlextime(selectedTimesheet);
-        em.merge(selectedTimesheet.getEmployee());
+        fts.claimFlextime(selectedTimesheet);
+        vs.claimVacation(selectedTimesheet);
+        //em.merge(selectedTimesheet.getEmployee());
       } else {
         //TODO set to display an error message explaining validation failure
       }
