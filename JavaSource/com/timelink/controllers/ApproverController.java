@@ -185,7 +185,7 @@ public class ApproverController implements Serializable {
       vacationService.revertVacation(t);
       t.setStatus("" + TimesheetStatus.REJECTED.ordinal());
       tm.merge(t);
-      em.merge(t.getEmployee());
+      //em.merge(t.getEmployee());
     }
     return null;
   }

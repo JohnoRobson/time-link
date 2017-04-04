@@ -27,7 +27,7 @@ public class FlextimeService implements FlextimeServiceInterface {
   @Override
   public void revertFlextime(Timesheet timesheet) {
     if (timesheet.getStatus().equals(TimesheetStatus.WAITINGFORAPPROVAL.name())
-        || timesheet.getStatus().equals(TimesheetStatus.APPROVED.name())) {
+        || timesheet.getStatus().equals(TimesheetStatus.REJECTED.name())) {
       float flex = timesheet.getEmployee().getFlexTime();
       flex -= timesheet.getFlextime();
       for (TimesheetRow tsr : timesheet.getRows()) {
@@ -37,9 +37,10 @@ public class FlextimeService implements FlextimeServiceInterface {
           }
         }
       }
-      Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
-      emp.setFlexTime(flex);
-      em.merge(emp);
+      timesheet.getEmployee().setFlexTime(flex);
+//    Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
+//    emp.setFlexTime((int) flex);
+      em.merge(timesheet.getEmployee());
     } 
   }
 
@@ -60,9 +61,10 @@ public class FlextimeService implements FlextimeServiceInterface {
         }
       }
       flex += timesheet.getFlextime();
-      Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
-      emp.setFlexTime((int) flex);
-      em.merge(emp);
+      timesheet.getEmployee().setFlexTime(flex);
+//      Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
+//      emp.setFlexTime((int) flex);
+      em.merge(timesheet.getEmployee());
     }
   }
 

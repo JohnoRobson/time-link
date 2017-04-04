@@ -212,7 +212,6 @@
 	        		<h:outputText value="#{TimesheetController.selectedTimesheet.status}" />
 	        	</h:panelGrid>
 	        	
-	        	
 	        	<p:panel rendered="#{TimesheetController.selectedTimesheet.status.equals('REJECTED')}">
 		    		<h:outputText value="#{TimesheetController.selectedTimesheet.rejectionReason}" />
 		    	</p:panel>

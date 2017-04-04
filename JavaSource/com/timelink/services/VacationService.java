@@ -32,10 +32,10 @@ public class VacationService implements VacationServiceInterface {
           }
         }
       }
-      //timesheet.getEmployee().setVacationTime((int) vacaTotal);
-      Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
-      emp.setVacationTime(vacaTotal);
-      em.merge(emp);
+      timesheet.getEmployee().setVacationTime(vacaTotal);
+//      Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
+//      emp.setVacationTime(vacaTotal);
+      em.merge(timesheet.getEmployee());
     }
   }
 
@@ -51,9 +51,10 @@ public class VacationService implements VacationServiceInterface {
           }
         }
       }
-      Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
-      emp.setVacationTime(vacaTotal);
-      em.merge(emp);
+      timesheet.getEmployee().setVacationTime(vacaTotal);
+//    Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
+//    emp.setVacationTime(vacaTotal);
+      em.merge(timesheet.getEmployee());
     }
   }
 

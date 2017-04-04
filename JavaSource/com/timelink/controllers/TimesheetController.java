@@ -269,6 +269,7 @@ public class TimesheetController implements Serializable {
    */
   public String submit() {
     if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
+      save();
       if (selectedTimesheet.isValid()) {
         selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
         fts.claimFlextime(selectedTimesheet);
@@ -278,7 +279,6 @@ public class TimesheetController implements Serializable {
         //TODO set to display an error message explaining validation failure
       }
     }
-    save();
     return null;
   }
   
