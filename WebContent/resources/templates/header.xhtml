@@ -29,8 +29,12 @@
 							<p:menuitem value="Report" url="report.xhtml"
 										rendered="#{Session.approver}" >
 							</p:menuitem>
+							<p:menuitem value="Manage Project" url="assignemp.xhtml"
+										rendered="#{Session.projectManager}" />
 							<p:menuitem value="Enter Project Planning Info" url="projectplanning.xhtml" 
 										rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
+							<p:menuitem value="Monthly Report" url="monthlyreport.xhtml"
+										rendered="#{Session.projectManager}" />
 						</p:submenu>
 						<p:submenu label="Work Package" rendered="#{Session.projectManager || Session.projectManagerAssistant || Session.responsibleEngineer}">
 							<p:menuitem value="Manage Work Package" url="assigntowp.xhtml"
@@ -40,6 +44,8 @@
 							<p:menuitem value="Estimate WP Effort" url="estimatewpeffort.xhtml" 
 										rendered="#{Session.responsibleEngineer}" />
 							<p:menuitem value="Make WP Budget" url="workpackagebudgetre.xhtml" 
+										rendered="#{Session.responsibleEngineer}" />
+							<p:menuitem value="Weekly Report" url="rereport.xhtml" 
 										rendered="#{Session.responsibleEngineer}" />
 						</p:submenu>
 						<p:submenu label="Manage" rendered="#{Session.humanResources || Session.supervisor}" >

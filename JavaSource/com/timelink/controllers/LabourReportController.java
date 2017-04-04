@@ -127,7 +127,7 @@ public class LabourReportController implements Serializable {
   public Date getDate() {
     if (selectedWorkPackage != null) {
       List<EstimatedWorkPackageHours> el = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
-      Date mostRecent = new Date(0);
+      Date mostRecent = new Date();
       for (EstimatedWorkPackageHours eh : el) {
         if (eh.getDateCreated().after(mostRecent)) {
           mostRecent = eh.getDateCreated();
@@ -160,7 +160,7 @@ public class LabourReportController implements Serializable {
     if (selectedWorkPackage != null) {
       float total = 0;
       List<Hours> result = hm.find(selectedWorkPackage.getProject().getProjectNumber(),
-          workPackageId, labourGradeId);
+          selectedWorkPackage.getWorkPackageId(), labourGradeId);
       for (Hours h : result) {
         total += h.getHour();
       }

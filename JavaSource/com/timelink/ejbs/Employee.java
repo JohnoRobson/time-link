@@ -1,5 +1,7 @@
 package com.timelink.ejbs;
 
+import com.timelink.enums.RoleEnum;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,13 +24,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.timelink.enums.RoleEnum;
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "employee")
 public class Employee implements Serializable {
-  
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "emp_id")

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:body>
+		<ui:composition template="resources/templates/template.xhtml">
+			<ui:define name="content">
+			<h:form>
+			    <p:selectOneMenu value="#{MonthlyReportController.projectId}" onchange="submit()">
+		    	    <f:selectItem itemLabel="" itemValue=" "/>
+                	<f:selectItems value="#{MonthlyReportController.getProjects()}"
+                	    var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectNumber}"/>
+                </p:selectOneMenu>
+                <h:outputText value="Project:" />
+                <h:outputText value="#{MonthlyReportController.selectedProject.projectName}" />
+                <p:panelGrid columns="2">
+                
+                </p:panelGrid>
+                <p:dataTable value="#{MonthlyReportController.getWorkPackages()}" var="workpackage">
+                    <p:column>
+                        <h:outputText value="WorkPackage: #{workpackage.code}" />
+                        <p:dataTable value="#{workpackage}" >
+                            <p:column>
+                                <h:outputText value="Man Days: " />
+                                <f:facet name="footer">
+                                    <h:outputText value="Labour Cost: " />
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="Budget">
+                                <h:outputText value="#{MonthlyReportController.getBudgeted(workpackage)}" />
+                                <f:facet name="footer">
+                                    <h:outputText value="#{MonthlyReportController.getTotalBudgeted(workpackage)}" />
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="Estimate To Complete">
+                                <h:outputText value="#{MonthlyReportController.getEstimated(workpackage)}" />
+                                <f:facet name="footer">
+                                    <h:outputText value="#{MonthlyReportController.getTotalEstimated(workpackage)}" />
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="Budget to Complete">
+                                <h:outputText value="#{MonthlyReportController.getBudgetToComplete(workpackage)}" />
+                                <f:facet name="footer">
+                                    <h:outputText value="#{MonthlyReportController.getTotalBudgetToComplete(workpackage)}" />
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="Variance Percent">
+                                <h:outputText value="#{MonthlyReportController.getVariancePercent(workpackage)}" >
+                                    <f:convertNumber type="percent" />
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                </p:dataTable>
+			</h:form>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>
