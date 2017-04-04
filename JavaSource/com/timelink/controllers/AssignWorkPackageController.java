@@ -31,6 +31,13 @@ public class AssignWorkPackageController implements Serializable {
   
   private int projectId;
 
+  public AssignWorkPackageController() {}
+  public AssignWorkPackageController(ProjectManager pm, 
+		  WorkPackageManager wpm, EmployeeManager em) {
+	  this.pm = pm;
+	  this.wpm = wpm;
+	  this.em = em;
+  }
   /**
    * Return the selectedProject.
    * @return selectedProject
