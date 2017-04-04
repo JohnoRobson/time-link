@@ -1,6 +1,8 @@
 package com.timelink.ejbs;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,7 +47,7 @@ public class TimesheetRow {
       cascade = CascadeType.ALL)
   @JoinColumn(name = "tsl_id",
       referencedColumnName = "tsl_id")
-  @OrderBy("hourId ASC")
+  @OrderBy("date ASC")
   private Set<Hours> hours;
   
   @Column(name = "tsl_note")
@@ -82,6 +84,10 @@ public class TimesheetRow {
       Hours hrs = new Hours();
       hrs.setTimesheetRow(this);
       hrs.setTimesheetId(ts.getTimesheetId());
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(timesheet.getDate());
+      cal.add(Calendar.DATE, i);
+      hrs.setDate(new Date(cal.getTime().getTime()));
       hours.add(hrs);
     }
   }
