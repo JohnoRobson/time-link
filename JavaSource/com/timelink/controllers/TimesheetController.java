@@ -133,36 +133,32 @@ public class TimesheetController implements Serializable {
     }
     
     save();
-    selectedTimesheet = new Timesheet(ses.getCurrentEmployee());
-    selectedTimesheet.setDate(weekNumberService.getDateFromWeekYear(week, year));
+    Timesheet newTimesheet = new Timesheet(ses.getCurrentEmployee());
+    newTimesheet.setDate(weekNumberService.getDateFromWeekYear(week, year));
     
     if (ses.getCurrentEmployee().getDefaultTimesheet() != null) {
       Timesheet def = ses.getCurrentEmployee().getDefaultTimesheet();
-      selectedTimesheet.setFlextime(def.getFlextime());
-      selectedTimesheet.setOvertime(def.getOvertime());
-      
-      tm.persist(selectedTimesheet);
-      selectedTimesheet = tm.findLatest(ses.getCurrentEmployee());
+      newTimesheet.setFlextime(def.getFlextime());
+      newTimesheet.setOvertime(def.getOvertime());
       
       List<TimesheetRow> list = def.getRows();
       
       for (TimesheetRow row : list) {
-        selectedTimesheet.addRow();
-        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        newTimesheet.addRow();
+        newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
         .setNote(row.getNote());
-        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
         .setProjectId(row.getProjectId());
-        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
+        newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
         .setWorkPackageId(row.getWorkPackageId());
-        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1)
-        .setTimesheet(selectedTimesheet);
+        newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
+        .setTimesheet(newTimesheet);
         
         List<Hours> hoursList = row.getHours();
         List<Hours> tempList = new ArrayList<Hours>();
         
         for (Hours h : hoursList) {
           Hours tempHour = new Hours();
-          //tempHour.setLabourCost(h.getLabourCost());
           tempHour.setHour(h.getHour());
           tempHour.setLabourGrade(h.getLabourGrade());
           tempHour.setProjectId(h.getProjectId());
@@ -170,12 +166,11 @@ public class TimesheetController implements Serializable {
           tempList.add(tempHour);
         }
         
-        selectedTimesheet.getRows().get(selectedTimesheet.getRows().size() - 1).setHours(tempList);
+        newTimesheet.getRows().get(newTimesheet.getRows().size() - 1).setHours(tempList);
       }
-      //selectedTimesheet.setRows(list);
     }
     
-    tm.merge(selectedTimesheet);
+    tm.persist(newTimesheet);
     //Update the selectedTimesheet PK so that it can be added to it's rows and hours.
     selectedTimesheet = tm.findLatest(ses.getCurrentEmployee());
     return null;
