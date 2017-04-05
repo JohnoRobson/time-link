@@ -1,10 +1,7 @@
 package com.timelink.services;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
-import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;

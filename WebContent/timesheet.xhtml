@@ -203,9 +203,9 @@
 	        		<h:outputLabel for="total" value="Total:" />
 	        		<h:outputText id="total" value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() : 0}" />
 	        		<h:outputLabel for="overtime" value="Overtime:" />
-	        		<h:inputText id="overtime" value="#{TimesheetController.selectedTimesheet.overtime}" />
+	        		<h:inputText id="overtime" value="#{TimesheetController.selectedTimesheet.overtime != null ? TimesheetController.selectedTimesheet.overtime : 0}" />
 	        		<h:outputLabel for="flex" value="Flexhours:" />
-	        		<h:inputText id="flex" value="#{TimesheetController.selectedTimesheet.flextime}" />
+	        		<h:inputText id="flex" value="#{TimesheetController.selectedTimesheet.flextime != null ? TimesheetController.selectedTimesheet.flextime : 0}" />
 	        	</h:panelGrid>
 	        	<h:panelGrid styleClass="status" columns="2">
 	        		<h:outputLabel value="Status:" />
