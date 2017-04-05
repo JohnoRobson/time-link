@@ -197,7 +197,7 @@
             
 	        </p:dataTable>
 	        
-	        <p:panel id="totals">
+	        <p:panel id="totals" rendered="#{TimesheetController.selectedTimesheet != null}">
 	        <div class="subtotals">
 	        	<h:panelGrid columns="2">
 	        		<h:outputLabel for="total" value="Total:" />

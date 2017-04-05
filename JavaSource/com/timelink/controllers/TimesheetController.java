@@ -7,7 +7,6 @@ import com.timelink.ejbs.Project;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
 import com.timelink.ejbs.WorkPackage;
-import com.timelink.enums.DaysEnum;
 import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
@@ -15,6 +14,7 @@ import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.FlextimeService;
 import com.timelink.services.HRProjectService;
+import com.timelink.services.TimesheetCopyService;
 import com.timelink.services.VacationService;
 import com.timelink.services.WeekNumberService;
 
@@ -42,6 +42,7 @@ public class TimesheetController implements Serializable {
   @Inject EmployeeManager em;
   @Inject FlextimeService fts;
   @Inject VacationService vs;
+  @Inject TimesheetCopyService timesheetCopyService; 
   
   //ADD TIMESHEET MODAL STUFF
   private int week;
@@ -49,9 +50,21 @@ public class TimesheetController implements Serializable {
   
   public TimesheetController() {}
   
+  /**
+   * A convenience constructor for testing.
+   * @param tm a timesheetmanager
+   * @param wpm a workpackagemanager
+   * @param ses a session
+   * @param pm a projectmanager
+   * @param weekNumberService a weeknumberservice
+   * @param hrps an HRProjectService
+   * @param fts a FlextimeService
+   * @param vs a VacationService
+   * @param timesheetCopyService a timesheetCopyService
+   */
   public TimesheetController(TimesheetManager tm, WorkPackageManager wpm, Session ses,
       ProjectManager pm, WeekNumberService weekNumberService, HRProjectService hrps, 
-      FlextimeService fts, VacationService vs) {
+      FlextimeService fts, VacationService vs, TimesheetCopyService timesheetCopyService) {
     this.tm = tm;
     this.wpm = wpm;
     this.ses = ses;
@@ -60,17 +73,14 @@ public class TimesheetController implements Serializable {
     this.hrps = hrps;
     this.fts = fts;
     this.vs = vs;
+    this.timesheetCopyService = timesheetCopyService;
   }
   
   /**
-   * Returns selectedTimesheet.  If there isn't a timesheet for the current employee
-   * one will be created.
+   * Returns selectedTimesheet.
    * @return the selectedTimesheet
    */
   public Timesheet getSelectedTimesheet() {
-    if (selectedTimesheet == null) {
-      selectedTimesheet = null;
-    }
     return selectedTimesheet;
   }
 
@@ -134,34 +144,9 @@ public class TimesheetController implements Serializable {
     
     if (ses.getCurrentEmployee().getDefaultTimesheet() != null) {
       Timesheet def = ses.getCurrentEmployee().getDefaultTimesheet();
-      newTimesheet.setFlextime(def.getFlextime());
-      newTimesheet.setOvertime(def.getOvertime());
       
-      List<TimesheetRow> list = def.getRows();
+      newTimesheet = timesheetCopyService.copyTimesheet(def, week, year);
       
-      for (TimesheetRow row : list) {
-        newTimesheet.addRow();
-        newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
-        .setNote(row.getNote());
-        newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
-        .setProjectId(row.getProjectId());
-        newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
-        .setWorkPackageId(row.getWorkPackageId());
-        newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
-        .setTimesheet(newTimesheet);
-        
-        for (int i = 0; i < 7; ++i) {
-          Hours curHour = row.getHourByDay(DaysEnum.values()[i]);
-          newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
-            .getHourByDay(DaysEnum.values()[i]).setHour(curHour.getHour());
-          newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
-            .getHourByDay(DaysEnum.values()[i]).setLabourGrade(curHour.getLabourGrade());
-          newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
-            .getHourByDay(DaysEnum.values()[i]).setProjectId(curHour.getProjectId());
-          newTimesheet.getRows().get(newTimesheet.getRows().size() - 1)
-            .getHourByDay(DaysEnum.values()[i]).setWorkPackageId(curHour.getWorkPackageId());
-        }
-      }
     }
     
     tm.persist(newTimesheet);
@@ -354,6 +339,7 @@ public class TimesheetController implements Serializable {
     save();
     return null;
   }
+  
   public int getWeekNumber(Timesheet ts) {
     return weekNumberService.getWeekNumber(ts.getDate());
   }
