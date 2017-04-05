@@ -15,6 +15,8 @@
 	    			<h:panelGrid columns="2">
 	    				<h:outputLabel value="Name:" />
 	    				<h:outputText value="#{Session.currentEmployee.firstName} #{Session.currentEmployee.lastName}" />
+	    				<h:outputLabel value="Title:" />
+	    				<h:outputText value="placeholder" />
 	   					<h:outputLabel value="Date:" />
 	   					<h:outputText value="#{TimesheetController.selectedTimesheet.date}" />
 	    			</h:panelGrid>
@@ -23,6 +25,8 @@
 	    			<h:panelGrid columns="2">
 	    				<h:outputLabel value="UserId:" />
 	    				<h:outputText value="#{Session.currentEmployee.employeeId}" />
+	    				<h:outputLabel value="Department:" />
+	    				<h:outputText value="placeholder" />
 	   					<h:outputLabel value="Week No:" />
 	   					<h:outputText value="PlaceHolder 5" />
 	    			</h:panelGrid>
@@ -80,7 +84,7 @@
                             
                             <h:inputText value="#{row.hours.get(0).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-                                <!-- <p:ajax event="change" oncomplete="onCellEdit()" />-->
+                                <p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -97,7 +101,7 @@
                             
                             <h:inputText value="#{row.hours.get(1).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -113,7 +117,7 @@
                             
                             <h:inputText value="#{row.hours.get(2).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -129,7 +133,7 @@
                             
                             <h:inputText value="#{row.hours.get(3).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -145,7 +149,7 @@
                             
                             <h:inputText value="#{row.hours.get(4).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -161,7 +165,7 @@
                             
                             <h:inputText value="#{row.hours.get(5).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -177,7 +181,7 @@
                             
                             <h:inputText value="#{row.hours.get(6).hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
+								<p:ajax event="change" oncomplete="onCellEdit()" />
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -200,24 +204,24 @@
 	        <p:panel id="totals">
 	        <div class="subtotals">
 	        	<h:panelGrid columns="2">
-	        		<h:outputLabel for="total" value="Total:" />
-	        		<h:outputText id="total" value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() : 0}" />
-	        		<h:outputLabel for="overtime" value="Overtime:" />
-	        		<h:inputText id="overtime" value="#{TimesheetController.selectedTimesheet.overtime != null ? TimesheetController.selectedTimesheet.overtime : 0}" />
-	        		<h:outputLabel for="flex" value="Flexhours:" />
-	        		<h:inputText id="flex" value="#{TimesheetController.selectedTimesheet.flextime != null ? TimesheetController.selectedTimesheet.flextime : 0}" />
+	        		<h:outputLabel value="Total:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() : 0}" />
+	        		<h:outputLabel value="Overtime:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? (TimesheetController.selectedTimesheet.getTotalHours() > 40 ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0) : 0}" />
+	        		<h:outputLabel value="Flexhours:" />
+	        		<h:outputText value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() - 40 : 0}" />
 	        	</h:panelGrid>
 	        	<h:panelGrid styleClass="status" columns="2">
 	        		<h:outputLabel value="Status:" />
 	        		<h:outputText styleClass="s-timesheetStatus" value="#{TimesheetController.selectedTimesheet.status}" />
 	        	</h:panelGrid>
 	        	
+	        	
 	        	<p:panel rendered="#{TimesheetController.selectedTimesheet.status.equals('REJECTED')}">
 		    		<h:outputText value="#{TimesheetController.selectedTimesheet.rejectionReason}" />
 		    	</p:panel>
 	        </div>
 		    </p:panel>
-		    <p:panel>
 		        <div class="btnGrp">
 		        	<h:panelGrid columns="2">
 	        			<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
@@ -234,7 +238,6 @@
 	        			    			 action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
 		        	</h:panelGrid>
 	        	</div>
-	        </p:panel>
         	</div>
 	        </p:panel>
 	    </h:form>
