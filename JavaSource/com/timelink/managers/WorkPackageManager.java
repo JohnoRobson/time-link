@@ -131,9 +131,9 @@ public class WorkPackageManager {
    */
   public List<WorkPackage> getAllInTimesheet(Timesheet ts) {
     TypedQuery<WorkPackage> query = em.createQuery("SELECT DISTINCT wp FROM WorkPackage AS wp, "
-        + "Hours AS hour WHERE hour.timesheetId = :tsId AND "
+        + "Hours AS hour WHERE hour.timesheet = :ts AND "
         + "wp.workPackageId = hour.workPackageId", WorkPackage.class)
-        .setParameter("tsId", ts.getTimesheetId());
+        .setParameter("ts", ts);
     return query.getResultList();
   }
   

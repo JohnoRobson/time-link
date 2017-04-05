@@ -74,11 +74,11 @@
                     <p:cellEditor>
                         
                         <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(0).hour}" />
+                            <h:outputText value="#{row.getHourByDay('SATURDAY').hour}" />
                         </f:facet>
                         <f:facet name="input">
                             
-                            <h:inputText value="#{row.hours.get(0).hour}">
+                            <h:inputText value="#{row.getHourByDay('SATURDAY').hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
                                 <!-- <p:ajax event="change" oncomplete="onCellEdit()" />-->
                             </h:inputText>
@@ -91,11 +91,11 @@
                     <p:cellEditor>
                         
                         <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(1).hour}" />
+                            <h:outputText value="#{row.getHourByDay('SUNDAY').hour}" />
                         </f:facet>
                         <f:facet name="input">
                             
-                            <h:inputText value="#{row.hours.get(1).hour}">
+                            <h:inputText value="#{row.getHourByDay('SUNDAY').hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
 								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
                             </h:inputText>
@@ -107,11 +107,11 @@
                     <p:cellEditor>
                         
                         <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(2).hour}" />
+                            <h:outputText value="#{row.getHourByDay('MONDAY').hour}" />
                         </f:facet>
                         <f:facet name="input">
                             
-                            <h:inputText value="#{row.hours.get(2).hour}">
+                            <h:inputText value="#{row.getHourByDay('MONDAY').hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
 								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
                             </h:inputText>
@@ -123,11 +123,11 @@
                     <p:cellEditor>
                         
                         <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(3).hour}" />
+                            <h:outputText value="#{row.getHourByDay('TUESDAY').hour}" />
                         </f:facet>
                         <f:facet name="input">
                             
-                            <h:inputText value="#{row.hours.get(3).hour}">
+                            <h:inputText value="#{row.getHourByDay('TUESDAY').hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
 								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
                             </h:inputText>
@@ -139,11 +139,11 @@
                     <p:cellEditor>
                         
                         <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(4).hour}" />
+                            <h:outputText value="#{row.getHourByDay('WEDNESDAY').hour}" />
                         </f:facet>
                         <f:facet name="input">
                             
-                            <h:inputText value="#{row.hours.get(4).hour}">
+                            <h:inputText value="#{row.getHourByDay('WEDNESDAY').hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
 								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
                             </h:inputText>
@@ -155,11 +155,11 @@
                     <p:cellEditor>
                         
                         <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(5).hour}" />
+                            <h:outputText value="#{row.getHourByDay('THURSDAY').hour}" />
                         </f:facet>
                         <f:facet name="input">
                             
-                            <h:inputText value="#{row.hours.get(5).hour}">
+                            <h:inputText value="#{row.getHourByDay('THURSDAY').hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
 								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
                             </h:inputText>
@@ -171,11 +171,11 @@
                     <p:cellEditor>
                         
                         <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(6).hour}" />
+                            <h:outputText value="#{row.getHourByDay('FRIDAY').hour}" />
                         </f:facet>
                         <f:facet name="input">
                             
-                            <h:inputText value="#{row.hours.get(6).hour}">
+                            <h:inputText value="#{row.getHourByDay('FRIDAY').hour}">
                                 <f:validateDoubleRange minimum="0.0" maximum="24.0" />
 								<!--<p:ajax event="change" oncomplete="onCellEdit()" />-->
                             </h:inputText>
@@ -203,7 +203,9 @@
 	        		<h:outputLabel for="total" value="Total:" />
 	        		<h:outputText id="total" value="#{TimesheetController.selectedTimesheet != null ? TimesheetController.selectedTimesheet.getTotalHours() : 0}" />
 	        		<h:outputLabel for="overtime" value="Overtime:" />
+	        		<h:inputText id="overtime" value="#{TimesheetController.selectedTimesheet.overtime}" />
 	        		<h:outputLabel for="flex" value="Flexhours:" />
+	        		<h:inputText id="flex" value="#{TimesheetController.selectedTimesheet.flextime}" />
 	        	</h:panelGrid>
 	        	<h:panelGrid styleClass="status" columns="2">
 	        		<h:outputLabel value="Status:" />
