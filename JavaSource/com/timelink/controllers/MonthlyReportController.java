@@ -7,8 +7,6 @@ import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
 
-import org.primefaces.component.datatable.DataTable;
-
 import java.io.Serializable;
 import java.util.List;
 
