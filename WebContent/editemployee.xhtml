@@ -39,6 +39,7 @@
 	            	<p:commandButton value="Change Password" type="button" onclick="PF('dlg2').show();" />
 	            	<p:commandButton value="Cancel" action="#{HRController.cancel}" ajax="false" />
 	           	 	<p:commandButton value="Save" action="#{HRController.save}" ajax="false" />
+	           	 	<p:commandButton styleClass="modalBtn" value="Close Employee" onclick="PF('close').show();"/>
 	        	</div>
 	        </h:form> 
 	        
@@ -57,6 +58,20 @@
 	                <p:commandButton ajax="false" styleClass="modalBtn"
 	                				 value="Save" action="#{HRController.newPassword}"/>
 	           </h:form>
+           </p:dialog>
+           
+           <!--  dialog box for changing an employee's password. -->
+	        <p:dialog header="Close Employee" 
+	        	      widgetVar="close" 
+	        	      modal="true" 
+	        	      height="175">
+	            <h:form>
+		            <h:panelGrid columns="1">
+		            	<h:outputText styleClass="modalText" value="Are you sure you want to close this employee?  This cannot be undone."/>
+		            	<p:commandButton value="Close Employee" styleClass="s-confirmCreateTimesheetBtn modalBtn" 
+		            				 action="#{HRController.closeEmployee()}" ajax="false" />
+		            </h:panelGrid>
+		        </h:form>
            </p:dialog>
 	    </div>
 	    </ui:define>
