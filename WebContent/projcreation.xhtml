@@ -17,12 +17,13 @@
 			</div>
 			<div class="projCtrl">
 	        <h:form>
-	            <h:panelGrid styleClass="panel" columns="2">
+	            <h:panelGrid styleClass="panel" columns="1">
 	            	<h:outputText styleClass="projLabel" value="Project Name: "/>
 	            	<p:inputText value="#{NewProjectController.projectName}"
-				     validator="#{NewProjectController.validateProjectName}" id="projectname" />
+				     validator="#{NewProjectController.validateProjectName}" id="projectname" required="true" requiredMessage="#{msgs.nameRequired}"/>
+				    <h:message for="projectname" styleClass="errorMessage" colspan="2"/>
 	            	<h:outputText styleClass="projLabel" value="Project Description: "/>
-	            	<p:inputText styleClass="projInput" value="#{NewProjectController.projectDescription}"/>
+	            	<p:inputText styleClass="projInput" value="#{NewProjectController.projectDescription}" required="true" requiredMessage="#{msgs.descriptionRequired}"/>
 	            	<h:outputText styleClass="projLabel" value="Customer: "/>
 	            	<p:inputText styleClass="projInput" value="#{NewProjectController.customer}"/>
 	            	<h:outputText styleClass="projLabel" value="Project Manager: "/>
