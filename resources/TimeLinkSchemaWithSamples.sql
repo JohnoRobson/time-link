@@ -20,7 +20,35 @@ USE `timelink_dev`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+<<<<<<< HEAD
+-- Table structure for table `admin_message`
+--
+
+DROP TABLE IF EXISTS `admin_message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `admin_message` (
+  `am_id` int(11) NOT NULL AUTO_INCREMENT,
+  `am_user_name` varchar(45) DEFAULT NULL,
+  `am_user_email` varchar(45) DEFAULT NULL,
+  `am_issue_title` varchar(45) DEFAULT NULL,
+  `am_issue_content` varchar(255) DEFAULT NULL,
+  `am_isread` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`am_id`),
+  UNIQUE KEY `bb_id_UNIQUE` (`am_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `admin_message`
+--
+
+
+--
+-- Table structure for table `Budget_Project_Hour`
+=======
 -- Table structure for table `budget_project_work_day`
+>>>>>>> refs/remotes/origin/master
 --
 
 DROP TABLE IF EXISTS `budget_project_work_day`;

@@ -2,18 +2,63 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
 	<body>
 		<ui:composition>
 			<div class="footer">
 				<div class="leftFoot">
-					<p class="footInfo">Footer Information</p>
+				<!-- This needs to be updated for proper description -->
+					<p class="footInfo">TimeLink Project Management System</p>
 					<p class="footCopy">2017 &copy; Copyright Team One</p>
 				</div>
 				<div class="rightFoot">
 					<!--  this needs functionality to contact admin page -->
-					<h:outputLink class="contactUsLink">Contact Admin</h:outputLink>
+					<!--  <h:outputLink class="contactUsLink">Contact Admin</h:outputLink> -->
+					<h:form>
+						<p:commandLink value="Contact Admin" onclick="PF('dlg2').show();" />
+						<!-- <h:commandLink value="Contact Admin" target="contactadmin.xhtml"/> -->
+						<p:dialog header="Contact Admin" widgetVar="dlg2" modal="true" width="auto" height="auto" resizable="false" position="center" responsive="true">
+						    <p:panelGrid id="panel">
+						    	<p:messages id="message" showDetail="false" autoUpdate="false" closable="true" />
+						    	<p:row>
+							    	<p:column>
+										<p:outputLabel for="admmsgTitle" value="Title" />
+										<p:inputText id="admmsgTitle" value="#{AdminMessageController.title}" required="true" style="width: 300px;" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column> 
+										<p:outputLabel for="admmsgUserName" value="Name" />
+										<p:inputText id="admmsgUserName" value="#{AdminMessageController.userName}" required="true" style="width: 200px;"/>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel for="admmsgEmail" value="Email" />
+										<p:inputText id="admmsgEmail" value="#{AdminMessageController.userEmail}" required="true" style="width: 200px;"/>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel for="admmsgMsg" value="Message" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+									<p:inputTextarea  id="admmsgMsg" rows="13" cols="40" autoResize="false" value="#{AdminMessageController.content}" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<p:commandButton value="Submit"  ajax="false" immediate="true" action="#{AdminMessageController.saveUserIssue()}">
+							<p:resetInput target="panel" />
+							</p:commandButton>
+
+							<p:button value="Cancel" />
+						</p:dialog>
+
+					</h:form>
 				</div>
 			</div>
 		</ui:composition>
