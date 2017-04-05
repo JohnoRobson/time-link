@@ -391,4 +391,14 @@ public class HumanResourceController implements Serializable {
     } 
     return null;
   }
+  
+  /**
+   * Closes the editing employee.
+   * @return navigation String to reload page.
+   */
+  public String closeEmployee() {
+    editingEmployee.setEffectTo(new Date());
+    em.merge(editingEmployee);
+    return "humanresources";
+  }
 }
