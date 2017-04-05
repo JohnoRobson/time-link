@@ -264,6 +264,10 @@ public class TimesheetController implements Serializable {
     return hrps.getHRProject();
   }
   
+  /**
+   * Returns all projects assigned to the employee.
+   * @return A List of Projects.
+   */
   public List<Project> getAssignedProjects() {
     List<Project> list = new ArrayList<Project>();
     list.addAll(ses.getCurrentEmployee().getProjects());
@@ -271,6 +275,9 @@ public class TimesheetController implements Serializable {
     return list;
   }
   
+  /**
+   * Sets the selectedTimesheet as the default one for the current Employee.
+   */
   public void setAsDefault() {
     Employee temp = em.find(ses.getCurrentEmployee().getEmployeeId());
     temp.setDefaultTimesheet(selectedTimesheet);
@@ -278,6 +285,9 @@ public class TimesheetController implements Serializable {
     ses.setCurrentEmployee(em.find(temp.getEmployeeId()));
   }
   
+  /**
+   * Removes the default timesheet.
+   */
   public void clearDefault() {
     Employee temp = em.find(ses.getCurrentEmployee().getEmployeeId());
     temp.setDefaultTimesheet(null);

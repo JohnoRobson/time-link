@@ -31,16 +31,22 @@ public class NewProjectController implements Serializable {
   private String customer;
   private Integer projectManager;
   private Integer projectManagerAssistant;
-  
+
   public NewProjectController(){}
   
+  /**
+   * Convenience constructor for testing.
+   * @param pm a ProjectManager
+   * @param em an EmployeeManager
+   * @param rm a RoleManager
+   */
   public NewProjectController(ProjectManager pm, EmployeeManager em, RoleManager rm) {
-	  this.pm = pm;
-	  this.em = em;
-	  this.rm = rm;
+    this.pm = pm;
+    this.em = em;
+    this.rm = rm;
   }
-  
-  
+
+
   /**
    * Returns the projectName.
    * @return the projectName
@@ -48,7 +54,7 @@ public class NewProjectController implements Serializable {
   public String getProjectName() {
     return projectName;
   }
-  
+
   /**
    * Sets the projectName to projectName.
    * @param projectName the projectName to set
@@ -56,7 +62,7 @@ public class NewProjectController implements Serializable {
   public void setProjectName(String projectName) {
     this.projectName = projectName;
   }
-  
+
   /**
    * Returns the projectDescription.
    * @return the projectDescription
@@ -64,7 +70,7 @@ public class NewProjectController implements Serializable {
   public String getProjectDescription() {
     return projectDescription;
   }
-  
+
   /**
    * Sets the projectDescription to projectDescription.
    * @param projectDescription the projectDescription to set
@@ -72,7 +78,7 @@ public class NewProjectController implements Serializable {
   public void setProjectDescription(String projectDescription) {
     this.projectDescription = projectDescription;
   }
-  
+
   /**
    * Returns the customer.
    * @return the customer
@@ -80,7 +86,7 @@ public class NewProjectController implements Serializable {
   public String getCustomer() {
     return customer;
   }
-  
+
   /**
    * Sets the customer to customer.
    * @param customer the customer to set
@@ -88,7 +94,7 @@ public class NewProjectController implements Serializable {
   public void setCustomer(String customer) {
     this.customer = customer;
   }
-  
+
   /**
    * Returns the projectManager.
    * @return the projectManager
@@ -96,7 +102,7 @@ public class NewProjectController implements Serializable {
   public Integer getProjectManager() {
     return projectManager;
   }
-  
+
   /**
    * Sets the projectManager to projectManager.
    * @param projectManager the projectManager to set
@@ -104,7 +110,7 @@ public class NewProjectController implements Serializable {
   public void setProjectManager(Integer projectManager) {
     this.projectManager = projectManager;
   }
-  
+
   /**
    * Returns the projectManager.
    * @return the projectManager
@@ -112,7 +118,7 @@ public class NewProjectController implements Serializable {
   public Integer getProjectManagerAssistant() {
     return projectManager;
   }
-  
+
   /**
    * Sets the projectManager to projectManager.
    * @param projectManagerAssistant the projectManager to set
@@ -120,7 +126,7 @@ public class NewProjectController implements Serializable {
   public void setProjectManagerAssistant(Integer projectManagerAssistant) {
     this.projectManagerAssistant = projectManagerAssistant;
   }
-  
+
   private void reset() {
     projectName = null;
     projectDescription = null;
@@ -128,7 +134,7 @@ public class NewProjectController implements Serializable {
     projectManager = null;
     projectManagerAssistant = null;
   }
-  
+
   /**
    * Create a new project and navigate to result
    * page afterward.
@@ -150,7 +156,7 @@ public class NewProjectController implements Serializable {
     reset();
     return "assignemp";
   }
-  
+
   /**
    * Returns a list of all employees.
    * @return Return a list of all employees.
@@ -158,7 +164,7 @@ public class NewProjectController implements Serializable {
   public List<Employee> getEmployees() {
     return em.getAll();
   }
-  
+
   /**
    * Gives an employee the Project Manager Role if it doesn't
    * already have it.
@@ -172,7 +178,7 @@ public class NewProjectController implements Serializable {
       rm.persist(role);
     }
   }
-  
+
   /**
    * Gives an employee the Project Manager Assistant Role if it doesn't
    * already have it.
@@ -186,7 +192,7 @@ public class NewProjectController implements Serializable {
       rm.persist(role);
     }
   }
-  
+
   /**
    * Returns true if the project name is unique.
    * @param context etc
@@ -199,16 +205,16 @@ public class NewProjectController implements Serializable {
     if (!(value instanceof String)) {
       throw new IllegalArgumentException("value not a String");
     }
-    
-    String s = (String) value;
-    
-    for (char c : s.toCharArray()) {
+
+    String st = (String) value;
+
+    for (char c : st.toCharArray()) {
       if (!Character.isDigit(c)) {
         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
             "Project name must be numeric", "Project name must be numeric"));
       }
     }
-    
+
     if (!pm.projectNameIsUnique((String) value)) {
       throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
           "Project name must be unique", "Project name must be unique"));

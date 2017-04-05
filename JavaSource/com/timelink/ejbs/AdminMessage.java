@@ -11,73 +11,73 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "admin_message")
 public class AdminMessage implements Serializable {
-	
-	@Id
-	@Column(name = "am_id")
-	private int adminMessageId;
-	
-	@Column(name = "am_user_name")
-	private String userName;
-	
-	@Column(name = "am_user_email")
-	private String userEmail;
-	
-	@Column(name = "am_issue_title")
-	private String title;
-	
-	@Column(name = "am_issue_content")
-	private String contents;
-	
-	@Column(name = "am_isread")
-	private boolean isRead;
 
-	public int getAdminMessageId() {
-		return adminMessageId;
-	}
+  @Id
+  @Column(name = "am_id")
+  private int adminMessageId;
 
-	public void setAdminMessageId(int adminMessageId) {
-		this.adminMessageId = adminMessageId;
-	}
+  @Column(name = "am_user_name")
+  private String userName;
 
-	public String getUserName() {
-		return userName;
-	}
+  @Column(name = "am_user_email")
+  private String userEmail;
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+  @Column(name = "am_issue_title")
+  private String title;
 
-	public String getUserEmail() {
-		return userEmail;
-	}
+  @Column(name = "am_issue_content")
+  private String contents;
 
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
+  @Column(name = "am_isread")
+  private boolean isRead;
 
-	public String getTitle() {
-		return title;
-	}
+  public int getAdminMessageId() {
+    return adminMessageId;
+  }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+  public void setAdminMessageId(int adminMessageId) {
+    this.adminMessageId = adminMessageId;
+  }
 
-	public String getContents() {
-		return contents;
-	}
+  public String getUserName() {
+    return userName;
+  }
 
-	public void setContents(String contents) {
-		this.contents = contents;
-	}
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-	public boolean isRead() {
-		return isRead;
-	}
+  public String getUserEmail() {
+    return userEmail;
+  }
 
-	public void setRead(boolean isRead) {
-		this.isRead = isRead;
-	}
-	
-	
+  public void setUserEmail(String userEmail) {
+    this.userEmail = userEmail;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getContents() {
+    return contents;
+  }
+
+  public void setContents(String contents) {
+    this.contents = contents;
+  }
+
+  public boolean isRead() {
+    return isRead;
+  }
+
+  public void setRead(boolean isRead) {
+    this.isRead = isRead;
+  }
+
+
 }

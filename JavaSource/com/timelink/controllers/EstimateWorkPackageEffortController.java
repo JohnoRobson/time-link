@@ -214,7 +214,8 @@ public class EstimateWorkPackageEffortController implements Serializable {
     if (selectedWorkPackage == null) {
       return null;
     }
-    List<EstimatedWorkPackageWorkDays> list = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
+    List<EstimatedWorkPackageWorkDays> list 
+        = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
     
     return list;
   }

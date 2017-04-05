@@ -76,24 +76,33 @@ public class BudgetWorkPackageController implements Serializable {
   }
   
   public List<WorkPackage> getWorkPackagesSubmittedByRE() {
-    return wpm.getWorkPackagesWithStatus(currentProject, WorkPackageStatusEnum.SUBMITTED_TO_PROJECT_MANAGER);
+    return wpm.getWorkPackagesWithStatus(currentProject,
+        WorkPackageStatusEnum.SUBMITTED_TO_PROJECT_MANAGER);
   }
   
   public List<WorkPackage> getWorkPackagesSubmittedByPM() {
-    return wpm.getWorkPackagesWithStatus(currentProject, WorkPackageStatusEnum.SUBMITTED_TO_RESPONSIBLE_ENGINEER);
+    return wpm.getWorkPackagesWithStatus(currentProject,
+        WorkPackageStatusEnum.SUBMITTED_TO_RESPONSIBLE_ENGINEER);
   }
   
   public List<WorkPackage> getApprovedWorkPackages() {
     return wpm.getWorkPackagesWithStatus(currentProject, WorkPackageStatusEnum.APPROVED);
   }
   
+  /**
+   * Approves the editing work package.
+   */
   public void approveWorkPackage() {
     editingWorkPackageId.setStatus(WorkPackageStatusEnum.APPROVED);
     for (LabourGrade lg : getLabourGrades()) {
-      if (editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).getManDay() != 0) {
-        editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).setLabourGrade(lg);
-        editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).setWorkPackageLineId(editingWorkPackageId);
-        editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId()).setDateCreated(new Date());
+      if (editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId())
+          .getManDay() != 0) {
+        editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId())
+          .setLabourGrade(lg);
+        editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId())
+          .setWorkPackageLineId(editingWorkPackageId);
+        editingWorkPackageId.getPlannedHourFromLabourGrade(lg.getLabourGradeId())
+          .setDateCreated(new Date());
       } else {
         editingWorkPackageId.removePlannedHourByLabourGrade(lg.getLabourGradeId());
       }

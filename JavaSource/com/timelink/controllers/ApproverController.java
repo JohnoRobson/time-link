@@ -34,19 +34,21 @@ public class ApproverController implements Serializable {
   private Timesheet viewingTimesheet;
 
   public ApproverController() {
-	  
+
   }
-  
+
   /**
    * Convenience ctor.
    * For Testing purposes.
    * */
-  public ApproverController(TimesheetManager tm, WorkPackageManager wpm, Session ses, FlextimeService fts) {
-	  this.tm = tm;
-	  this.ses = ses;
-	  this.flextimeService = fts;
-	  this.wpm = wpm;
+  public ApproverController(TimesheetManager tm, WorkPackageManager wpm,
+      Session ses, FlextimeService fts) {
+    this.tm = tm;
+    this.ses = ses;
+    this.flextimeService = fts;
+    this.wpm = wpm;
   }
+  
   /**
    * Returns the timesheets.
    * @return the timesheets
@@ -65,7 +67,7 @@ public class ApproverController implements Serializable {
   public void setTimesheets(List<Timesheet> timesheets) {
     this.timesheets = new HashSet<Timesheet>(timesheets);
   }
-  
+
   /**
    * Returns the viewing timesheet.
    * @return the viewing timesheet
@@ -90,7 +92,7 @@ public class ApproverController implements Serializable {
     refreshList();
     return new ArrayList<Timesheet>(timesheets);
   }
-  
+
   /**
    * Returns the selectedTimesheets.
    * @return the selectedTimesheets
@@ -124,7 +126,7 @@ public class ApproverController implements Serializable {
       }
     }
   }
-  
+
   /**
    * Save the new status of the timesheets.
    * @return null to reload page
@@ -135,12 +137,12 @@ public class ApproverController implements Serializable {
     }
     return null;
   }
-  
+
   public String viewTimesheet(Timesheet timesheet) {
     viewingTimesheet = timesheet;
     return null;
   }
-  
+
   /**
    * Approves all timesheets in the selectedTimesheets List.
    * @return null to reload the page.
@@ -154,7 +156,7 @@ public class ApproverController implements Serializable {
     }
     return null;
   }
-  
+
   /**
    * Declines a selected timesheet.
    */
@@ -178,14 +180,14 @@ public class ApproverController implements Serializable {
         return;
       }
     }
-    
+
     return;
   }
-  
+
   public boolean timesheetIsApproved() {
     return getSingleTimesheet().getStatus().equals(TimesheetStatus.APPROVED.name());
   }
-  
+
   /**
    * Declines a timesheet.
    * @return null to reload the page
@@ -198,7 +200,7 @@ public class ApproverController implements Serializable {
     }
     return null;
   }
-  
+
   /**
    * Returns one timesheet.
    * @return A single timesheet.
@@ -210,7 +212,7 @@ public class ApproverController implements Serializable {
       return new Timesheet();
     }
   }
-  
+
   /**
    * Sets all work packages in the approved timesheet to charged.
    * @param ts The timesheet to be approved.

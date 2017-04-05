@@ -25,7 +25,7 @@ public class HumanResourceController implements Serializable {
   @Inject EmployeeManager em;
   @Inject RoleManager rm;
   @Inject LabourGradeManager lgm;
-  
+
   private Employee editingEmployee;
   private String userId;
   private String firstName;
@@ -37,17 +37,17 @@ public class HumanResourceController implements Serializable {
   private String confirmPassword;
   private Date effectiveFrom;
   private Integer labourGrade;
-  
-  
+
+
   public HumanResourceController(EmployeeManager empMgr, RoleManager roleMgr) {
-	  this.em = empMgr;
-	  this.rm = roleMgr;
+    this.em = empMgr;
+    this.rm = roleMgr;
   }
-  
+
   public HumanResourceController() {
-	  
+
   }
-  
+
   /**
    * Return the editingEmployee.
    * @return the editingEmployee
@@ -63,7 +63,7 @@ public class HumanResourceController implements Serializable {
   public void setEditingEmployee(Employee editingEmployee) {
     this.editingEmployee = editingEmployee;
   }
-  
+
   /**
    * Return the labourGrades.
    * @return the labourGrades
@@ -174,7 +174,7 @@ public class HumanResourceController implements Serializable {
   public void setJobTitle(RoleEnum jobTitle) {
     this.jobTitle = jobTitle;
   }
-  
+
   /**
    * Return the password.
    * @return the password
@@ -246,7 +246,7 @@ public class HumanResourceController implements Serializable {
   public List<Employee> getEmployees() {
     return em.getAll();
   }
-  
+
   /**
    * Return all available roles for a new Employee.
    * @return RoleEnum list of potential roles
@@ -257,7 +257,7 @@ public class HumanResourceController implements Serializable {
     ptRoles.add(RoleEnum.HUMAN_RESOURCES);
     return ptRoles;
   }
-  
+
   /**
    * Return roles to change an Employee to, default is current role.
    * @return RoleEnum list of roles
@@ -273,7 +273,7 @@ public class HumanResourceController implements Serializable {
     }
     return chRoles;
   }
-  
+
   /**
    * Edit an Employee.
    * @param employee to edit
@@ -289,7 +289,7 @@ public class HumanResourceController implements Serializable {
     labourGrade = employee.getLabourGrade().getLabourGradeId();
     return "editemployee";
   }
-  
+
   /**
    * Cancel.
    * @return Navigation string to go to previous page
@@ -298,7 +298,7 @@ public class HumanResourceController implements Serializable {
     clear();
     return "humanresources";
   }
-  
+
   /**
    * Clear input fields.
    */
@@ -315,7 +315,7 @@ public class HumanResourceController implements Serializable {
     confirmPassword = null;
     labourGrade = null;
   }
-  
+
   //TODO Update JavaDoc comments
   /**
    * Create new Employee.
@@ -331,16 +331,16 @@ public class HumanResourceController implements Serializable {
       emp.setVacationRate(vacationAccrual);
       emp.setEffectFrom(new Date(effectiveFrom.getTime()));
       emp.setLabourGrade(lgm.find(labourGrade));
-      
+
       Role role = new Role(jobTitle);
       role.setEmployee(emp);
-      
+
       Credentials cr = new Credentials();
       cr.setPassword(password);
       cr.setUsername(userId);
       cr.setEmployee(emp);
       emp.setCredentials(cr);
-      
+
       em.persist(emp);
       rm.persist(role);
       clear();
@@ -349,7 +349,7 @@ public class HumanResourceController implements Serializable {
       return null;
     }
   }
-  
+
   /**
    * Save employee.
    * @return navigation string to reload page
@@ -362,16 +362,16 @@ public class HumanResourceController implements Serializable {
     emp.setEmail(email);
     emp.setVacationRate(vacationAccrual);
     emp.setLabourGrade(lgm.find(labourGrade));
-    
+
     //Role role = new Role(jobTitle);
     //role.setEmployee(emp);
-    
+
     em.merge(emp);
     //rm.merge(role);
     clear();
     return "humanresources";
   }
-  
+
   /**
    * Save the new password for the editingEmployee.
    * @return navigation String to reload page.
@@ -379,14 +379,14 @@ public class HumanResourceController implements Serializable {
   public String newPassword() {
     if (password.equals(confirmPassword)) {
       Employee emp = editingEmployee;
-      
+
       Credentials cr = new Credentials();
       cr.setCredentialsId(emp.getCredentials().getCredentialsId());
       cr.setPassword(password);
       cr.setUsername(userId);
       cr.setEmployee(emp);
       emp.setCredentials(cr);
-      
+
       em.merge(emp);
     } 
     return null;

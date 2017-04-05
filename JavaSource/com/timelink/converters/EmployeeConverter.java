@@ -7,13 +7,13 @@ package com.timelink.converters;
 
 import com.timelink.ejbs.Employee;
 
-import org.primefaces.component.picklist.PickList;
-import org.primefaces.model.DualListModel;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+
+import org.primefaces.component.picklist.PickList;
+import org.primefaces.model.DualListModel;
 
 @FacesConverter(value = "EmployeeConverter")
 public class EmployeeConverter implements Converter {

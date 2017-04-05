@@ -15,25 +15,31 @@ import javax.inject.Named;
 @SessionScoped
 @Named("LoginController")
 public class LoginController implements Serializable {
-  
+
   @Inject CredentialManager cm;
   @Inject EmployeeManager em;
   @Inject Session ss;
-  
+
   private String username;
   private String password;
   private int employeeId;
   Credentials cr;
-  
+
   public LoginController() {}
   
+  /**
+   * Convenience constructor for testing.
+   * @param cm a CredentialManager
+   * @param em an EmployeeManager
+   * @param ses a Session
+   */
   public LoginController(CredentialManager cm, EmployeeManager em, Session ses) {
-	  this.cm = cm;
-	  this.em = em;
-	  this.ss = ses;
+    this.cm = cm;
+    this.em = em;
+    this.ss = ses;
   }
-  
-  
+
+
   /**
    * Returns the username.
    * @return the username
@@ -41,7 +47,7 @@ public class LoginController implements Serializable {
   public String getUsername() {
     return username;
   }
-  
+
   /**
    * Sets the username to username.
    * @param username the username to set
@@ -49,7 +55,7 @@ public class LoginController implements Serializable {
   public void setUsername(String username) {
     this.username = username;
   }
-  
+
   /**
    * Returns the password.
    * @return the password
@@ -57,7 +63,7 @@ public class LoginController implements Serializable {
   public String getPassword() {
     return password;
   }
-  
+
   /**
    * Sets the password to password.
    * @param password the password to set
@@ -65,7 +71,7 @@ public class LoginController implements Serializable {
   public void setPassword(String password) {
     this.password = password;
   }
-  
+
   /**
    * Validates username and password with Credentials
    * Manager.
@@ -80,7 +86,7 @@ public class LoginController implements Serializable {
       return false;
     }
   }
-  
+
   /**
    * Login to the system.
    * @return String for navigation
@@ -92,5 +98,5 @@ public class LoginController implements Serializable {
     }
     return "null";
   }
-  
+
 }

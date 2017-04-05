@@ -1,5 +1,7 @@
 package com.timelink.managers;
 
+import com.timelink.ejbs.AdminMessage;
+
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -7,9 +9,6 @@ import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
-import com.timelink.ejbs.AdminMessage;
-import com.timelink.ejbs.Employee;
 
 @Dependent
 @Stateless
@@ -25,8 +24,13 @@ public class AdminMessageManager {
     em.persist(am);
   }
 
+  /**
+   * Returns all administrator messages.
+   * @return A List of AdminMessage.
+   */
   public List<AdminMessage> getAll() {
-    TypedQuery<AdminMessage> query = em.createQuery("SELECT a FROM AdminMessage a", AdminMessage.class);
+    TypedQuery<AdminMessage> query
+        = em.createQuery("SELECT a FROM AdminMessage a", AdminMessage.class);
     return query.getResultList();
   }
 }

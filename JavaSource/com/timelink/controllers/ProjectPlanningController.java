@@ -67,6 +67,16 @@ public class ProjectPlanningController implements Serializable {
   
   public ProjectPlanningController() {}
   
+  /**
+   * A convenience constructor for testing.
+   * @param pm a ProjectManager
+   * @param ses a Session
+   * @param lgm a LabourGradeManager
+   * @param ewm An EstimatedWorkPackageWorkDaysManager
+   * @param wpm A WorkPackageManager
+   * @param bhm A BudgetedProjectWorkDaysManager
+   * @param workPackageCodeService a workPackageCodeService
+   */
   public ProjectPlanningController(ProjectManager pm, 
       Session ses, LabourGradeManager lgm, 
       EstimatedWorkPackageWorkDaysManager ewm, WorkPackageManager wpm,

@@ -1,19 +1,16 @@
 package com.timelink.controllers;
 
+import com.timelink.ejbs.AdminMessage;
+import com.timelink.managers.AdminMessageManager;
+
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
-
-import com.timelink.ejbs.AdminMessage;
-import com.timelink.managers.AdminMessageManager;
 
 @SuppressWarnings("serial")
 @SessionScoped
@@ -27,14 +24,9 @@ public class AdminMessageController implements Serializable {
   private String title;
   private String content;
   private boolean isRead;
-  private List<AdminMessage> adList;
 
   public List<AdminMessage> getAdList() {
     return am.getAll();
-  }
-
-  public void setAdList(List<AdminMessage> adList) {
-    this.adList = adList;
   }
 
   public String getUserName() {
@@ -76,7 +68,10 @@ public class AdminMessageController implements Serializable {
   public void setRead(boolean isRead) {
     this.isRead = isRead;
   }
-
+  
+  /**
+   * Saves the current user issue.
+   */
   public void saveUserIssue() {
 
     AdminMessage newMessage = new AdminMessage();
@@ -90,8 +85,8 @@ public class AdminMessageController implements Serializable {
     try {
       am.persist(newMessage);
       RequestContext.getCurrentInstance().reset("form:panel");
-    } catch (Exception e) {
-
+    } catch (Exception ex) {
+      return;
     }
   }
 
