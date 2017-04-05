@@ -2,6 +2,7 @@ package com.timelink.managers;
 
 
 import com.timelink.ejbs.Hours;
+import com.timelink.ejbs.Timesheet;
 import com.timelink.enums.TimesheetStatus;
 
 import java.sql.Date;
@@ -61,10 +62,10 @@ public class HoursManager {
    * @param timesheetId to search by
    * @return Hours[] matching the timesheetId
    */
-  public List<Hours> findTotalHours(int timesheetId) {
+  public List<Hours> findTotalHours(Timesheet timesheet) {
     TypedQuery<Hours> query = em.createQuery("SELECT h FROM Hours h WHERE "
-        + "h.timesheetId = :timesheetId", Hours.class)
-        .setParameter("timesheetId", timesheetId);
+        + "h.timesheet = :timesheet", Hours.class)
+        .setParameter("timesheet", timesheet);
     return query.getResultList();
   }
   

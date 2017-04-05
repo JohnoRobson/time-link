@@ -1,6 +1,8 @@
 package com.timelink.ejbs;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,9 +18,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import com.timelink.enums.DaysEnum;
 
 @Entity
 @Dependent
@@ -45,7 +48,6 @@ public class TimesheetRow {
       cascade = CascadeType.ALL)
   @JoinColumn(name = "tsl_id",
       referencedColumnName = "tsl_id")
-  @OrderBy("hourId ASC")
   private Set<Hours> hours;
   
   @Column(name = "tsl_note")
@@ -65,7 +67,7 @@ public class TimesheetRow {
       Hours hrs = new Hours();
       hrs.setTimesheetRow(this);
       if (timesheet != null) {
-        hrs.setTimesheetId(timesheet.getTimesheetId());
+        hrs.setTimesheet(timesheet);
       }
       hours.add(hrs);
     }
@@ -81,7 +83,8 @@ public class TimesheetRow {
     for (int i = 0; i < 7; ++i) {
       Hours hrs = new Hours();
       hrs.setTimesheetRow(this);
-      hrs.setTimesheetId(ts.getTimesheetId());
+      hrs.setTimesheet(ts);
+      hrs.setDate(incrementDate(timesheet.getDate(), i));
       hours.add(hrs);
     }
   }
@@ -189,6 +192,22 @@ public class TimesheetRow {
   
   public void setNote(String note) {
     this.note = note;
+  }
+  
+  private java.sql.Date incrementDate(java.util.Date date, int inc) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    cal.add(Calendar.DATE, inc);
+    return new Date(cal.getTime().getTime());
+  }
+  
+  public Hours getHourByDay(DaysEnum day) {
+    for (Hours hrs : hours) {
+      if (hrs.getDate().equals(incrementDate(timesheet.getDate(), day.ordinal()))) {
+        return hrs;
+      }
+    }
+    return null;
   }
   
 }

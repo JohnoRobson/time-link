@@ -1,5 +1,7 @@
 package com.timelink.ejbs;
 
+import com.timelink.enums.TimesheetStatus;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -9,7 +11,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,19 +19,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.TypedQuery;
-
-import com.timelink.enums.TimesheetStatus;
 
 @Entity
 @Table(name = "ts_header")
 public class Timesheet {
-  
-  @Transient
-  @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -267,22 +260,6 @@ public class Timesheet {
   public void setRejectionReason(String rejectionReason) {
     this.rejectionReason = rejectionReason;
   }
-
-  //TODO Should we put this in HoursManager or this? I feel like
-  // if we inject something to use an entity manager when this already
-  // has one seems unnecessary.
-  /**
-   * Searches the database for Hours that match a timesheetId.
-   * 
-   * @param timesheetId to search by
-   * @return Hours[] matching the timesheetId
-   */
-  public List<Hours> findTotalHours(int timesheetId) {
-    TypedQuery<Hours> query = em.createQuery("SELECT h FROM Hours h WHERE "
-        + "h.timesheetId = :timesheetId", Hours.class)
-        .setParameter("timesheetId", timesheetId);
-    return query.getResultList();
-  }
   
   /**
    * Calculates the flex and overtime for this timesheet.
@@ -301,10 +278,18 @@ public class Timesheet {
    */
   public void deleteRow(TimesheetRow row) {
     for (TimesheetRow r : rows) {
-      if (r.getProjectId() == row.getProjectId()) {
+      if (r.getProjectId() == row.getProjectId() && r.getWorkPackageId() == row.getWorkPackageId()) {
         rows.remove(r);
         break;
       }
     }
+  }
+  
+  /**
+   * Check for valid total number of hours with flextime and overtime.
+   * @return whether timesheet has a valid final state
+   */
+  public boolean isValid() {
+    return (getTotalHours() - flextime - overtime) == 40;
   }
 }
