@@ -285,14 +285,11 @@ public class Timesheet {
   }
   
   /**
-   * Calculates the flex and overtime for this timesheet.
+   * Check for valid total number of hours with flextime and overtime.
+   * @return whether timesheet has a valid final state
    */
-  public void calculateFlexAndOvertime() {
-    float flex = 40 - getTotalHours();
-    float over = getTotalHours() > 40 ? getTotalHours() - 40 : 0;
-    
-    setFlextime(flex);
-    setOvertime(over);
+  public boolean isValid() {
+    return (getTotalHours() - flextime - overtime) == 40;
   }
   
   /**
@@ -301,7 +298,7 @@ public class Timesheet {
    */
   public void deleteRow(TimesheetRow row) {
     for (TimesheetRow r : rows) {
-      if (r.getProjectId() == row.getProjectId()) {
+      if (r.getProjectId() == row.getProjectId() && r.getWorkPackageId() == row.getWorkPackageId()) {
         rows.remove(r);
         break;
       }

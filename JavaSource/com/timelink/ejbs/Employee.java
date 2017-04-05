@@ -78,13 +78,13 @@ public class Employee implements Serializable {
   private Date effectTo;
   
   @Column(name = "emp_flex_time")
-  private Integer flexTime;
+  private Float flexTime;
   
   @Column(name = "emp_vacation_time")
-  private Integer vacationTime;
+  private Float vacationTime;
   
   @Column(name = "emp_vacation_rate")
-  private Integer vacationRate;
+  private Float vacationRate;
   
   @JoinColumn(name = "emp_default_tsh_id",
       referencedColumnName = "tsh_id")
@@ -343,7 +343,7 @@ public class Employee implements Serializable {
    * Returns the flexTime.
    * @return the flexTime
    */
-  public int getFlexTime() {
+  public float getFlexTime() {
     return flexTime;
   }
 
@@ -351,7 +351,7 @@ public class Employee implements Serializable {
    * Sets the flexTime to flexTime.
    * @param flexTime the flexTime to set
    */
-  public void setFlexTime(int flexTime) {
+  public void setFlexTime(float flexTime) {
     this.flexTime = flexTime;
   }
 
@@ -359,7 +359,7 @@ public class Employee implements Serializable {
    * Returns the vacationTime.
    * @return the vacationTime
    */
-  public int getVacationTime() {
+  public float getVacationTime() {
     return vacationTime;
   }
 
@@ -367,7 +367,7 @@ public class Employee implements Serializable {
    * Sets the vacationTime to vacationTime.
    * @param vacationTime the vacationTime to set
    */
-  public void setVacationTime(int vacationTime) {
+  public void setVacationTime(float vacationTime) {
     this.vacationTime = vacationTime;
   }
 
@@ -375,7 +375,7 @@ public class Employee implements Serializable {
    * Returns the vacationRate.
    * @return the vacationRate
    */
-  public int getVacationRate() {
+  public float getVacationRate() {
     return vacationRate;
   }
 
@@ -383,7 +383,7 @@ public class Employee implements Serializable {
    * Sets the vacationRate to vacationRate.
    * @param vacationRate the vacationRate to set
    */
-  public void setVacationRate(int vacationRate) {
+  public void setVacationRate(float vacationRate) {
     this.vacationRate = vacationRate;
   }
   
