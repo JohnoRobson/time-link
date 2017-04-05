@@ -24,7 +24,6 @@ public class HRProjectService implements HRProjectServiceInterface {
   final String HR_SHORTTERMDISABILITY_NAME = "SDIS";
   final String HR_STATHOLIDAY_NAME = "STAT";
   
-  
   @Inject
   HRProjectService(ProjectManager pm, WorkPackageManager wpm) {
     this.pm = pm;
@@ -70,7 +69,7 @@ public class HRProjectService implements HRProjectServiceInterface {
   public boolean isFlextimeWorkPackage(WorkPackage workPackage) {
     return getFlextimeWorkPackage().getWorkPackageId() == workPackage.getWorkPackageId();
   }
-
+  
   @Override
   public WorkPackage getLongTermDisabilityWorkPackage() {
     return wpm.findByName(HR_LONGTERMDISABILITY_NAME);

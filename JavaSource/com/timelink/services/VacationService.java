@@ -1,7 +1,5 @@
 package com.timelink.services;
 
-import javax.inject.Inject;
-
 import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
@@ -9,6 +7,8 @@ import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.interfaces.VacationServiceInterface;
+
+import javax.inject.Inject;
 
 @SuppressWarnings("serial")
 public class VacationService implements VacationServiceInterface {

@@ -85,8 +85,8 @@ public class ProjectManager {
   public void detach(Project pro) {
     em.detach(pro);
   }
-
-/**
+  
+  /**
    * Returns a project with the given name.
    * @param name The name to be searched.
    * @return A project with the matching name.
@@ -97,4 +97,5 @@ public class ProjectManager {
         .setParameter("projName", name)
         .getSingleResult();
   }
+
 }

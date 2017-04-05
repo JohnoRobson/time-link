@@ -41,7 +41,7 @@ CREATE TABLE `budget_project_work_day` (
 -- Table structure for table `budget_wp_work_day`
 --
 
-DROP TABLE IF EXISTS `budget_wp_hour`;
+DROP TABLE IF EXISTS `budget_wp_work_day`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `budget_wp_work_day` (
@@ -395,16 +395,13 @@ INSERT INTO project VALUES (10, "10", "HR Codes", "TimeLink", null, 2, 2, 0);
 INSERT INTO prj_emp VALUES (0, 1, 1);
 INSERT INTO prj_emp VALUES (2, 2, 1);
 
-INSERT INTO WorkPackage VALUES (1, 10, "SICK", null, 4, "Sick Leave", 0, 5);
+INSERT INTO workpackage VALUES (1, 10, "SICK", null, 4, "Sick Leave", 0, 5);
 INSERT INTO workpackage VALUES (2, 1, "1000000", null, 4, "Part of the cool project", 0, 0);
 INSERT INTO workpackage VALUES (3, 1, "2000000", null, 4, "second part of the cool project", 0, 0);
 INSERT INTO workpackage VALUES (4, 2, "1000000", null, 4, "work package for the cool project the sequel", 0, 0);
 INSERT INTO workpackage VALUES (5, 2, "2000000", null, 4, "second work package for the sequel", 0, 0);
 INSERT INTO workpackage VALUES (6, 10, "FLEX", null, 4, "Flextime", 0, 5);
 INSERT INTO workpackage VALUES (7, 10, "VACA", null, 4, "Vacation", 0, 5);
-INSERT INTO WorkPackage VALUES (8, 10, "STAT", null, 4, "Statutory Holiday", 0, 5);
-INSERT INTO WorkPackage VALUES (9, 10, "LDIS", null, 4, "Long-term Disability", 0, 5);
-INSERT INTO WorkPackage VALUES (10, 10, "SDIS", null, 4, "Short-Term Disability", 0, 5);
 
 INSERT INTO wp_emp VALUES (3, 2, 1);
 INSERT INTO wp_emp VALUES (4, 3, 1);

@@ -285,11 +285,14 @@ public class Timesheet {
   }
   
   /**
-   * Check for valid total number of hours with flextime and overtime.
-   * @return whether timesheet has a valid final state
+   * Calculates the flex and overtime for this timesheet.
    */
-  public boolean isValid() {
-    return (getTotalHours() - flextime - overtime) == 40;
+  public void calculateFlexAndOvertime() {
+    float flex = 40 - getTotalHours();
+    float over = getTotalHours() > 40 ? getTotalHours() - 40 : 0;
+    
+    setFlextime(flex);
+    setOvertime(over);
   }
   
   /**
@@ -303,5 +306,13 @@ public class Timesheet {
         break;
       }
     }
+  }
+  
+  /**
+   * Check for valid total number of hours with flextime and overtime.
+   * @return whether timesheet has a valid final state
+   */
+  public boolean isValid() {
+    return (getTotalHours() - flextime - overtime) == 40;
   }
 }
