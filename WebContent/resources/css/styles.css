@@ -162,7 +162,11 @@ body {
 
 /*Login button itself - index.xhtml */
 .logButton {
-	background:white !important;
+	background: #363636 !important; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#363636, #4A4A4A) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#363636, #4A4A4A) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#363636, #4A4A4A) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#363636, #4A4A4A) !important; /* Standard syntax */
 	padding-left: 2vh;
 	padding-right: 2vh;
 	border: 2px  #363636 solid !important;
@@ -393,7 +397,11 @@ body {
 
 /* sub group of buttons at bottom of timesheet.xhtml */
 .btnGrp button {
-	background: #dfdfdf !important;
+	background: #363636 !important; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#363636, #4A4A4A) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#363636, #4A4A4A) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#363636, #4A4A4A) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#363636, #4A4A4A) !important; /* Standard syntax */
 	border: 2px solid #4f4f4f !important;
 	padding: 0 2% 0 2%;
 }
