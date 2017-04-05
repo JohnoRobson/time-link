@@ -193,7 +193,6 @@ body {
 .leftFoot {
 	justify-content:left;
 	margin-left:60vh;
-
 }
 
 /* rightFoot located in footer.xhtml 
@@ -414,7 +413,7 @@ body {
 }
 
 /* psuedo classing hover for modal button */
-.modalBtn:hover{
+.modalBtn:hover {
 	 -webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	 -moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	 box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
@@ -673,9 +672,21 @@ h2.mngEmpProjSubHead {
 /* Styles for monthlyreport.xhtml start here. */
 .monReportWrapper {
 	margin: auto;
-	width: 70%;
-	background: red;
+	width: 65%;
 }
+
+.monReportPanel {
+	border: none !important;
+	margin-bottom: 8%;
+	padding-bottom: 3%;
+}
+
+.wpElementWrap {
+	width: 90%;
+	margin:auto;
+}
+
+/* Styles for monthlyreport.xhtml end here. */
 
 #content {
 	width: 100%;

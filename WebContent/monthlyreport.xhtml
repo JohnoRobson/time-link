@@ -16,45 +16,47 @@
 					<h1 class="loginTitle">Monthly Report</h1>
 				</div>
 			<h:form>
-			    <p:selectOneMenu value="#{MonthlyReportController.projectId}" onchange="submit()">
-		    	    <f:selectItem itemLabel="" itemValue=" "/>
-                	<f:selectItems value="#{MonthlyReportController.getProjects()}"
-                	    var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectNumber}"/>
-                </p:selectOneMenu>
-                <h:outputText value="Project:" />
-                <h:outputText value="#{MonthlyReportController.selectedProject.projectName}" />
-                <p:panelGrid columns="2">
-                
-                </p:panelGrid>
-                <p:dataTable value="#{MonthlyReportController.getWorkPackages()}" var="workpackage">
-                    <p:column>
-                        <h:outputText value="WorkPackage: #{workpackage.code}" />
+				<p:panel styleClass="monReportPanel">
+				<div class="timesheetHead projPlanHead">	
+					<h:panelGrid columns="2">
+			    		<h:outputText value="Project:" />
+ 						<p:selectOneMenu value="#{MonthlyReportController.projectId}" onchange="submit()">
+		    	    		<f:selectItem itemLabel="" itemValue=" "/>
+                			<f:selectItems value="#{MonthlyReportController.getProjects()}"
+                	    		var="project" itemLabel="#{project.projectName}" 
+                	    		itemValue="#{project.projectNumber}"/>
+                		</p:selectOneMenu>
+    				</h:panelGrid>            
+    			</div>
+                <p:dataTable value="#{MonthlyReportController.getWorkPackages()}" var="workpackage" styleClass="wpElementWrap">
+                    <p:column styleClass="tsHeader">
+                        <h:outputText value="Work Package: #{workpackage.code}" />
                         <p:dataTable value="#{workpackage}" >
-                            <p:column>
+                            <p:column styleClass="tsHeader">
                                 <h:outputText value="Man Days: " />
                                 <f:facet name="footer">
                                     <h:outputText value="Labour Cost: " />
                                 </f:facet>
                             </p:column>
-                            <p:column headerText="Budget">
+                            <p:column headerText="Budget" styleClass="tsHeader">
                                 <h:outputText value="#{MonthlyReportController.getBudgeted(workpackage)}" />
                                 <f:facet name="footer">
-                                    <h:outputText value="#{MonthlyReportController.getTotalBudgeted(workpackage)}" />
+                                    <h:outputText value="$#{MonthlyReportController.getTotalBudgeted(workpackage)}" />
                                 </f:facet>
                             </p:column>
-                            <p:column headerText="Estimate To Complete">
+                            <p:column headerText="Estimate To Complete" styleClass="tsHeader">
                                 <h:outputText value="#{MonthlyReportController.getEstimated(workpackage)}" />
                                 <f:facet name="footer">
-                                    <h:outputText value="#{MonthlyReportController.getTotalEstimated(workpackage)}" />
+                                    <h:outputText value="$#{MonthlyReportController.getTotalEstimated(workpackage)}" />
                                 </f:facet>
                             </p:column>
-                            <p:column headerText="Budget to Complete">
+                            <p:column headerText="Estimate at Completion" styleClass="tsHeader">
                                 <h:outputText value="#{MonthlyReportController.getBudgetToComplete(workpackage)}" />
                                 <f:facet name="footer">
-                                    <h:outputText value="#{MonthlyReportController.getTotalBudgetToComplete(workpackage)}" />
+                                    <h:outputText value="$#{MonthlyReportController.getTotalBudgetToComplete(workpackage)}" />
                                 </f:facet>
                             </p:column>
-                            <p:column headerText="Variance Percent">
+                            <p:column headerText="Variance Percent" styleClass="tsHeader">
                                 <h:outputText value="#{MonthlyReportController.getVariancePercent(workpackage)}" >
                                     <f:convertNumber type="percent" />
                                 </h:outputText>
@@ -62,6 +64,7 @@
                         </p:dataTable>
                     </p:column>
                 </p:dataTable>
+				</p:panel>
 			</h:form>
 			</div>
 			</ui:define>
