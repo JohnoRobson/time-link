@@ -39,12 +39,30 @@
 	                	<div class="loginBtn asgnBtn">
 	                		<p:commandButton value="Assign" styleClass="logButton" 
 	                						 action="assignemp" ajax="false"/>
+	                		<p:commandButton value="Close Project" styleClass="logButton" 
+	                						 onclick="PF('close').show();"/>
 	                	</div>
 	                </div>
 	            </div>
                 </h:form>
             </div>
             </div>
+            
+           	<!-- Confirm Modal -->
+		    <p:dialog
+		    	header="Close Project"
+	            widgetVar="close"
+	            modal="true"
+	            height="200">
+		    	<h:form>
+		            <h:panelGrid columns="1">
+		            	<h:outputText styleClass="modalText" value="Are you sure you want to close this project?  This cannot be undone."/>
+		            	<p:commandButton value="Close Project" styleClass="s-confirmCreateTimesheetBtn modalBtn" 
+		            				 action="#{AssignEmployeesController.closeProject()}" ajax="false" />
+		            </h:panelGrid>
+		        </h:form>
+		    </p:dialog>
+	    
 		    </ui:define>
 	    </ui:composition>
 	</h:body>

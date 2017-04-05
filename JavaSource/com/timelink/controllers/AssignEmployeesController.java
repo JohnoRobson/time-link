@@ -5,8 +5,6 @@ import com.timelink.ejbs.Project;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
 
-import org.primefaces.model.DualListModel;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +12,8 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.model.DualListModel;
 
 @SuppressWarnings("serial")
 @SessionScoped
@@ -27,8 +27,8 @@ public class AssignEmployeesController implements Serializable {
   
   public AssignEmployeesController() {}
   
-  public AssignEmployeesController (ProjectManager pm) {
-	  this.pm = pm;
+  public AssignEmployeesController(ProjectManager pm) {
+    this.pm = pm;
   }
   
   /**
@@ -88,4 +88,20 @@ public class AssignEmployeesController implements Serializable {
       pm.merge(selectedProject);
     }
   }
+  
+  
+  //Modal Stuff
+  
+  /**
+   * Closes the selected project.
+   */
+  public void closeProject() {
+    if (selectedProject == null) {
+      return;
+    }
+    
+    selectedProject.setClosed(true);
+    pm.merge(selectedProject);
+  }
+  
 }
