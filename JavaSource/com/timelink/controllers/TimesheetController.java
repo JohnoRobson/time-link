@@ -50,6 +50,19 @@ public class TimesheetController implements Serializable {
     
   }
   
+  public TimesheetController(TimesheetManager tm, WorkPackageManager wpm, Session ses,
+      ProjectManager pm, WeekNumberService weekNumberService, HRProjectService hrps, 
+      FlextimeService fts, VacationService vs) {
+    this.tm = tm;
+    this.wpm = wpm;
+    this.ses = ses;
+    this.pm = pm;
+    this.weekNumberService = weekNumberService;
+    this.hrps = hrps;
+    this.fts = fts;
+    this.vs = vs;
+  }
+  
   public void deleteRow(TimesheetRow row) {
     selectedTimesheet.deleteRow(row);
     save();
@@ -326,7 +339,7 @@ public class TimesheetController implements Serializable {
    */
   public String submit() {
     if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
-      save();
+      
       if (selectedTimesheet.isValid()) {
         selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
         fts.claimFlextime(selectedTimesheet);
@@ -335,7 +348,9 @@ public class TimesheetController implements Serializable {
       } else {
         //TODO set to display an error message explaining validation failure
       }
+      
     }
+    save();
     return null;
   }
 }
