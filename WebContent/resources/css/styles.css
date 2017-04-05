@@ -668,8 +668,14 @@ h2.mngEmpProjSubHead {
 	text-align:center;
 	
 }
-
 /* end of workpackagebudgetre.xhtml */
+
+/* Styles for monthlyreport.xhtml start here. */
+.monReportWrapper {
+	margin: auto;
+	width: 70%;
+	background: red;
+}
 
 #content {
 	width: 100%;
