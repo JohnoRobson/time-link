@@ -24,10 +24,6 @@ public class WorkPackageManager {
   @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
   @Inject WorkPackageCodeService codeService;
   
-  public void detach(WorkPackage wp) {
-    em.detach(wp);
-  }
-  
   /**
    * Returns a WorkPackage from the database with id wpId.
    * 
@@ -37,7 +33,7 @@ public class WorkPackageManager {
    */
   public WorkPackage find(int wpId) {
     return em.find(WorkPackage.class, wpId);
-  } 
+  }
   
   /**
    * Returns all workpackages assigned to proj.
@@ -71,8 +67,26 @@ public class WorkPackageManager {
   }
   
   /**
-   * Returns a work package given a name WorkPackage.
-   * @return The requested WorkPackage.
+   * Adds wp to the database.
+   * 
+   * @param wp the workpackage to be added to the database.
+   */
+  public void persist(WorkPackage wp) {
+    em.persist(wp);
+  }
+  
+  /**
+   * Updates wp in the database.
+   * 
+   * @param wp the workpackage to be updated in the database.
+   */
+  public void merge(WorkPackage wp) {
+    em.merge(wp);
+  }
+  
+  /**
+   * Returns the sick day WorkPackage.
+   * @return The sick day WorkPackage.
    */
   public WorkPackage findByName(String name) {
     TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
@@ -81,19 +95,6 @@ public class WorkPackageManager {
     return query.getSingleResult();
   }
   
-  /**
-   * Returns all WorkPackages in the given timesheet.
-   * @param ts The timesheet to be searched
-   * @return A List of WorkPackages in the given timesheet.
-   */
-  public List<WorkPackage> getAllInTimesheet(Timesheet ts) {
-    TypedQuery<WorkPackage> query = em.createQuery("SELECT DISTINCT wp FROM WorkPackage AS wp, "
-        + "Hours AS hour WHERE hour.timesheetId = :tsId AND "
-        + "wp.workPackageId = hour.workPackageId", WorkPackage.class)
-        .setParameter("tsId", ts.getTimesheetId());
-    return query.getResultList();
-  }
-    
   /**
    * Returns the parent of the given work package.
    * @param wp The work package whose parent will be returned.
@@ -124,6 +125,42 @@ public class WorkPackageManager {
   }
   
   /**
+   * Returns all WorkPackages in the given timesheet.
+   * @param ts The timesheet to be searched
+   * @return A List of WorkPackages in the given timesheet.
+   */
+  public List<WorkPackage> getAllInTimesheet(Timesheet ts) {
+    TypedQuery<WorkPackage> query = em.createQuery("SELECT DISTINCT wp FROM WorkPackage AS wp, "
+        + "Hours AS hour WHERE hour.timesheetId = :tsId AND "
+        + "wp.workPackageId = hour.workPackageId", WorkPackage.class)
+        .setParameter("tsId", ts.getTimesheetId());
+    return query.getResultList();
+  }
+  
+  /**
+   * Returns true if the given WorkPackage does not have children.
+   * @param wp The WorkPackages to be searched.
+   * @return True, if wp has no children.
+   */
+  public boolean isLeaf(WorkPackage wp) {
+    StringBuilder sb = new StringBuilder(wp.getCode());
+    int index = sb.indexOf("0");
+    if (index == -1) {
+      return true;
+    } else {
+      sb = new StringBuilder(sb.substring(0, index));
+    }
+    
+    TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
+        + "WHERE wp.project = :workProject AND wp.code LIKE :code "
+        + "AND wp.workPackageId != :wpId", WorkPackage.class)
+        .setParameter("workProject", wp.getProject())
+        .setParameter("code", sb.toString() + "%")
+        .setParameter("wpId", wp.getWorkPackageId());
+    return query.getResultList().size() == 0;
+  }
+  
+  /**
    * Returns a List of all WorkPackages with the given employee
    *   as their responsible engineer.
    * @param emp The responsible engineer.
@@ -136,22 +173,8 @@ public class WorkPackageManager {
     return query.getResultList();
   }
   
-  /**
-   * Updates wp in the database.
-   * 
-   * @param wp the workpackage to be updated in the database.
-   */
-  public void merge(WorkPackage wp) {
-    em.merge(wp);
-  }
-  
-  /**
-   * Adds wp to the database.
-   * 
-   * @param wp the workpackage to be added to the database.
-   */
-  public void persist(WorkPackage wp) {
-    em.persist(wp);
+  public void detach(WorkPackage wp) {
+    em.detach(wp);
   }
   
   /**
@@ -176,29 +199,6 @@ public class WorkPackageManager {
     
     return list;
   }
-
-/**
- * Returns true if the given WorkPackage does not have children.
- * @param wp The WorkPackages to be searched.
- * @return True, if wp has no children.
- */
-public boolean isLeaf(WorkPackage wp) {
-  StringBuilder sb = new StringBuilder(wp.getCode());
-  int index = sb.indexOf("0");
-  if (index == -1) {
-    return true;
-  } else {
-    sb = new StringBuilder(sb.substring(0, index));
-  }
-  
-  TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
-      + "WHERE wp.project = :workProject AND wp.code LIKE :code "
-      + "AND wp.workPackageId != :wpId", WorkPackage.class)
-      .setParameter("workProject", wp.getProject())
-      .setParameter("code", sb.toString() + "%")
-      .setParameter("wpId", wp.getWorkPackageId());
-  return query.getResultList().size() == 0;
-}
   
   /**
    * Returns all child Work Package for the given WorkPackage.

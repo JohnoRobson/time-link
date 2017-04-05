@@ -31,7 +31,7 @@ public class HumanResourceController implements Serializable {
   private String firstName;
   private String lastName;
   private String email;
-  private Float vacationAccrual;
+  private Integer vacationAccrual;
   private RoleEnum jobTitle;
   private String password;
   private String confirmPassword;
@@ -147,7 +147,7 @@ public class HumanResourceController implements Serializable {
    * Return the vacationAccrual.
    * @return the vacationAccrual
    */
-  public Float getVacationAccrual() {
+  public Integer getVacationAccrual() {
     return vacationAccrual;
   }
 
@@ -155,7 +155,7 @@ public class HumanResourceController implements Serializable {
    * Set the vacationAccrual to vacationAccrual.
    * @param vacationAccrual the vacationAccrual to set
    */
-  public void setVacationAccrual(Float vacationAccrual) {
+  public void setVacationAccrual(Integer vacationAccrual) {
     this.vacationAccrual = vacationAccrual;
   }
 
