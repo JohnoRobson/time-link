@@ -10,6 +10,11 @@
 	<h:body>
 		<ui:composition template="resources/templates/template.xhtml">
 			<ui:define name="content">
+			<div class="monReportWrapper">
+				<div class="title">
+					<hr />
+					<h1 class="loginTitle">Monthly Report</h1>
+				</div>
 			<h:form>
 			    <p:selectOneMenu value="#{MonthlyReportController.projectId}" onchange="submit()">
 		    	    <f:selectItem itemLabel="" itemValue=" "/>
@@ -58,6 +63,7 @@
                     </p:column>
                 </p:dataTable>
 			</h:form>
+			</div>
 			</ui:define>
 		</ui:composition>
 	</h:body>
