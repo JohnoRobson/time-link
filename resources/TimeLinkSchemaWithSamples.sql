@@ -19,6 +19,7 @@ USE `timelink_dev`;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
 --
 -- Table structure for table `admin_message`
 --
@@ -41,7 +42,6 @@ CREATE TABLE `admin_message` (
 --
 -- Dumping data for table `admin_message`
 --
-
 
 --
 -- Table structure for table `budget_project_work_day`
@@ -193,9 +193,9 @@ CREATE TABLE `employee` (
   `emp_lg_id` int(11) DEFAULT NULL,
   `emp_effect_from` date DEFAULT NULL,
   `emp_effect_to` date DEFAULT NULL,
-  `emp_flex_time` int(11) DEFAULT NULL,
-  `emp_vacation_time` int(11) DEFAULT NULL,
-  `emp_vacation_rate` int(11) DEFAULT NULL,
+  `emp_flex_time` float DEFAULT NULL,
+  `emp_vacation_time` float DEFAULT NULL,
+  `emp_vacation_rate` float DEFAULT NULL,
   `emp_default_tsh_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`emp_id`),
   UNIQUE KEY `emp_id_UNIQUE` (`emp_id`),
@@ -419,7 +419,7 @@ INSERT INTO project VALUES (10, "10", "HR Codes", "TimeLink", null, 2, 2, 0);
 INSERT INTO prj_emp VALUES (0, 1, 1);
 INSERT INTO prj_emp VALUES (2, 2, 1);
 
-INSERT INTO workpackage VALUES (1, 10, "SICKDAY", null, 4, "A sick day", 0, 5);
+INSERT INTO workpackage VALUES (1, 10, "SICK", null, 4, "Sick Leave", 0, 5);
 INSERT INTO workpackage VALUES (2, 1, "1000000", null, 4, "Part of the cool project", 0, 0);
 INSERT INTO workpackage VALUES (3, 1, "2000000", null, 4, "second part of the cool project", 0, 0);
 INSERT INTO workpackage VALUES (4, 2, "1000000", null, 4, "work package for the cool project the sequel", 0, 0);

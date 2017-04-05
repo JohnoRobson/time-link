@@ -301,10 +301,18 @@ public class Timesheet {
    */
   public void deleteRow(TimesheetRow row) {
     for (TimesheetRow r : rows) {
-      if (r.getProjectId() == row.getProjectId()) {
+      if (r.getProjectId() == row.getProjectId() && r.getWorkPackageId() == row.getWorkPackageId()) {
         rows.remove(r);
         break;
       }
     }
+  }
+  
+  /**
+   * Check for valid total number of hours with flextime and overtime.
+   * @return whether timesheet has a valid final state
+   */
+  public boolean isValid() {
+    return (getTotalHours() - flextime - overtime) == 40;
   }
 }
