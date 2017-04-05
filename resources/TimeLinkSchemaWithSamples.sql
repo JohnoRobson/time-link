@@ -20,7 +20,6 @@ USE `timelink_dev`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
-<<<<<<< HEAD
 -- Table structure for table `admin_message`
 --
 
@@ -45,10 +44,7 @@ CREATE TABLE `admin_message` (
 
 
 --
--- Table structure for table `Budget_Project_Hour`
-=======
 -- Table structure for table `budget_project_work_day`
->>>>>>> refs/remotes/origin/master
 --
 
 DROP TABLE IF EXISTS `budget_project_work_day`;
