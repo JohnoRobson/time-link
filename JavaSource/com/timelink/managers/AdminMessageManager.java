@@ -15,18 +15,18 @@ import com.timelink.ejbs.Employee;
 @Stateless
 public class AdminMessageManager {
 
-	@PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
+  @PersistenceContext(unitName = "timesheet-jpa") EntityManager em;
 
-	public AdminMessage find(int adminMsgId) {
-	    return em.find(AdminMessage.class, adminMsgId);
-	  }
-	  
-	  public void persist(AdminMessage am) {
-	    em.persist(am);
-	  }
-	  
-	  public List<AdminMessage> getAll() {
-		    TypedQuery<AdminMessage> query = em.createQuery("SELECT a FROM AdminMessage a", AdminMessage.class);
-		    return query.getResultList();
-	  }
+  public AdminMessage find(int adminMsgId) {
+    return em.find(AdminMessage.class, adminMsgId);
+  }
+
+  public void persist(AdminMessage am) {
+    em.persist(am);
+  }
+
+  public List<AdminMessage> getAll() {
+    TypedQuery<AdminMessage> query = em.createQuery("SELECT a FROM AdminMessage a", AdminMessage.class);
+    return query.getResultList();
+  }
 }

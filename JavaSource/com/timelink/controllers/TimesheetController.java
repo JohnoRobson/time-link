@@ -101,6 +101,7 @@ public class TimesheetController implements Serializable {
   public String save() {
     if (selectedTimesheet != null) {
       saveHoursLabourGrade();
+      selectedTimesheet.setEmployee(ses.getCurrentEmployee());
       tm.merge(selectedTimesheet);
       selectedTimesheet = tm.find(selectedTimesheet.getTimesheetId());
     }
@@ -127,6 +128,7 @@ public class TimesheetController implements Serializable {
     }
     
     save();
+    
     Timesheet newTimesheet = new Timesheet(ses.getCurrentEmployee());
     newTimesheet.setDate(weekNumberService.getDateFromWeekYear(week, year));
     
