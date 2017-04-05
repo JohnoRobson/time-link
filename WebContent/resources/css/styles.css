@@ -33,10 +33,13 @@ body {
 .container {
  	display: flex;
  	width: 100%;
-    position: relative;
     overflow: hidden;
     flex-flow: column wrap;
     min-height: 110%;
+}
+
+.content {
+	flex: 1;
 }
 
 /* styles for the HEADER BANNER 
@@ -51,14 +54,6 @@ body {
 	overflow:hidden;
 }
 
-.footerBanner {    
-    position: relative;
-  	right: 0;
-  	bottom: 0;
-  	left: 0;
-  	background-color: #efefef;
-  	text-align: center;
-}
 
 /*.headLogo located on index.xhtml */
 .headLogo {
@@ -127,8 +122,7 @@ body {
 
 .logwrapper {
 	width: 23%;
-	margin:auto;
-	
+	margin:auto;	
 }
 
 /* login form controls - index.xhtml */
@@ -162,7 +156,11 @@ body {
 
 /*Login button itself - index.xhtml */
 .logButton {
-	background:white !important;
+	background: #363636 !important; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#363636, #4A4A4A) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#363636, #4A4A4A) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#363636, #4A4A4A) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#363636, #4A4A4A) !important; /* Standard syntax */
 	padding-left: 2vh;
 	padding-right: 2vh;
 	border: 2px  #363636 solid !important;
@@ -180,15 +178,6 @@ body {
 
 /* FOOTER BAR styles here 
    footerBar located in footer.xhtml template file */
-/* .footerBar {
-	background: #F5F5F5;
-	border-radius: 0;
-	border: 0;
-	margin-top:0;
-	margin-bottom:0;
-	padding:0;
-	overflow:hidden;
-} */
 
 /*footer located in footer.xhtml */
 .footer {
@@ -203,7 +192,6 @@ body {
 .leftFoot {
 	justify-content:left;
 	margin-left:60vh;
-
 }
 
 /* rightFoot located in footer.xhtml 
@@ -393,7 +381,11 @@ body {
 
 /* sub group of buttons at bottom of timesheet.xhtml */
 .btnGrp button {
-	background: #dfdfdf !important;
+	background: #363636 !important; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#363636, #4A4A4A) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#363636, #4A4A4A) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#363636, #4A4A4A) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#363636, #4A4A4A) !important; /* Standard syntax */
 	border: 2px solid #4f4f4f !important;
 	padding: 0 2% 0 2%;
 }
@@ -420,7 +412,7 @@ body {
 }
 
 /* psuedo classing hover for modal button */
-.modalBtn:hover{
+.modalBtn:hover {
 	 -webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	 -moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	 box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
@@ -622,6 +614,7 @@ h2.mngEmpProjSubHead {
 
 .projPanel {
 	border: none !important;
+	margin-bottom: 8%;
 }
 
 /* styles for projectplanning.xhtml end here */
@@ -673,8 +666,26 @@ h2.mngEmpProjSubHead {
 	text-align:center;
 	
 }
-
 /* end of workpackagebudgetre.xhtml */
+
+/* Styles for monthlyreport.xhtml start here. */
+.monReportWrapper {
+	margin: auto;
+	width: 65%;
+}
+
+.monReportPanel {
+	border: none !important;
+	margin-bottom: 8%;
+	padding-bottom: 3%;
+}
+
+.wpElementWrap {
+	width: 90%;
+	margin:auto;
+}
+
+/* Styles for monthlyreport.xhtml end here. */
 
 #content {
 	width: 100%;
