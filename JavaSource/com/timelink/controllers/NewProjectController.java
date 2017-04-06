@@ -188,7 +188,7 @@ public class NewProjectController implements Serializable {
   }
   
   /**
-   * Returns true if the project name is unique.
+   * Returns true if the project name is unique and alphanumeric.
    * @param context etc
    * @param component etc
    * @param value the name being checked
@@ -203,10 +203,15 @@ public class NewProjectController implements Serializable {
     String s = (String) value;
     
     for (char c : s.toCharArray()) {
-      if (!Character.isDigit(c)) {
+      if (!Character.isDigit(c) || !Character.isAlphabetic(c)) {
         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
-            "Project name must be numeric", "Project name must be numeric"));
+            "Project name must be alpha numeric", "Project name must be alpha numeric"));
       }
+    }
+    
+    if (!(s.toCharArray().length > 0 && s.toCharArray().length < 7  )) {
+        throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                "Project name must be between 1 and 7 characters", "Project name must be between 1 and 7 characters"));
     }
     
     if (!pm.projectNameIsUnique((String) value)) {
@@ -214,5 +219,6 @@ public class NewProjectController implements Serializable {
           "Project name must be unique", "Project name must be unique"));
     }
   }
+  
 }
 

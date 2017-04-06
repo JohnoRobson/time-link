@@ -18,26 +18,53 @@
 			<div class="projCtrl">
 	        <h:form>
 	            <h:panelGrid styleClass="panel" columns="1">
-	            	<h:outputText styleClass="projLabel" value="Project Name: "/>
-	            	<p:inputText value="#{NewProjectController.projectName}"
-				     validator="#{NewProjectController.validateProjectName}" id="projectname" required="true" requiredMessage="#{msgs.nameRequired}"/>
-				    <h:message for="projectname" styleClass="errorMessage" colspan="2"/>
-	            	<h:outputText styleClass="projLabel" value="Project Description: "/>
-	            	<p:inputText styleClass="projInput" value="#{NewProjectController.projectDescription}" required="true" requiredMessage="#{msgs.descriptionRequired}"/>
-	            	<h:outputText styleClass="projLabel" value="Customer: "/>
-	            	<p:inputText styleClass="projInput" value="#{NewProjectController.customer}"/>
+	            	
+	            	<h:panelGrid columns="2">
+	            		<h:outputText styleClass="projLabel" value="Project Name: "/>
+	            		<p:inputText value="#{NewProjectController.projectName}"
+				     	validator="#{NewProjectController.validateProjectName}" id="projectname" required="true" requiredMessage="#{msgs.nameRequired}"/>
+					</h:panelGrid>
+				   	
+				   	<h:panelGrid columns ="1">
+				    	<h:message for="projectname" styleClass="errorMessage" />
+				    </h:panelGrid>
+
+					<h:panelGrid columns="2">	            	
+	            		<h:outputText styleClass="projLabel" value="Project Description: "/>
+	            		<p:inputText id="projectdescription" styleClass="projInput" value="#{NewProjectController.projectDescription}" required="true" requiredMessage="#{msgs.descriptionRequired}"/>
+	            	</h:panelGrid>
+	            	
+	            	<h:panelGrid columns="1">
+	            		<h:message for="projectdescription" styleClass="errorMessage" />
+	            	</h:panelGrid>
+	            	
+	            	<h:panelGrid columns="2">
+	            		<h:outputText styleClass="projLabel" value="Customer: "/>
+	            		<p:inputText id="projectcustomer" styleClass="projInput" value="#{NewProjectController.customer}" required="true" requiredMessage="#{msgs.customerRequired}"/>
+	            	</h:panelGrid>
+	            	
+	            	<h:panelGrid columns="1">
+	            		<h:message for="projectcustomer" styleClass="errorMessage" />
+	            	</h:panelGrid>
+	            	
+	            	<h:panelGrid columns="2">
 	            	<h:outputText styleClass="projLabel" value="Project Manager: "/>
 	            	<p:selectOneMenu styleClass="projInput drop" value="#{NewProjectController.projectManager}">
 	            		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
                 		<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" 
                 					   var="pm" itemLabel="#{pm.firstName}" itemValue="#{pm.employeeId}" />
                 	</p:selectOneMenu>
+                	</h:panelGrid>
+                	
+                	<h:panelGrid columns="2">
                 	<h:outputText styleClass="projLabel" value="Project Assistant" />
-                	<p:selectOneMenu styleClass="projInput drop" value="#{NewProjectController.projectManagerAssistant}">
-               			<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
-                		<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" 
+                	
+                		<p:selectOneMenu styleClass="projInput drop" value="#{NewProjectController.projectManagerAssistant}">
+               				<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
+                			<f:selectItems value="#{NewProjectController.getEmployees() != null ? NewProjectController.getEmployees() : null}" 
                 					   var="pma" itemLabel="#{pma.firstName}" itemValue="#{pma.employeeId}" />
-                    </p:selectOneMenu>
+                    	</p:selectOneMenu>
+                    </h:panelGrid>
 	            </h:panelGrid>
 	            <div class="loginBtn">
 	            	<p:commandButton value="Create Project" styleClass="logButton"
