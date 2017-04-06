@@ -150,7 +150,7 @@ body {
  	float:right;
  	margin-top: 3vh;
 	margin-bottom: 3vh;
-/* 	background: gray;
+/*  	background: gray;
  */}
 
 
@@ -576,8 +576,11 @@ h2.mngEmpProjSubHead {
 }
 
 .asgnBtn {
-	float:left !Important;
+	display:flex;
+	flex-flow: row wrap;
 }
+
+
 
 /* End of styles for assignemp.xhtml.*/
 
@@ -605,6 +608,10 @@ h2.mngEmpProjSubHead {
 }
 .align {
 	text-align: right;
+}
+
+.projPlanInput {
+	width: 80%;
 }
 
 ..ui-widget-content {
@@ -651,7 +658,7 @@ h2.mngEmpProjSubHead {
 }
 
 .budgetWrap {
-	width: 85%;
+	width: 90%;
 	margin: auto;
 	margin-bottom: 7%;
 	margin-top: 5%;
@@ -664,8 +671,16 @@ h2.mngEmpProjSubHead {
 
 .wpbdreBtn {
 	text-align:center;
-	
 }
+
+.weekDaysTwo {
+	width: 7%;	
+}
+
+.panelPad {
+	padding: 4% 1% 4% 1%;
+}
+
 /* end of workpackagebudgetre.xhtml */
 
 /* Styles for monthlyreport.xhtml start here. */
@@ -730,10 +745,20 @@ h2.mngEmpProjSubHead {
 	width: 50%;
 }
 
-
-
-
 /* Styles for budgetwp.xhtml end here. */
+
+/* start of styles for assignemptotsa.xhtml. */
+.tsaSpacing {
+	margin-top: 3%;
+}
+
+.assignEmpBtn {
+	background:gray;
+	float: left;
+	margin-top:3%;
+}
+
+/*end of styles for assinemptotsa.xhtml. */
 
 #content {
 	width: 100%;

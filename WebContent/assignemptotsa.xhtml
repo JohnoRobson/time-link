@@ -10,21 +10,37 @@
 	<h:body>
 		<ui:composition template="resources/templates/template.xhtml">
 		    <ui:define name="content">
-		    	<h1>Assign Employee to Timesheet Approver / Assign Timesheet Approver page</h1>
-		    	<h:form>
-	        	<p:dataTable value="#{EmployeeToTsaController.getTimesheetApprovers()}" var="tsa">
-	            	<p:column>
-	                	#{tsa.userId} #{tsa.firstName} #{tsa.lastName}
-	            	</p:column>
-	            	<p:column>
-	            	    <p:commandButton value="View" action="#{EmployeeToTsaController.setSelectedTimesheetApprover(tsa)}" ajax="false"/>
-	            	</p:column>
-	        	</p:dataTable>
-	        	<h1>#{EmployeeToTsaController.selectedTimesheetApprover.firstName}</h1>
-                <p:pickList id="pickList" value="#{EmployeeToTsaController.employees}" var="employee" itemLabel="#{employee.firstName}" 
-                    itemValue="#{employee}" converter="EmployeeConverter"/>
-                <p:commandButton value="Assign" action="assignemptotsa.xhtml" ajax="false"/>
-                </h:form>
+		    <div class="assignEmpWrapper">
+		    	<div class="title">
+		    		<hr />
+		    		<h1 class="loginTitle">Timesheet Approver Page</h1>
+		    	</div>
+		    <div class="tsCont">
+		    <h:form>
+		    	<div class="widgetCont">
+		    		<div class="asgnProjTbl">
+		    			<h2 class="mngEmpProjSubHead">Timesheet Approvers</h2>
+	        			<p:dataTable value="#{EmployeeToTsaController.getTimesheetApprovers()}" var="tsa">
+	            			<p:column headerText="Approvers" styleClass="tsHeader" >
+	                			#{tsa.userId} #{tsa.firstName} #{tsa.lastName}
+	            			</p:column>
+	            			<p:column headerText="Select" styleClass="tsHeader">
+	            	    		<p:commandButton value="View" action="#{EmployeeToTsaController.setSelectedTimesheetApprover(tsa)}" ajax="false"/>
+	            			</p:column>
+	        			</p:dataTable>
+	        		</div>
+	        		<div class="asgnEmpPick tsaSpacing">
+	        			<h2 class="mngEmpProjSubHead">#{EmployeeToTsaController.selectedTimesheetApprover.firstName}</h2>
+                		<p:pickList id="pickList" value="#{EmployeeToTsaController.employees}" var="employee" itemLabel="#{employee.firstName}" 
+                    				itemValue="#{employee}" converter="EmployeeConverter"/>
+                		<div class="assignEmpBtn">	
+                			<p:commandButton value="Assign" styleClass="logButton" action="assignemptotsa.xhtml" ajax="false"/>
+            			</div>
+            		</div>
+            	</div>
+            </h:form>
+            </div>
+		    </div>
 		    </ui:define>
 	    </ui:composition>
 	</h:body>
