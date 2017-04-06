@@ -426,6 +426,9 @@ INSERT INTO workpackage VALUES (4, 2, "1000000", null, 4, "work package for the 
 INSERT INTO workpackage VALUES (5, 2, "2000000", null, 4, "second work package for the sequel", 0, 0);
 INSERT INTO workpackage VALUES (6, 10, "FLEX", null, 4, "Flextime", 0, 5);
 INSERT INTO workpackage VALUES (7, 10, "VACA", null, 4, "Vacation", 0, 5);
+INSERT INTO workpackage VALUES (8, 10, "STAT", null, 4, "Statutory Holiday", 0, 5);
+INSERT INTO workpackage VALUES (9, 10, "LDIS", null, 4, "Long-term Disability", 0, 5);
+INSERT INTO workpackage VALUES (10, 10, "SDIS", null, 4, "Short-Term Disability", 0, 5);
 
 INSERT INTO wp_emp VALUES (3, 2, 1);
 INSERT INTO wp_emp VALUES (4, 3, 1);
