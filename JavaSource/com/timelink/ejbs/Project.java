@@ -63,6 +63,9 @@ public class Project implements Serializable {
   @OrderBy("lastName ASC")
   private Set<Employee> employees;
   
+  @Column(name = "prj_closed")
+  private boolean isClosed;
+  
   /**
    * Returns the projectNumber.
    * @return the projectNumber
@@ -194,5 +197,22 @@ public class Project implements Serializable {
   public void setEmployees(List<Employee> employees) {
     this.employees = new HashSet<Employee>(employees);
   }
+
+  /**
+   * Returns isClosed.
+   * @return the isClosed
+   */
+  public boolean isClosed() {
+    return isClosed;
+  }
+
+  /**
+   * Sets isClosed.
+   * @param isClosed the isClosed to set
+   */
+  public void setClosed(boolean isClosed) {
+    this.isClosed = isClosed;
+  }
+  
   
 }

@@ -31,7 +31,7 @@ public class HumanResourceController implements Serializable {
   private String firstName;
   private String lastName;
   private String email;
-  private Integer vacationAccrual;
+  private Float vacationAccrual;
   private RoleEnum jobTitle;
   private String password;
   private String confirmPassword;
@@ -147,7 +147,7 @@ public class HumanResourceController implements Serializable {
    * Return the vacationAccrual.
    * @return the vacationAccrual
    */
-  public Integer getVacationAccrual() {
+  public Float getVacationAccrual() {
     return vacationAccrual;
   }
 
@@ -155,7 +155,7 @@ public class HumanResourceController implements Serializable {
    * Set the vacationAccrual to vacationAccrual.
    * @param vacationAccrual the vacationAccrual to set
    */
-  public void setVacationAccrual(Integer vacationAccrual) {
+  public void setVacationAccrual(Float vacationAccrual) {
     this.vacationAccrual = vacationAccrual;
   }
 
@@ -390,5 +390,15 @@ public class HumanResourceController implements Serializable {
       em.merge(emp);
     } 
     return null;
+  }
+  
+  /**
+   * Closes the editing employee.
+   * @return navigation String to reload page.
+   */
+  public String closeEmployee() {
+    editingEmployee.setEffectTo(new Date());
+    em.merge(editingEmployee);
+    return "humanresources";
   }
 }
