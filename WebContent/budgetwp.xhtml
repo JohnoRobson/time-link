@@ -16,7 +16,7 @@
 	    			<h1 class="loginTitle">Create Work Package</h1>		
 	    		</div>
 	    	<h:form>
-	    	<p:panel styleClass="budgetWpPanel">
+	    	<p:panel styleClass="projPanel budgetWpPanel">
 	    		<h:panelGrid columns="3">
 	  				<h:outputText value="Select a Project:" />
 	    			<p:selectOneMenu value="#{BudgetWorkPackageController.currentProjectId}">
@@ -57,7 +57,7 @@
 					</p:column>
 	    		</p:dataTable>
 	    	</p:panel>
-	    	<p:panel styleClass="budgetWpPanel">
+	    	<p:panel styleClass="projPanel budgetWpPanel">
         		<h2 class="reportSubhead">Work packages to Review</h2>
 	    		<p:dataTable id="matrix" var="row" value="#{BudgetWorkPackageController.getWorkPackagesSubmittedByRE()}" 
 	    					 editable="#{true}" editMode="cell" rowIndexVar="index"
@@ -102,7 +102,7 @@
 	    		</p:dataTable>
 	    	</p:panel>
 	    	</h:form>
-	    	<p:panel styleClass="budgetWpPanel">
+	    	<p:panel styleClass="projPanel budgetWpPanel">
 	    	<h2 class="reportSubhead">Work Packages Pending Estimation</h2>
 	    		<p:dataTable id="submitted" var="row" value="#{BudgetWorkPackageController.getWorkPackagesSubmittedByPM()}" 
 	    					 editable="#{false}" styleClass="monReportTbl pendingTblSize">
