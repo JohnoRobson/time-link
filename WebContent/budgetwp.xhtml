@@ -10,48 +10,59 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">  
 	    <ui:define name="content">
-	    	<div id="main">
-	    	<h1>Create Work Package</h1>
+	    	<div class="wpCreationWrapper">
+	    		<div class="title">
+	    			<hr/>
+	    			<h1 class="loginTitle">Create Work Package</h1>		
+	    		</div>
 	    	<h:form>
-	    		<p:commandButton
-                	value="Create Work Package"
-                	type="submit"
-                	onclick="PF('createwp').show();"
-                	update=":#{p:component('creationModal')}"/>
-	    		<p:selectOneMenu value="#{BudgetWorkPackageController.currentProjectId}">
-	            	<p:ajax event="itemSelect" update="matrix, submitted, submittedby" />
-	            	<f:selectItem itemLabel="Select a project" itemValue="#{0}"/>
-	            	<f:selectItems value="#{BudgetWorkPackageController.getProjects() != null ? BudgetWorkPackageController.getProjects() : null}" 
-	            				   var="pro" itemLabel="#{pro.projectName}" 
-	            				   itemValue="#{pro.projectNumber}" />
-        		</p:selectOneMenu>
-        		<h2>Approved Work packages</h2>
+	    	<p:panel styleClass="budgetWpPanel">
+	    		<h:panelGrid columns="3">
+	  				<h:outputText value="Select a Project:" />
+	    			<p:selectOneMenu value="#{BudgetWorkPackageController.currentProjectId}">
+	            		<p:ajax event="itemSelect" update="matrix, submitted, submittedby" />
+	            		<f:selectItem itemLabel="Select a project" itemValue="#{0}"/>
+	            		<f:selectItems value="#{BudgetWorkPackageController.getProjects() != null ? BudgetWorkPackageController.getProjects() : null}" 
+	            					   var="pro" itemLabel="#{pro.projectName}" 
+	            					   itemValue="#{pro.projectNumber}" />
+        			</p:selectOneMenu>
+        			<p:commandButton
+                		value="Create Work Package"
+                		type="submit"
+                		onclick="PF('createwp').show();"
+                		update=":#{p:component('creationModal')}"/>
+        		</h:panelGrid>
+        		<h2 class="reportSubhead">Approved Work packages</h2>
         		<p:remoteCommand name="onCellEdit" update="matrix, submitted, submittedby" />
-	    		<p:dataTable id="submittedby" var="row" value="#{BudgetWorkPackageController.getApprovedWorkPackages()}" editable="#{true}" editMode="cell" rowIndexVar="index">
-	    			<p:column headerText="Work Package">
+	    		<p:dataTable id="submittedby" var="row" value="#{BudgetWorkPackageController.getApprovedWorkPackages()}" 
+	    					 editable="#{true}" editMode="cell" rowIndexVar="index"
+	    					 styleClass="monReportTbl">
+	    			<p:column headerText="WP">
 						<h:outputText value="#{row.code}" />
 					</p:column>
-					<p:column headerText="Work Package Description">
+					<p:column styleClass="tsHeader" headerText="Description">
 						<h:outputText value="#{row.description}" />
 					</p:column>
-					<p:columns value="#{BudgetWorkPackageController.getLabourGrades()}" var="lg">
+					<p:columns styleClass="tsHeader" value="#{BudgetWorkPackageController.getLabourGrades()}" var="lg">
 						<f:facet name="header">
                 			<h:outputText value="#{lg.name}" />
-                			<br />
-                			<h:outputText value="Rate: #{lg.costRate}" />
             			</f:facet>
 						<h:outputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}" />
 					</p:columns>
-					<p:column headerText="Total Hours">
+					<p:column styleClass="tsHeader" headerText="Total Hours">
 						<h:outputText value="#{row.getTotalPlannedHours()}" />
 					</p:column>
-					<p:column headerText="Total Costs">
+					<p:column styleClass="tsHeader" headerText="Total Costs">
 						<h:outputText value="#{row.getTotalPlannedCosts()}" />
 					</p:column>
 	    		</p:dataTable>
-        		<h2>Work packages submitted by Responsible Engineer</h2>
-	    		<p:dataTable id="matrix" var="row" value="#{BudgetWorkPackageController.getWorkPackagesSubmittedByRE()}" editable="#{true}" editMode="cell" rowIndexVar="index">
-	    			<p:column>
+	    	</p:panel>
+	    	<p:panel styleClass="budgetWpPanel">
+        		<h2 class="reportSubhead">Work packages to Review</h2>
+	    		<p:dataTable id="matrix" var="row" value="#{BudgetWorkPackageController.getWorkPackagesSubmittedByRE()}" 
+	    					 editable="#{true}" editMode="cell" rowIndexVar="index"
+	    					 styleClass="monReportTbl">
+	    			<p:column styleClass="tsHeader tblBtnCenter">
 	    				<p:commandButton
 		                	value="Approve"
 		                	type="submit"
@@ -61,7 +72,7 @@
 		                <f:setPropertyActionListener value="#{row}" target="#{BudgetWorkPackageController.editingWorkPackageId}" />
 		        		</p:commandButton>
 	    			</p:column>
-	    			<p:column>
+	    			<p:column styleClass="tsHeader tblBtnCenter">
 	    				<p:commandButton
 		                	value="Edit"
 		                	type="submit"
@@ -70,46 +81,47 @@
 		                <f:setPropertyActionListener value="#{row}" target="#{BudgetWorkPackageController.editingWorkPackageId}" />
 		        		</p:commandButton>
 	    			</p:column>
-	    			<p:column headerText="Work Package">
+	    			<p:column styleClass="tsHeader" headerText="WP">
 						<h:outputText value="#{row.code}" />
 					</p:column>
-					<p:column headerText="Work Package Description">
+					<p:column styleClass="tsHeader tblDecrip" headerText="Description">
 						<h:outputText value="#{row.description}" />
 					</p:column>
-					<p:columns value="#{BudgetWorkPackageController.getLabourGrades()}" var="lg">
+					<p:columns styleClass="tsHeader weekDays" value="#{BudgetWorkPackageController.getLabourGrades()}" var="lg">
 						<f:facet name="header">
                 			<h:outputText value="#{lg.name}" />
-                			<br />
-                			<h:outputText value="Rate: #{lg.costRate}" />
             			</f:facet>
-						<h:inputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}" />
+						<p:inputText styleClass="manDaysInput" value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}" />
 					</p:columns>
-					<p:column headerText="Total Hours">
+					<p:column styleClass="tsHeader" headerText="Total Hours">
 						<h:outputText value="#{row.getTotalPlannedHours()}" />
 					</p:column>
-					<p:column headerText="Total">
+					<p:column styleClass="tsHeader" headerText="Total">
 						<h:outputText value="#{row.getTotalPlannedCosts()}" />
 					</p:column>
 	    		</p:dataTable>
+	    	</p:panel>
 	    	</h:form>
-	    	<h2>Work packages submitted to Responsible Engineer</h2>
-	    	<p:dataTable id="submitted" var="row" value="#{BudgetWorkPackageController.getWorkPackagesSubmittedByPM()}" editable="#{false}">
-	    			<p:column>
+	    	<p:panel styleClass="budgetWpPanel">
+	    	<h2 class="reportSubhead">Work Packages Pending Estimation</h2>
+	    		<p:dataTable id="submitted" var="row" value="#{BudgetWorkPackageController.getWorkPackagesSubmittedByPM()}" 
+	    					 editable="#{false}" styleClass="monReportTbl pendingTblSize">
+	    			<p:column styleClass="tsHeader tblBtnCenter">
 	    				<p:commandButton
 		                	value="Edit"
 		                	type="submit"
-		                	onclick="PF('editwp').show();"
-		                	>
+		                	onclick="PF('editwp').show();">
 		                <f:setPropertyActionListener value="#{row}" target="#{BudgetWorkPackageController.editingWorkPackageId}" />
 		        		</p:commandButton>
 	    			</p:column>
-	    			<p:column headerText="Work Package">
+	    			<p:column styleClass="tsHeader tblBtnCenter" headerText="Work Package">
 						<h:outputText value="#{row.code}" />
 					</p:column>
-					<p:column headerText="Work Package Description">
+					<p:column styleClass="tsHeader tblBtnCenter" headerText="Work Package Description">
 						<h:outputText value="#{row.description}" />
 					</p:column>
 	    		</p:dataTable>
+	    	</p:panel>
 	    	</div>
 	    
 	    
@@ -128,11 +140,11 @@
                     	<f:selectItems value="#{BudgetWorkPackageController.getNonChargedWorkPackages() != null ? BudgetWorkPackageController.getNonChargedWorkPackages() : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.code}" />
 					</p:selectOneMenu>
 					<h:outputText value="Work Package Number: " />
-					<h:inputText value="#{BudgetWorkPackageController.wpNewNumber}">
+					<p:inputText value="#{BudgetWorkPackageController.wpNewNumber}">
 						<f:validateLength minimum="1" maximum="1" />
-					</h:inputText>
+					</p:inputText>
 	            	<h:outputText value="Work Package Description: "/>
-	            	<h:inputText value="#{BudgetWorkPackageController.wpDescription}"/>
+	            	<p:inputText value="#{BudgetWorkPackageController.wpDescription}"/>
 	            	<h:outputText value="Responsible Engineer: "/>
 	            	<p:selectOneMenu value="#{BudgetWorkPackageController.responsibleEngineer}">
 	            		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
@@ -153,7 +165,7 @@
 	    	<h:form>
 	            <p:panelGrid columns="2">
 	            	<h:outputText value="Work Package Description: "/>
-	            	<h:inputText value="#{BudgetWorkPackageController.wpDescription}"/>
+	            	<p:inputText value="#{BudgetWorkPackageController.wpDescription}"/>
 	            	<h:outputText value="Responsible Engineer: "/>
 	            	<p:selectOneMenu value="#{BudgetWorkPackageController.responsibleEngineer}">
 	                	<p:ajax event="itemSelect" oncomplete="onCellEdit()" />
@@ -161,7 +173,7 @@
                     </p:selectOneMenu>
 	            </p:panelGrid>
 	            <br />
-	            <h:commandButton value="Save Changes" action="#{BudgetWorkPackageController.editWorkPackage}" ajax="false" />
+	            <p:commandButton value="Save Changes" action="#{BudgetWorkPackageController.editWorkPackage}" ajax="false" />
 	        </h:form>
 	    </p:dialog>
 	    </ui:define>
