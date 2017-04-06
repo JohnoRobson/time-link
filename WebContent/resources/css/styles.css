@@ -621,7 +621,6 @@ h2.mngEmpProjSubHead {
 
 /* styles for assign employees to wp start here 
    assigntowp.xhtml */
-  
 .asgnWPEmp {
 	margin:auto;
 	width: 70%;
@@ -639,8 +638,9 @@ h2.mngEmpProjSubHead {
 	text-align: left;
 	margin-left: 3%;
 }
-
 /* styles for assigntowp.xhtml end here */
+
+/* styles for  */
 
 /* styles for workpackagebudgetre.xhtml start here
    these styles are for estimating the work package budget */
@@ -686,6 +686,54 @@ h2.mngEmpProjSubHead {
 }
 
 /* Styles for monthlyreport.xhtml end here. */
+
+/* Styles for budgetwp.xhtml start here */
+
+.wpCreationWrapper {
+	margin: auto;
+	width: 75%;
+}
+
+.budgetWpPanel{	
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
+
+.reportSubhead {
+	margin: 2% 2% 2% 0%;	
+}
+
+.monReportTbl {
+	width:94%;
+	margin:auto;
+	margin-bottom: 3%;
+}
+
+.weekDays {
+	width: 4%;
+}
+
+.tblDecrip {
+	width: 10%;
+}
+
+.manDaysInput {
+	width: 100%;	
+}
+
+.tblBtnCenter {
+	margin:auto;
+	text-align:center;
+}
+
+.pendingTblSize {
+	width: 50%;
+}
+
+
+
+
+/* Styles for budgetwp.xhtml end here. */
 
 #content {
 	width: 100%;
