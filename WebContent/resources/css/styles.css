@@ -458,6 +458,17 @@ body {
 	padding: 0 2% 0 2%;
 	float:right;
 }
+
+.hrPanel {
+	width: 90%;
+}
+
+.hrBtn {
+	margin-right: 10%;
+	margin-bottom: 3%;
+	margin-top: 3%;
+}
+
 /* note, a lot of the styles on this page come from other 
 class for other pages like the ts class from the timesheet page */
 /* end of human resources page styles */
@@ -522,6 +533,10 @@ class for other pages like the ts class from the timesheet page */
 	background: #dfdfdf !important;
 	border: 2px solid #4f4f4f !important;
 	padding: 0 1% 0 1%;	
+}
+
+.proCtrl {
+	width: 70%;
 }
 /* ** NOTE ** - the modal is being styles via the modal 
 	styles that are above. furthermore, the page itself is getting 

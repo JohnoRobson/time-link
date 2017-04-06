@@ -22,7 +22,7 @@
 		    			<h2 class="mngEmpProjSubHead">Timesheet Approvers</h2>
 	        			<p:dataTable value="#{EmployeeToTsaController.getTimesheetApprovers()}" var="tsa">
 	            			<p:column headerText="Approvers" styleClass="tsHeader" >
-	                			#{tsa.userId} #{tsa.firstName} #{tsa.lastName}
+	                			<h:outputText value="#{tsa.userId} #{tsa.firstName} #{tsa.lastName}" />
 	            			</p:column>
 	            			<p:column headerText="Select" styleClass="tsHeader">
 	            	    		<p:commandButton value="View" action="#{EmployeeToTsaController.setSelectedTimesheetApprover(tsa)}" ajax="false"/>
