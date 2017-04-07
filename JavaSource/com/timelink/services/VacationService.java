@@ -16,7 +16,14 @@ public class VacationService implements VacationServiceInterface {
   @Inject HRProjectService hrps;
   @Inject WorkPackageManager wpm;
   @Inject EmployeeManager em;
-
+  
+public VacationService() {}
+  
+  public VacationService(HRProjectService hrps, WorkPackageManager wpm, EmployeeManager em) {
+	  this.hrps = hrps;
+	  this.wpm = wpm;
+	  this.em = em;
+  }
   @Override
   public void claimVacation(Timesheet timesheet) {
     if (timesheet.getStatus().equals(TimesheetStatus.WAITINGFORAPPROVAL.name())

@@ -17,6 +17,14 @@ public class FlextimeService implements FlextimeServiceInterface {
   @Inject WorkPackageManager wpm;
   @Inject EmployeeManager em;
   
+  public FlextimeService() {}
+  
+  public FlextimeService(HRProjectService hrps, WorkPackageManager wpm, EmployeeManager em) {
+	  this.hrps = hrps;
+	  this.wpm = wpm;
+	  this.em = em;
+  }
+  
   /**
    * Reverts changes to the flextime in the timesheet and also
    * changes the banked flextime in the employee.
