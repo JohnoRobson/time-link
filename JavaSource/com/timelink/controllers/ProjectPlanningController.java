@@ -17,7 +17,6 @@ import com.timelink.services.WorkPackageCodeService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -66,21 +65,19 @@ public class ProjectPlanningController implements Serializable {
   }
   
   
-  public ProjectPlanningController() {
-	  
-  }
+  public ProjectPlanningController() {}
   
   public ProjectPlanningController(ProjectManager pm, 
-		  Session ses, LabourGradeManager lgm, 
-		  EstimatedWorkPackageWorkDaysManager ewm, WorkPackageManager wpm,
-		  BudgetedProjectWorkDaysManager bhm, WorkPackageCodeService workPackageCodeService) {
-	  this.pm = pm;
-	  this.session = ses;
-	  this.lgm = lgm;
-	  this.ewm = ewm;
-	  this.wpm = wpm;
-	  this.bhm = bhm;
-	  this.workPackageCodeService = workPackageCodeService;
+      Session ses, LabourGradeManager lgm, 
+      EstimatedWorkPackageWorkDaysManager ewm, WorkPackageManager wpm,
+      BudgetedProjectWorkDaysManager bhm, WorkPackageCodeService workPackageCodeService) {
+    this.pm = pm;
+    this.session = ses;
+    this.lgm = lgm;
+    this.ewm = ewm;
+    this.wpm = wpm;
+    this.bhm = bhm;
+    this.workPackageCodeService = workPackageCodeService;
   }
   
   public List<Project> getProjects() {
@@ -150,20 +147,6 @@ public class ProjectPlanningController implements Serializable {
     }
     return new ArrayList<EstimatedWorkPackageWorkDays>();
   }
-  
-//  /**
-//   * Returns the sum of the estimates that have the labourGradeId.
-//   * @param labourGradeId The labourGradeId to be searched.
-//   * @return A sum of the estimates.
-//   */
-//  public Integer getTotalEstimate(int labourGradeId) {
-//    Integer total = 0;
-//    List<EstimatedWorkPackageHours> list = getEstimateByLabourGrade(labourGradeId);
-//    for (EstimatedWorkPackageHours ew : list) {
-//      total += ew.getManDay();
-//    }
-//    return total;
-//  }
   
   /**
    * Returns the sum of the estimates of the last week

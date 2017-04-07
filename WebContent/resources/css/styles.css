@@ -33,10 +33,13 @@ body {
 .container {
  	display: flex;
  	width: 100%;
-    position: relative;
     overflow: hidden;
     flex-flow: column wrap;
-    min-height: 100%;
+    min-height: 110%;
+}
+
+.content {
+	flex: 1;
 }
 
 /* styles for the HEADER BANNER 
@@ -51,14 +54,6 @@ body {
 	overflow:hidden;
 }
 
-.footerBanner {    
-    position: relative;
-  	right: 0;
-  	bottom: 0;
-  	left: 0;
-  	background-color: #efefef;
-  	text-align: center;
-}
 
 /*.headLogo located on index.xhtml */
 .headLogo {
@@ -127,8 +122,7 @@ body {
 
 .logwrapper {
 	width: 23%;
-	margin:auto;
-	
+	margin:auto;	
 }
 
 /* login form controls - index.xhtml */
@@ -156,7 +150,7 @@ body {
  	float:right;
  	margin-top: 3vh;
 	margin-bottom: 3vh;
-/* 	background: gray;
+/*  	background: gray;
  */}
 
 
@@ -184,15 +178,6 @@ body {
 
 /* FOOTER BAR styles here 
    footerBar located in footer.xhtml template file */
-/* .footerBar {
-	background: #F5F5F5;
-	border-radius: 0;
-	border: 0;
-	margin-top:0;
-	margin-bottom:0;
-	padding:0;
-	overflow:hidden;
-} */
 
 /*footer located in footer.xhtml */
 .footer {
@@ -207,7 +192,6 @@ body {
 .leftFoot {
 	justify-content:left;
 	margin-left:60vh;
-
 }
 
 /* rightFoot located in footer.xhtml 
@@ -428,7 +412,7 @@ body {
 }
 
 /* psuedo classing hover for modal button */
-.modalBtn:hover{
+.modalBtn:hover {
 	 -webkit-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	 -moz-box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
 	 box-shadow: 10px 10px 32px -14px rgba(58,58,58,1);
@@ -474,6 +458,17 @@ body {
 	padding: 0 2% 0 2%;
 	float:right;
 }
+
+.hrPanel {
+	width: 90%;
+}
+
+.hrBtn {
+	margin-right: 10%;
+	margin-bottom: 3%;
+	margin-top: 3%;
+}
+
 /* note, a lot of the styles on this page come from other 
 class for other pages like the ts class from the timesheet page */
 /* end of human resources page styles */
@@ -539,6 +534,10 @@ class for other pages like the ts class from the timesheet page */
 	border: 2px solid #4f4f4f !important;
 	padding: 0 1% 0 1%;	
 }
+
+.proCtrl {
+	width: 70%;
+}
 /* ** NOTE ** - the modal is being styles via the modal 
 	styles that are above. furthermore, the page itself is getting 
 	styles from projcreation.xhtml styles. */
@@ -592,8 +591,11 @@ h2.mngEmpProjSubHead {
 }
 
 .asgnBtn {
-	float:left !Important;
+	display:flex;
+	flex-flow: row wrap;
 }
+
+
 
 /* End of styles for assignemp.xhtml.*/
 
@@ -623,6 +625,10 @@ h2.mngEmpProjSubHead {
 	text-align: right;
 }
 
+.projPlanInput {
+	width: 80%;
+}
+
 ..ui-widget-content {
 	border: none !important;
 	margin-bottom: 5%;
@@ -630,13 +636,13 @@ h2.mngEmpProjSubHead {
 
 .projPanel {
 	border: none !important;
+	margin-bottom: 8%;
 }
 
 /* styles for projectplanning.xhtml end here */
 
 /* styles for assign employees to wp start here 
    assigntowp.xhtml */
-  
 .asgnWPEmp {
 	margin:auto;
 	width: 70%;
@@ -654,8 +660,9 @@ h2.mngEmpProjSubHead {
 	text-align: left;
 	margin-left: 3%;
 }
-
 /* styles for assigntowp.xhtml end here */
+
+/* styles for  */
 
 /* styles for workpackagebudgetre.xhtml start here
    these styles are for estimating the work package budget */
@@ -666,7 +673,7 @@ h2.mngEmpProjSubHead {
 }
 
 .budgetWrap {
-	width: 85%;
+	width: 90%;
 	margin: auto;
 	margin-bottom: 7%;
 	margin-top: 5%;
@@ -679,10 +686,94 @@ h2.mngEmpProjSubHead {
 
 .wpbdreBtn {
 	text-align:center;
-	
+}
+
+.weekDaysTwo {
+	width: 7%;	
+}
+
+.panelPad {
+	padding: 4% 1% 4% 1%;
 }
 
 /* end of workpackagebudgetre.xhtml */
+
+/* Styles for monthlyreport.xhtml start here. */
+.monReportWrapper {
+	margin: auto;
+	width: 65%;
+}
+
+.monReportPanel {
+	border: none !important;
+	margin-bottom: 8%;
+	padding-bottom: 3%;
+}
+
+.wpElementWrap {
+	width: 90%;
+	margin:auto;
+}
+
+/* Styles for monthlyreport.xhtml end here. */
+
+/* Styles for budgetwp.xhtml start here */
+
+.wpCreationWrapper {
+	margin: auto;
+	width: 75%;
+}
+
+.budgetWpPanel{	
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
+
+.reportSubhead {
+	margin: 2% 2% 2% 0%;	
+}
+
+.monReportTbl {
+	width:94%;
+	margin:auto;
+	margin-bottom: 3%;
+}
+
+.weekDays {
+	width: 4%;
+}
+
+.tblDecrip {
+	width: 10%;
+}
+
+.manDaysInput {
+	width: 100%;	
+}
+
+.tblBtnCenter {
+	margin:auto;
+	text-align:center;
+}
+
+.pendingTblSize {
+	width: 50%;
+}
+
+/* Styles for budgetwp.xhtml end here. */
+
+/* start of styles for assignemptotsa.xhtml. */
+.tsaSpacing {
+	margin-top: 3%;
+}
+
+.assignEmpBtn {
+	background:gray;
+	float: left;
+	margin-top:3%;
+}
+
+/*end of styles for assinemptotsa.xhtml. */
 
 #content {
 	width: 100%;

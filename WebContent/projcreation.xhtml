@@ -19,12 +19,12 @@
 	        <h:form>
 	            <h:panelGrid styleClass="panel" columns="2">
 	            	<h:outputText styleClass="projLabel" value="Project Name: "/>
-	            	<p:inputText value="#{NewProjectController.projectName}"
-				     validator="#{NewProjectController.validateProjectName}" id="projectname" />
+	            	<p:inputText  value="#{NewProjectController.projectName}"
+				    			  validator="#{NewProjectController.validateProjectName}" id="projectname" />
 	            	<h:outputText styleClass="projLabel" value="Project Description: "/>
-	            	<p:inputText styleClass="projInput" value="#{NewProjectController.projectDescription}"/>
+	            	<p:inputText  styleClass="projInput" value="#{NewProjectController.projectDescription}"/>
 	            	<h:outputText styleClass="projLabel" value="Customer: "/>
-	            	<p:inputText styleClass="projInput" value="#{NewProjectController.customer}"/>
+	            	<p:inputText  styleClass="projInput" value="#{NewProjectController.customer}"/>
 	            	<h:outputText styleClass="projLabel" value="Project Manager: "/>
 	            	<p:selectOneMenu styleClass="projInput drop" value="#{NewProjectController.projectManager}">
 	            		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />

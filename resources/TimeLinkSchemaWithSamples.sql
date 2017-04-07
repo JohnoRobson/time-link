@@ -19,6 +19,30 @@ USE `timelink_dev`;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+--
+-- Table structure for table `admin_message`
+--
+
+DROP TABLE IF EXISTS `admin_message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `admin_message` (
+  `am_id` int(11) NOT NULL AUTO_INCREMENT,
+  `am_user_name` varchar(45) DEFAULT NULL,
+  `am_user_email` varchar(45) DEFAULT NULL,
+  `am_issue_title` varchar(45) DEFAULT NULL,
+  `am_issue_content` varchar(255) DEFAULT NULL,
+  `am_isread` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`am_id`),
+  UNIQUE KEY `bb_id_UNIQUE` (`am_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `admin_message`
+--
+
 --
 -- Table structure for table `budget_project_work_day`
 --
@@ -169,9 +193,9 @@ CREATE TABLE `employee` (
   `emp_lg_id` int(11) DEFAULT NULL,
   `emp_effect_from` date DEFAULT NULL,
   `emp_effect_to` date DEFAULT NULL,
-  `emp_flex_time` int(11) DEFAULT NULL,
-  `emp_vacation_time` int(11) DEFAULT NULL,
-  `emp_vacation_rate` int(11) DEFAULT NULL,
+  `emp_flex_time` float DEFAULT NULL,
+  `emp_vacation_time` float DEFAULT NULL,
+  `emp_vacation_rate` float DEFAULT NULL,
   `emp_default_tsh_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`emp_id`),
   UNIQUE KEY `emp_id_UNIQUE` (`emp_id`),
@@ -395,13 +419,16 @@ INSERT INTO project VALUES (10, "10", "HR Codes", "TimeLink", null, 2, 2, 0);
 INSERT INTO prj_emp VALUES (0, 1, 1);
 INSERT INTO prj_emp VALUES (2, 2, 1);
 
-INSERT INTO workpackage VALUES (1, 10, "SICKDAY", null, 4, "A sick day", 0, 5);
+INSERT INTO workpackage VALUES (1, 10, "SICK", null, 4, "Sick Leave", 0, 5);
 INSERT INTO workpackage VALUES (2, 1, "1000000", null, 4, "Part of the cool project", 0, 0);
 INSERT INTO workpackage VALUES (3, 1, "2000000", null, 4, "second part of the cool project", 0, 0);
 INSERT INTO workpackage VALUES (4, 2, "1000000", null, 4, "work package for the cool project the sequel", 0, 0);
 INSERT INTO workpackage VALUES (5, 2, "2000000", null, 4, "second work package for the sequel", 0, 0);
 INSERT INTO workpackage VALUES (6, 10, "FLEX", null, 4, "Flextime", 0, 5);
 INSERT INTO workpackage VALUES (7, 10, "VACA", null, 4, "Vacation", 0, 5);
+INSERT INTO workpackage VALUES (8, 10, "STAT", null, 4, "Statutory Holiday", 0, 5);
+INSERT INTO workpackage VALUES (9, 10, "LDIS", null, 4, "Long-term Disability", 0, 5);
+INSERT INTO workpackage VALUES (10, 10, "SDIS", null, 4, "Short-Term Disability", 0, 5);
 
 INSERT INTO wp_emp VALUES (3, 2, 1);
 INSERT INTO wp_emp VALUES (4, 3, 1);

@@ -23,8 +23,10 @@ public class Hours implements Serializable {
   @Column(name = "tsho_id")
   private int hourId;
   
-  @Column(name = "tsh_id")
-  private int timesheetId;
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "tsh_id",
+      referencedColumnName = "tsh_id")
+  private Timesheet timesheet;
   
   @Column(name = "tsho_prjh_id")
   private int projectId;
@@ -71,16 +73,16 @@ public class Hours implements Serializable {
    * Returns the timesheetId.
    * @return the timesheetId
    */
-  public final int getTimesheetId() {
-    return timesheetId;
+  public final Timesheet getTimesheet() {
+    return timesheet;
   }
 
   /**
    * Sets the timesheetId to timesheetId.
    * @param timesheetId the timesheetId to set
    */
-  public final void setTimesheetId(int timesheetId) {
-    this.timesheetId = timesheetId;
+  public final void setTimesheet(Timesheet timesheet) {
+    this.timesheet = timesheet;
   }
 
   /**
