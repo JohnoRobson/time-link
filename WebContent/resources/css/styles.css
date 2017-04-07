@@ -107,8 +107,8 @@ body {
  	margin-top: 5vh;
 	margin-bottom: 3vh;
 	font-size: 1.5em;
-	/* background: purple; */
-}
+/* 	background: purple;
+ */}
 
 .loginTitle {
 	text-align:left;
@@ -150,8 +150,15 @@ body {
  	float:right;
  	margin-top: 3vh;
 	margin-bottom: 3vh;
-/*  	background: gray;
+/*  	background: red;
  */}
+
+.loginBtn2 {
+	float: right;
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+	/* background:fuchsia */;
+}
 
 
 /*Login button itself - index.xhtml */
@@ -246,7 +253,6 @@ body {
 .projCtrl {
 	margin:auto;
 	width: 50%;
-	/* background:blue; */
 }
 
 .panel {
@@ -376,7 +382,6 @@ body {
 	flex-direction: row;
 	margin-top: 1%;
 	margin-bottom: 1%;
-
 }
 
 /* sub group of buttons at bottom of timesheet.xhtml */
@@ -513,6 +518,18 @@ class for other pages like the ts class from the timesheet page */
    projcreation.xhtml - mainly for the panel grid. and some taken from 
    home page styles** */
  /* editEmpTitle spaces and centers the title */
+ 
+.editEmpWrapper {
+/* 	background:yellow;
+ */	width: 70%;
+	margin:auto;
+}
+
+.editEmpPanelWrap {
+	margin:auto;
+	width: 40%;
+}
+ 
 .editEmpTitle {
 	margin-top: 1%;
 	margin-bottom: 1%;
