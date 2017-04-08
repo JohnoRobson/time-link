@@ -72,160 +72,49 @@
 	    					 editable="#{false}" editMode="cell" rowIndexVar="index"
 	    					 styleClass="tsaTable">
 	        	<p:column headerText="Project" styleClass="tsHeader hoursWidth">
-					<p:cellEditor>
-					    <f:facet name="output">
-					        <h:outputText value="#{ProjectManager.find(row.projectId) != null ? ProjectManager.find(row.projectId).projectName : '-'}" id="projID" />
-					    </f:facet>
-					    <f:facet name="input">
-	                        <p:selectOneMenu value="#{row.projectId}" style="width:100%">
-	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-                                <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
-                            </p:selectOneMenu>
-	                    </f:facet>
-					</p:cellEditor>
+					<h:outputText value="#{ApproverController.getProjectName(row.projectId)}" id="projID" />
 				</p:column>
 				
 				<p:column headerText="WP" styleClass="tsHeader statusWidth">
-					<p:cellEditor>
-					    <f:facet name="output">
-					        <h:outputText value="#{WorkPackageManager.find(row.workPackageId) != null ? WorkPackageManager.find(row.workPackageId).code: '-'}" id="wpID" />
-					    </f:facet>
-					    <f:facet name="input">
-	                        <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
-	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-                                <f:selectItems value="#{ProjectManager.find(row.projectId) != null ? TimesheetController.getAssignedWorkPackages(row.projectId) : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
-                            </p:selectOneMenu>
-	                    </f:facet>
-					</p:cellEditor>
+					<h:outputText value="#{ApproverController.getWorkPackageName(row.workPackageId)}" id="wpID" />
 				</p:column>
 				
-				<p:column headerText="Sat" styleClass="tsHeader">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(0).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(0).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                    
-                    </p:column>
-                <p:column headerText="Sun" styleClass="tsHeader">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(1).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(1).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+				<p:column headerText="sat" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('SATURDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="Mon" styleClass="tsHeader">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(2).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(2).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="sun" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('SUNDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="Tues" styleClass="tsHeader">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(3).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(3).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="mon" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('MONDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="Wed" styleClass="tsHeader">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(4).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(4).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="tues" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('TUESDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="Thur" styleClass="tsHeader">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(5).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(5).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="wed" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('WEDNESDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="Fri" styleClass="tsHeader">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(6).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(6).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="thurs" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('THURSDAY').hour}" />
+                </p:column>
+                
+                <p:column headerText="fri" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('FRIDAY').hour}" />
                 </p:column>
                 
                 <p:column headerText="Notes" styleClass="tsHeader">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{row.note}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <h:inputText value="#{row.note}">
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                	<h:outputText value="#{row.note}" />
                 </p:column>
 	        </p:dataTable>
 	    </p:panel>
 	    </div>
-	    	    <!-- Rejection modal -->
+	    
+	    <!-- Rejection modal -->
 	    <p:dialog
 	        header="Reason for rejecting timesheet"
 	        widgetVar="rejectmodal"

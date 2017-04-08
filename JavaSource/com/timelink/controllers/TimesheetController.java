@@ -285,6 +285,10 @@ public class TimesheetController implements Serializable {
     ses.setCurrentEmployee(em.find(temp.getEmployeeId()));
   }
   
+  public Integer getCurrentWeekNumber() {
+    return weekNumberService.getWeekNumber(new Date());
+  }
+  
   //ADD TIMESHEET MODAL
   /**
    * Returns week.
@@ -324,7 +328,8 @@ public class TimesheetController implements Serializable {
    * @return A null to reload the page.
    */
   public String submit() {
-    if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())) {
+    if (selectedTimesheet.getStatus().equals(TimesheetStatus.NOTSUBMITTED.toString())
+        || selectedTimesheet.getStatus().equals(TimesheetStatus.REJECTED.toString())) {
       
       if (selectedTimesheet.isValid()) {
         selectedTimesheet.setStatus("" + TimesheetStatus.WAITINGFORAPPROVAL.ordinal());
@@ -333,6 +338,7 @@ public class TimesheetController implements Serializable {
         //em.merge(selectedTimesheet.getEmployee());
       } else {
         //TODO set to display an error message explaining validation failure
+        return null;
       }
       
     }
