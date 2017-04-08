@@ -919,17 +919,34 @@ h2.mngEmpProjSubHead {
 
 
 /* styles for report.xhtml end here */
+ 
+/* Styles for estimatewpeffort.xhtml start here */ 
 
-/* #content {
-	width: 100%;
-}
-
-
-#content h1 {
-	width: 20%;
+.estimateWrapper {
 	margin: auto;
+	width: 60%;
 }
- */
+
+.estwpWidth {
+	margin:auto;
+	width: 60%;
+}
+
+.gridHeadText {
+	font-size: 1.3em;
+	font-weight: bold;
+	padding-top:2%;
+	margin-bottom: 5%;
+
+}
+
+.ada{ 
+	padding: 5%; 
+}
+
+
+
+/* Styles for estimatewpeffort.xhtml end here */
  
 .headerPart {
 	display: inline;
