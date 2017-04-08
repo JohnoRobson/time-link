@@ -2,24 +2,50 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
-	<h:body>
-		<ui:composition template="resources/templates/template.xhtml">
-		    <ui:define name="content">
-		    <div id="content">
-	        <h1>Flextime and Vacation</h1>
-	        <h:panelGrid columns="2">
-	                Flex Time:
-	                <h:outputText value="#{Session.currentEmployee.flexTime}" />
-	                Vacation Time:
-	                <h:outputText value="#{Session.currentEmployee.vacationTime}" />
-	            </h:panelGrid>
-	    </div>
-		    </ui:define>
-		</ui:composition>
-	</h:body>
+<h:body>
+	<ui:composition template="resources/templates/template.xhtml">
+		<ui:define name="content">
+			<div id="content" class="profileWrapper">
+				<div class="title">
+					<hr />
+					<h1 class="loginTitle">Profile</h1>
+				</div>
+				<p:panel class="projPanel">
+				<h:form>
+					<div class="personInfoWrap">
+						<h:panelGrid columns="2" styleClass="profPanel">
+							<h:outputText styleClass="projLabel" value="First Name: " />
+		                	<h:outputText styleClass="projInput" value="#{Session.currentEmployee.firstName}" />
+		                	<h:outputText styleClass="projLabel" value="Last Name: " />
+		                	<h:outputText styleClass="projInput" value="#{Session.currentEmployee.lastName}" />
+		                	<h:outputText styleClass="projLabel" value="User ID: " />
+		                	<h:outputText styleClass="projInput" value="#{Session.currentEmployee.userId}" />
+		                	<h:outputText styleClass="projLabel" value="Email: " />
+		                	<h:outputText styleClass="projInput" value="#{Session.currentEmployee.email}" />
+		                	<h:outputText styleClass="projLabel" value="Labour Grade: " />
+		                	<h:outputText  value="#{Session.currentEmployee.labourGrade.name}" />
+						</h:panelGrid>
+					</div>
+				</h:form>
+				</p:panel>
+				<h1>Flextime and Vacation</h1>
+				<p:panel class="projPanel">
+				<div class="personInfoWrap">
+					<h:panelGrid columns="2" styleClass="profPanel">
+			        	<h:outputText value="Flex Time:" />
+			            <h:outputText value="#{Session.currentEmployee.flexTime}" />
+			            <h:outputText value="Vacation Time:" />
+			            <h:outputText value="#{Session.currentEmployee.vacationTime}" />
+					</h:panelGrid>
+					</div>
+				</p:panel>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:body>
 </html>

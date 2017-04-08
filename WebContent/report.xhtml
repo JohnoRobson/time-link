@@ -10,55 +10,68 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
 	    <ui:define name="content">
+	    <div class="tsaPgWrapper">
+	    	<div class="title tsaTitle">
+	    		<hr />
+	    		<h1 class="loginTitle">Timesheet Review</h1>
+	    	</div>
         <p:growl id="growl" showDetail="true" sticky="true" />  
-	    	<p:panelGrid columns="2">
-	    		<p:panel>
+	    	<div class="listWrapper">
+	    		<p:panel styleClass="projPanel">
 	    			<h:form id="approverForm" style="width: 100%">
-		    		<p:dataTable id="approveTable" var="row" value="#{ApproverController.list}" selection="#{ApproverController.selectedTimesheets}" rowKey="#{row.timesheetId}" >
+		    		<p:dataTable id="approveTable" var="row" value="#{ApproverController.list}" 
+		    					 selection="#{ApproverController.selectedTimesheets}" rowKey="#{row.timesheetId}"
+		    					 styleClass="tsaTable" >
 		    		   <p:ajax event="rowSelectCheckbox" update=":#{p:component('buttons')}" />
   					   <p:ajax event="rowUnselectCheckbox" update=":#{p:component('buttons')}" />
  					   <p:ajax event="rowSelect" update=":#{p:component('buttons')}" />
  					   <p:ajax event="rowUnselect" update=":#{p:component('buttons')}" />
 		    		<p:column selectionMode="multiple" style="width:16px;text-align:center" />
-			        <p:column headerText="Date" >
+			        <p:column headerText="Date" styleClass="tsHeader hoursWidth">
 			            <!-- DATE COLUMN -->
-			            #{row.date}
+			            <h:outputText value="#{row.date}"> 
+			            	<f:convertDateTime pattern="dd/MM/yy" />
+			            </h:outputText>
+			            
 			        </p:column>
-			        <p:column headerText="EmployeeId">
+			        <p:column headerText="Emp Id" styleClass="tsHeader hoursWidth">
 			            <!-- EmployeeID COLUMN -->
-			            #{row.employee.employeeId}
+			            <h:outputText value="#{row.employee.employeeId}" />
 			        </p:column>
-			        <p:column headerText="Total Hours">
+			        <p:column headerText="Hours" styleClass="tsHeader hoursWidth">
 			            <!-- TotalHours COLUMN -->
-			            #{row.totalHours}
+			            <h:outputText value="#{row.totalHours}" />
 			        </p:column>
-			        <p:column headerText="Overtime">
+			        <p:column headerText="OT" styleClass="tsHeader tsaWidth" >
 			            <!-- Overtime COLUMN -->
-			            #{row.overtime}
+			            <h:outputText value="#{row.overtime}" />
 			        </p:column>
-			        <p:column headerText="Flextime">
+			        <p:column headerText="Flex" styleClass="tsHeader tsaWidth">
 			            <!-- FlexTime COLUMN -->
-			            #{row.flextime}
+			            <h:outputText value="#{row.flextime}" />
 			        </p:column>
-			         <p:column headerText="Status">
-			            #{row.status}
+			         <p:column headerText="Status" styleClass="tsHeader hoursWidth">
+			            <h:outputText value="#{row.status}" />
 			        </p:column>
-			        <p:column>
+			        <p:column headerText="View" styleClass="tsHeader" style="text-align:center">
 			        	<p:commandButton value="View" action="#{ApproverController.setViewingTimesheet(row)}" ajax="false"/>
 			        </p:column>
 				    </p:dataTable>
 				    <p:remoteCommand name="onCellEdit" update="buttons" />
-				    <p:panel id="buttons">
+				    <p:panel id="buttons" styleClass="projPanel">
 				    	<p:commandButton value="Approve" action="#{ApproverController.approve()}" ajax="false" />
 				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() != 1}" update="growl" actionListener="#{ApproverController.declineValidate}" />
 				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() == 1 and ApproverController.timesheetIsApproved()}" update="growl" actionListener="#{ApproverController.declineValidate}" />
 				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() == 1 and !ApproverController.timesheetIsApproved()}" update="growl" onclick="PF('rejectmodal').show()" />
 				    </p:panel>
-				    	    </h:form>
+				   </h:form>
 	    		</p:panel>
-	    		<p:panel>
-	    		<p:dataTable id="table" var="row" value="#{ApproverController.viewingTimesheet.rows}" editable="#{false}" editMode="cell" rowIndexVar="index">
-	        	<p:column headerText="project">
+	    	
+	    		<p:panel styleClass="projPanel">
+	    		<p:dataTable id="table" var="row" value="#{ApproverController.viewingTimesheet.rows}" 
+	    					 editable="#{false}" editMode="cell" rowIndexVar="index"
+	    					 styleClass="tsaTable">
+	        	<p:column headerText="Project" styleClass="tsHeader hoursWidth">
 					<p:cellEditor>
 					    <f:facet name="output">
 					        <h:outputText value="#{ProjectManager.find(row.projectId) != null ? ProjectManager.find(row.projectId).projectName : '-'}" id="projID" />
@@ -72,7 +85,7 @@
 					</p:cellEditor>
 				</p:column>
 				
-				<p:column headerText="work package">
+				<p:column headerText="WP" styleClass="tsHeader statusWidth">
 					<p:cellEditor>
 					    <f:facet name="output">
 					        <h:outputText value="#{WorkPackageManager.find(row.workPackageId) != null ? WorkPackageManager.find(row.workPackageId).code: '-'}" id="wpID" />
@@ -86,7 +99,7 @@
 					</p:cellEditor>
 				</p:column>
 				
-				<p:column headerText="sat">
+				<p:column headerText="Sat" styleClass="tsHeader">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -102,7 +115,7 @@
                     </p:cellEditor>
                     
                     </p:column>
-                <p:column headerText="sun">
+                <p:column headerText="Sun" styleClass="tsHeader">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -118,7 +131,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="mon">
+                <p:column headerText="Mon" styleClass="tsHeader">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -134,7 +147,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="tues">
+                <p:column headerText="Tues" styleClass="tsHeader">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -150,7 +163,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="wed">
+                <p:column headerText="Wed" styleClass="tsHeader">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -166,7 +179,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="thurs">
+                <p:column headerText="Thur" styleClass="tsHeader">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -182,7 +195,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="fri">
+                <p:column headerText="Fri" styleClass="tsHeader">
                     <p:cellEditor>
                         
                         <f:facet name="output">
@@ -198,7 +211,7 @@
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="notes">
+                <p:column headerText="Notes" styleClass="tsHeader">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{row.note}" />
@@ -210,8 +223,8 @@
                     </p:cellEditor>
                 </p:column>
 	        </p:dataTable>
-	    		</p:panel>
-	    	</p:panelGrid>
+	    </p:panel>
+	    </div>
 	    	    <!-- Rejection modal -->
 	    <p:dialog
 	        header="Reason for rejecting timesheet"
@@ -224,9 +237,10 @@
 	            <h:inputText value="#{ApproverController.getSingleTimesheet().rejectionReason}"/>
 	            </p:panelGrid>
 	            <br />
-	            <h:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />
+	            <p:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />
 	        </h:form>
 	    </p:dialog>
+	    </div>
 		</ui:define>
 	</ui:composition>
 	</h:body>

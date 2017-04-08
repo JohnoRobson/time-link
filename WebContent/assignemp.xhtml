@@ -25,9 +25,9 @@
 		                		<h:outputText value="#{project.projectName}" />
 		            		</p:column>
 		            		<p:column headerText="Select" styleClass="tsHeader">
-		            	    	<p:commandLink value="View" styleClass="editBtn"  
-		            	    				   action="#{AssignEmployeesController.setSelectedProject(project)}" 
-		            	    				   ajax="false"/>
+		            	    	<p:commandButton value="View"  
+		            	    				   	 action="#{AssignEmployeesController.setSelectedProject(project)}" 
+		            	    				     ajax="false"/>
 		            		</p:column>
 		        		</p:dataTable>	
 		        	</div>

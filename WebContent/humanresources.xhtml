@@ -10,33 +10,69 @@
 	<h:body>
 		<ui:composition template="resources/templates/template.xhtml">
 		    <ui:define name="content">
-		    <div class="homeContent">
-		    	<div class="pageTitle empTitle">
-		    		<h1>Employee List</h1>
+		    <div class="projPlanWrapper">
+		    	<div class="title">
+		    		<hr />
+		    		<h1 class="loginTitle">Employee List</h1>
 		    	</div>
-		        <div class="tsCont hrCont">
 		        <h:form>
-		            <p:dataTable value="#{HRController.employees}" var="employee">
+		        <p:panel styleClass="projPanel budgetWpPanel">
+		            <p:dataTable value="#{HRController.employees}" var="employee" 
+		            			 styleClass="projPlanTbl">
 		                <p:column headerText="UserId" styleClass="tsHeader">
-		                    #{employee.userId}
+		                    <h:outputText value="#{employee.userId}" />
 		                </p:column>
 		                <p:column headerText="First Name" styleClass="tsHeader">
-		                    #{employee.firstName}
+		                    <h:outputText value="#{employee.firstName}" />
 		                </p:column>
 		                <p:column headerText="Last Name" styleClass="tsHeader">
-		                    #{employee.lastName}
+		                    <h:outputText value="#{employee.lastName}" />
 		                </p:column>
-		                <p:column styleClass="tsHeader">
-                            <p:commandLink value="Edit" styleClass="editBtn" 
-                            			   action="#{HRController.edit(employee)}"/>
+		                <p:column styleClass="tsHeader wpbdreBtn" headerText="Edit">
+                            <p:commandButton value="Edit" action="#{HRController.edit(employee)}"/>
 		                </p:column>
-		            </p:dataTable>
-		            <div class="empBtn">
+		                <p:column styleClass="tsHeader" headerText="Change Password">
+		                	<p:commandButton value="Change"  type="button" onclick="PF('change').show();" />
+		                </p:column>
+		                <p:column styleClass="tsHeader" headerText="Close">
+		                	<p:commandButton value="Close" onclick="PF('close').show();"/>   	
+		                </p:column>
+		            </p:dataTable> 
+		            <div class="align hrBtn">
 		            	<p:commandButton value="New Employee" action="addemployee" ajax="false" />
 		        	</div>
+		        </p:panel>
 		        </h:form>
-		        </div>
 		    </div>
+		    
+			    <p:dialog header="Change Password" 
+		        	      widgetVar="change" 
+		        	      modal="true" 
+		        	      height="175">
+		            <h:form>
+	                    <h:panelGrid columns="2">
+		        	        <h:outputText styleClass="modalText" value="Password:" />
+		                    <p:password styleClass="modalText" value="#{HRController.password}" />
+		                    <h:outputText styleClass="modalText" value="Confirm Password:" />
+		                    <p:password styleClass="modalText" value="#{HRController.confirmPassword}" />
+		                </h:panelGrid>
+		                <p:commandButton ajax="false" styleClass="logButton"
+		                				 value="Save" action="#{HRController.newPassword}"/>
+		           </h:form>
+	           </p:dialog>
+	           <!--  dialog for closing employee -->
+	           <p:dialog header="Close Employee" 
+		        	      widgetVar="close" 
+		        	      modal="true" 
+		        	      height="175">
+		            <h:form>
+			            <h:panelGrid columns="1">
+			            	<h:outputText styleClass="modalText" value="Are you sure you want to close this employee?  This cannot be undone."/>
+			            	<p:commandButton value="Close Employee" styleClass="s-confirmCreateTimesheetBtn" style='margin-top:2%' 
+			            				 action="#{HRController.closeEmployee()}" ajax="false" />
+			            </h:panelGrid>
+			        </h:form>
+	           </p:dialog>
 		    </ui:define>
 		</ui:composition>
 	</h:body>

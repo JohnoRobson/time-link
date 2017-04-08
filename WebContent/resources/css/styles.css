@@ -107,8 +107,8 @@ body {
  	margin-top: 5vh;
 	margin-bottom: 3vh;
 	font-size: 1.5em;
-	/* background: purple; */
-}
+/* 	background: purple;
+ */}
 
 .loginTitle {
 	text-align:left;
@@ -150,8 +150,15 @@ body {
  	float:right;
  	margin-top: 3vh;
 	margin-bottom: 3vh;
-/* 	background: gray;
+/*  	background: red;
  */}
+
+.loginBtn2 {
+	float: right;
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+	/* background:fuchsia */;
+}
 
 
 /*Login button itself - index.xhtml */
@@ -246,7 +253,6 @@ body {
 .projCtrl {
 	margin:auto;
 	width: 50%;
-	/* background:blue; */
 }
 
 .panel {
@@ -299,6 +305,31 @@ body {
 /* timesheet styles start here */
 /*This for the sub header on the timesheetpage 
   holds info for hte selected timesheet - timesheet.xhtml*/
+.tsWrapper {
+	width:80%;
+	margin:auto;
+}
+
+.tsPanels {
+	border: none !Important;
+}
+
+.btnCenter {
+	text-align: center;
+}
+
+.tsInput {
+	width: 70%;
+}
+
+.tsNotes {
+	width:80%;
+}
+
+.flexInput {
+	width:30%;
+}
+
 #timesheetHead {
 	display: flex;
 	flex-flow: row wrap;
@@ -327,6 +358,10 @@ body {
 	flex-grow:1;
 }
 
+.createTsModelBtn {
+	float:right;
+}
+
 /* styles the dropdown box */
 .tsDrop {
 	margin-bottom: 1%;
@@ -334,7 +369,7 @@ body {
 }
 /* main context area of timesheet.xhtml */
 .tsCont {
-	width: 70%;
+	width: 85%;
 	margin:auto;
 /* 	background: yellow;
  */}
@@ -376,7 +411,6 @@ body {
 	flex-direction: row;
 	margin-top: 1%;
 	margin-bottom: 1%;
-
 }
 
 /* sub group of buttons at bottom of timesheet.xhtml */
@@ -389,6 +423,7 @@ body {
 	border: 2px solid #4f4f4f !important;
 	padding: 0 2% 0 2%;
 }
+
 
 /* sub group 2 of buttons at bottom of timesheet.xhtml */
 .btnGrpTwo {
@@ -458,6 +493,17 @@ body {
 	padding: 0 2% 0 2%;
 	float:right;
 }
+
+.hrPanel {
+	width: 90%;
+}
+
+.hrBtn {
+	margin-right: 10%;
+	margin-bottom: 3%;
+	margin-top: 3%;
+}
+
 /* note, a lot of the styles on this page come from other 
 class for other pages like the ts class from the timesheet page */
 /* end of human resources page styles */
@@ -502,6 +548,18 @@ class for other pages like the ts class from the timesheet page */
    projcreation.xhtml - mainly for the panel grid. and some taken from 
    home page styles** */
  /* editEmpTitle spaces and centers the title */
+ 
+.editEmpWrapper {
+/* 	background:yellow;
+ */	width: 70%;
+	margin:auto;
+}
+
+.editEmpPanelWrap {
+	margin:auto;
+	width: 40%;
+}
+ 
 .editEmpTitle {
 	margin-top: 1%;
 	margin-bottom: 1%;
@@ -522,6 +580,10 @@ class for other pages like the ts class from the timesheet page */
 	background: #dfdfdf !important;
 	border: 2px solid #4f4f4f !important;
 	padding: 0 1% 0 1%;	
+}
+
+.proCtrl {
+	width: 70%;
 }
 /* ** NOTE ** - the modal is being styles via the modal 
 	styles that are above. furthermore, the page itself is getting 
@@ -576,8 +638,11 @@ h2.mngEmpProjSubHead {
 }
 
 .asgnBtn {
-	float:left !Important;
+	display:flex;
+	flex-flow: row wrap;
 }
+
+
 
 /* End of styles for assignemp.xhtml.*/
 
@@ -595,7 +660,7 @@ h2.mngEmpProjSubHead {
 
 .projPlanTbl {
 	margin:auto;
-	width: 80%;
+	width: 90%;
 }
 
 .projPlanBtn {
@@ -605,6 +670,10 @@ h2.mngEmpProjSubHead {
 }
 .align {
 	text-align: right;
+}
+
+.projPlanInput {
+	width: 80%;
 }
 
 ..ui-widget-content {
@@ -621,7 +690,6 @@ h2.mngEmpProjSubHead {
 
 /* styles for assign employees to wp start here 
    assigntowp.xhtml */
-  
 .asgnWPEmp {
 	margin:auto;
 	width: 70%;
@@ -639,8 +707,9 @@ h2.mngEmpProjSubHead {
 	text-align: left;
 	margin-left: 3%;
 }
-
 /* styles for assigntowp.xhtml end here */
+
+/* styles for  */
 
 /* styles for workpackagebudgetre.xhtml start here
    these styles are for estimating the work package budget */
@@ -651,7 +720,7 @@ h2.mngEmpProjSubHead {
 }
 
 .budgetWrap {
-	width: 85%;
+	width: 90%;
 	margin: auto;
 	margin-bottom: 7%;
 	margin-top: 5%;
@@ -664,8 +733,16 @@ h2.mngEmpProjSubHead {
 
 .wpbdreBtn {
 	text-align:center;
-	
 }
+
+.weekDaysTwo {
+	width: 7%;	
+}
+
+.panelPad {
+	padding: 4% 1% 4% 1%;
+}
+
 /* end of workpackagebudgetre.xhtml */
 
 /* Styles for monthlyreport.xhtml start here. */
@@ -687,16 +764,189 @@ h2.mngEmpProjSubHead {
 
 /* Styles for monthlyreport.xhtml end here. */
 
-#content {
-	width: 100%;
+/* Styles for budgetwp.xhtml start here */
+
+.wpCreationWrapper {
+	margin: auto;
+	width: 75%;
 }
 
+.budgetWpPanel{	
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
 
-#content h1 {
-	width: 20%;
+.reportSubhead {
+	margin: 2% 2% 2% 0%;	
+}
+
+.monReportTbl {
+	width:94%;
+	margin:auto;
+	margin-bottom: 3%;
+}
+
+.weekDays {
+	width: 4%;
+}
+
+.tblDecrip {
+	width: 10%;
+}
+
+.manDaysInput {
+	width: 100%;	
+}
+
+.tblBtnCenter {
+	margin:auto;
+	text-align:center;
+}
+
+.pendingTblSize {
+	width: 50%;
+}
+
+/* Styles for budgetwp.xhtml end here. */
+
+/* start of styles for assignemptotsa.xhtml. */
+.tsaSpacing {
+	margin-top: 3%;
+}
+
+.assignEmpBtn {
+	background:gray;
+	float: left;
+	margin-top:3%;
+}
+
+/*end of styles for assinemptotsa.xhtml. */
+
+/* styles for rereport.xhtml start here. */
+.rereportWrapper {
+	margin:auto;
+	width: 90%;
+}
+
+.reportWrapper {
+	width:85%; 
+	margin:auto;
+	display: flex;
+	flex-flow: row wrap;
+	margin-top: 5%;
+		
+}
+
+.infoWrapper {
+	margin-top: 5%;
+	margin-bottom: 5%;
+/* 	margin-right: 2%; */
+	width: 33%;
+}
+
+.reportTblWrapper {
+	width:65%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+ 	margin-left: 2%;
+}
+
+.reportText {
+	font-size: 1.3em;
+ 	padding-bottom: 2%;
+}
+
+.reportPanel {
+/* 	border:2px solid black !important;
+ */}
+.reportPanel table, td, tr {
+	border:none !important;
+/* 	padding:3% !important;
+ */}
+
+/* Styles for rereport.xhtml end here. */
+
+/* Styles for vacationflextime.xhtml start here. */
+.profileWrapper {
+	width: 50%;
 	margin: auto;
 }
 
+.personInfoWrap {
+	width: 50%;
+	margin:auto;
+	padding: 3%;
+}
+
+.profPanel {
+	margin:auto;
+}
+/* Styles for vacationflextime.xhtml end here.*/
+
+/* Styles for report.xhtml start here */
+
+.tsaPgWrapper {
+	margin:auto;
+	width: 100%;
+}
+
+.tsaTitle {
+	margin-left: 5%;
+}
+
+.listWrapper {
+	display:flex;
+	flex-direction: row;
+}
+
+.tsaTable {
+	width: 100%;
+	padding-top: 3%;
+	padding-bottom: 3%;
+}
+
+.tsaWidth {
+	width: 7%;
+}
+
+.hoursWidth {
+	width: 10%;
+}
+
+.statusWidth {
+	width: 13%;
+}
+
+
+/* styles for report.xhtml end here */
+ 
+/* Styles for estimatewpeffort.xhtml start here */ 
+
+.estimateWrapper {
+	margin: auto;
+	width: 60%;
+}
+
+.estwpWidth {
+	margin:auto;
+	width: 60%;
+}
+
+.gridHeadText {
+	font-size: 1.3em;
+	font-weight: bold;
+	padding-top:2%;
+	margin-bottom: 5%;
+
+}
+
+.ada{ 
+	padding: 5%; 
+}
+
+
+
+/* Styles for estimatewpeffort.xhtml end here */
  
 .headerPart {
 	display: inline;

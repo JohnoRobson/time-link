@@ -18,18 +18,19 @@
 	    	<h:form>
         		<div class="budgetWrap">
         			<h2 class="estWpSubHead">Unsubmitted Work Packages</h2>
-        			<p:remoteCommand name="onCellEdit" update="matrix" />
+        			
+        		<p:panel styleClass="projPanel panelPad">
+        		<p:remoteCommand name="onCellEdit" update="matrix" />
 	    		<p:dataTable id="matrix" var="row" value="#{BudgetWorkPackageREController.getWorkPackageList()}" editable="#{true}" editMode="cell" rowIndexVar="index">
 	    			<p:column styleClass="tsHeader wpbdreBtn" headerText="Submit">
-	    				<p:commandLink
+	    				<p:commandButton
 		                	value="Submit"
-		                	styleClass="editBtn"
 		                	type="submit"
 		                	action="#{BudgetWorkPackageREController.submitWorkPackage()}"
 		                	ajax="false"
 		                	>
 		                <f:setPropertyActionListener value="#{row}" target="#{BudgetWorkPackageREController.editingWorkPackage}" />
-		        		</p:commandLink>
+		        		</p:commandButton>
 	    			</p:column>
 	    			<p:column styleClass="tsHeader" headerText="Project">
 						<h:outputText value="#{row.project.projectName}" />
@@ -37,23 +38,24 @@
 	    			<p:column styleClass="tsHeader" headerText="Work Package">
 						<h:outputText value="#{row.code}" />
 					</p:column>
-					<p:columns styleClass="tsHeader" value="#{BudgetWorkPackageREController.getLabourGrades()}" var="lg">
+					<p:columns styleClass="tsHeader weekDaysTwo" value="#{BudgetWorkPackageREController.getLabourGrades()}" var="lg">
 						<f:facet name="header">
                 			<h:outputText value="#{lg.name}" />             			
             			</f:facet>
-						<h:inputText value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}"> <!-- validator="#{BudgetWorkPackageREController.validateDays}" id="wphours"> -->
+						<p:inputText styleClass="manDaysInput" value="#{row.getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}">
+						<ui:remove> <!-- validator="#{BudgetWorkPackageREController.validateDays}" id="wphours"> --></ui:remove>
 							<p:ajax event="change" oncomplete="onCellEdit()" />
-   							<!-- <f:attribute name="remainingDays" value="#{BudgetWorkPackageREController.getDaysRemaining(row, lg.labourGradeId)}" /> -->
-						</h:inputText>
-						<h:outputText value="Remaining days: #{BudgetWorkPackageREController.getDaysRemaining(row, lg.labourGradeId)}" />
+						</p:inputText>
+						<ui:remove><h:outputText value="Remaining days: #{BudgetWorkPackageREController.getDaysRemaining(row, lg.labourGradeId)}" /></ui:remove>
 					</p:columns>
-					<p:column styleClass="tsHeader" headerText="Total Hrs">
+					<p:column styleClass="tsHeader weekDaysTwo" headerText="Total Hrs">
 						<h:outputText value="#{row.getTotalPlannedHours()}" />
 					</p:column>
-					<p:column styleClass="tsHeader" headerText="Total Cost">
+					<p:column styleClass="tsHeader weekDaysTwo" headerText="Total Cost">
 						<h:outputText value="#{row.getTotalPlannedCosts()}" />
 					</p:column>
 	    		</p:dataTable>
+	    		</p:panel>	
 	    		</div>
 	    	</h:form>
 	    </div>
