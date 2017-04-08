@@ -97,7 +97,7 @@ public class TimesheetManager {
     
     for (Employee e : queryOne.getResultList()) {
       TypedQuery<Timesheet> query = em.createQuery("SELECT t FROM Timesheet AS t "
-          + "WHERE t.employee = :emp", Timesheet.class)
+          + "WHERE t.employee = :emp ORDER BY t.date DESC", Timesheet.class)
           .setParameter("emp", e);
       List<Timesheet> res = query.getResultList();
       for (Timesheet t : res) {
