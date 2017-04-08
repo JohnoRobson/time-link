@@ -25,6 +25,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -337,7 +339,8 @@ public class TimesheetController implements Serializable {
         vs.claimVacation(selectedTimesheet);
         //em.merge(selectedTimesheet.getEmployee());
       } else {
-        //TODO set to display an error message explaining validation failure
+
+        FacesContext.getCurrentInstance().addMessage("timesheet-form", new FacesMessage("Invalid Timesheet Submission"));
         return null;
       }
       

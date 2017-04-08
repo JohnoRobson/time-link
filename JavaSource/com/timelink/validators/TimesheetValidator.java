@@ -33,7 +33,7 @@ public class TimesheetValidator implements Serializable {
         
         Integer year = (Integer) value;
 
-        if (year <= 0 || year > Integer.MAX_VALUE) {
+        if (year <= 1969 || year > Integer.MAX_VALUE) {
             throw new ValidatorException(
                     new FacesMessage("Invalid year"));
         }
