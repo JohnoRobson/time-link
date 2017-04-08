@@ -4,6 +4,7 @@ import com.timelink.Session;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.enums.TimesheetStatus;
+import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.FlextimeService;
@@ -29,24 +30,29 @@ public class ApproverController implements Serializable {
   @Inject WorkPackageManager wpm;
   @Inject Session ses;
   @Inject FlextimeService flextimeService;
+  @Inject ProjectManager pm;
+  
   private Set<Timesheet> timesheets;
   private Set<Timesheet> selectedTimesheets;
   private Timesheet viewingTimesheet;
 
   public ApproverController() {
-	  
+    
   }
   
   /**
    * Convenience ctor.
    * For Testing purposes.
    * */
-  public ApproverController(TimesheetManager tm, WorkPackageManager wpm, Session ses, FlextimeService fts) {
-	  this.tm = tm;
-	  this.ses = ses;
-	  this.flextimeService = fts;
-	  this.wpm = wpm;
+  public ApproverController(TimesheetManager tm, WorkPackageManager wpm,
+      Session ses, FlextimeService fts, ProjectManager pm) {
+    this.tm = tm;
+    this.ses = ses;
+    this.flextimeService = fts;
+    this.wpm = wpm;
+    this.pm = pm;
   }
+  
   /**
    * Returns the timesheets.
    * @return the timesheets
@@ -220,5 +226,13 @@ public class ApproverController implements Serializable {
       wp.setCharged(true);
       wpm.merge(wp);
     }
+  }
+  
+  public String getProjectName(int projectId) {
+    return pm.find(projectId).getProjectName();
+  }
+  
+  public String getWorkPackageName(int workPackageId) {
+    return wpm.find(workPackageId).getCode();
   }
 }
