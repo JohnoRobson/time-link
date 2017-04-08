@@ -305,6 +305,31 @@ body {
 /* timesheet styles start here */
 /*This for the sub header on the timesheetpage 
   holds info for hte selected timesheet - timesheet.xhtml*/
+.tsWrapper {
+	width:80%;
+	margin:auto;
+}
+
+.tsPanels {
+	border: none !Important;
+}
+
+.btnCenter {
+	text-align: center;
+}
+
+.tsInput {
+	width: 70%;
+}
+
+.tsNotes {
+	width:80%;
+}
+
+.flexInput {
+	width:30%;
+}
+
 #timesheetHead {
 	display: flex;
 	flex-flow: row wrap;
@@ -333,6 +358,10 @@ body {
 	flex-grow:1;
 }
 
+.createTsModelBtn {
+	float:right;
+}
+
 /* styles the dropdown box */
 .tsDrop {
 	margin-bottom: 1%;
@@ -340,7 +369,7 @@ body {
 }
 /* main context area of timesheet.xhtml */
 .tsCont {
-	width: 70%;
+	width: 85%;
 	margin:auto;
 /* 	background: yellow;
  */}
@@ -394,6 +423,7 @@ body {
 	border: 2px solid #4f4f4f !important;
 	padding: 0 2% 0 2%;
 }
+
 
 /* sub group 2 of buttons at bottom of timesheet.xhtml */
 .btnGrpTwo {
