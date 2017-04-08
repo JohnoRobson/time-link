@@ -881,8 +881,44 @@ h2.mngEmpProjSubHead {
 .profPanel {
 	margin:auto;
 }
-
 /* Styles for vacationflextime.xhtml end here.*/
+
+/* Styles for report.xhtml start here */
+
+.tsaPgWrapper {
+	margin:auto;
+	width: 100%;
+}
+
+.tsaTitle {
+	margin-left: 5%;
+}
+
+.listWrapper {
+	display:flex;
+	flex-direction: row;
+}
+
+.tsaTable {
+	width: 100%;
+	padding-top: 3%;
+	padding-bottom: 3%;
+}
+
+.tsaWidth {
+	width: 7%;
+}
+
+.hoursWidth {
+	width: 10%;
+}
+
+.statusWidth {
+	width: 13%;
+}
+
+
+/* styles for report.xhtml end here */
 
 /* #content {
 	width: 100%;
