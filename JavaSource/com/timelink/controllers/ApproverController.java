@@ -11,7 +11,7 @@ import com.timelink.services.FlextimeService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -69,7 +69,7 @@ public class ApproverController implements Serializable {
    * @param timesheets the timesheets to set
    */
   public void setTimesheets(List<Timesheet> timesheets) {
-    this.timesheets = new HashSet<Timesheet>(timesheets);
+    this.timesheets = new LinkedHashSet<Timesheet>(timesheets);
   }
   
   /**
@@ -113,7 +113,7 @@ public class ApproverController implements Serializable {
    * @param selectedTimesheets the selectedTimesheets to set
    */
   public void setSelectedTimesheets(List<Timesheet> selectedTimesheets) {
-    this.selectedTimesheets = new HashSet<Timesheet>(selectedTimesheets);
+    this.selectedTimesheets = new LinkedHashSet<Timesheet>(selectedTimesheets);
   }
 
   /**
@@ -123,7 +123,7 @@ public class ApproverController implements Serializable {
     List<Timesheet> apprTimesheets;
     //TODO Change below to a Timesheet query
     apprTimesheets = tm.findByApprover(ses.getCurrentEmployee().getEmployeeId());
-    timesheets = new HashSet<Timesheet>();
+    timesheets = new LinkedHashSet<Timesheet>();
     for (Timesheet t : apprTimesheets) {
       if (!t.getStatus().equals("" + TimesheetStatus.NOTSUBMITTED)) {
         timesheets.add(t);
