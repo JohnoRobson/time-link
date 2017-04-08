@@ -20,6 +20,7 @@
 			</div>
 			</ui:define>
 			<ui:define name="content">	
+				<p:messages style="display:block; margin: 0 auto; width:60%" id="error"/>
 				<div class="logwrapper">
 					<div class="title">
 						<hr />
@@ -29,13 +30,13 @@
 					<h:form>
 						<h:panelGrid styleClass="loginInput" columns="2">
 							<h:outputLabel for="username" value="Usename:" />
-							<p:inputText styleClass="s-username" id="username" value="#{LoginController.username}" required="true" />
+							<p:inputText styleClass="s-username" name="username" label="username" id="username" validator="#{LoginValidator.validateUsername}" value="#{LoginController.username}" required="true" />
 							<h:outputLabel for="password" value="Password:" />
-							<p:password styleClass="s-password" id="password" value="#{LoginController.password}" required="true" />
+							<p:password styleClass="s-password" id="password" label="password" validator="#{LoginValidator.validatePassword}" value="#{LoginController.password}" required="true" />
 						</h:panelGrid>
 					<div class="loginBtn">
 						<!-- LoginController.login in action method below later -->
-						<p:commandButton styleClass="s-btnLogin logButton" value="Login" action="#{LoginController.login}" />
+						<p:commandButton styleClass="s-btnLogin logButton" value="Login" action="#{LoginController.login}" update="error"/>
 					</div>	
 					</h:form>
 				</div>
