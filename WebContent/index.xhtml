@@ -3,6 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
@@ -20,7 +21,12 @@
 			</div>
 			</ui:define>
 			<ui:define name="content">	
-				<p:messages style="display:block; margin: 0 auto; width:60%" id="error"/>
+			<c:if test="${not empty param.loginerror}" >
+				<ul style="text-align: center; color: red">
+					<li>Invalid Login Credentials</li>
+				</ul>
+			</c:if>
+			<p:messages style="display:block; margin: 0 auto; width:60%" id="error"/>
 				<div class="logwrapper">
 					<div class="title">
 						<hr />

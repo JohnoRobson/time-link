@@ -39,10 +39,9 @@ public class LoginValidator implements Serializable {
                     new FacesMessage("You must enter a password"));
         }
 
-        if (password.length() < 5 || password.length() > 20) {
-            System.out.println("passwrod exception thrown");
+        if (password.length() < 2 || password.length() > 20) {
             throw new ValidatorException(
-                    new FacesMessage("password must be between 5 "
+                    new FacesMessage("password must be between 2 "
                             + "and 20 characters"));
         }
 
@@ -77,11 +76,10 @@ public class LoginValidator implements Serializable {
                     new FacesMessage("You must enter a username"));
         }
 
-        if (username.length() < 5 || username.length() > 20) {
-            System.out.println("username exceptin thrownn");
+        if (username.length() < 2 || username.length() > 20) {
             throw new ValidatorException(
                     new FacesMessage("username must"
-                            + " be between 5 and 20 characters"));
+                            + " be between 2 and 20 characters"));
         }
 
         for (int i = 0; i < username.length(); i++) {
