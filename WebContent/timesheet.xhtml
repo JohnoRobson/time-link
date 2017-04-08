@@ -245,13 +245,13 @@
             widgetVar="addts"
             modal="true"
             height="200">
-            
 	    	<h:form>
 	            <h:panelGrid columns="2">
 	            	<h:outputText styleClass="modalText" value="Year: "/>
 	            	<p:inputText styleClass="s-createTimesheetYearText modalText" label="Timesheet Year" validator="#{TimesheetValidator.validateAddTimesheetYear}" value="#{TimesheetController.year}" required="true" />
 	            	<h:outputText styleClass="modalText" value="Week Number: "/>
 	            	<p:inputText styleClass="s-createTimesheetWeekText modalText" label="Timesheet Week Number" validator="#{TimesheetValidator.validateAddTimesheetWeekNumber}" value="#{TimesheetController.week}" required="true" />
+	            	<h:outputText value="Current Week Number: #{TimesheetController.getCurrentWeekNumber()}" />
 	            </h:panelGrid>
 	            
 	            <p:commandButton value="Create Timesheet" styleClass="s-confirmCreateTimesheetBtn createTsModelBtn" 

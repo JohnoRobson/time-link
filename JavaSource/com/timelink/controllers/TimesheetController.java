@@ -285,6 +285,10 @@ public class TimesheetController implements Serializable {
     ses.setCurrentEmployee(em.find(temp.getEmployeeId()));
   }
   
+  public Integer getCurrentWeekNumber() {
+    return weekNumberService.getWeekNumber(new Date());
+  }
+  
   //ADD TIMESHEET MODAL
   /**
    * Returns week.
