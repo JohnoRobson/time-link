@@ -10,30 +10,35 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
 		<ui:define name="content">
-		<div class="homeContent">
-			<div class="pageTitle">
-				<h1>Estimate weekly work package effort</h1>
+		<div class="estimateWrapper">
+			<div class="title">
+				<hr />
+				<h1 class="loginTitle">Weekly Effort Estimate</h1>
 			</div>
 			<h:form>
-				<p:panel id="wpeffortcontent">
-					<h:panelGrid styleClass="panel" columns="2">
-						<f:facet name="header">
-							<h:outputText value="Select Previous Estimate" />
-						</f:facet>
+				<p:panel id="wpeffortcontent" styleClass="projPanel estwpWidth">
+				<div class="prevEstWrapper">
+					<h:outputText styleClass="gridHeadText" value="Select Previous Estimate" />
+					<h:panelGrid styleClass="ada" columns="2">
+						<ui:remove><f:facet name="header">
+							<h:outputText styleClass="gridHeadText" value="Select Previous Estimate" />
+						</f:facet></ui:remove>
 						<h:outputText value="Work Package: "/>
 						<p:selectOneMenu value="#{EstimateController.selectedWorkPackageId}">
 							<p:ajax event="itemSelect" update=":#{p:component('wpeffortcontent')}" />
-			                <f:selectItem noSelectOption="true" itemDisabled="true" itemLabel="Select a work package" />
-			                <f:selectItems value="#{EstimateController.getWorkPackages() != null ? EstimateController.getWorkPackages() : null}" var="wp" itemLabel="#{wp.project.projectName} #{wp.code}" itemValue="#{wp.workPackageId}" />
+			                <f:selectItem  noSelectOption="true" itemDisabled="true" itemLabel="Select a work package" />
+			                <f:selectItems value="#{EstimateController.getWorkPackages() != null ? EstimateController.getWorkPackages() : null}" var="wp" 
+			                			   itemLabel="#{wp.project.projectName} #{wp.code}" itemValue="#{wp.workPackageId}" />
 		                </p:selectOneMenu>
 		                <h:outputText value="Date: "/>
 		                <p:selectOneMenu value="#{EstimateController.selectedDate}">
 		                	<p:ajax event="itemSelect" update=":#{p:component('wpeffortcontent')}" />
 			                <f:selectItem noSelectOption="true" itemDisabled="true" itemLabel="Select a report" />
-			                <f:selectItems value="#{EstimateController.getOnePerWeek() != null ? EstimateController.getOnePerWeek() : null}" var="wp" itemLabel="#{EstimateController.getWeekYear(wp)}" itemValue="#{wp.dateCreated.toString()}" />
+			                <f:selectItems value="#{EstimateController.getOnePerWeek() != null ? EstimateController.getOnePerWeek() : null}"
+			                			   var="wp" itemLabel="#{EstimateController.getWeekYear(wp)}" itemValue="#{wp.dateCreated.toString()}" />
 		                </p:selectOneMenu>
-		                <p:commandButton value="Create New Estimate" onclick="PF('addwe').show();"/>
 	                </h:panelGrid>
+	                <p:commandButton value="Create New Estimate" class="estimateWp" onclick="PF('addwe').show();"/>
 	                <p:panelGrid styleClass="panel" columns="2" render="#{EstimateController.selectedDate != null}">
 	                	<f:facet name="header">
 							<h:outputText value="Previous Estimate" />
@@ -44,6 +49,7 @@
 			            	<br />
 			            </ui:repeat>
 	            	</p:panelGrid>
+	            </div>
                 </p:panel>
 			</h:form>
 	    </div>
@@ -76,8 +82,7 @@
 	            </p:panelGrid>
 	            <p:commandButton value="Create Estimate" action="#{EstimateController.createEstimate()}" ajax="false" />
 	        </h:form>
-	    </p:dialog>
-	    
+	    </p:dialog>    
 		</ui:define>
 	</ui:composition>
 	</h:body>
