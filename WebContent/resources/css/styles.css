@@ -630,7 +630,7 @@ h2.mngEmpProjSubHead {
 
 .projPlanTbl {
 	margin:auto;
-	width: 80%;
+	width: 90%;
 }
 
 .projPlanBtn {
@@ -791,6 +791,50 @@ h2.mngEmpProjSubHead {
 }
 
 /*end of styles for assinemptotsa.xhtml. */
+
+/* styles for rereport.xhtml start here. */
+.rereportWrapper {
+	margin:auto;
+	width: 90%;
+}
+
+.reportWrapper {
+	width:85%; 
+	margin:auto;
+	display: flex;
+	flex-flow: row wrap;
+	margin-top: 5%;
+		
+}
+
+.infoWrapper {
+	margin-top: 5%;
+	margin-bottom: 5%;
+/* 	margin-right: 2%; */
+	width: 33%;
+}
+
+.reportTblWrapper {
+	width:65%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+ 	margin-left: 2%;
+}
+
+.reportText {
+	font-size: 1.3em;
+ 	padding-bottom: 2%;
+}
+
+.reportPanel {
+/* 	border:2px solid black !important;
+ */}
+.reportPanel table, td, tr {
+	border:none !important;
+/* 	padding:3% !important;
+ */}
+
+/* Styles for rereport.xhtml end here. */
 
 #content {
 	width: 100%;
