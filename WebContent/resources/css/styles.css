@@ -866,7 +866,25 @@ h2.mngEmpProjSubHead {
 
 /* Styles for rereport.xhtml end here. */
 
-#content {
+/* Styles for vacationflextime.xhtml start here. */
+.profileWrapper {
+	width: 50%;
+	margin: auto;
+}
+
+.personInfoWrap {
+	width: 50%;
+	margin:auto;
+	padding: 3%;
+}
+
+.profPanel {
+	margin:auto;
+}
+
+/* Styles for vacationflextime.xhtml end here.*/
+
+/* #content {
 	width: 100%;
 }
 
@@ -875,7 +893,7 @@ h2.mngEmpProjSubHead {
 	width: 20%;
 	margin: auto;
 }
-
+ */
  
 .headerPart {
 	display: inline;
