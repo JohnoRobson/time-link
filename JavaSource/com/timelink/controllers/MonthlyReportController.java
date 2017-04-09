@@ -6,6 +6,7 @@ import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
+import com.timelink.managers.WorkPackageManager;
 
 import org.primefaces.component.datatable.DataTable;
 
@@ -21,6 +22,7 @@ import javax.inject.Named;
 @Named("MonthlyReportController")
 public class MonthlyReportController implements Serializable {
   @Inject LabourGradeManager lgm;
+  @Inject WorkPackageManager wpm;
   @Inject LabourReportController lrc;
   @Inject ProjectManager pm;
   @Inject Session ses;
@@ -80,6 +82,22 @@ public class MonthlyReportController implements Serializable {
     }
     return null;
   }
+  
+  /**
+   * Get total budget for a workpackage.
+   * @param workPackage to get budget of
+   * @return total workpackage budget
+   */
+  /*
+  public Integer getBudgeted(WorkPackage workPackage) {
+    lrc.setSelectedProject(selectedProject);
+    lrc.setSelectedWorkPackage(workPackage);
+    Integer budget = new Integer(0);
+    for (LabourGrade lb : lgm.getAllLabourGrades()) {
+      budget += workPackage.getPlannedHourFromLabourGrade(lb.getLabourGradeId()).getManDay();
+    }
+    return budget;
+  } */
   
   /**
    * Get total budget for a workpackage.

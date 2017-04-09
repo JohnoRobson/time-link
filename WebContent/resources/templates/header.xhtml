@@ -20,17 +20,16 @@
 							<p:menuitem styleClass="s-timesheet" value="Timesheet" url="timesheet.xhtml" />
 							<p:menuitem value="Vacation and Flextime" url="vacationflextime.xhtml" />
 						</p:submenu>
-						<p:submenu label="Project" rendered="#{Session.projectManager || Session.projectManagerAssistant || Session.supervisor || Session.approver}" >
+						<p:submenu label="Project" rendered="#{Session.projectManager || 
+						        Session.projectManagerAssistant || Session.supervisor || Session.approver || Session.humanResources}" >
 							<p:menuitem value="Create Project" url="projcreation.xhtml"
-										rendered="#{Session.supervisor}" />
+										rendered="#{Session.humanResources}" />
 							<p:menuitem value="Manage Project" url="assignemp.xhtml"
-										rendered="#{Session.supervisor}" />
+										rendered="#{Session.supervisor || Session.projectManager}" />
 							
-							<p:menuitem value="Report" url="report.xhtml"
+							<p:menuitem value="Approve Timesheets" url="report.xhtml"
 										rendered="#{Session.approver}" >
 							</p:menuitem>
-							<p:menuitem value="Manage Project" url="assignemp.xhtml"
-										rendered="#{Session.projectManager}" />
 							<p:menuitem value="Enter Project Planning Info" url="projectplanning.xhtml" 
 										rendered="#{Session.projectManager || Session.projectManagerAssistant}" />
 							<p:menuitem value="Monthly Report" url="monthlyreport.xhtml"
@@ -51,7 +50,7 @@
 						<p:submenu label="Manage" rendered="#{Session.humanResources || Session.supervisor || Session.responsibleEngineer}" >
 							<p:menuitem value="Assign Employee to Supervisor" url="assignemptosuper.xhtml" 
 										rendered="#{Session.humanResources}" />
-							<p:menuitem value="Human Resources" url="humanresources.xhtml" 
+							<p:menuitem value="Manage Employees" url="humanresources.xhtml" 
 										rendered="#{Session.humanResources}" />
 							<p:menuitem value="Assign Employee To Timesheet Approver" url="assignemptotsa.xhtml" 
 										rendered="#{Session.supervisor}" />

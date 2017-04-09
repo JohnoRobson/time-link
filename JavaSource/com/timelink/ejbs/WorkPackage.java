@@ -235,11 +235,15 @@ public class WorkPackage implements Serializable {
     return new ArrayList<BudgetedWorkPackageWorkDays>();
   }
   
+  /**
+   * Sets the planned hours.
+   * @param plannedHours planned hours to set 
+   */
   public void setPlannedHours(List<BudgetedWorkPackageWorkDays> plannedHours) {
     if (plannedHours != null) {
-        this.plannedHours = new HashSet<BudgetedWorkPackageWorkDays>(plannedHours);
+      this.plannedHours = new HashSet<BudgetedWorkPackageWorkDays>(plannedHours);
     } else {
-        this.plannedHours = new HashSet<BudgetedWorkPackageWorkDays>();
+      this.plannedHours = new HashSet<BudgetedWorkPackageWorkDays>();
     }
     
   }
@@ -289,7 +293,6 @@ public class WorkPackage implements Serializable {
     
     return hour;
   }
-  
   
   /**
    * Removes the plannedHour with the specified labourGradeId.

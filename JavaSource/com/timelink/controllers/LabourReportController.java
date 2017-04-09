@@ -12,6 +12,7 @@ import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.HoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.LabourService;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -31,6 +32,8 @@ public class LabourReportController implements Serializable {
   @Inject EstimatedWorkPackageWorkDaysManager ewm;
   @Inject LabourGradeManager lgm;
   @Inject HoursManager hm;
+  
+  @Inject LabourService ls;
   
   private Project selectedProject;
   private WorkPackage selectedWorkPackage;
@@ -146,9 +149,21 @@ public class LabourReportController implements Serializable {
    * @param labourGradeId The labourGradeId to be searched
    * @return A BudgetedWorkPackageHours
    */
-  public BudgetedWorkPackageWorkDays getBudgetedHourByLabourGrade(int labourGradeId) {
+  public Integer getBudgetedHourByLabourGrade(int labourGradeId) {
     if (selectedWorkPackage != null) {
-      //return bwm.find(selectedWorkPackage, labourGradeId);
+      return ls.getBudgeted(selectedWorkPackage, labourGradeId);
+    }
+    return null;
+  }
+  
+  /**
+   * Returns a BudgetedWorkPackageHours with the given labourGradeId.
+   * @param labourGradeId The labourGradeId to be searched
+   * @return A BudgetedWorkPackageHours
+   */
+  public Integer getEstimatedHourByLabourGrade(int labourGradeId) {
+    if (selectedWorkPackage != null) {
+      return ls.getEstimated(selectedWorkPackage, labourGradeId);
     }
     return null;
   }
@@ -161,14 +176,7 @@ public class LabourReportController implements Serializable {
    */
   public Float getBudgetToComplete(Integer labourGradeId) {
     if (selectedWorkPackage != null) {
-      float total = 0;
-      List<Hours> result = hm.find(selectedWorkPackage.getProject().getProjectNumber(),
-          selectedWorkPackage.getWorkPackageId(), labourGradeId);
-      for (Hours h : result) {
-        total += h.getHour();
-      }
-      return (total / 8) + selectedWorkPackage
-          .getEstimatedHourFromLabourGrade(labourGradeId).getManDay();
+      return ls.getBudgetToComplete(selectedWorkPackage, labourGradeId);
     }
     return null;
   }
@@ -180,7 +188,7 @@ public class LabourReportController implements Serializable {
    */
   public Integer getManDaysForLabourGrade(Integer labourGradeId) {
     if (selectedWorkPackage != null) {
-      return selectedWorkPackage.getPlannedHourFromLabourGrade(labourGradeId).getManDay();
+      return ls.getManDaysForLabourGrade(selectedWorkPackage, labourGradeId);
     }
     return null;
   }
@@ -193,8 +201,7 @@ public class LabourReportController implements Serializable {
    */
   public Float getVariance(Integer labourGradeId) {
     if (selectedWorkPackage != null) {
-      return getManDaysForLabourGrade(labourGradeId)
-          - getBudgetToComplete(labourGradeId);
+      return ls.getVariance(selectedWorkPackage, labourGradeId);
     }
     return null;
   }
@@ -210,7 +217,7 @@ public class LabourReportController implements Serializable {
     if (selectedWorkPackage != null && plannedHours != null && plannedHours.intValue() != 0) {
       return getVariance(labourGradeId) / plannedHours;
     }
-    return null;
+    return null; 
   }
   
   /**
@@ -221,7 +228,7 @@ public class LabourReportController implements Serializable {
     if (selectedWorkPackage != null) {
       Float total = new Float(0);
       for (LabourGrade lb : lgm.getAllLabourGrades()) {
-        total += getManDaysForLabourGrade(lb.getLabourGradeId()) * lb.getCostRate();
+        total += getBudgetedHourByLabourGrade(lb.getLabourGradeId()) * lb.getCostRate();
       }
       return total;
     }
@@ -236,8 +243,7 @@ public class LabourReportController implements Serializable {
     if (selectedWorkPackage != null) {
       Float total = new Float(0);
       for (LabourGrade lb : lgm.getAllLabourGrades()) {
-        total += selectedWorkPackage.getEstimatedHourFromLabourGrade(lb.getLabourGradeId())
-            .getManDay() * lb.getCostRate();
+        total += getEstimatedHourByLabourGrade(lb.getLabourGradeId()) * lb.getCostRate();
       }
       return total;
     }
