@@ -2,6 +2,7 @@ package com.timelink.services;
 
 import javax.inject.Inject;
 
+import com.timelink.Session;
 import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
@@ -16,6 +17,7 @@ public class FlextimeService implements FlextimeServiceInterface {
   @Inject HRProjectService hrps;
   @Inject WorkPackageManager wpm;
   @Inject EmployeeManager em;
+  @Inject Session ses;
   
   /**
    * Reverts changes to the flextime in the timesheet and also
@@ -38,6 +40,7 @@ public class FlextimeService implements FlextimeServiceInterface {
 //    Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
 //    emp.setFlexTime((int) flex);
       em.merge(timesheet.getEmployee());
+      ses.setCurrentEmployee(timesheet.getEmployee());
     } 
   }
 
@@ -49,7 +52,7 @@ public class FlextimeService implements FlextimeServiceInterface {
   public void claimFlextime(Timesheet timesheet) {
     if (timesheet.getStatus().equals(TimesheetStatus.WAITINGFORAPPROVAL.name())
         || timesheet.getStatus().equals(TimesheetStatus.APPROVED.name())) {
-      float flex = timesheet.getEmployee().getVacationTime();
+      float flex = timesheet.getEmployee().getFlexTime();
       for (TimesheetRow tsr : timesheet.getRows()) {
         if (hrps.isFlextimeWorkPackage(wpm.find(tsr.getWorkPackageId()))) {
           for (Hours hr : tsr.getHours()) {
@@ -62,6 +65,7 @@ public class FlextimeService implements FlextimeServiceInterface {
 //      Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
 //      emp.setFlexTime((int) flex);
       em.merge(timesheet.getEmployee());
+      ses.setCurrentEmployee(timesheet.getEmployee());
     }
   }
 
