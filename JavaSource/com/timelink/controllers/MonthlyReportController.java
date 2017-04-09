@@ -1,6 +1,7 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
+import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
@@ -8,9 +9,8 @@ import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.WorkPackageManager;
 
-import org.primefaces.component.datatable.DataTable;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -67,9 +67,25 @@ public class MonthlyReportController implements Serializable {
    * Get all projects currently managed by this Employee.
    * @return list of projects
    */
+  /*
   public List<Project> getProjects() {
     return pm.findByProjectManager(ses.getCurrentEmployee()
         .getEmployeeId());
+  } */
+  
+  /**
+   * Get all projects currently managed by this Employee.
+   * @return list of projects
+   */
+  public List<Project> getProjects() {
+    if (ses.isProjectManager() && ses.isProjectManagerAssistant()) {
+      return pm.findByProjectManagerAndAssistant(ses.getCurrentEmployee().getEmployeeId());
+    } else if (ses.isProjectManager()) {
+      return pm.findByProjectManager(ses.getCurrentEmployee().getEmployeeId());
+    } else if (ses.isProjectManagerAssistant()) {
+      return pm.findByProjectManagerAssistant(ses.getCurrentEmployee().getEmployeeId());
+    }
+    return null;
   }
   
   /**
@@ -82,22 +98,6 @@ public class MonthlyReportController implements Serializable {
     }
     return null;
   }
-  
-  /**
-   * Get total budget for a workpackage.
-   * @param workPackage to get budget of
-   * @return total workpackage budget
-   */
-  /*
-  public Integer getBudgeted(WorkPackage workPackage) {
-    lrc.setSelectedProject(selectedProject);
-    lrc.setSelectedWorkPackage(workPackage);
-    Integer budget = new Integer(0);
-    for (LabourGrade lb : lgm.getAllLabourGrades()) {
-      budget += workPackage.getPlannedHourFromLabourGrade(lb.getLabourGradeId()).getManDay();
-    }
-    return budget;
-  } */
   
   /**
    * Get total budget for a workpackage.
