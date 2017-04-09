@@ -10,209 +10,111 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
 	    <ui:define name="content">
+	    <div class="tsaPgWrapper">
+	    	<div class="title tsaTitle">
+	    		<hr />
+	    		<h1 class="loginTitle">Timesheet Review</h1>
+	    	</div>
         <p:growl id="growl" showDetail="true" sticky="true" />  
-	    	<p:panelGrid columns="2">
-	    		<p:panel>
+	    	<div class="listWrapper">
+	    		<p:panel styleClass="projPanel">
 	    			<h:form id="approverForm" style="width: 100%">
-		    		<p:dataTable id="approveTable" var="row" value="#{ApproverController.list}" selection="#{ApproverController.selectedTimesheets}" rowKey="#{row.timesheetId}" >
+		    		<p:dataTable id="approveTable" var="row" value="#{ApproverController.list}" 
+		    					 selection="#{ApproverController.selectedTimesheets}" rowKey="#{row.timesheetId}"
+		    					 styleClass="tsaTable" >
 		    		   <p:ajax event="rowSelectCheckbox" update=":#{p:component('buttons')}" />
   					   <p:ajax event="rowUnselectCheckbox" update=":#{p:component('buttons')}" />
  					   <p:ajax event="rowSelect" update=":#{p:component('buttons')}" />
  					   <p:ajax event="rowUnselect" update=":#{p:component('buttons')}" />
 		    		<p:column selectionMode="multiple" style="width:16px;text-align:center" />
-			        <p:column headerText="Date" >
+			        <p:column headerText="Date" styleClass="tsHeader hoursWidth">
 			            <!-- DATE COLUMN -->
-			            #{row.date}
+			            <h:outputText value="#{row.date}"> 
+			            	<f:convertDateTime pattern="dd/MM/yy" />
+			            </h:outputText>
+			            
 			        </p:column>
-			        <p:column headerText="EmployeeId">
+			        <p:column headerText="Emp Id" styleClass="tsHeader hoursWidth">
 			            <!-- EmployeeID COLUMN -->
-			            #{row.employee.employeeId}
+			            <h:outputText value="#{row.employee.employeeId}" />
 			        </p:column>
-			        <p:column headerText="Total Hours">
+			        <p:column headerText="Hours" styleClass="tsHeader hoursWidth">
 			            <!-- TotalHours COLUMN -->
-			            #{row.totalHours}
+			            <h:outputText value="#{row.totalHours}" />
 			        </p:column>
-			        <p:column headerText="Overtime">
+			        <p:column headerText="OT" styleClass="tsHeader tsaWidth" >
 			            <!-- Overtime COLUMN -->
-			            #{row.overtime}
+			            <h:outputText value="#{row.overtime}" />
 			        </p:column>
-			        <p:column headerText="Flextime">
+			        <p:column headerText="Flex" styleClass="tsHeader tsaWidth">
 			            <!-- FlexTime COLUMN -->
-			            #{row.flextime}
+			            <h:outputText value="#{row.flextime}" />
 			        </p:column>
-			         <p:column headerText="Status">
-			            #{row.status}
+			         <p:column headerText="Status" styleClass="tsHeader hoursWidth">
+			            <h:outputText value="#{row.status}" />
 			        </p:column>
-			        <p:column>
+			        <p:column headerText="View" styleClass="tsHeader" style="text-align:center">
 			        	<p:commandButton value="View" action="#{ApproverController.setViewingTimesheet(row)}" ajax="false"/>
 			        </p:column>
 				    </p:dataTable>
 				    <p:remoteCommand name="onCellEdit" update="buttons" />
-				    <p:panel id="buttons">
+				    <p:panel id="buttons" styleClass="projPanel">
 				    	<p:commandButton value="Approve" action="#{ApproverController.approve()}" ajax="false" />
 				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() != 1}" update="growl" actionListener="#{ApproverController.declineValidate}" />
 				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() == 1 and ApproverController.timesheetIsApproved()}" update="growl" actionListener="#{ApproverController.declineValidate}" />
 				    	<p:commandButton value="Decline" rendered="#{ApproverController.selectedTimesheets.size() == 1 and !ApproverController.timesheetIsApproved()}" update="growl" onclick="PF('rejectmodal').show()" />
 				    </p:panel>
-				    	    </h:form>
+				   </h:form>
 	    		</p:panel>
-	    		<p:panel>
-	    		<p:dataTable id="table" var="row" value="#{ApproverController.viewingTimesheet.rows}" editable="#{false}" editMode="cell" rowIndexVar="index">
-	        	<p:column headerText="project">
-					<p:cellEditor>
-					    <f:facet name="output">
-					        <h:outputText value="#{ProjectManager.find(row.projectId) != null ? ProjectManager.find(row.projectId).projectName : '-'}" id="projID" />
-					    </f:facet>
-					    <f:facet name="input">
-	                        <p:selectOneMenu value="#{row.projectId}" style="width:100%">
-	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-                                <f:selectItems value="#{Session.currentEmployee.projects != null ? Session.currentEmployee.projects : null}" var="pro" itemLabel="#{pro.projectName}" itemValue="#{pro.projectNumber}" />
-                            </p:selectOneMenu>
-	                    </f:facet>
-					</p:cellEditor>
+	    	
+	    		<p:panel styleClass="projPanel">
+	    		<p:dataTable id="table" var="row" value="#{ApproverController.viewingTimesheet.rows}" 
+	    					 editable="#{false}" editMode="cell" rowIndexVar="index"
+	    					 styleClass="tsaTable">
+	        	<p:column headerText="Project" styleClass="tsHeader hoursWidth">
+					<h:outputText value="#{ApproverController.getProjectName(row.projectId)}" id="projID" />
 				</p:column>
 				
-				<p:column headerText="work package">
-					<p:cellEditor>
-					    <f:facet name="output">
-					        <h:outputText value="#{WorkPackageManager.find(row.workPackageId) != null ? WorkPackageManager.find(row.workPackageId).code: '-'}" id="wpID" />
-					    </f:facet>
-					    <f:facet name="input">
-	                        <p:selectOneMenu value="#{row.workPackageId}" style="width:100%">
-	                            <f:selectItem itemLabel="" itemValue="#{0}"/>
-                                <f:selectItems value="#{ProjectManager.find(row.projectId) != null ? TimesheetController.getAssignedWorkPackages(row.projectId) : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.workPackageId}" />
-                            </p:selectOneMenu>
-	                    </f:facet>
-					</p:cellEditor>
+				<p:column headerText="WP" styleClass="tsHeader statusWidth">
+					<h:outputText value="#{ApproverController.getWorkPackageName(row.workPackageId)}" id="wpID" />
 				</p:column>
 				
-				<p:column headerText="sat">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(0).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(0).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                    
-                    </p:column>
-                <p:column headerText="sun">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(1).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(1).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+				<p:column headerText="sat" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('SATURDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="mon">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(2).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(2).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="sun" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('SUNDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="tues">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(3).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(3).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="mon" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('MONDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="wed">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(4).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(4).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="tues" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('TUESDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="thurs">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(5).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(5).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="wed" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('WEDNESDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="fri">
-                    <p:cellEditor>
-                        
-                        <f:facet name="output">
-                            <h:outputText value="#{row.hours.get(6).hour}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            
-                            <h:inputText value="#{row.hours.get(6).hour}">
-                                <f:validateDoubleRange minimum="0.0" maximum="24.0" />
-
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="thurs" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('THURSDAY').hour}" />
                 </p:column>
                 
-                <p:column headerText="notes">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{row.note}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <h:inputText value="#{row.note}">
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="fri" styleClass="tsHeader weekDays">
+                	<h:outputText value="#{row.getHourByDay('FRIDAY').hour}" />
+                </p:column>
+                
+                <p:column headerText="Notes" styleClass="tsHeader">
+                	<h:outputText value="#{row.note}" />
                 </p:column>
 	        </p:dataTable>
-	    		</p:panel>
-	    	</p:panelGrid>
-	    	    <!-- Rejection modal -->
+	    </p:panel>
+	    </div>
+	    
+	    <!-- Rejection modal -->
 	    <p:dialog
 	        header="Reason for rejecting timesheet"
 	        widgetVar="rejectmodal"
@@ -224,9 +126,10 @@
 	            <h:inputText value="#{ApproverController.getSingleTimesheet().rejectionReason}"/>
 	            </p:panelGrid>
 	            <br />
-	            <h:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />
+	            <p:commandButton value="Reject" action="#{ApproverController.declineSave()}" ajax="false" />
 	        </h:form>
 	    </p:dialog>
+	    </div>
 		</ui:define>
 	</ui:composition>
 	</h:body>

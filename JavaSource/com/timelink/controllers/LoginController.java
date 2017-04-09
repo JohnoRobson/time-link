@@ -90,7 +90,7 @@ public class LoginController implements Serializable {
       ss.setCurrentEmployee(em.find(employeeId));
       return "home";
     }
-    return "null";
+    return "index?faces-redirect=true&loginerror=true";
   }
   
 }

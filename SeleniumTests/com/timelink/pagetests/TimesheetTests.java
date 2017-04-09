@@ -52,9 +52,9 @@ public class TimesheetTests {
         header = new HeaderSection(driver);
         header.goToTimesheet();
         timesheetPage = new TimesheetPage(driver);
-        timesheetPage.executeCreateNewTimesheet("1995", "5");
-        for (int i = 0; i < 3; i++) {
-            timesheetPage.addRow();
+        for (int i = 0; i < 50; i++) {
+            timesheetPage.executeCreateNewTimesheet("1995", "5");
+            //timesheetPage.addRow();
         }
         assertTrue(timesheetPage.getTimesheetStatus().toLowerCase().contains("notsubmitted"));
     }

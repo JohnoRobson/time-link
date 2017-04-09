@@ -31,8 +31,8 @@ public class WorkPackageCodeServiceTest {
         assertEquals("1000000", wpCodeService.generateNewCode(project, null, "1"));
 	}
 
-	//@Test(expected=IllegalArgumentException.class)
-	public void generateNewCode_projectNoWorkPackagesAndNullCodeAndNonUniqueNewNumber_1000000() {
+	@Test
+	public void helloworld() {
 		Project project = new Project();
 		List<WorkPackage> wps = new ArrayList<WorkPackage>();
 		WorkPackage wp1 = new WorkPackage();
@@ -40,6 +40,9 @@ public class WorkPackageCodeServiceTest {
 		wps.add(wp1);
 		project.setWorkPackages(wps);
 
-        wpCodeService.generateNewCode(project, null, "1");
+        System.out.println(wpCodeService.generateNewCode(project, null, "1"));
+        System.out.println(wpCodeService.generateNewCode(project, "2", "1"));
+        System.out.println("hello");
+        assertTrue(true);
 	}
 }
