@@ -8,6 +8,7 @@ import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.FlextimeService;
+import com.timelink.services.VacationService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class ApproverController implements Serializable {
   @Inject WorkPackageManager wpm;
   @Inject Session ses;
   @Inject FlextimeService flextimeService;
+  @Inject VacationService vacationService;
   @Inject ProjectManager pm;
   
   private Set<Timesheet> timesheets;
@@ -199,6 +201,7 @@ public class ApproverController implements Serializable {
   public String declineSave() {
     for (Timesheet t : selectedTimesheets) {
       flextimeService.revertFlextime(t);
+      vacationService.revertVacation(t);
       t.setStatus("" + TimesheetStatus.REJECTED.ordinal());
       tm.merge(t);
     }
