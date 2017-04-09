@@ -39,13 +39,19 @@ public class HumanResourceController implements Serializable {
   private Integer labourGrade;
   
   
-  public HumanResourceController(EmployeeManager empMgr, RoleManager roleMgr) {
-	  this.em = empMgr;
-	  this.rm = roleMgr;
-  }
+//  public HumanResourceController(EmployeeManager empMgr, RoleManager roleMgr) {
+//	  this.em = empMgr;
+//	  this.rm = roleMgr;
+//  }
   
   public HumanResourceController() {
 	  
+  }
+  
+  public HumanResourceController(EmployeeManager em, RoleManager rm, LabourGradeManager lgm) {
+	  this.em= em;
+	  this.rm = rm;
+	  this.lgm = lgm;
   }
   
   /**

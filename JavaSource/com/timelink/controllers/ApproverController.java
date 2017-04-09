@@ -47,12 +47,13 @@ public class ApproverController implements Serializable {
    * For Testing purposes.
    * */
   public ApproverController(TimesheetManager tm, WorkPackageManager wpm,
-      Session ses, FlextimeService fts, ProjectManager pm) {
+      Session ses, FlextimeService fts, VacationService vs ,ProjectManager pm) {
     this.tm = tm;
     this.ses = ses;
     this.flextimeService = fts;
     this.wpm = wpm;
     this.pm = pm;
+    this.vacationService = vs;
   }
   
   /**

@@ -18,6 +18,14 @@ public class VacationService implements VacationServiceInterface {
   @Inject WorkPackageManager wpm;
   @Inject EmployeeManager em;
   @Inject Session ses;
+  
+public VacationService() {}
+  
+  public VacationService(HRProjectService hrps, WorkPackageManager wpm, EmployeeManager em) {
+	  this.hrps = hrps;
+	  this.wpm = wpm;
+	  this.em = em;
+  }
 
   @Override
   public void claimVacation(Timesheet timesheet) {
