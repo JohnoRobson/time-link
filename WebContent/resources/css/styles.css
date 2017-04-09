@@ -948,6 +948,84 @@ h2.mngEmpProjSubHead {
 
 /* Styles for estimatewpeffort.xhtml end here */
  
+/*Styles for home.xhtml start here.*/ 
+ 
+.homeWrapper {
+	margin: auto;
+	width: 65%;
+}
+
+.dashWrapper {
+	margin: auto;
+	width: 80%;
+	margin-bottom: 25px;
+}
+
+.dashPanel {
+	padding: 5%;
+}
+ 
+.flexWrap {
+	padding: 0;
+  	margin: 0;
+  	list-style: none;
+  
+  	display: -webkit-box;
+  	display: -moz-box;
+  	display: -ms-flexbox;
+  	display: -webkit-flex;
+  	display: flex;
+  
+  	-webkit-flex-flow: row wrap;
+ 	justify-content: flex-start;
+} 
+
+.dashElement {
+	margin-bottom:20px;
+	margin-top:10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 350px;
+	height: 75px;
+	background:#f9f9f9;
+	padding:30px 30px 30px 30px;
+	text-align:center; 
+	border: 3px solid #333f4f; 		
+	border-radius: 25px;
+	-webkit-box-shadow: 10px 10px 30px -11px rgba(51,63,79,1);
+	-moz-box-shadow: 10px 10px 30px -11px rgba(51,63,79,1);
+	box-shadow: 10px 10px 30px -11px rgba(51,63,79,1);
+}
+
+.dashElement:hover {
+	background: #687486;
+	color:#f9f9f9; 
+}
+
+
+.dashLinks {
+	text-decoration:none;
+	color:#333f4f !important;
+}
+
+.dashIcon {
+	width: 70px;
+	float:left;
+}
+
+.dashText {
+	font-size: 1.8em;
+}
+
+.dashSubHead {
+	margin-bottom: 3%;
+	color: #333f4f;
+	font-size: 1.5em;
+}
+
+ 
+/*Styles for home.xhtml end here. */ 
+ 
 .headerPart {
 	display: inline;
 	float: left;
