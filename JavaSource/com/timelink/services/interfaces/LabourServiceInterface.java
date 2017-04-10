@@ -17,14 +17,4 @@ public interface LabourServiceInterface extends Serializable {
   public Float getVariance(WorkPackage wp, Integer labourGradeId, Date start, Date end);
   
   public Float getVariancePercent(WorkPackage wp, Integer labourGradeId, Date start, Date end);
-  
-  public Float getTotalBudgeted(WorkPackage wp);
-  
-  public Float getTotalEstimated(WorkPackage wp);
-  
-  public Float getTotalBudgetedToComplete(WorkPackage wp);
-  
-  public Float getTotalVariance(WorkPackage wp);
-  
-  public Float getTotalVariancePercent(WorkPackage wp);
 }

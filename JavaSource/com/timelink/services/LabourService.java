@@ -67,10 +67,7 @@ public class LabourService implements LabourServiceInterface {
     } else {
       List<Hours> result = hm.find(wp.getProject().getProjectNumber(),
           wp.getWorkPackageId(), labourGradeId);
-      System.out.println("START DATE: " + start.toString());
-      System.out.println("END DATE: " + end.toString());
       for (Hours h : result) {
-        System.out.println("SELECTED DATE: " + h.getDate().toString());
         if (h.getDate().getTime() >= start.getTime() && h.getDate().getTime() <= end.getTime()) {
           total += h.getHour();
         }
@@ -125,35 +122,5 @@ public class LabourService implements LabourServiceInterface {
       }
     }
     return total;
-  }
-
-  @Override
-  public Float getTotalBudgeted(WorkPackage wp) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Float getTotalEstimated(WorkPackage wp) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Float getTotalBudgetedToComplete(WorkPackage wp) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Float getTotalVariance(WorkPackage wp) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Float getTotalVariancePercent(WorkPackage wp) {
-    // TODO Auto-generated method stub
-    return null;
   }
 }
