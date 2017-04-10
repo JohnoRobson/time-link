@@ -8,10 +8,11 @@ import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.FlextimeService;
+import com.timelink.services.VacationService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ public class ApproverController implements Serializable {
   @Inject WorkPackageManager wpm;
   @Inject Session ses;
   @Inject FlextimeService flextimeService;
+  @Inject VacationService vacationService;
   @Inject ProjectManager pm;
   
   private Set<Timesheet> timesheets;
@@ -45,12 +47,13 @@ public class ApproverController implements Serializable {
    * For Testing purposes.
    * */
   public ApproverController(TimesheetManager tm, WorkPackageManager wpm,
-      Session ses, FlextimeService fts, ProjectManager pm) {
+      Session ses, FlextimeService fts, VacationService vs ,ProjectManager pm) {
     this.tm = tm;
     this.ses = ses;
     this.flextimeService = fts;
     this.wpm = wpm;
     this.pm = pm;
+    this.vacationService = vs;
   }
   
   /**
@@ -69,7 +72,7 @@ public class ApproverController implements Serializable {
    * @param timesheets the timesheets to set
    */
   public void setTimesheets(List<Timesheet> timesheets) {
-    this.timesheets = new HashSet<Timesheet>(timesheets);
+    this.timesheets = new LinkedHashSet<Timesheet>(timesheets);
   }
   
   /**
@@ -113,7 +116,7 @@ public class ApproverController implements Serializable {
    * @param selectedTimesheets the selectedTimesheets to set
    */
   public void setSelectedTimesheets(List<Timesheet> selectedTimesheets) {
-    this.selectedTimesheets = new HashSet<Timesheet>(selectedTimesheets);
+    this.selectedTimesheets = new LinkedHashSet<Timesheet>(selectedTimesheets);
   }
 
   /**
@@ -123,7 +126,7 @@ public class ApproverController implements Serializable {
     List<Timesheet> apprTimesheets;
     //TODO Change below to a Timesheet query
     apprTimesheets = tm.findByApprover(ses.getCurrentEmployee().getEmployeeId());
-    timesheets = new HashSet<Timesheet>();
+    timesheets = new LinkedHashSet<Timesheet>();
     for (Timesheet t : apprTimesheets) {
       if (!t.getStatus().equals("" + TimesheetStatus.NOTSUBMITTED)) {
         timesheets.add(t);
@@ -199,6 +202,7 @@ public class ApproverController implements Serializable {
   public String declineSave() {
     for (Timesheet t : selectedTimesheets) {
       flextimeService.revertFlextime(t);
+      vacationService.revertVacation(t);
       t.setStatus("" + TimesheetStatus.REJECTED.ordinal());
       tm.merge(t);
     }

@@ -1,5 +1,6 @@
 package com.timelink.services;
 
+import com.timelink.Session;
 import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
@@ -16,6 +17,15 @@ public class VacationService implements VacationServiceInterface {
   @Inject HRProjectService hrps;
   @Inject WorkPackageManager wpm;
   @Inject EmployeeManager em;
+  @Inject Session ses;
+  
+public VacationService() {}
+  
+  public VacationService(HRProjectService hrps, WorkPackageManager wpm, EmployeeManager em) {
+	  this.hrps = hrps;
+	  this.wpm = wpm;
+	  this.em = em;
+  }
 
   @Override
   public void claimVacation(Timesheet timesheet) {
@@ -33,6 +43,7 @@ public class VacationService implements VacationServiceInterface {
 //      Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
 //      emp.setVacationTime(vacaTotal);
       em.merge(timesheet.getEmployee());
+      ses.setCurrentEmployee(timesheet.getEmployee());
     }
   }
 
@@ -52,6 +63,7 @@ public class VacationService implements VacationServiceInterface {
 //    Employee emp = em.find(timesheet.getEmployee().getEmployeeId());
 //    emp.setVacationTime(vacaTotal);
       em.merge(timesheet.getEmployee());
+      ses.setCurrentEmployee(timesheet.getEmployee());
     }
   }
 
