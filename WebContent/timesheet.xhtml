@@ -35,7 +35,8 @@
 	    	</div>
 
             <p:messages id="create-error"/>
-	        <h:form>
+            <!-- <p:messages id="timesheet-error"/> -->
+	        <h:form id="timesheet-form">
 	        <p:panel id="tscontent" styleClass="tsPanels">
 	        <div class="tsCont">
 	        	<p:selectOneMenu styleClass="tsDrop" value="#{TimesheetController.selectedTimesheetId}">
@@ -232,7 +233,7 @@
 			        <p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
 		     						 action="#{TimesheetController.save()}" value="Save" ajax="false" />
 		        	<p:commandButton rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}" 
-		       		    			 action="#{TimesheetController.submit()}" value="Submit" ajax="false" />
+		       		    			 action="#{TimesheetController.submit()}" value="Submit" ajax="false" update="timesheet-error"/>
 	        	</div>
 	        </p:panel>
         	</div>
