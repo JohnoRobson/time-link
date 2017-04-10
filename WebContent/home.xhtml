@@ -10,13 +10,135 @@
 	<h:body>
 		<ui:composition template="resources/templates/template.xhtml">
 			<ui:define name="content">
-			<div class="homeContent"> 
+			<div class="homeWrapper"> 
 				<div class="title">
-					<h1 class="s-homeTitleText">Welcome, #{Session.currentEmployee.firstName}</h1>	
+					<hr />
+					<h1 class="loginTitle">Dashboard</h1>	
 				</div>
-				
-				<div class="homeContent">
-					<h3> To be Determined here.</h3>
+				<div class="dashWrapper">
+					<div class="dashSubHead">
+						<h2>Quick Links for #{Session.currentEmployee.firstName}</h2>
+					</div>				
+					<div class="flexWrap">
+						<h:outputLink id="Timesheet" value="timesheet.xhtml" styleClass="dashLinks">
+							<div class="dashElement">
+								<h:graphicImage library="images" name="sheetIcon.png" styleClass="dashIcon" />
+								<h:outputText value="Timesheet" styleClass="dashText" />
+								<div class="dashSub">
+									<h:outputText value="Enter and submit timesheets" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>
+						<h:outputLink id="humanResources" value="humanresources.xhtml" 
+									  styleClass="dashLinks" rendered="#{Session.humanResources}">
+							<div class="dashElement">
+								<h:graphicImage library="images" name="employeeList.png" styleClass="dashIcon" />
+								<h:outputText value="Employee List" styleClass="dashText"  />
+								<div class="dashSub">
+									<h:outputText value="Create, deactivate &amp; edit employees" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>
+						<h:outputLink id="MonthlyReport" value="monthlyreport.xhtml" styleClass="dashLinks" 
+									  rendered="#{Session.projectManager || Session.projectManagerAssistant}">
+							<div class="dashElement">
+								<h:graphicImage library="images" name="MonthlyReportIcon.png" styleClass="dashIcon" />
+								<h:outputText value="Monthly Report" styleClass="dashText"/>
+								<div class="dashSub">
+									<h:outputText value="View monthly project reports" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>
+						<h:outputLink id="BudgetProj" value="projectplanning.xhtml" styleClass="dashLinks"
+									  rendered="#{Session.projectManager || Session.projectManagerAssistant}">
+						<div class="dashElement">
+							<h:graphicImage library="images" name="budgetingIcon.png" styleClass="dashIcon" />
+							<h:outputText value="Budget Project" styleClass="dashText"/>
+							<div class="dashSub">
+								<h:outputText value="Budget a new project" styleClass="dashSubText"/>
+							</div>
+						</div>
+						</h:outputLink>
+						<h:outputLink id="wpDash" value="budgetwp.xhtml" styleClass="dashLinks"
+									  rendered="#{Session.projectManager || Session.projectManagerAssistant}">
+							<div class="dashElement">
+								<h:graphicImage library="images" name="managingIcon.png" styleClass="dashIcon" />
+								<h:outputText value="WP Dashboard" styleClass="dashText"/>
+								<div class="dashSub">
+									<h:outputText value="Create, budget &amp; approve WPs" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>
+						<h:outputLink id="weeklyReport" value="rereport.xhtml" styleClass="dashLinks"
+									  rendered="#{Session.responsibleEngineer}">
+							<div class="dashElement">
+								<h:graphicImage library="images" name="MonthlyReportIcon.png" styleClass="dashIcon" />
+								<h:outputText value="Weekly Report" styleClass="dashText"/>
+								<div class="dashSub">
+									<h:outputText value="View the weekly work package report" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>
+						<h:outputLink id="weeklyEstimate" value="estimatewpeffort.xhtml" styleClass="dashLinks"
+									  rendered="#{Session.responsibleEngineer}">
+							<div class="dashElement">
+								<h:graphicImage library="images" name="budgetingIcon.png" styleClass="dashIcon" />
+								<h:outputText value="Weekly Estimate" styleClass="dashText"/>
+								<div class="dashSub">
+									<h:outputText value="Give a weekly work package estimate" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>
+						<h:outputLink id="newWPEstimate" value="workpackagebudgetre.xhtml" styleClass="dashLinks"
+									  rendered="#{Session.responsibleEngineer}">
+							<div class="dashElement">
+								<h:graphicImage library="images" name="budgetingIcon.png" styleClass="dashIcon" />
+								<h:outputText value="New WP Estimate" styleClass="dashText"/>
+								<div class="dashSub">
+									<h:outputText value="Estimate a new work package" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>
+						<h:outputLink id="manageProject" value="assignemp.xhtml" styleClass="dashLinks"
+									  rendered="#{Session.supervisor}">
+							<div class="dashElement">
+								<h:graphicImage library="images" name="managingIcon.png" styleClass="dashIcon" />
+								<h:outputText value="Manage Project" styleClass="dashText"/>
+								<div class="dashSub">
+									<h:outputText value="Assign employees to projects" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>
+						<h:outputLink id="assignSuper" value="assignemptosuper.xhtml" styleClass="dashLinks"
+									  rendered="#{Session.humanResources}">
+							<div class="dashElement">	
+								<h:graphicImage library="images" name="assigningIcon.png" styleClass="dashIcon" />
+								<h:outputText value="Supervisor Assign" styleClass="dashText"/>
+								<div class="dashSub">
+									<h:outputText value="Assign employees to supervisors" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>
+						<h:outputLink id="reviewTimeSheet" value="report.xhtml" styleClass="dashLinks"
+									  rendered="#{Session.approver}">
+							<div class="dashElement">
+								<h:graphicImage library="images" name="timesheetReview.png" styleClass="dashIcon" />
+								<h:outputText value="Timesheet Review" styleClass="dashText"/>
+								<div class="dashSub">
+									<h:outputText value="Approve or reject timesheets" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>
+						<h:outputLink id="employeeProfile" value="vacationflextime.xhtml" styleClass="dashLinks">
+							<div class="dashElement">
+								<h:graphicImage library="images" name="empProfile.png" styleClass="dashIcon" />
+								<h:outputText value="Employee Profile" styleClass="dashText"/>
+								<div class="dashSub">
+									<h:outputText value="View your employee profile" styleClass="dashSubText"/>
+								</div>
+							</div>
+						</h:outputLink>						
+					</div>
 				</div>
 			</div>
 			</ui:define>

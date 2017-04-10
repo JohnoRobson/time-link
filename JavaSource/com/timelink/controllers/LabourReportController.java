@@ -42,6 +42,19 @@ public class LabourReportController implements Serializable {
   private Integer workPackageId;
   private Integer selectedDate;
   
+  public LabourReportController() {}
+  
+  public LabourReportController(Session ses, WorkPackageManager wpm, BudgetedWorkPackageWorkDaysManager bwm,
+		  EstimatedWorkPackageWorkDaysManager ewm,LabourGradeManager lgm,
+		  HoursManager hm) {
+	  this.ses = ses;
+	  this.wpm = wpm;
+	  this.bwm = bwm;
+	  this.ewm = ewm;
+	  this.lgm = lgm;
+	  this.hm = hm;
+  }
+  
   /**
    * Report the selectedProject.
    * @return the selectedProject

@@ -8,7 +8,11 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.inject.Inject;
 
 import static org.mockito.Matchers.any;
 import org.junit.Before;
@@ -19,17 +23,21 @@ import com.timelink.enums.TimesheetStatus;
 import com.timelink.controllers.ApproverController;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.FlextimeService;
+import com.timelink.services.VacationService;
 
 public class ApproverControllerTest {
 	
 	private ApproverController testController;
-	private TimesheetManager tm;
-	private WorkPackageManager wpm;
-	private Session ses;
-	private FlextimeService flextimeService;
+	 private TimesheetManager tm;
+	  private WorkPackageManager wpm;
+	  private Session ses;
+	  private FlextimeService flextimeService;
+	  private VacationService vacationService;
+	  private ProjectManager pm;
 	
 	@Before
     public void setUp() {
@@ -37,7 +45,9 @@ public class ApproverControllerTest {
         this.ses = mock(Session.class);
         this.wpm = mock(WorkPackageManager.class);
 		this.flextimeService = mock(FlextimeService.class);
-		this.testController = new ApproverController(tm, wpm, ses, flextimeService);
+		this.vacationService = mock(VacationService.class);
+		this.pm = mock(ProjectManager.class);
+		this.testController = new ApproverController(tm, wpm, ses, flextimeService, vacationService, pm);
     }
 	
 	@Test
@@ -77,15 +87,6 @@ public class ApproverControllerTest {
 		verify(tm, Mockito.atLeast(2)).merge(any());
 	}
 
-	@Test
-	public void testDeclineValidate() {
-//		List<Timesheet> testTimesheets = 
-//				Arrays.asList(mock(Timesheet.class), mock(Timesheet.class));
-//		testController.setSelectedTimesheets(testTimesheets);
-//		testController.declineValidate(mock(ActionEvent.class));
-//		FacesContext context = mock(FacesContext.class);
-		
-	}
 
 	@Test
 	public void testTimesheetIsApproved() {

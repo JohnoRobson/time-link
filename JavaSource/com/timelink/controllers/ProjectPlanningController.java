@@ -42,8 +42,29 @@ public class ProjectPlanningController implements Serializable {
   
   private HashSet<Project> projects;
   private List<LabourGrade> labourGrades;
+  
+
   private Project selectedProject;
   private HashSet<BudgetedProjectWorkDays> budgetedHours;
+  
+
+public ProjectPlanningController() {}
+  
+  public ProjectPlanningController(
+		  Session session, ProjectManager pm, LabourGradeManager lgm,
+		  BudgetedProjectWorkDaysManager bhm, EstimatedWorkPackageWorkDaysManager ewm,
+		  WorkPackageCodeService workPackageCodeService, WeekNumberService weekNumberService,
+		  WorkPackageManager wpm, HoursManager hm) {
+	  	this.session = session;
+	  	this.pm = pm;
+	  	this.lgm = lgm;
+	  	this.bhm = bhm;
+	  	this.ewm = ewm;
+	  	this.workPackageCodeService = workPackageCodeService;
+	  	this.wpm = wpm;
+	  	this.hm = hm;
+  }
+  
   
   /**
    * Resets the state of this SessionBean.
@@ -64,21 +85,6 @@ public class ProjectPlanningController implements Serializable {
     selectedProject = null;
   }
   
-  
-  public ProjectPlanningController() {}
-  
-  public ProjectPlanningController(ProjectManager pm, 
-      Session ses, LabourGradeManager lgm, 
-      EstimatedWorkPackageWorkDaysManager ewm, WorkPackageManager wpm,
-      BudgetedProjectWorkDaysManager bhm, WorkPackageCodeService workPackageCodeService) {
-    this.pm = pm;
-    this.session = ses;
-    this.lgm = lgm;
-    this.ewm = ewm;
-    this.wpm = wpm;
-    this.bhm = bhm;
-    this.workPackageCodeService = workPackageCodeService;
-  }
   
   public List<Project> getProjects() {
     return new ArrayList<Project>(projects);
@@ -137,6 +143,18 @@ public class ProjectPlanningController implements Serializable {
   public List<LabourGrade> getLabourGrades() {
     return labourGrades;
   }
+  
+  public void setLabourGrades(List<LabourGrade> labourGrades) {
+		this.labourGrades = labourGrades;
+  }
+  
+  public HashSet<BudgetedProjectWorkDays> getBudgetedHours() {
+		return budgetedHours;
+	}
+
+	public void setBudgetedHours(HashSet<BudgetedProjectWorkDays> budgetedHours) {
+		this.budgetedHours = budgetedHours;
+	}
   
   private List<EstimatedWorkPackageWorkDays> getEstimateByLabourGrade(int labourGradeId) {
     if (selectedProject != null) {

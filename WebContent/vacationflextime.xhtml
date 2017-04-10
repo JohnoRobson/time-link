@@ -10,33 +10,40 @@
 <h:body>
 	<ui:composition template="resources/templates/template.xhtml">
 		<ui:define name="content">
-			<div id="content">
+			<div id="content" class="profileWrapper">
 				<div class="title">
-					<h1 class="s-homeTitleText">Profile</h1>
+					<hr />
+					<h1 class="loginTitle">Profile</h1>
 				</div>
+				<p:panel class="projPanel">
 				<h:form>
-					<h:panelGrid>
-						<h:outputText styleClass="projLabel" value="First Name: " />
-	                	<h:outputText styleClass="projInput" value="#{Session.currentEmployee.firstName}" />
-	                	<h:outputText styleClass="projLabel" value="Last Name: " />
-	                	<h:outputText styleClass="projInput" value="#{Session.currentEmployee.lastName}" />
-	                	<h:outputText styleClass="projLabel" value="User ID: " />
-	                	<h:outputText styleClass="projInput" value="#{Session.currentEmployee.userId}" />
-	                	<h:outputText styleClass="projLabel" value="Email: " />
-	                	<h:outputText styleClass="projInput" value="#{Session.currentEmployee.email}" />
-	                	<h:outputText styleClass="projLabel" value="Labour Grade: " />
-	                	<h:outputText styleClass="projInput" value="#{Session.currentEmployee.labourGrade.name}" />
-					</h:panelGrid>
+					<div class="personInfoWrap">
+						<h:panelGrid columns="2" styleClass="profPanel">
+							<h:outputText styleClass="projLabel" value="First Name: " />
+		                	<h:outputText styleClass="projInput" value="#{ProfileController.employee.firstName}" />
+		                	<h:outputText styleClass="projLabel" value="Last Name: " />
+		                	<h:outputText styleClass="projInput" value="#{ProfileController.employee.lastName}" />
+		                	<h:outputText styleClass="projLabel" value="User ID: " />
+		                	<h:outputText styleClass="projInput" value="#{ProfileController.employee.userId}" />
+		                	<h:outputText styleClass="projLabel" value="Email: " />
+		                	<h:outputText styleClass="projInput" value="#{ProfileController.employee.email}" />
+		                	<h:outputText styleClass="projLabel" value="Labour Grade: " />
+		                	<h:outputText  value="#{ProfileController.employee.labourGrade.name}" />
+						</h:panelGrid>
+					</div>
 				</h:form>
+				</p:panel>
 				<h1>Flextime and Vacation</h1>
-				<h:panelGrid columns="2">
-		                Flex Time:
-		                <h:outputText
-						value="#{Session.currentEmployee.flexTime}" />
-		                Vacation Time:
-		                <h:outputText
-						value="#{Session.currentEmployee.vacationTime}" />
-				</h:panelGrid>
+				<p:panel class="projPanel">
+				<div class="personInfoWrap">
+					<h:panelGrid columns="2" styleClass="profPanel">
+			        	<h:outputText value="Flex Time:" />
+			            <h:outputText value="#{ProfileController.employee.flexTime}" />
+			            <h:outputText value="Vacation Time:" />
+			            <h:outputText value="#{ProfileController.employee.vacationTime}" />
+					</h:panelGrid>
+					</div>
+				</p:panel>
 			</div>
 		</ui:define>
 	</ui:composition>

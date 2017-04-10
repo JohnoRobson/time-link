@@ -22,6 +22,10 @@ public class AssignEmployeesToSupervisorController implements Serializable {
   
   private Employee selectedSupervisor;
 
+  public AssignEmployeesToSupervisorController() {}
+  public AssignEmployeesToSupervisorController(EmployeeManager em){
+	  this.em = em;
+  }
   /**
    * Returns the selectedSupervisor.
    * @return the selectedSupervisor

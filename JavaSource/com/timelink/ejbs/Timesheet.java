@@ -290,6 +290,16 @@ public class Timesheet {
    * @return whether timesheet has a valid final state
    */
   public boolean isValid() {
-    return (getTotalHours() - flextime - overtime) == 40;
+    boolean hoursIsValid = (getTotalHours() - flextime - overtime) == 40;
+    boolean rowsAreValid;
+    Set<String> workPackageProjectString = new HashSet<String>();
+    
+    for (TimesheetRow r : rows) {
+      workPackageProjectString.add("" + r.getProjectId() + " " + r.getWorkPackageId());
+    }
+    //If the number of rows is the same as the number of unique project + wp pairs you're good
+    rowsAreValid = rows.size() == workPackageProjectString.size();
+    
+    return hoursIsValid && rowsAreValid;
   }
 }

@@ -21,6 +21,11 @@ public class AssignEmployeesToTimesheetApprover implements Serializable {
   
   private Employee selectedTimesheetApprover;
 
+  public AssignEmployeesToTimesheetApprover() {}
+  
+  public AssignEmployeesToTimesheetApprover(EmployeeManager em) {
+	  this.em = em;
+  }
   /**
    * Returns the selectedTimesheetApprover.
    * @return the selectedTimesheetApprover

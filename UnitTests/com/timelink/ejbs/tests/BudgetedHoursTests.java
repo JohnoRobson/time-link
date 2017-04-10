@@ -8,15 +8,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.timelink.ejbs.BudgetedWorkPackageHours;
+import com.timelink.ejbs.BudgetedWorkPackageWorkDays;
 import com.timelink.ejbs.WorkPackage;
 
 public class BudgetedHoursTests {
 
-    BudgetedWorkPackageHours budgetedHours;
+    BudgetedWorkPackageWorkDays budgetedHours;
     @Before
     public void setUp() throws Exception {
-        budgetedHours = new BudgetedWorkPackageHours();
+        budgetedHours = new BudgetedWorkPackageWorkDays();
     }
 
     @After
@@ -32,7 +32,7 @@ public class BudgetedHoursTests {
     @Test
     public void setWorkPackageLineId_listBudgetedWorkPackageHours_wpContainsList() {
         WorkPackage wp = new WorkPackage();
-        wp.setPlannedHours(new ArrayList<BudgetedWorkPackageHours>());
+        wp.setPlannedHours(new ArrayList<BudgetedWorkPackageWorkDays>());
 
         budgetedHours.setWorkPackageLineId(wp);
         

@@ -16,6 +16,7 @@
 	    			<h1 class="loginTitle">Create Work Package</h1>		
 	    		</div>
 	    	<h:form>
+			<p:messages style="display:block; margin: 0 auto; width:60%" id="error"/>
 	    	<p:panel styleClass="projPanel budgetWpPanel">
 	    		<h:panelGrid columns="3">
 	  				<h:outputText value="Select a Project:" />
@@ -135,16 +136,16 @@
 	    	<h:form>
 	            <p:panelGrid columns="2">
 	            	<h:outputText value="Work Package Parent: "/>
-	            	<p:selectOneMenu value="#{BudgetWorkPackageController.wpCode}" id="creationModal">
+	            	<p:selectOneMenu label="Work Package Parent" required="true" value="#{BudgetWorkPackageController.wpCode}" id="creationModal">
 	            		<f:selectItem itemLabel="" value="#{null}" />
                     	<f:selectItems value="#{BudgetWorkPackageController.getNonChargedWorkPackages() != null ? BudgetWorkPackageController.getNonChargedWorkPackages() : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.code}" />
 					</p:selectOneMenu>
 					<h:outputText value="Work Package Number: " />
-					<p:inputText value="#{BudgetWorkPackageController.wpNewNumber}">
+					<p:inputText label="new work package number" validator="#{WorkPackageValidator.validateWorkPackageNumber}" value="#{BudgetWorkPackageController.wpNewNumber}">
 						<f:validateLength minimum="1" maximum="1" />
 					</p:inputText>
 	            	<h:outputText value="Work Package Description: "/>
-	            	<p:inputText value="#{BudgetWorkPackageController.wpDescription}"/>
+	            	<p:inputText validator="#{WorkPackageValidator.validateWorkPackageDescription}" value="#{BudgetWorkPackageController.wpDescription}"/>
 	            	<h:outputText value="Responsible Engineer: "/>
 	            	<p:selectOneMenu value="#{BudgetWorkPackageController.responsibleEngineer}">
 	            		<p:ajax event="itemSelect" oncomplete="onCellEdit()" />

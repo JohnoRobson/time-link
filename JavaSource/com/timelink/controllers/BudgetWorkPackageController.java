@@ -41,7 +41,25 @@ public class BudgetWorkPackageController implements Serializable {
   private String wpNewNumber;
   private Project currentProject;
   private List<LabourGrade> labourGrades;
-  private WorkPackage editingWorkPackageId;
+  
+
+private WorkPackage editingWorkPackageId;
+  
+  public BudgetWorkPackageController() {}
+  
+  public BudgetWorkPackageController(ProjectManager pm, Session ses, LabourGradeManager lgm,
+		  EmployeeManager em, WorkPackageManager wpm,
+		  BudgetedWorkPackageWorkDaysManager bhm,
+		  WorkPackageCodeService workPackageCodeService) {
+	  this.pm = pm;
+	  this.ses = ses;
+	  this.lgm = lgm;
+	  this.em = em;
+	  this.wpm = wpm;
+	  this.bhm = bhm;
+	  this.workPackageCodeService = workPackageCodeService;
+  }
+  
   
   public List<Project> getProjects() {
     return pm.findByProjectManager(ses.getCurrentEmployee().getEmployeeId());
@@ -73,6 +91,10 @@ public class BudgetWorkPackageController implements Serializable {
   
   public Project getCurrentProject() {
     return currentProject;
+  }
+  
+  public void setLabourGrades(List<LabourGrade> labourGrades) {
+		this.labourGrades = labourGrades;
   }
   
   public List<WorkPackage> getWorkPackagesSubmittedByRE() {
@@ -126,7 +148,11 @@ public class BudgetWorkPackageController implements Serializable {
   
   //WORKPACKAGE MODAL STUFF
   
-  /**
+  public void setCurrentProject(Project currentProject) {
+	this.currentProject = currentProject;
+}
+
+/**
    * Returns the wpCode.
    * @return the wpCode
    */

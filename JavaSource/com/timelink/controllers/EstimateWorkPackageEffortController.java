@@ -37,9 +37,23 @@ public class EstimateWorkPackageEffortController implements Serializable {
   private String selectedDate;
   private List<LabourGrade> labourGrades;
   
+  
+
   private WorkPackage selectedWorkPackage;
   private WorkPackage selectedWorkPackageCreation;
   private HashSet<EstimatedWorkPackageWorkDays> estimatedHours;
+  
+  public EstimateWorkPackageEffortController() {}
+  
+  public EstimateWorkPackageEffortController(Session session,WorkPackageManager wpm,EstimatedWorkPackageWorkDaysManager ewm,
+		  WeekNumberService weekNumberService,LabourGradeManager lgm) {
+	  this.session = session;
+	  this.wpm = wpm;
+	  this.ewm = ewm;
+	  this.weekNumberService = weekNumberService;
+	  this.lgm = lgm;
+  }
+  
   
   /**
    * returns the selectedWorkPackage.
@@ -218,6 +232,10 @@ public class EstimateWorkPackageEffortController implements Serializable {
     
     return list;
   }
+  
+  public void setLabourGrades(List<LabourGrade> labourGrades) {
+		this.labourGrades = labourGrades;
+	}
   
   /**
    * Returns a String containing the week number and year of

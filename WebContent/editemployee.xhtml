@@ -9,13 +9,13 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
 		<ui:define name="content">
-	    <div id="homeContent">
+	    <div class="editEmpWrapper">
 	    	<div class="title">
 	        	<hr />
 	        	<h1 class="loginTitle">Edit Employee</h1>
 	        </div>
-	        <div class="proCtrl">
 	        <h:form>
+	        <div class="editEmpPanelWrap">
 	        	<h:panelGrid styleClass="panel" columns="2">
 	        	    <h:outputText styleClass="projLabel" value="User ID:" />
 	                <p:inputText  styleClass="projInput" value="#{HRController.userId}" />
@@ -28,54 +28,22 @@
 	                <h:outputText styleClass="projLabel" value="Vacation Accrual:" />
 	                <p:inputText  styleClass="projInput" value="#{HRController.vacationAccrual}" />
 	                <h:outputText styleClass="projLabel" value="Role:" />
-	                <p:selectOneMenu styleClass="addEmpDrop" value="#{HRController.jobTitle}">
+	                <p:selectOneMenu styleClass="projInput drop" value="#{HRController.jobTitle}">
 		                <f:selectItems value="#{HRController.changeRoles}" />
 		            </p:selectOneMenu>
 		            <h:outputText styleClass="projLabel" value="Labour Grade:"/>
-	                <p:selectOneMenu value="#{HRController.labourGrade}" style="width:100%">
+	                <p:selectOneMenu value="#{HRController.labourGrade}" styleClass="projInput drop">
 		                <f:selectItems value="#{HRController.labourGrades}" var="lg" itemValue="#{lg.labourGradeId}" 
 		                    itemLabel="#{lg.name}" />
 		            </p:selectOneMenu>
 	            </h:panelGrid>
-	            <div class="editEmpBtnGrp">
-	            	<p:commandButton value="Change Password" type="button" onclick="PF('dlg2').show();" />
-	            	<p:commandButton value="Cancel" action="#{HRController.cancel}" ajax="false" />
-	           	 	<p:commandButton value="Save" action="#{HRController.save}" ajax="false" />
-	           	 	<p:commandButton styleClass="modalBtn" value="Close Employee" onclick="PF('close').show();"/>
-	        	</div>
+	            <div class="loginBtn">           	
+	            	<p:commandButton value="Cancel" styleClass="logButton" action="#{HRController.cancel}" ajax="false" />
+	            	<p:commandButton value="Save" styleClass="logButton" action="#{HRController.save}" ajax="false" />
+	            </div>
+	        </div>
 	        </h:form> 
 	        </div>
-	        <!--  dialog box for changing an employee's password. -->
-	        <p:dialog header="Change Password" 
-	        	      widgetVar="dlg2" 
-	        	      modal="true" 
-	        	      height="175">
-	            <h:form>
-                    <h:panelGrid columns="2">
-	        	        <h:outputText styleClass="modalText" value="Password:" />
-	                    <p:password styleClass="modalText" value="#{HRController.password}" />
-	                    <h:outputText styleClass="modalText" value="Confirm Password:" />
-	                    <p:password styleClass="modalText" value="#{HRController.confirmPassword}" />
-	                </h:panelGrid>
-	                <p:commandButton ajax="false" styleClass="modalBtn"
-	                				 value="Save" action="#{HRController.newPassword}"/>
-	           </h:form>
-           </p:dialog>
-           
-           <!--  dialog box for changing an employee's password. -->
-	        <p:dialog header="Close Employee" 
-	        	      widgetVar="close" 
-	        	      modal="true" 
-	        	      height="175">
-	            <h:form>
-		            <h:panelGrid columns="1">
-		            	<h:outputText styleClass="modalText" value="Are you sure you want to close this employee?  This cannot be undone."/>
-		            	<p:commandButton value="Close Employee" styleClass="s-confirmCreateTimesheetBtn modalBtn" 
-		            				 action="#{HRController.closeEmployee()}" ajax="false" />
-		            </h:panelGrid>
-		        </h:form>
-           </p:dialog>
-	    </div>
 	    </ui:define>
 	</ui:composition>
 	</h:body>

@@ -9,19 +9,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.timelink.ejbs.BudgetedWorkPackageHours;
+import com.timelink.ejbs.BudgetedWorkPackageWorkDays;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.WorkPackage;
 
 public class WorkPackageTests {
     
     WorkPackage wp;
-    BudgetedWorkPackageHours bh1;
-    BudgetedWorkPackageHours bh2;
+    BudgetedWorkPackageWorkDays bh1;
+    BudgetedWorkPackageWorkDays bh2;
     @Before
     public void setUp() throws Exception {
         wp = new WorkPackage();
-        List<BudgetedWorkPackageHours> hr = new ArrayList<>();
+        List<BudgetedWorkPackageWorkDays> hr = new ArrayList<>();
         LabourGrade lg1 = new LabourGrade();
         lg1.setLabourGradeId(1);
         lg1.setCostRate(100);
@@ -30,11 +30,11 @@ public class WorkPackageTests {
         lg2.setLabourGradeId(4);
         lg2.setCostRate(400);
 
-        bh1 = new BudgetedWorkPackageHours();
+        bh1 = new BudgetedWorkPackageWorkDays();
         bh1.setLabourGrade(lg1);
         bh1.setManDay(100);
 
-        bh2 = new BudgetedWorkPackageHours();
+        bh2 = new BudgetedWorkPackageWorkDays();
         bh2.setLabourGrade(lg2);
         bh2.setManDay(400);
 
@@ -104,7 +104,7 @@ public class WorkPackageTests {
 
     @Test
     public void getTotalPlannedCosts_emptyListPlannedHours_0() {
-        wp.setPlannedHours(new ArrayList<BudgetedWorkPackageHours>());
+        wp.setPlannedHours(new ArrayList<BudgetedWorkPackageWorkDays>());
         assertEquals(0, wp.getTotalPlannedCosts());
     }
     

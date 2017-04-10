@@ -25,7 +25,7 @@ public class HRProjectService implements HRProjectServiceInterface {
   final String HR_STATHOLIDAY_NAME = "STAT";
   
   @Inject
-  HRProjectService(ProjectManager pm, WorkPackageManager wpm) {
+  public HRProjectService(ProjectManager pm, WorkPackageManager wpm) {
     this.pm = pm;
     this.wpm = wpm;
   }

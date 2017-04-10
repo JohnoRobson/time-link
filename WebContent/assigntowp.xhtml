@@ -35,17 +35,17 @@
 	                	    	<h:outputText value="#{workpackage.code}" />
 	            	    	</p:column>
 	            	    	<p:column styleClass="tsHeader" headerText="Select">
-	            	        	<p:commandLink styleClass="editBtn" value="Select" action="#{AssignWPController.setSelectedWorkPackage(workpackage)}" 
+	            	        	<p:commandButton value="Select" action="#{AssignWPController.setSelectedWorkPackage(workpackage)}" 
 	            	            	ajax="false" />
 	            	    	</p:column>
 	            	    	<p:column styleClass="tsHeader" headerText="WP Status">
 	            	       		<h:outputText value="#{workpackage.status}" />
 	            	    	</p:column>
 	            	    	<p:column styleClass="tsHeader" headerText="Change">
-	            	    		<p:commandLink value="Change Status" styleClass="editBtn" type="submit" onclick="PF('editStatus').show();">
+	            	    		<p:commandButton value="Change Status" type="submit" onclick="PF('editStatus').show();">
 	            	    			<!--  find out what to put here  | works, check with johno-->
 	            	    		  	<f:setPropertyActionListener value="#{workpackage}" target="#{AssignWPController.selectedWPStatus}" />
-	            	    		</p:commandLink>
+	            	    		</p:commandButton>
 	            	    	</p:column>
 	        	    </p:dataTable>
 	        	    </div>
@@ -61,6 +61,7 @@
 	        	</h:form>
 	        </div>
 	        </div>
+	        
 	        	<!-- edit status -->
 	        	<p:dialog
 	        		header="Edit WP Status"
@@ -75,7 +76,7 @@
 	        				</p:selectOneMenu>
 	        			</p:panelGrid>
 	        			<br/>
-	        			 <h:commandButton value="Save Changes" action="#{AssignWPController.save()}" ajax="false"/>	 
+	        			 <p:commandButton value="Save Changes" action="#{AssignWPController.save()}" ajax="false"/>	 
 	        		</h:form>	
         		</p:dialog>     
 		    </ui:define>
