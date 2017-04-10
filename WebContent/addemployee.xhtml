@@ -10,11 +10,13 @@
 	<h:body>
 	<ui:composition template="resources/templates/template.xhtml">
 	    <ui:define name="content">
-	    <div class="homeContent addEmpCont">
-	    	<div class="pageTitle">
-	        	<h1>Create Employee</h1>
+	    <div class="editEmpWrapper">
+	    	<div class="title">
+	    		<hr />
+	        	<h1 class="loginTitle">Create Employee</h1>
 	        </div>
 	        <h:form>
+	        <div class="editEmpPanelWrap">
 	            <h:panelGrid styleClass="panel" columns="2">
 	                <h:outputText styleClass="projLabel" value="User ID:" />
 	                <p:inputText styleClass="projInput" value="#{HRController.userId}" />
@@ -27,7 +29,7 @@
 	                <h:outputText styleClass="projLabel" value="Vacation Accrual:" />
 	                <p:inputText styleClass="projInput" value="#{HRController.vacationAccrual}" />
 	                <h:outputText styleClass="projLabel" value="Job Title:" />
-	                <p:selectOneMenu styleClass="addEmpDrop" value="#{HRController.jobTitle}" style="width:100%">
+	                <p:selectOneMenu styleClass="projInput drop addEmpDrop" value="#{HRController.jobTitle}" style="width:100%">
 		                <f:selectItems value="#{HRController.roles}" />
 		                <!--  there is a bug with this shows 2 drop downs -->
 		            </p:selectOneMenu>
@@ -40,15 +42,16 @@
 	                    <f:convertDateTime pattern="MM/dd/yyyy" />
 	                </p:inputText>
 	                <h:outputText styleClass="projLabel" value="Labour Grade:"/>
-	                <p:selectOneMenu value="#{HRController.labourGrade}" style="width:100%">
+	                <p:selectOneMenu value="#{HRController.labourGrade}" styleClass="projInput drop">
 		                <f:selectItems value="#{HRController.labourGrades}" var="lg" itemValue="#{lg.labourGradeId}" 
 		                    itemLabel="#{lg.name}" />
 		            </p:selectOneMenu>
 	            </h:panelGrid>
-	            <div class="addEmpBtn">
-	                <p:commandButton value="Cancel" action="#{HRController.cancel}" ajax="false"/>
-	                <p:commandButton value="Save" action="#{HRController.createNewEmployee}" ajax="false"/>
+	            <div class="loginBtn">
+	                <p:commandButton value="Cancel" styleClass="logButton" action="#{HRController.cancel}" ajax="false"/>
+	                <p:commandButton value="Save" styleClass="logButton" action="#{HRController.createNewEmployee}" ajax="false"/>
 	            </div>
+	    	</div>
 	        </h:form>
 	    </div>
 	    </ui:define>
