@@ -232,8 +232,7 @@ CREATE TABLE `labour_grade` (
   `lg_level` varchar(45) DEFAULT NULL,
   `lg_cost` float DEFAULT NULL,
   PRIMARY KEY (`lg_id`),
-  UNIQUE KEY `lg_id_UNIQUE` (`lg_id`),
-  UNIQUE KEY `lg_name_UNIQUE` (`lg_level`)
+  UNIQUE KEY `lg_id_UNIQUE` (`lg_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -376,12 +375,13 @@ CREATE TABLE `wp_emp` (
   
   USE timelink_dev;
   
-INSERT INTO employee VALUES (1, "Admin", "adminfname", "adminlname", null, "a@a.com", 2, null, null, 100, 100, 120, null);
-INSERT INTO employee VALUES (2, "tsa", "tsafname", "tsalname", null, "tsa@tsa.com", 1, null, null, 100, 100, 80, null);
-INSERT INTO employee VALUES (3, "pm", "pmfname", "pmlname", null, "pm@pm.com", 1, null, null, 100, 100, 160, null);
-INSERT INTO employee VALUES (4, "re", "refname", "relname", null, "ref@ref.com", 1, null, null, 100, 100, 120, null);
-INSERT INTO employee VALUES (5, "hr", "hrfname", "hrlname", null, "hr@hr.com", 1, null, null, 72, 30, 120, null);
-INSERT INTO employee VALUES (6, "sup", "supfname", "suplname", null, "sup@sup.com", 1, null, null, 72, 30, 120, null);
+INSERT INTO employee VALUES (1, "Admin", "Andy", "Admin", null, "a@a.com", 2, null, null, 100, 100, 120, null);
+INSERT INTO employee VALUES (2, "tsa", "Tessa", "Timesheet Approver", null, "tsa@tsa.com", 1, null, null, 100, 100, 80, null);
+INSERT INTO employee VALUES (3, "pm", "Marcus", "Project Manager", null, "pm@pm.com", 3, null, null, 100, 100, 160, null);
+INSERT INTO employee VALUES (4, "re", "Rhodey", "Responsible Engineer", null, "ref@ref.com", 2, null, null, 100, 100, 120, null);
+INSERT INTO employee VALUES (5, "hr", "Harry", "Human Resources", null, "hr@hr.com", 1, null, null, 72, 30, 120, null);
+INSERT INTO employee VALUES (6, "sup", "Suzie", "Supervisor", null, "sup@sup.com", 1, null, null, 72, 30, 120, null);
+INSERT INTO employee VALUES (7, "pma", "Penny", "Project Manager Assistant", null, "pma@pma.com", 1, null, null, 72, 30, 120, null);
 
 INSERT INTO job_title VALUES (1, 1, 0);
 INSERT INTO job_title VALUES (2, 2, 0);
@@ -402,8 +402,14 @@ INSERT INTO supvemp VALUES (1, 6, 1);
 INSERT INTO supvemp VALUES (2, 6, 2);
 INSERT INTO supvemp VALUES (3, 6, 3);
 INSERT INTO supvemp VALUES (4, 6, 4);
+INSERT INTO supvemp VALUES (5, 6, 7);
 
-INSERT INTO ts_approver VALUES (0, 2, 1);
+INSERT INTO ts_approver VALUES (1, 2, 1);
+INSERT INTO ts_approver VALUES (2, 2, 3);
+INSERT INTO ts_approver VALUES (3, 2, 4);
+INSERT INTO ts_approver VALUES (4, 2, 5);
+INSERT INTO ts_approver VALUES (5, 2, 6);
+INSERT INTO ts_approver VALUES (6, 2, 7);
 
 INSERT INTO credential VALUES (1, 1, "Admin", "Admin");
 INSERT INTO credential VALUES (2, 2, "tsa", "tsa");
@@ -411,31 +417,84 @@ INSERT INTO credential VALUES (3, 3, "pm", "pm");
 INSERT INTO credential VALUES (4, 4, "re", "re");
 INSERT INTO credential VALUES (5, 5, "hr", "hr");
 INSERT INTO credential VALUES (6, 6, "sup", "sup");
+INSERT INTO credential VALUES (7, 7, "pma", "pma");
 
-INSERT INTO project VALUES (1, "001", "A Cool Project", "Customer name for cool project 1", null, 3, 3, 0);
-INSERT INTO project VALUES (2, "002", "A Cool Project: the sequel", "Customer name for cool project 2", null, 3, 3, 0);
-INSERT INTO project VALUES (10, "10", "HR Codes", "TimeLink", null, 2, 2, 0);
+INSERT INTO project VALUES (1, "001", "TimeLink", "TimeLink", null, 3, 7, 0);
+INSERT INTO project VALUES (2, "002", "Responsible Students", "BCIT", null, 3, 7, 0);
+INSERT INTO project VALUES (3, "003", "Hungry Electron", "BCIT", null, 3, 7, 0);
+INSERT INTO project VALUES (10, "010", "HR Codes", "TimeLink", null, 5, 5, 0);
 
-INSERT INTO prj_emp VALUES (0, 1, 1);
-INSERT INTO prj_emp VALUES (2, 2, 1);
+INSERT INTO prj_emp VALUES (18, 1, 1);
+INSERT INTO prj_emp VALUES (1, 1, 2);
+INSERT INTO prj_emp VALUES (2, 1, 3);
+INSERT INTO prj_emp VALUES (3, 1, 4);
+INSERT INTO prj_emp VALUES (4, 1, 6);
+INSERT INTO prj_emp VALUES (5, 1, 7);
+INSERT INTO prj_emp VALUES (6, 2, 1);
+INSERT INTO prj_emp VALUES (7, 2, 2);
+INSERT INTO prj_emp VALUES (8, 2, 3);
+INSERT INTO prj_emp VALUES (9, 2, 4);
+INSERT INTO prj_emp VALUES (10, 2, 6);
+INSERT INTO prj_emp VALUES (11, 2, 7);
+INSERT INTO prj_emp VALUES (12, 3, 1);
+INSERT INTO prj_emp VALUES (13, 3, 2);
+INSERT INTO prj_emp VALUES (14, 3, 3);
+INSERT INTO prj_emp VALUES (15, 3, 4);
+INSERT INTO prj_emp VALUES (16, 3, 6);
+INSERT INTO prj_emp VALUES (17, 3, 7);
 
-INSERT INTO workpackage VALUES (1, 10, "SICK", null, 4, "Sick Leave", 0, 5);
-INSERT INTO workpackage VALUES (2, 1, "1000000", null, 4, "Part of the cool project", 0, 0);
-INSERT INTO workpackage VALUES (3, 1, "2000000", null, 4, "second part of the cool project", 0, 0);
-INSERT INTO workpackage VALUES (4, 2, "1000000", null, 4, "work package for the cool project the sequel", 0, 0);
-INSERT INTO workpackage VALUES (5, 2, "2000000", null, 4, "second work package for the sequel", 0, 0);
-INSERT INTO workpackage VALUES (6, 10, "FLEX", null, 4, "Flextime", 0, 5);
-INSERT INTO workpackage VALUES (7, 10, "VACA", null, 4, "Vacation", 0, 5);
-INSERT INTO workpackage VALUES (8, 10, "STAT", null, 4, "Statutory Holiday", 0, 5);
-INSERT INTO workpackage VALUES (9, 10, "LDIS", null, 4, "Long-term Disability", 0, 5);
-INSERT INTO workpackage VALUES (10, 10, "SDIS", null, 4, "Short-Term Disability", 0, 5);
+INSERT INTO workpackage VALUES (1, 10, "SICK", null, 5, "Sick Leave", 0, 5);
+INSERT INTO workpackage VALUES (2, 1, "1000000", null, 4, "Inception", 0, 0);
+INSERT INTO workpackage VALUES (3, 1, "2000000", null, 4, "Elaboration", 0, 0);
+INSERT INTO workpackage VALUES (4, 2, "1000000", null, 4, "A Work Package", 0, 0);
+INSERT INTO workpackage VALUES (5, 2, "2000000", null, 4, "Another Work Package", 0, 0);
+INSERT INTO workpackage VALUES (6, 10, "FLEX", null, 5, "Flextime", 0, 5);
+INSERT INTO workpackage VALUES (7, 10, "VACA", null, 5, "Vacation", 0, 5);
+INSERT INTO workpackage VALUES (8, 10, "STAT", null, 5, "Statutory Holiday", 0, 5);
+INSERT INTO workpackage VALUES (9, 10, "LDIS", null, 5, "Long-term Disability", 0, 5);
+INSERT INTO workpackage VALUES (10, 10, "SDIS", null, 5, "Short-Term Disability", 0, 5);
+INSERT INTO workpackage VALUES (11, 1, "3000000", null, 4, "Construction", 0, 0);
+INSERT INTO workpackage VALUES (12, 1, "4000000", null, 4, "Transition", 0, 0);
+INSERT INTO workpackage VALUES (13, 1, "2100000", null, 4, "Software Development Plan", 0, 0);
+INSERT INTO workpackage VALUES (14, 1, "2F00000", null, 4, "Use Cases", 0, 0);
 
-INSERT INTO wp_emp VALUES (3, 2, 1);
-INSERT INTO wp_emp VALUES (4, 3, 1);
-INSERT INTO wp_emp VALUES (5, 4, 1);
+INSERT INTO wp_emp VALUES (18, 4, 1);
+INSERT INTO wp_emp VALUES (1, 4, 2);
+INSERT INTO wp_emp VALUES (2, 4, 3);
+INSERT INTO wp_emp VALUES (3, 4, 4);
+INSERT INTO wp_emp VALUES (4, 4, 6);
+INSERT INTO wp_emp VALUES (5, 4, 7);
+INSERT INTO wp_emp VALUES (6, 2, 1);
+INSERT INTO wp_emp VALUES (7, 2, 2);
+INSERT INTO wp_emp VALUES (8, 2, 3);
+INSERT INTO wp_emp VALUES (9, 2, 4);
+INSERT INTO wp_emp VALUES (10, 2, 6);
+INSERT INTO wp_emp VALUES (11, 2, 7);
+INSERT INTO wp_emp VALUES (12, 3, 1);
+INSERT INTO wp_emp VALUES (13, 3, 2);
+INSERT INTO wp_emp VALUES (14, 3, 3);
+INSERT INTO wp_emp VALUES (15, 3, 4);
+INSERT INTO wp_emp VALUES (16, 3, 6);
+INSERT INTO wp_emp VALUES (17, 3, 7);
+INSERT INTO wp_emp VALUES (20, 5, 3);
+INSERT INTO wp_emp VALUES (21, 5, 4);
+INSERT INTO wp_emp VALUES (22, 5, 7);
+INSERT INTO wp_emp VALUES (23, 11, 3);
+INSERT INTO wp_emp VALUES (24, 11, 4);
+INSERT INTO wp_emp VALUES (25, 12, 3);
+INSERT INTO wp_emp VALUES (26, 12, 4);
+INSERT INTO wp_emp VALUES (27, 13, 3);
+INSERT INTO wp_emp VALUES (28, 13, 4);
+INSERT INTO wp_emp VALUES (29, 14, 3);
+INSERT INTO wp_emp VALUES (30, 14, 4);
 
 INSERT INTO labour_grade VALUES (1, 2017, "P1", 100);
 INSERT INTO labour_grade VALUES (2, 2017, "P2", 200);
 INSERT INTO labour_grade VALUES (3, 2017, "P3", 300);
 INSERT INTO labour_grade VALUES (4, 2017, "P4", 400);
 INSERT INTO labour_grade VALUES (5, 2017, "P5", 500);
+INSERT INTO labour_grade VALUES (6, 2018, "P1", 150);
+INSERT INTO labour_grade VALUES (7, 2018, "P2", 250);
+INSERT INTO labour_grade VALUES (8, 2018, "P3", 350);
+INSERT INTO labour_grade VALUES (9, 2018, "P4", 450);
+INSERT INTO labour_grade VALUES (10, 2018, "P5", 550);
