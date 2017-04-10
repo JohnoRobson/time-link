@@ -28,6 +28,12 @@ public class AdminMessageController implements Serializable {
   private String content;
   private boolean isRead;
   private List<AdminMessage> adList;
+  
+  public AdminMessageController() {}
+  
+  public AdminMessageController(AdminMessageManager am) {
+	  this.am = am;
+  }
 
   public List<AdminMessage> getAdList() {
     return am.getAll();
@@ -91,8 +97,8 @@ public class AdminMessageController implements Serializable {
       am.persist(newMessage);
       RequestContext.getCurrentInstance().reset("form:panel");
     } catch (Exception e) {
-
-    }
+    	
+    } 
   }
 
 

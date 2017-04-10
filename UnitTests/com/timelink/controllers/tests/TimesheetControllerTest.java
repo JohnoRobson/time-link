@@ -13,9 +13,14 @@ import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.Timesheet;
 import com.timelink.ejbs.TimesheetRow;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.ProjectManager;
 import com.timelink.managers.TimesheetManager;
 import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.FlextimeService;
+import com.timelink.services.HRProjectService;
+import com.timelink.services.TimesheetCopyService;
+import com.timelink.services.VacationService;
 import com.timelink.services.WeekNumberService;
 
 import static org.mockito.Mockito.mock;
@@ -28,6 +33,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.inject.Inject;
 public class TimesheetControllerTest {
 	
 	private TimesheetController testController;
@@ -36,6 +43,11 @@ public class TimesheetControllerTest {
 	private Session ses;
 	private ProjectManager pm;
 	private WeekNumberService wns;
+	private HRProjectService hrps;
+	private EmployeeManager em;
+	private FlextimeService fts;
+	private VacationService vs;
+	private TimesheetCopyService timesheetCopyService; 
 	
 	@Before
 	public void setUp() throws Exception {
@@ -44,7 +56,12 @@ public class TimesheetControllerTest {
 		this.ses = mock(Session.class);
 		this.pm = mock(ProjectManager.class);
 		this.wns = mock(WeekNumberService.class);
-		testController = new TimesheetController(tm, wpm, ses, pm, wns);
+		this.hrps = mock(HRProjectService.class);
+		this.em = mock(EmployeeManager.class);
+		this.fts = mock(FlextimeService.class);
+		this.vs = mock(VacationService.class);
+		this.timesheetCopyService = mock(TimesheetCopyService.class);
+		testController = new TimesheetController(tm, wpm, ses, pm, wns, hrps, em, fts, vs, timesheetCopyService);
 	}
 
 	@Test
@@ -56,16 +73,38 @@ public class TimesheetControllerTest {
 	}
 
 	@Test
-	public void testSubmit() {
+	public void testSubmit_InFirstIF_InSecondIF() {
 		Timesheet mockTimesheet = mock(Timesheet.class);
 		testController.setSelectedTimesheet(mockTimesheet);
+		when(mockTimesheet.isValid()).thenReturn(true);
 		when(mockTimesheet.getStatus()).thenReturn(TimesheetStatus.NOTSUBMITTED.toString());
 		assertEquals(null, testController.submit());
-		verify(mockTimesheet).calculateFlexAndOvertime();
-		verify(mockTimesheet).setStatus(any());
+		verify(fts).claimFlextime(mockTimesheet);
+		verify(vs).claimVacation(mockTimesheet);
+	}
+	
+	@Test
+	public void testSubmit_InFirstIF_OutsideSecondIF() {
+		Timesheet mockTimesheet = mock(Timesheet.class);
+		testController.setSelectedTimesheet(mockTimesheet);
+		when(mockTimesheet.isValid()).thenReturn(false);
+		when(mockTimesheet.getStatus()).thenReturn(TimesheetStatus.NOTSUBMITTED.toString());
+		assertEquals(null, testController.submit());
+		verify(fts, never()).claimFlextime(mockTimesheet);
+		verify(vs, never()).claimVacation(mockTimesheet);
 	}
 
-
+	@Test
+	public void testSubmit_Outside_FirstIF() {
+		Timesheet mockTimesheet = mock(Timesheet.class);
+		testController.setSelectedTimesheet(mockTimesheet);
+		when(mockTimesheet.isValid()).thenReturn(true);
+		when(mockTimesheet.getStatus()).thenReturn(TimesheetStatus.APPROVED.toString());
+		assertEquals(null, testController.submit());
+		verify(fts, never()).claimFlextime(mockTimesheet);
+		verify(vs, never()).claimVacation(mockTimesheet);
+	}
+	
 	@Test
 	public void testAddTimesheet() {
 		testController.setSelectedTimesheet(new Timesheet());

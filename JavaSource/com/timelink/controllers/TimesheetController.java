@@ -63,7 +63,7 @@ public class TimesheetController implements Serializable {
    * @param timesheetCopyService a timesheetCopyService
    */
   public TimesheetController(TimesheetManager tm, WorkPackageManager wpm, Session ses,
-      ProjectManager pm, WeekNumberService weekNumberService, HRProjectService hrps, 
+      ProjectManager pm, WeekNumberService weekNumberService, HRProjectService hrps, EmployeeManager em,
       FlextimeService fts, VacationService vs, TimesheetCopyService timesheetCopyService) {
     this.tm = tm;
     this.wpm = wpm;
@@ -71,6 +71,7 @@ public class TimesheetController implements Serializable {
     this.pm = pm;
     this.weekNumberService = weekNumberService;
     this.hrps = hrps;
+    this.em = em;
     this.fts = fts;
     this.vs = vs;
     this.timesheetCopyService = timesheetCopyService;
