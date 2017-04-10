@@ -16,7 +16,7 @@ public class HRProjectService implements HRProjectServiceInterface {
   private ProjectManager pm;
   private WorkPackageManager wpm;
   
-  final String HR_PROJECT_NAME = "10";
+  final String HR_PROJECT_NAME = "010";
   final String HR_VACATION_NAME = "VACA";
   final String HR_SICKDAY_NAME = "SICK";
   final String HR_FLEXTIME_NAME = "FLEX";
