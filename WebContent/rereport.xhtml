@@ -25,6 +25,12 @@
 			                	<f:selectItems value="#{LabourReportController.workPackages}"
 			                	    var="workpackage" itemLabel="#{workpackage.code}" itemValue="#{workpackage.workPackageId}"/>
 			                </p:selectOneMenu>
+			                <h:outputText styleClass="reportText" value="Report:" />
+			                <p:selectOneMenu value="#{LabourReportController.selectedDate}" onchange="submit()">
+		    	                <f:selectItem itemLabel="" itemValue=" "/>
+                	            <f:selectItems value="#{LabourReportController.weeks}"
+                	                var="week" itemLabel="#{week}" itemValue="#{week}"/>
+                            </p:selectOneMenu>
 		                    <h:outputText value="WP:" styleClass="projLabel" />
 		                    <h:outputText styleClass="projLabel" value="#{LabourReportController.selectedWorkPackage.workPackageId}" />
 		                    <h:outputText styleClass="projLabel" value="WP Code:" />
@@ -51,29 +57,29 @@
 		                        </f:facet>
 		                    </p:column>
 		                    <p:column headerText="Budgeted:" >
-		                        <h:outputText value="#{LabourReportController.selectedWorkPackage
-		                        .getPlannedHourFromLabourGrade(lg.labourGradeId).manDay}" />
+		                        <h:outputText value="#{LabourReportController
+                                   .getBudgetedHourByLabourGrade(lg.labourGradeId)}" />
 		                        <f:facet name="footer">
-		                            <h:outputText value="#{LabourReportController.getTotalBudgeted()}" />
+		                            <h:outputText value="#${LabourReportController.getTotalBudgeted()}" />
 		                        </f:facet>
 		                    </p:column>
 		                    <p:column headerText="Estimate to Complete:" >
-		                        <h:outputText value="#{LabourReportController.selectedWorkPackage
-		                        .getEstimatedHourFromLabourGrade(lg.labourGradeId).manDay}" />
+		                        <h:outputText value="#{LabourReportController
+                                    .getEstimatedHourByLabourGrade(lg.labourGradeId)}" />
 		                        <f:facet name="footer">
-		                            <h:outputText value="#{LabourReportController.getTotalEstimated()}" />
+		                            <h:outputText value="$#{LabourReportController.getTotalEstimated()}" />
 		                        </f:facet>
 		                    </p:column>
 		                    <p:column headerText="Estimate at Completion:" >
 		                        <h:outputText value="#{LabourReportController.getBudgetToComplete(lg.labourGradeId)}" />
 		                        <f:facet name="footer">
-		                            <h:outputText value="#{LabourReportController.getTotalBudgetedToComplete()}" />
+		                            <h:outputText value="$#{LabourReportController.getTotalBudgetedToComplete()}" />
 		                        </f:facet>
 		                    </p:column>
 		                    <p:column headerText="Variance:" >
 		                        <h:outputText value="#{LabourReportController.getVariance(lg.labourGradeId)}" />
 		                        <f:facet name="footer">
-		                            <h:outputText value="#{LabourReportController.getTotalVariance()}" />
+		                            <h:outputText value="$#{LabourReportController.getTotalVariance()}" />
 		                        </f:facet>
 		                    </p:column>
 		                    <p:column headerText="Variance Percent:" >

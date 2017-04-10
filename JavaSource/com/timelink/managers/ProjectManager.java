@@ -66,6 +66,31 @@ public class ProjectManager {
         .getResultList();  
   }
   
+  /**
+   * Returns a list of all projects that have a project manager with the specified id.
+   * @param empId The id to be searched for.
+   * @return A List of all projects managed by an project manager with id id.
+   */
+  public List<Project> findByProjectManagerAssistant(int empId) {
+    return em.createQuery("SELECT p FROM Project as p "
+        + "WHERE p.projectManagerAssistant.employeeId = :empId", Project.class)
+        .setParameter("empId", empId)
+        .getResultList();  
+  }
+  
+  /**
+   * Returns a list of all projects that have a project manager with the specified id.
+   * @param empId The id to be searched for.
+   * @return A List of all projects managed by an project manager with id id.
+   */
+  public List<Project> findByProjectManagerAndAssistant(int empId) {
+    return em.createQuery("SELECT DISTINCT p FROM Project as p "
+        + "WHERE p.projectManagerAssistant.employeeId = :empId "
+        + "OR p.projectManager.employeeId = :empId", Project.class)
+        .setParameter("empId", empId)
+        .getResultList();  
+  }
+  
   public void flush() {
     em.flush();
   }

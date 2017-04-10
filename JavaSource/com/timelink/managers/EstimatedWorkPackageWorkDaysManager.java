@@ -130,6 +130,102 @@ public class EstimatedWorkPackageWorkDaysManager {
       return null;
     }
   }
+  
+  /**
+   * Returns the latest EstimatedWorkPackageWorkDays that is for the given parameters.
+   * @param wp The WorkPackage that the EstimatedWorkPackageWorkDays is for.
+   * @return EstimatedWorkPackageWorkDays or null if one is not found.
+   */
+  public EstimatedWorkPackageWorkDays findLatest(WorkPackage wp) {
+    try {
+      TypedQuery<EstimatedWorkPackageWorkDays> query
+          = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageWorkDays AS ew, "
+          + "WorkPackage AS wp WHERE "
+          + "wp.workPackageId = :wpId "
+          + "ORDER BY ew.dateCreated DESC", EstimatedWorkPackageWorkDays.class)
+          .setParameter("wpId", wp.getWorkPackageId())
+          .setMaxResults(1);
+      if (query.getResultList().size() > 0) {
+        return query.getSingleResult();
+      } else {
+        return null;
+      }
+    } catch (PersistenceException ex) {
+      return null;
+    }
+  }
+  
+  /**
+   * Returns the latest EstimatedWorkPackageWorkDays that is for the given parameters.
+   * @param project the project that the EstimatedWorkPackageWorkDays is for.
+   * @return EstimatedWorkPackageWorkDays or null if one is not found.
+   */
+  public EstimatedWorkPackageWorkDays findLatest(Project project) {
+    try {
+      TypedQuery<EstimatedWorkPackageWorkDays> query
+          = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageWorkDays AS ew, "
+          + "WorkPackage AS wp WHERE "
+          + "wp.project.projectNumber = :prjNum "
+          + "ORDER BY ew.dateCreated DESC", EstimatedWorkPackageWorkDays.class)
+          .setParameter("prjNum", project.getProjectNumber())
+          .setMaxResults(1);
+      if (query.getResultList().size() > 0) {
+        return query.getSingleResult();
+      } else {
+        return null;
+      }
+    } catch (PersistenceException ex) {
+      return null;
+    }
+  }
+  
+  /**
+   * Returns the earliest EstimatedWorkPackageWorkDays that is for the given parameters.
+   * @param wp The WorkPackage that the EstimatedWorkPackageWorkDays is for.
+   * @return EstimatedWorkPackageWorkDays or null if one is not found.
+   */
+  public EstimatedWorkPackageWorkDays findEarliest(WorkPackage wp) {
+    try {
+      TypedQuery<EstimatedWorkPackageWorkDays> query
+          = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageWorkDays AS ew, "
+          + "WorkPackage AS wp WHERE "
+          + "wp.workPackageId = :wpId "
+          + "ORDER BY ew.dateCreated ASC", EstimatedWorkPackageWorkDays.class)
+          .setParameter("wpId", wp.getWorkPackageId())
+          .setMaxResults(1);
+      if (query.getResultList().size() > 0) {
+        return query.getSingleResult();
+      } else {
+        return null;
+      }
+    } catch (PersistenceException ex) {
+      return null;
+    }
+  }
+  
+  /**
+   * Returns the earliest EstimatedWorkPackageWorkDays that is for the given parameters.
+   * @param project The WorkPackage that the EstimatedWorkPackageWorkDays is for.
+   * @return EstimatedWorkPackageWorkDays or null if one is not found.
+   */
+  public EstimatedWorkPackageWorkDays findEarliest(Project project) {
+    try {
+      TypedQuery<EstimatedWorkPackageWorkDays> query
+          = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageWorkDays AS ew, "
+          + "WorkPackage AS wp WHERE "
+          + "wp.project.projectNumber = :prjNum "
+          + "ORDER BY ew.dateCreated ASC", EstimatedWorkPackageWorkDays.class)
+          .setParameter("prjNum", project.getProjectNumber())
+          .setMaxResults(1);
+      if (query.getResultList().size() > 0) {
+        return query.getSingleResult();
+      } else {
+        return null;
+      }
+    } catch (PersistenceException ex) {
+      return null;
+    }
+  }
  
   
   public void persist(EstimatedWorkPackageWorkDays ew) {

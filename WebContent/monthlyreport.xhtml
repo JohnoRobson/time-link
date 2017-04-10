@@ -26,7 +26,13 @@
                 	    		var="project" itemLabel="#{project.projectName}" 
                 	    		itemValue="#{project.projectNumber}"/>
                 		</p:selectOneMenu>
-    				</h:panelGrid>            
+                		<h:outputText value="Month: " />
+                		<p:selectOneMenu value="#{MonthlyReportController.selectedDate}" onchange="submit()">
+		    	            <f:selectItem itemLabel="" itemValue=" "/>
+                	        <f:selectItems value="#{MonthlyReportController.getMonths()}"
+                	            var="month" itemLabel="#{month}" itemValue="#{month}"/>
+                        </p:selectOneMenu>
+    				</h:panelGrid>
     			</div>
                 <p:dataTable value="#{MonthlyReportController.getWorkPackages()}" var="workpackage" styleClass="wpElementWrap">
                     <p:column styleClass="tsHeader">

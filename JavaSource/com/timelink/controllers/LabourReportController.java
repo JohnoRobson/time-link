@@ -1,9 +1,7 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
-import com.timelink.ejbs.BudgetedWorkPackageWorkDays;
 import com.timelink.ejbs.EstimatedWorkPackageWorkDays;
-import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
@@ -12,9 +10,14 @@ import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.HoursManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.LabourService;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -31,11 +34,13 @@ public class LabourReportController implements Serializable {
   @Inject EstimatedWorkPackageWorkDaysManager ewm;
   @Inject LabourGradeManager lgm;
   @Inject HoursManager hm;
+  @Inject LabourService ls;
   
   private Project selectedProject;
   private WorkPackage selectedWorkPackage;
   private int projectId;
   private Integer workPackageId;
+  private Integer selectedDate;
   
   public LabourReportController() {}
   
@@ -119,6 +124,22 @@ public class LabourReportController implements Serializable {
   }
 
   /**
+   * Get the selectedDate.
+   * @return the selectedDate
+   */
+  public Integer getSelectedDate() {
+    return selectedDate;
+  }
+
+  /**
+   * Sets the selectedDate to selectedDate.
+   * @param selectedDate the selectedDate to set
+   */
+  public void setSelectedDate(Integer selectedDate) {
+    this.selectedDate = selectedDate;
+  }
+
+  /**
    * Get all work packages that are assigned to the current
    * employee.
    * @return list of all work packages assigned to current employee
@@ -136,11 +157,78 @@ public class LabourReportController implements Serializable {
   }
   
   /**
+   * Return the week of year of a given date.
+   * @param date to get week of year of
+   * @return week number
+   */
+  private Integer getWeekOf(Date date) {
+    Calendar ca = Calendar.getInstance();
+    ca.setTime(date);
+    ca.setFirstDayOfWeek(Calendar.SATURDAY);
+    return ca.get(Calendar.WEEK_OF_YEAR);
+  }
+  
+  /**
+   * Return possible weeks to select report by.
+   * @return Date to select report by
+   */
+  public List<Integer> getWeeks() {
+    if (selectedWorkPackage != null) {
+      List<Integer> weeks = new ArrayList<Integer>();
+      Date latest = ewm.findLatest(selectedWorkPackage).getDateCreated();
+      Date earliest = ewm.findEarliest(selectedWorkPackage).getDateCreated();
+      Integer latestInt = getWeekOf(latest);
+      Integer earliestInt = getWeekOf(earliest);
+      if (latestInt == earliestInt) {
+        weeks.add(latestInt);
+      } else {
+        while (earliestInt != latestInt) {
+          weeks.add(earliestInt++);
+        }
+      }
+      return weeks;
+    }
+    return null;
+  }
+  
+  /**
+   * Return start date of week number.
+   * @param date to get date of
+   * @return start date of week number
+   */
+  public Date getStartDateFromWeek(Integer date) {
+    Calendar ca = new GregorianCalendar();
+    ca.setFirstDayOfWeek(Calendar.SATURDAY);
+    ca.set(Calendar.WEEK_OF_YEAR, date);        
+    ca.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY); 
+    ca.set(Calendar.HOUR, 0);
+    ca.set(Calendar.MINUTE, 0);
+    ca.set(Calendar.SECOND, 0);
+    return ca.getTime();
+  }
+  
+  /**
+   * Return start date of week number.
+   * @param date to get date of
+   * @return start date of week number
+   */
+  public Date getEndDateFromWeek(Integer date) {
+    Calendar ca = new GregorianCalendar();
+    ca.setFirstDayOfWeek(Calendar.SATURDAY);
+    ca.set(Calendar.WEEK_OF_YEAR, date);        
+    ca.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+    ca.set(Calendar.HOUR, 22);
+    ca.set(Calendar.MINUTE, 58);
+    ca.set(Calendar.SECOND, 58);
+    return ca.getTime();
+  }
+  
+  /**
    * Return the most recent date of the estimated hours.
    * @return most recent date from estimated hours
    */
   public Date getDate() {
-    if (selectedWorkPackage != null) {
+    if (selectedWorkPackage != null && selectedDate != null) {
       List<EstimatedWorkPackageWorkDays> el = 
           ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
       Date mostRecent = new Date();
@@ -159,9 +247,23 @@ public class LabourReportController implements Serializable {
    * @param labourGradeId The labourGradeId to be searched
    * @return A BudgetedWorkPackageHours
    */
-  public BudgetedWorkPackageWorkDays getBudgetedHourByLabourGrade(int labourGradeId) {
-    if (selectedWorkPackage != null) {
-      //return bwm.find(selectedWorkPackage, labourGradeId);
+  public Integer getBudgetedHourByLabourGrade(int labourGradeId) {
+    if (selectedWorkPackage != null && selectedDate != null) {
+      return ls.getBudgeted(selectedWorkPackage, labourGradeId);
+    }
+    return null;
+  }
+  
+  /**
+   * Returns a BudgetedWorkPackageHours with the given labourGradeId.
+   * @param labourGradeId The labourGradeId to be searched
+   * @return A BudgetedWorkPackageHours
+   */
+  public Integer getEstimatedHourByLabourGrade(int labourGradeId) {
+    if (selectedWorkPackage != null && selectedDate != null) {
+      return ls.getEstimated(selectedWorkPackage, labourGradeId,
+          getStartDateFromWeek(selectedDate),
+          getEndDateFromWeek(selectedDate));
     }
     return null;
   }
@@ -173,15 +275,10 @@ public class LabourReportController implements Serializable {
    * @return estimatedHours minus the actual hours
    */
   public Float getBudgetToComplete(Integer labourGradeId) {
-    if (selectedWorkPackage != null) {
-      float total = 0;
-      List<Hours> result = hm.find(selectedWorkPackage.getProject().getProjectNumber(),
-          selectedWorkPackage.getWorkPackageId(), labourGradeId);
-      for (Hours h : result) {
-        total += h.getHour();
-      }
-      return (total / 8) + selectedWorkPackage
-          .getEstimatedHourFromLabourGrade(labourGradeId).getManDay();
+    if (selectedWorkPackage != null && selectedDate != null) {
+      return ls.getBudgetToComplete(selectedWorkPackage, labourGradeId,
+          getStartDateFromWeek(selectedDate),
+          getEndDateFromWeek(selectedDate));
     }
     return null;
   }
@@ -192,8 +289,8 @@ public class LabourReportController implements Serializable {
    * @return man days from found planned hour
    */
   public Integer getManDaysForLabourGrade(Integer labourGradeId) {
-    if (selectedWorkPackage != null) {
-      return selectedWorkPackage.getPlannedHourFromLabourGrade(labourGradeId).getManDay();
+    if (selectedWorkPackage != null && selectedDate != null) {
+      return ls.getManDaysForLabourGrade(selectedWorkPackage, labourGradeId);
     }
     return null;
   }
@@ -205,9 +302,10 @@ public class LabourReportController implements Serializable {
    * @return Float variance between timesheet hours and estimated time
    */
   public Float getVariance(Integer labourGradeId) {
-    if (selectedWorkPackage != null) {
-      return getManDaysForLabourGrade(labourGradeId)
-          - getBudgetToComplete(labourGradeId);
+    if (selectedWorkPackage != null && selectedDate != null) {
+      return ls.getVariance(selectedWorkPackage, labourGradeId,
+          getStartDateFromWeek(selectedDate),
+          getEndDateFromWeek(selectedDate));
     }
     return null;
   }
@@ -220,10 +318,11 @@ public class LabourReportController implements Serializable {
    */
   public Float getVariancePercent(Integer labourGradeId) {
     Integer plannedHours = getManDaysForLabourGrade(labourGradeId);
-    if (selectedWorkPackage != null && plannedHours != null && plannedHours.intValue() != 0) {
+    if (selectedWorkPackage != null && plannedHours != null && plannedHours.intValue() != 0
+        && selectedDate != null) {
       return getVariance(labourGradeId) / plannedHours;
     }
-    return null;
+    return null; 
   }
   
   /**
@@ -231,10 +330,10 @@ public class LabourReportController implements Serializable {
    * @return total labour cost of work package budget
    */
   public Float getTotalBudgeted() {
-    if (selectedWorkPackage != null) {
+    if (selectedWorkPackage != null && selectedDate != null) {
       Float total = new Float(0);
       for (LabourGrade lb : lgm.getAllLabourGrades()) {
-        total += getManDaysForLabourGrade(lb.getLabourGradeId()) * lb.getCostRate();
+        total += getBudgetedHourByLabourGrade(lb.getLabourGradeId()) * lb.getCostRate();
       }
       return total;
     }
@@ -246,11 +345,10 @@ public class LabourReportController implements Serializable {
    * @return total labour cost of work package estimation
    */
   public Float getTotalEstimated() {
-    if (selectedWorkPackage != null) {
+    if (selectedWorkPackage != null && selectedDate != null) {
       Float total = new Float(0);
       for (LabourGrade lb : lgm.getAllLabourGrades()) {
-        total += selectedWorkPackage.getEstimatedHourFromLabourGrade(lb.getLabourGradeId())
-            .getManDay() * lb.getCostRate();
+        total += getEstimatedHourByLabourGrade(lb.getLabourGradeId()) * lb.getCostRate();
       }
       return total;
     }
@@ -262,7 +360,7 @@ public class LabourReportController implements Serializable {
    * @return total labour cost of work package budgeted to complete
    */
   public Float getTotalBudgetedToComplete() {
-    if (selectedWorkPackage != null) {
+    if (selectedWorkPackage != null && selectedDate != null) {
       Float total = new Float(0);
       for (LabourGrade lb : lgm.getAllLabourGrades()) {
         total += getBudgetToComplete(lb.getLabourGradeId()) * lb.getCostRate();
@@ -277,7 +375,7 @@ public class LabourReportController implements Serializable {
    * @return total labour cost of work package budgeted to complete
    */
   public Float getTotalVariance() {
-    if (selectedWorkPackage != null) {
+    if (selectedWorkPackage != null && selectedDate != null) {
       Float total = new Float(0);
       for (LabourGrade lb : lgm.getAllLabourGrades()) {
         total += getVariance(lb.getLabourGradeId()) * lb.getCostRate();
@@ -292,7 +390,7 @@ public class LabourReportController implements Serializable {
    * @return total variance percent of a work package
    */
   public Float getTotalVariancePercent() {
-    if (selectedWorkPackage != null) {
+    if (selectedWorkPackage != null && selectedDate != null) {
       Float total = new Float(0);
       Float check = new Float(0);
       int counter = 0;

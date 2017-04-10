@@ -235,11 +235,15 @@ public class WorkPackage implements Serializable {
     return new ArrayList<BudgetedWorkPackageWorkDays>();
   }
   
+  /**
+   * Sets the planned hours.
+   * @param plannedHours planned hours to set 
+   */
   public void setPlannedHours(List<BudgetedWorkPackageWorkDays> plannedHours) {
     if (plannedHours != null) {
-        this.plannedHours = new HashSet<BudgetedWorkPackageWorkDays>(plannedHours);
+      this.plannedHours = new HashSet<BudgetedWorkPackageWorkDays>(plannedHours);
     } else {
-        this.plannedHours = new HashSet<BudgetedWorkPackageWorkDays>();
+      this.plannedHours = new HashSet<BudgetedWorkPackageWorkDays>();
     }
     
   }
@@ -290,6 +294,34 @@ public class WorkPackage implements Serializable {
     return hour;
   }
   
+  /**
+   * Returns the PlannedHour in this WorkPackage that have
+   * the specified labourGradeId.
+   * @param labourGradeId The labourGrade to be searched.
+   * @return The PlannedHour in this WorkPackage with the 
+   *     specified Id.
+   */
+  public BudgetedWorkPackageWorkDays getPlannedHourFromLabourGrade(
+      Integer labourGradeId, Integer week) {
+    BudgetedWorkPackageWorkDays hour = new BudgetedWorkPackageWorkDays();
+    
+    for (BudgetedWorkPackageWorkDays h : plannedHours) {
+      if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
+        hour = h;
+        break;
+      }
+    }
+    
+    if (hour.getLabourGrade() == null) {
+      LabourGrade lg = new LabourGrade();
+      lg.setLabourGradeId(labourGradeId);
+      hour.setLabourGrade(lg);
+      hour.setWorkPackageLineId(this);
+      plannedHours.add(hour);
+    }
+    
+    return hour;
+  }
   
   /**
    * Removes the plannedHour with the specified labourGradeId.

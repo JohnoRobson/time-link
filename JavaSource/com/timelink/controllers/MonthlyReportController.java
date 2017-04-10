@@ -1,15 +1,21 @@
 package com.timelink.controllers;
 
 import com.timelink.Session;
+import com.timelink.ejbs.EstimatedWorkPackageWorkDays;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Project;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.managers.EstimatedWorkPackageWorkDaysManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.ProjectManager;
-
-import org.primefaces.component.datatable.DataTable;
+import com.timelink.managers.WorkPackageManager;
+import com.timelink.services.LabourService;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -21,12 +27,16 @@ import javax.inject.Named;
 @Named("MonthlyReportController")
 public class MonthlyReportController implements Serializable {
   @Inject LabourGradeManager lgm;
+  @Inject WorkPackageManager wpm;
+  @Inject EstimatedWorkPackageWorkDaysManager ewm;
   @Inject LabourReportController lrc;
   @Inject ProjectManager pm;
   @Inject Session ses;
+  @Inject LabourService ls;
   
   private Project selectedProject;
   private int projectId;
+  private Integer selectedDate;
   
   /**
    * Report the selectedProject.
@@ -62,12 +72,62 @@ public class MonthlyReportController implements Serializable {
   }
   
   /**
+   * Return the selecteDate.
+   * @return the selectedDate
+   */
+  public Integer getSelectedDate() {
+    return selectedDate;
+  }
+
+  /**
+   * Set the selectedDate to selectedDate.
+   * @param selectedDate the selectedDate to set
+   */
+  public void setSelectedDate(Integer selectedDate) {
+    this.selectedDate = selectedDate;
+  }
+
+  /**
    * Get all projects currently managed by this Employee.
    * @return list of projects
    */
   public List<Project> getProjects() {
-    return pm.findByProjectManager(ses.getCurrentEmployee()
-        .getEmployeeId());
+    if (ses.isProjectManager() && ses.isProjectManagerAssistant()) {
+      return pm.findByProjectManagerAndAssistant(ses.getCurrentEmployee().getEmployeeId());
+    } else if (ses.isProjectManager()) {
+      return pm.findByProjectManager(ses.getCurrentEmployee().getEmployeeId());
+    } else if (ses.isProjectManagerAssistant()) {
+      return pm.findByProjectManagerAssistant(ses.getCurrentEmployee().getEmployeeId());
+    }
+    return null;
+  }
+  
+  /**
+   * Return possible months to select report by.
+   * @return Months to select report by
+   */
+  public List<Integer> getMonths() {
+    if (selectedProject != null) {
+      Calendar ca = Calendar.getInstance();
+      List<Integer> months = new ArrayList<Integer>();
+      EstimatedWorkPackageWorkDays latest = ewm.findLatest(selectedProject);
+      EstimatedWorkPackageWorkDays earliest = ewm.findEarliest(selectedProject);
+      if (latest != null && earliest != null) {
+        ca.setTime(latest.getDateCreated());
+        Integer latestInt = ca.get(Calendar.MONTH);
+        ca.setTime(earliest.getDateCreated());
+        Integer earliestInt = ca.get(Calendar.MONTH);
+        if (latestInt == earliestInt) {
+          months.add(latestInt);
+        } else {
+          while (earliestInt != latestInt) {
+            months.add(earliestInt++);
+          }
+        }
+        return months;
+      }
+    }
+    return null;
   }
   
   /**
@@ -75,10 +135,34 @@ public class MonthlyReportController implements Serializable {
    * @return list of work packages
    */
   public List<WorkPackage> getWorkPackages() {
-    if (selectedProject != null) {
+    if (selectedProject != null && selectedDate != null) {
       return selectedProject.getWorkPackages();
     }
     return null;
+  }
+  
+  /**
+   * Return the start date of month number.
+   * @param month to get date of
+   * @return start date of week number
+   */
+  public Date getStartDateFromMonth(Integer month) {
+    Calendar ca = new GregorianCalendar();
+    ca.set(Calendar.MONTH, month);
+    ca.set(Calendar.DAY_OF_MONTH, 1);
+    return ca.getTime();
+  }
+  
+  /**
+   * Return start date of month number.
+   * @param month to get date of
+   * @return start date of month number
+   */
+  public Date getEndDateFromMonth(Integer month) {
+    Calendar ca = new GregorianCalendar();
+    ca.set(Calendar.MONTH, month);
+    ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+    return ca.getTime();
   }
   
   /**
@@ -87,11 +171,9 @@ public class MonthlyReportController implements Serializable {
    * @return total workpackage budget
    */
   public Integer getBudgeted(WorkPackage workPackage) {
-    lrc.setSelectedProject(selectedProject);
-    lrc.setSelectedWorkPackage(workPackage);
     Integer budget = new Integer(0);
     for (LabourGrade lb : lgm.getAllLabourGrades()) {
-      budget += workPackage.getPlannedHourFromLabourGrade(lb.getLabourGradeId()).getManDay();
+      budget += ls.getBudgeted(workPackage, lb.getLabourGradeId());
     }
     return budget;
   }
@@ -102,11 +184,10 @@ public class MonthlyReportController implements Serializable {
    * @return total estimated budget
    */
   public Integer getEstimated(WorkPackage workPackage) {
-    lrc.setSelectedProject(selectedProject);
-    lrc.setSelectedWorkPackage(workPackage);
     Integer estimated = new Integer(0);
     for (LabourGrade lb : lgm.getAllLabourGrades()) {
-      estimated += workPackage.getEstimatedHourFromLabourGrade(lb.getLabourGradeId()).getManDay();
+      estimated += ls.getEstimated(workPackage, lb.getLabourGradeId(),
+          getStartDateFromMonth(selectedDate), getEndDateFromMonth(selectedDate));
     }
     return estimated;
   }
@@ -117,11 +198,10 @@ public class MonthlyReportController implements Serializable {
    * @return total budget to complete
    */
   public Float getBudgetToComplete(WorkPackage workPackage) {
-    lrc.setSelectedProject(selectedProject);
-    lrc.setSelectedWorkPackage(workPackage);
     Float complete = new Float(0);
     for (LabourGrade lb : lgm.getAllLabourGrades()) {
-      complete += lrc.getBudgetToComplete(lb.getLabourGradeId());
+      complete += ls.getBudgetToComplete(workPackage, lb.getLabourGradeId(),
+          getStartDateFromMonth(selectedDate), getEndDateFromMonth(selectedDate));
     }
     return complete;
   }
@@ -132,8 +212,14 @@ public class MonthlyReportController implements Serializable {
    * @return total budgeted hours
    */
   public Float getTotalBudgeted(WorkPackage workPackage) {
-    lrc.setSelectedWorkPackage(workPackage);
-    return lrc.getTotalBudgeted();
+    if (selectedDate != null) {
+      Float total = new Float(0);
+      for (LabourGrade lb : lgm.getAllLabourGrades()) {
+        total += ls.getBudgeted(workPackage, lb.getLabourGradeId()) * lb.getCostRate();
+      }
+      return total;
+    }
+    return null;
   }
   
   /**
@@ -142,8 +228,16 @@ public class MonthlyReportController implements Serializable {
    * @return total estimated hours
    */
   public Float getTotalEstimated(WorkPackage workPackage) {
-    lrc.setSelectedWorkPackage(workPackage);
-    return lrc.getTotalEstimated();
+    if (selectedDate != null) {
+      Float total = new Float(0);
+      for (LabourGrade lb : lgm.getAllLabourGrades()) {
+        total += ls.getEstimated(workPackage, lb.getLabourGradeId(),
+            getStartDateFromMonth(selectedDate), 
+            getEndDateFromMonth(selectedDate)) * lb.getCostRate();
+      }
+      return total;
+    }
+    return null;
   }
   
   /**
@@ -152,9 +246,16 @@ public class MonthlyReportController implements Serializable {
    * @return total budget to complete
    */
   public Float getTotalBudgetToComplete(WorkPackage workPackage) {
-    lrc.setSelectedProject(selectedProject);
-    lrc.setSelectedWorkPackage(workPackage);
-    return lrc.getTotalBudgetedToComplete();
+    if (selectedDate != null) {
+      Float total = new Float(0);
+      for (LabourGrade lb : lgm.getAllLabourGrades()) {
+        total += ls.getBudgetToComplete(workPackage, lb.getLabourGradeId(),
+            getStartDateFromMonth(selectedDate), 
+            getEndDateFromMonth(selectedDate)) * lb.getCostRate();
+      }
+      return total;
+    }
+    return null;
   }
   
   /**
@@ -163,9 +264,13 @@ public class MonthlyReportController implements Serializable {
    * @return total variance percent
    */
   public Float getVariancePercent(WorkPackage workPackage) {
-    lrc.setSelectedProject(selectedProject);
-    lrc.setSelectedWorkPackage(workPackage);
-    return lrc.getTotalVariancePercent();
+    if (selectedDate != null) {
+      Integer plannedHours = getBudgeted(workPackage);
+      if (workPackage != null && plannedHours != null && plannedHours.intValue() != 0
+          && selectedDate != null) {
+        return (plannedHours - getBudgetToComplete(workPackage)) / plannedHours;
+      }
+    }
+    return null; 
   }
-  
 }
