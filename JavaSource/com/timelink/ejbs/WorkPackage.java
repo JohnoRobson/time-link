@@ -295,6 +295,35 @@ public class WorkPackage implements Serializable {
   }
   
   /**
+   * Returns the PlannedHour in this WorkPackage that have
+   * the specified labourGradeId.
+   * @param labourGradeId The labourGrade to be searched.
+   * @return The PlannedHour in this WorkPackage with the 
+   *     specified Id.
+   */
+  public BudgetedWorkPackageWorkDays getPlannedHourFromLabourGrade(
+      Integer labourGradeId, Integer week) {
+    BudgetedWorkPackageWorkDays hour = new BudgetedWorkPackageWorkDays();
+    
+    for (BudgetedWorkPackageWorkDays h : plannedHours) {
+      if (h.getLabourGrade().getLabourGradeId() == labourGradeId) {
+        hour = h;
+        break;
+      }
+    }
+    
+    if (hour.getLabourGrade() == null) {
+      LabourGrade lg = new LabourGrade();
+      lg.setLabourGradeId(labourGradeId);
+      hour.setLabourGrade(lg);
+      hour.setWorkPackageLineId(this);
+      plannedHours.add(hour);
+    }
+    
+    return hour;
+  }
+  
+  /**
    * Removes the plannedHour with the specified labourGradeId.
    * @param labourGradeId The labourGradeId to be searched.
    */

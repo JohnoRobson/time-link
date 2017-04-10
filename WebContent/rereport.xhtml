@@ -16,6 +16,12 @@
                 	<f:selectItems value="#{LabourReportController.workPackages}"
                 	    var="workpackage" itemLabel="#{workpackage.code}" itemValue="#{workpackage.workPackageId}"/>
                 </p:selectOneMenu>
+                <p:selectOneMenu value="#{LabourReportController.selectedDate}" onchange="submit()">
+		    	    <f:selectItem itemLabel="" itemValue=" "/>
+                	<f:selectItems value="#{LabourReportController.weeks}"
+                	    var="week" itemLabel="#{week}" itemValue="#{week}"/>
+                </p:selectOneMenu>
+                <br />
                 <h:outputText value="Project:" />
                 <h:outputText value="#{LabourReportController.selectedProject.projectName}" />
                 <p:panelGrid columns="2">
