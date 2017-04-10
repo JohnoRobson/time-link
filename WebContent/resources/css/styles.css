@@ -952,7 +952,9 @@ h2.mngEmpProjSubHead {
  
 .homeWrapper {
 	margin: auto;
-	width: 65%;
+	width: 80%;
+	display:flex;
+	flex-direction: column;
 }
 
 .dashWrapper {
