@@ -213,6 +213,10 @@ public class WorkPackageManager {
     } else {
       String code = codeService.generateChildWildcardCode(wp);
       
+      if (code == null) {
+        return list;
+      }
+      
       TypedQuery<WorkPackage> query = em.createQuery("SELECT wp FROM WorkPackage AS wp "
           + "WHERE wp.code LIKE :code AND wp.project = :project AND wp != :wp", WorkPackage.class)
           .setParameter("code", code)

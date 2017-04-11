@@ -127,6 +127,7 @@ public class LabourReportController implements Serializable {
    */
   public void setWorkPackageId(Integer workPackageId) {
     if (workPackageId != null) {
+      selectedDate = null;
       this.workPackageId = workPackageId;
       selectedWorkPackage = wpm.find(workPackageId);
       this.selectedProject = selectedWorkPackage.getProject();
@@ -177,30 +178,6 @@ public class LabourReportController implements Serializable {
     ca.setFirstDayOfWeek(Calendar.SATURDAY);
     return ca.get(Calendar.WEEK_OF_YEAR);
   }
-  
-  /*
-   * if (selectedProject != null) {
-      Calendar ca = Calendar.getInstance();
-      List<Integer> months = new ArrayList<Integer>();
-      EstimatedWorkPackageWorkDays latest = ewm.findLatest(selectedProject);
-      EstimatedWorkPackageWorkDays earliest = ewm.findEarliest(selectedProject);
-      if (latest != null && earliest != null) {
-        ca.setTime(latest.getDateCreated());
-        Integer latestInt = ca.get(Calendar.MONTH);
-        ca.setTime(earliest.getDateCreated());
-        Integer earliestInt = ca.get(Calendar.MONTH);
-        if (latestInt == earliestInt) {
-          months.add(latestInt);
-        } else {
-          while (earliestInt != latestInt) {
-            months.add(earliestInt++);
-          }
-        }
-        return months;
-      }
-    }
-    return null;
-   */
   
   /**
    * Return possible weeks to select report by.
