@@ -54,7 +54,6 @@
 	        	<p:column styleClass="tsHeader btnCenter" headerText="Delete" rendered="#{TimesheetController.selectedTimesheet.status eq 'NOTSUBMITTED' || TimesheetController.selectedTimesheet.status eq 'REJECTED'}">
 	    				<p:commandButton
 		                	title="Delete"
-		                	type="button"
 		                	icon="ui-icon-trash"
 		                	action="#{TimesheetController.deleteRow(row)}"
 		                	ajax="false">
