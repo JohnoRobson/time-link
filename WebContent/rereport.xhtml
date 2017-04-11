@@ -60,7 +60,7 @@
 		                        <h:outputText value="#{LabourReportController
                                    .getBudgetedHourByLabourGrade(lg.labourGradeId)}" />
 		                        <f:facet name="footer">
-		                            <h:outputText value="#${LabourReportController.getTotalBudgeted()}" />
+		                            <h:outputText value="$#{LabourReportController.getTotalBudgeted()}" />
 		                        </f:facet>
 		                    </p:column>
 		                    <p:column headerText="Estimate to Complete:" >

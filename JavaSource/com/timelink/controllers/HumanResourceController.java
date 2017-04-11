@@ -275,9 +275,11 @@ public class HumanResourceController implements Serializable {
     if (editingEmployee.hasRole(RoleEnum.HUMAN_RESOURCES)) {
       chRoles.add(RoleEnum.HUMAN_RESOURCES);
       chRoles.add(RoleEnum.EMPLOYEE);
+      chRoles.add(RoleEnum.SUPERVISOR);
     } else {
       chRoles.add(RoleEnum.EMPLOYEE);
       chRoles.add(RoleEnum.HUMAN_RESOURCES);
+      chRoles.add(RoleEnum.SUPERVISOR);
     }
     return chRoles;
   }

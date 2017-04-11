@@ -45,13 +45,22 @@ public class EstimateWorkPackageEffortController implements Serializable {
   
   public EstimateWorkPackageEffortController() {}
   
-  public EstimateWorkPackageEffortController(Session session,WorkPackageManager wpm,EstimatedWorkPackageWorkDaysManager ewm,
-		  WeekNumberService weekNumberService,LabourGradeManager lgm) {
-	  this.session = session;
-	  this.wpm = wpm;
-	  this.ewm = ewm;
-	  this.weekNumberService = weekNumberService;
-	  this.lgm = lgm;
+  /**
+   * Constructor for testing.
+   * @param session Sessions
+   * @param wpm WorkPackageManager
+   * @param ewm EstimatedWorkPackageWorkDaysManager
+   * @param weekNumberService WeekNumberService
+   * @param lgm LabourGrademanager
+   */
+  public EstimateWorkPackageEffortController(Session session,WorkPackageManager wpm,
+      EstimatedWorkPackageWorkDaysManager ewm,
+      WeekNumberService weekNumberService,LabourGradeManager lgm) {
+    this.session = session;
+    this.wpm = wpm;
+    this.ewm = ewm;
+    this.weekNumberService = weekNumberService;
+    this.lgm = lgm;
   }
   
   
@@ -228,14 +237,15 @@ public class EstimateWorkPackageEffortController implements Serializable {
     if (selectedWorkPackage == null) {
       return null;
     }
-    List<EstimatedWorkPackageWorkDays> list = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
+    List<EstimatedWorkPackageWorkDays> list 
+        = ewm.getAllWithWorkPackageUniqueDate(selectedWorkPackage);
     
     return list;
   }
   
   public void setLabourGrades(List<LabourGrade> labourGrades) {
-		this.labourGrades = labourGrades;
-	}
+    this.labourGrades = labourGrades;
+  }
   
   /**
    * Returns a String containing the week number and year of
