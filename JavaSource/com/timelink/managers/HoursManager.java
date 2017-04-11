@@ -92,15 +92,14 @@ public class HoursManager {
    * @param projectId The projectId to be searched.
    * @return A List of Hours.
    */
-  //TODO make this work off of the hour's labour grade, not the employee's
   public List<Hours> findApprovedByLabourGradeInProject(int labourGradeId, int projectId) {
     String status = "" + TimesheetStatus.APPROVED.ordinal();
     TypedQuery<Hours> query = em.createQuery("SELECT DISTINCT h FROM Hours AS h, "
         + "Employee AS emp, Timesheet AS time WHERE "
-        + "emp.labourGrade = :lgId AND "
+        + "emp.labourGrade.labourGradeId = :lgId AND "
         + "h.projectId = :proId AND "
         + "time.employee = emp AND "
-        + "h.timesheetId = time.timesheetId AND "
+        + "h.timesheet.timesheetId = time.timesheetId AND "
         + "time.status = :status", Hours.class)
         .setParameter("lgId", labourGradeId)
         .setParameter("proId", projectId)
