@@ -791,7 +791,7 @@ h2.mngEmpProjSubHead {
 }
 
 .weekDays {
-	width: 4%;
+	width: 7%;
 }
 
 .tblDecrip {
@@ -904,9 +904,15 @@ h2.mngEmpProjSubHead {
 }
 
 .tsaTable {
-	width: 100%;
+	width: 90%;
 	padding-top: 3%;
 	padding-bottom: 3%;
+}
+
+.tsaTableTwo {
+	width: 100%;
+	padding-top: 3%;
+	padding-bottom: 3%:
 }
 
 .tsaWidth {
@@ -914,11 +920,11 @@ h2.mngEmpProjSubHead {
 }
 
 .hoursWidth {
-	width: 10%;
+	width: 14%;
 }
 
 .statusWidth {
-	width: 13%;
+	width: 11%;
 }
 
 
