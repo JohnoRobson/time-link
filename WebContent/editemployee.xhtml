@@ -14,19 +14,20 @@
 	        	<hr />
 	        	<h1 class="loginTitle">Edit Employee</h1>
 	        </div>
+	        <p:messages/>
 	        <h:form>
 	        <div class="editEmpPanelWrap">
 	        	<h:panelGrid styleClass="panel" columns="2">
 	        	    <h:outputText styleClass="projLabel" value="User ID:" />
-	                <p:inputText  styleClass="projInput" value="#{HRController.userId}" />
+	                <p:inputText  styleClass="projInput"  label="User Id" validator="#{HrValidator.validateUserId}" value="#{HRController.userId}" />
 	                <h:outputText styleClass="projLabel" value="First Name:" />
-	                <p:inputText  styleClass="projInput" value="#{HRController.firstName}" />
+	                <p:inputText  styleClass="projInput" label="First Name" validator="#{HrValidator.validateName}"  value="#{HRController.firstName}" />
 	                <h:outputText styleClass="projLabel" value="Last Name:" />
-	                <p:inputText  styleClass="projInput" value="#{HRController.lastName}" />
+	                <p:inputText  styleClass="projInput" label="Last Name" validator="#{HrValidator.validateName}"  value="#{HRController.lastName}" />
 	                <h:outputText styleClass="projLabel" value="Email:" />
-	                <p:inputText  styleClass="projInput" value="#{HRController.email}" />
+	                <p:inputText  styleClass="projInput" label="Email" validator="#{HrValidator.validateEmail}"  value="#{HRController.email}" />
 	                <h:outputText styleClass="projLabel" value="Vacation Accrual:" />
-	                <p:inputText  styleClass="projInput" value="#{HRController.vacationAccrual}" />
+	                <p:inputText  styleClass="projInput" label="Vacation Accrual" validator="#{HrValidator.validateVacationAccrual}"  value="#{HRController.vacationAccrual}" />
 	                <h:outputText styleClass="projLabel" value="Role:" />
 	                <p:selectOneMenu styleClass="projInput drop" value="#{HRController.jobTitle}">
 		                <f:selectItems value="#{HRController.changeRoles}" />
