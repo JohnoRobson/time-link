@@ -202,6 +202,11 @@ public class NewProjectController implements Serializable {
     
     String s = (String) value;
     
+    if (s.length() == 0) {
+      throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+          "Project name must not be blank", "Project name must not be blank"));
+    }
+    
     for (char c : s.toCharArray()) {
       if (!Character.isDigit(c)) {
         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
