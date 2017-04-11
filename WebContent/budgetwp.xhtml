@@ -136,7 +136,7 @@
 	    	<h:form>
 	            <p:panelGrid columns="2">
 	            	<h:outputText value="Work Package Parent: "/>
-	            	<p:selectOneMenu label="Work Package Parent" required="true" value="#{BudgetWorkPackageController.wpCode}" id="creationModal">
+	            	<p:selectOneMenu label="Work Package Parent" value="#{BudgetWorkPackageController.wpCode}" id="creationModal">
 	            		<f:selectItem itemLabel="" value="#{null}" />
                     	<f:selectItems value="#{BudgetWorkPackageController.getNonChargedWorkPackages() != null ? BudgetWorkPackageController.getNonChargedWorkPackages() : null}" var="wp" itemLabel="#{wp.code}" itemValue="#{wp.code}" />
 					</p:selectOneMenu>
