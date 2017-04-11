@@ -104,7 +104,13 @@ public class WorkPackageCodeService implements WorkPackageCodeServiceInterface {
     String code = wp.getCode();
     StringBuilder sb = new StringBuilder(wp.getCode());
     
-    sb.setCharAt(code.indexOf('0'), '_');
+    int index = code.indexOf('0');
+    
+    if (index == -1) {
+      return null;
+    }
+    
+    sb.setCharAt(index, '_');
     return sb.toString();
   }
 
