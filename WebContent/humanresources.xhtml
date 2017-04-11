@@ -29,13 +29,13 @@
 		                    <h:outputText value="#{employee.lastName}" />
 		                </p:column>
 		                <p:column styleClass="tsHeader wpbdreBtn" headerText="Edit">
-                            <p:commandButton value="Edit" action="#{HRController.edit(employee)}"/>
+                            <p:commandLink value="Edit" action="#{HRController.edit(employee)}"/>
 		                </p:column>
 		                <p:column styleClass="tsHeader" headerText="Change Password">
-		                	<p:commandButton value="Change"  type="button" onclick="PF('change').show();" />
+		                	<p:commandLink value="Change" action="#{HRController.setEditingEmployee(employee)}" type="button" onclick="PF('change').show();" />
 		                </p:column>
 		                <p:column styleClass="tsHeader" headerText="Close">
-		                	<p:commandButton value="Close" onclick="PF('close').show();"/>   	
+		                	<p:commandLink value="Close" action="#{HRController.setEditingEmployee(employee)}" onclick="PF('close').show();"/>   	
 		                </p:column>
 		            </p:dataTable> 
 		            <div class="align hrBtn">

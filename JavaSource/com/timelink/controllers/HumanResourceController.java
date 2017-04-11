@@ -5,6 +5,7 @@ import com.timelink.ejbs.Employee;
 import com.timelink.ejbs.LabourGrade;
 import com.timelink.ejbs.Role;
 import com.timelink.enums.RoleEnum;
+import com.timelink.managers.CredentialManager;
 import com.timelink.managers.EmployeeManager;
 import com.timelink.managers.LabourGradeManager;
 import com.timelink.managers.RoleManager;
@@ -43,10 +44,16 @@ public class HumanResourceController implements Serializable {
   public HumanResourceController() {
   }
   
+  /**
+   * Constructor for testing.
+   * @param em EmployeeManager
+   * @param rm RoleManager
+   * @param lgm LabourGradeManager
+   */
   public HumanResourceController(EmployeeManager em, RoleManager rm, LabourGradeManager lgm) {
-	  this.em= em;
-	  this.rm = rm;
-	  this.lgm = lgm;
+    this.em = em;
+    this.rm = rm;
+    this.lgm = lgm;
   }
   
   /**
@@ -268,9 +275,11 @@ public class HumanResourceController implements Serializable {
     if (editingEmployee.hasRole(RoleEnum.HUMAN_RESOURCES)) {
       chRoles.add(RoleEnum.HUMAN_RESOURCES);
       chRoles.add(RoleEnum.EMPLOYEE);
+      chRoles.add(RoleEnum.SUPERVISOR);
     } else {
       chRoles.add(RoleEnum.EMPLOYEE);
       chRoles.add(RoleEnum.HUMAN_RESOURCES);
+      chRoles.add(RoleEnum.SUPERVISOR);
     }
     return chRoles;
   }
@@ -348,7 +357,8 @@ public class HumanResourceController implements Serializable {
       return "humanresources";
     } else {
         
-        FacesContext.getCurrentInstance().addMessage("timesheet-form", new FacesMessage("Passwords do not match"));
+      FacesContext.getCurrentInstance().addMessage("timesheet-form",
+            new FacesMessage("Passwords do not match"));
       return null;
     }
   }
@@ -366,11 +376,11 @@ public class HumanResourceController implements Serializable {
     emp.setVacationRate(vacationAccrual);
     emp.setLabourGrade(lgm.find(labourGrade));
     
-    //Role role = new Role(jobTitle);
-    //role.setEmployee(emp);
+    Role role = new Role(jobTitle);
+    role.setEmployee(emp);
     
     em.merge(emp);
-    //rm.merge(role);
+    rm.merge(role);
     clear();
     return "humanresources";
   }
@@ -386,11 +396,12 @@ public class HumanResourceController implements Serializable {
       Credentials cr = new Credentials();
       cr.setCredentialsId(emp.getCredentials().getCredentialsId());
       cr.setPassword(password);
-      cr.setUsername(userId);
+      cr.setUsername(emp.getUserId());
       cr.setEmployee(emp);
       emp.setCredentials(cr);
       
       em.merge(emp);
+      clear();
     } 
     return null;
   }
@@ -402,6 +413,7 @@ public class HumanResourceController implements Serializable {
   public String closeEmployee() {
     editingEmployee.setEffectTo(new Date());
     em.merge(editingEmployee);
+    clear();
     return "humanresources";
   }
 }
