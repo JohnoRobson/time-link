@@ -139,9 +139,9 @@ public class EstimatedWorkPackageWorkDaysManager {
   public EstimatedWorkPackageWorkDays findLatest(WorkPackage wp) {
     try {
       TypedQuery<EstimatedWorkPackageWorkDays> query
-          = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageWorkDays AS ew, "
-          + "WorkPackage AS wp WHERE "
-          + "wp.workPackageId = :wpId "
+          = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageWorkDays AS ew "
+              + "WHERE "
+          + "ew.workpackage.workPackageId = :wpId "
           + "ORDER BY ew.dateCreated DESC", EstimatedWorkPackageWorkDays.class)
           .setParameter("wpId", wp.getWorkPackageId())
           .setMaxResults(1);
@@ -187,9 +187,9 @@ public class EstimatedWorkPackageWorkDaysManager {
   public EstimatedWorkPackageWorkDays findEarliest(WorkPackage wp) {
     try {
       TypedQuery<EstimatedWorkPackageWorkDays> query
-          = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageWorkDays AS ew, "
-          + "WorkPackage AS wp WHERE "
-          + "wp.workPackageId = :wpId "
+          = em.createQuery("SELECT DISTINCT ew FROM EstimatedWorkPackageWorkDays AS ew "
+              + "WHERE "
+          + "ew.workpackage.workPackageId = :wpId "
           + "ORDER BY ew.dateCreated ASC", EstimatedWorkPackageWorkDays.class)
           .setParameter("wpId", wp.getWorkPackageId())
           .setMaxResults(1);

@@ -44,15 +44,25 @@ public class LabourReportController implements Serializable {
   
   public LabourReportController() {}
   
-  public LabourReportController(Session ses, WorkPackageManager wpm, BudgetedWorkPackageWorkDaysManager bwm,
-		  EstimatedWorkPackageWorkDaysManager ewm,LabourGradeManager lgm,
-		  HoursManager hm) {
-	  this.ses = ses;
-	  this.wpm = wpm;
-	  this.bwm = bwm;
-	  this.ewm = ewm;
-	  this.lgm = lgm;
-	  this.hm = hm;
+  /**
+   * Constructor for testing.
+   * @param ses Sessions
+   * @param wpm WorkPackageManager
+   * @param bwm BudgetedWorkPackageWorkDaysManager
+   * @param ewm EstimatedWorkPackageWorkDaysManager
+   * @param lgm LabourGradeManager
+   * @param hm HoursManager
+   */
+  public LabourReportController(Session ses, WorkPackageManager wpm, 
+      BudgetedWorkPackageWorkDaysManager bwm,
+      EstimatedWorkPackageWorkDaysManager ewm,LabourGradeManager lgm,
+      HoursManager hm) {
+    this.ses = ses;
+    this.wpm = wpm;
+    this.bwm = bwm;
+    this.ewm = ewm;
+    this.lgm = lgm;
+    this.hm = hm;
   }
   
   /**
@@ -117,6 +127,7 @@ public class LabourReportController implements Serializable {
    */
   public void setWorkPackageId(Integer workPackageId) {
     if (workPackageId != null) {
+      selectedDate = null;
       this.workPackageId = workPackageId;
       selectedWorkPackage = wpm.find(workPackageId);
       this.selectedProject = selectedWorkPackage.getProject();
@@ -175,18 +186,20 @@ public class LabourReportController implements Serializable {
   public List<Integer> getWeeks() {
     if (selectedWorkPackage != null) {
       List<Integer> weeks = new ArrayList<Integer>();
-      Date latest = ewm.findLatest(selectedWorkPackage).getDateCreated();
-      Date earliest = ewm.findEarliest(selectedWorkPackage).getDateCreated();
-      Integer latestInt = getWeekOf(latest);
-      Integer earliestInt = getWeekOf(earliest);
-      if (latestInt == earliestInt) {
-        weeks.add(latestInt);
-      } else {
-        while (earliestInt != latestInt) {
-          weeks.add(earliestInt++);
+      EstimatedWorkPackageWorkDays latest = ewm.findLatest(selectedWorkPackage);
+      EstimatedWorkPackageWorkDays earliest = ewm.findEarliest(selectedWorkPackage);
+      if (latest != null && earliest != null) {
+        Integer latestInt = getWeekOf(latest.getDateCreated());
+        Integer earliestInt = getWeekOf(earliest.getDateCreated());
+        if (latestInt == earliestInt) {
+          weeks.add(latestInt);
+        } else {
+          while (earliestInt != latestInt) {
+            weeks.add(earliestInt++);
+          }
         }
+        return weeks;
       }
-      return weeks;
     }
     return null;
   }
