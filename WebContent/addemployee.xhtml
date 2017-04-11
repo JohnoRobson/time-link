@@ -14,29 +14,30 @@
 	    	<div class="pageTitle">
 	        	<h1>Create Employee</h1>
 	        </div>
+	        <p:messages/>
 	        <h:form>
 	            <h:panelGrid styleClass="panel" columns="2">
 	                <h:outputText styleClass="projLabel" value="User ID:" />
-	                <p:inputText styleClass="projInput" value="#{HRController.userId}" />
+	                <p:inputText styleClass="projInput" label="User Id" validator="#{HrValidator.validateUserId}" value="#{HRController.userId}" />
 	                <h:outputText styleClass="projLabel" value="First Name:" />
-	                <p:inputText styleClass="projInput" value="#{HRController.firstName}" />
+	                <p:inputText styleClass="projInput"  label="First Name" validator="#{HrValidator.validateName}" value="#{HRController.firstName}" />
 	                <h:outputText styleClass="projLabel" value="Last Name:" />
-	                <p:inputText styleClass="projInput" value="#{HRController.lastName}" />
+	                <p:inputText styleClass="projInput"  label="Last Name" validator="#{HrValidator.validateName}" value="#{HRController.lastName}" />
 	                <h:outputText styleClass="projLabel" value="Email:" />
-	                <p:inputText styleClass="projInput" value="#{HRController.email}" />
+	                <p:inputText styleClass="projInput"  label="Email" validator="#{HrValidator.validateEmail}" value="#{HRController.email}" />
 	                <h:outputText styleClass="projLabel" value="Vacation Accrual:" />
-	                <p:inputText styleClass="projInput" value="#{HRController.vacationAccrual}" />
+	                <p:inputText styleClass="projInput"  label="Vacation Accrual" validator="#{HrValidator.validateVacationAccrual}" value="#{HRController.vacationAccrual}" />
 	                <h:outputText styleClass="projLabel" value="Job Title:" />
 	                <p:selectOneMenu styleClass="addEmpDrop" value="#{HRController.jobTitle}" style="width:100%">
 		                <f:selectItems value="#{HRController.roles}" />
 		                <!--  there is a bug with this shows 2 drop downs -->
 		            </p:selectOneMenu>
 		            <h:outputText styleClass="projLabel" value="Password:" />
-	                <p:password styleClass="projInput" value="#{HRController.password}" />
+	                <p:password styleClass="projInput"  label="Password" validator="#{HrValidator.validatePassword}" value="#{HRController.password}" />
 	                <h:outputText styleClass="projLabel" value="Confirm Password:" />
-	                <p:password styleClass="projInput" value="#{HRController.confirmPassword}" />
+	                <p:password styleClass="projInput"  label="Confirm Password" validator="#{HrValidator.validatePassword}" value="#{HRController.confirmPassword}" />
 	                <h:outputText styleClass="projLabel" value="Effective From:" />
-	                <p:inputText styleClass="projInput" value="#{HRController.effectiveFrom}" >
+	                <p:inputText styleClass="projInput"  label="Effective From"  value="#{HRController.effectiveFrom}" >
 	                    <f:convertDateTime pattern="MM/dd/yyyy" />
 	                </p:inputText>
 	                <h:outputText styleClass="projLabel" value="Labour Grade:"/>
