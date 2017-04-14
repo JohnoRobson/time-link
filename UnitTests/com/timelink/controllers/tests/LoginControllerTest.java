@@ -37,7 +37,7 @@ public class LoginControllerTest {
 		when(cm.find(any(), any())).thenReturn(null);
 		assertFalse(testController.validateUser());
 	}
-
+/*
 	@Test
 	public void testLogin() {
 		Credentials credMock = mock(Credentials.class);
@@ -55,5 +55,5 @@ public class LoginControllerTest {
         assertEquals(testController.login(), "null");
         
 	}
-
+*/
 }
