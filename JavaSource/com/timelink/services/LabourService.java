@@ -2,6 +2,7 @@ package com.timelink.services;
 
 import com.timelink.ejbs.Hours;
 import com.timelink.ejbs.WorkPackage;
+import com.timelink.enums.TimesheetStatus;
 import com.timelink.managers.HoursManager;
 import com.timelink.managers.WorkPackageManager;
 import com.timelink.services.interfaces.LabourServiceInterface;
@@ -68,7 +69,9 @@ public class LabourService implements LabourServiceInterface {
       List<Hours> result = hm.find(wp.getProject().getProjectNumber(),
           wp.getWorkPackageId(), labourGradeId);
       for (Hours h : result) {
-        if (h.getDate().getTime() >= start.getTime() && h.getDate().getTime() <= end.getTime()) {
+        if (h.getTimesheet().getStatus().equals(TimesheetStatus.APPROVED.toString())
+            && h.getDate().getTime() >= start.getTime()
+            && h.getDate().getTime() <= end.getTime()) {
           total += h.getHour();
         }
       }
