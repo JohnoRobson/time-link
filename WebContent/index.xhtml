@@ -35,7 +35,7 @@
 					<div class="loginCtrl">
 					<h:form>
 						<h:panelGrid styleClass="loginInput" columns="2">
-							<h:outputLabel for="username" value="Usename:" />
+							<h:outputLabel for="username" value="Username:" />
 							<p:inputText styleClass="s-username" name="username" label="username" id="username" validator="#{LoginValidator.validateUsername}" value="#{LoginController.username}" required="true" />
 							<h:outputLabel for="password" value="Password:" />
 							<p:password styleClass="s-password" id="password" label="password" validator="#{LoginValidator.validatePassword}" value="#{LoginController.password}" required="true" />

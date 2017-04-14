@@ -19,11 +19,11 @@
 				<div class="reportWrapper">
 					<div class="infoWrapper">
 		                <p:panelGrid columns="2" styleClass="reportPanel">
-						    <h:outputText styleClass="reportText" value="Project:" />
+						    <h:outputText styleClass="reportText" value="Work Package:" />
 						    <p:selectOneMenu styleClass="projInput drop"  value="#{LabourReportController.workPackageId}" onchange="submit()">
 					    	    <f:selectItem itemLabel="" itemValue=" "/>
 			                	<f:selectItems value="#{LabourReportController.workPackages}"
-			                	    var="workpackage" itemLabel="#{workpackage.code}" itemValue="#{workpackage.workPackageId}"/>
+			                	    var="workpackage" itemLabel="#{workpackage.project.projectName} #{workpackage.code}" itemValue="#{workpackage.workPackageId}"/>
 			                </p:selectOneMenu>
 			                <h:outputText styleClass="reportText" value="Report:" />
 			                <p:selectOneMenu value="#{LabourReportController.selectedDate}" onchange="submit()">

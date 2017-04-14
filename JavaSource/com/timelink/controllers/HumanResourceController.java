@@ -339,6 +339,8 @@ public class HumanResourceController implements Serializable {
       emp.setLastName(lastName);
       emp.setEmail(email);
       emp.setVacationRate(vacationAccrual);
+      emp.setFlexTime(0.0f);
+      emp.setVacationTime(0.0f);
       emp.setEffectFrom(new Date(effectiveFrom.getTime()));
       emp.setLabourGrade(lgm.find(labourGrade));
       
