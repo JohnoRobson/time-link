@@ -74,12 +74,12 @@ public class EstimateWorkPackageEffortControllerTest {
 		EstimatedWorkPackageWorkDays days2 = mock(EstimatedWorkPackageWorkDays.class);
 		HashSet<EstimatedWorkPackageWorkDays> set = new HashSet<>();
 		set.add(days1);
-		set.add(days2);
+		set.add(days1);
 		testController.setEstimatedHours(set);
 		when(days1.getLabourGrade()).thenReturn(lg);
 		when(days2.getLabourGrade()).thenReturn(lg);
 		when(lg.getLabourGradeId()).thenReturn(1);
-		assertEquals(days2, testController.getEstimateFromLabourGrade(1));
+		assertEquals(days1, testController.getEstimateFromLabourGrade(1));
 	}
 	
 	@Test
