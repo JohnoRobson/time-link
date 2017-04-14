@@ -28,6 +28,16 @@ public class MonthlyReportController implements Serializable {
   private Project selectedProject;
   private int projectId;
   
+  public MonthlyReportController() {}
+  
+  public MonthlyReportController(LabourGradeManager lgm, LabourReportController lrc, 
+		  ProjectManager pm, Session ses) {
+	  this.lgm = lgm;
+	  this.lrc = lrc;
+	  this.pm = pm;
+	  this.ses = ses;
+  }
+  
   /**
    * Report the selectedProject.
    * @return the selectedProject
